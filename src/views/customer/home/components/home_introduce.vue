@@ -1,7 +1,7 @@
-// 展会企业 介绍
+// 展会企业 介绍 id=1272919606905835521
 <template>
   <div class="home_introduce">
-    <div v-if="details.id">
+    <div v-if="details.enterprise.id">
       <div v-if="src">
         <Video-Demo :src="src" :showVideo="showVideo" style="width: 100%;" />
       </div>
@@ -16,7 +16,7 @@
         <van-col span="24">
           <h2 class="tit">欧亚国际幼儿教育博览会</h2>
         </van-col>
-        
+
         <van-col span="16">
           <van-button icon="icon iconfont yz-guanzhu" size="small" type="default" class="btnNone">关注</van-button>
           <van-button
@@ -26,11 +26,11 @@
             class="btnNone"
           >已关注</van-button>
         </van-col>
-       
+
         <van-col span="8" class="text-right">
           <van-button type="default" size="small" round color="#F8D57E" @click="handleWith">咨询客服</van-button>
         </van-col>
-        
+
         <van-col span="24" class="text_wrap">
           <img
             src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1592312719436&di=a174ad3a0041a8649adb737b7e66816f&imgtype=0&src=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D4006718874%2C3505974745%26fm%3D214%26gp%3D0.jpg"
@@ -43,7 +43,6 @@
 
     <!-- 占位图 -->
     <img v-else src="@/assets/images/null.png" class="nullImg" alt />
-
   </div>
 </template>
 
@@ -80,24 +79,41 @@ export default {
       // pageNum: 1
     };
   },
-
+  created() {
+    this.details.id = this.$route.query.id;
+    // document.title = this.$route.query.title;
+    this.year = this.doHandleYear();
+    // 获取详情
+    this.handleGetDetail()
+  },
   methods: {
     // 获取当前年
     doHandleYear(tYear) {
       var myDate = new Date();
       var tYear = myDate.getFullYear();
-
       return tYear;
     },
+
     // 咨询客服
     handleWith() {},
 
+    // 获取详情
+    handleGetDetail() {
+       Api.getEnterpriseBaseInfoById(this.details.id)
+        .then(res => {
+          let { data, code, msg, total } = res;
+          if(code == 200) {
+            this.details = data
+          }
+
+        })
+        .catch(err => {});
+    },
 
     // 请求参数 params status{1:上拉刷新，2：正常请求}
     onsubmt(params, statu) {
-      return;
       let status = statu ? statu : 2; // 默认正常请求
-      Api.quotationList(params)
+      Api.getCalendarListByEnterpriseId(params)
         .then(res => {
           let { rows, total } = res;
           // console.log(rows,rows.length,'rows,rows.length')
@@ -157,21 +173,13 @@ export default {
         window.scrollTo(0, 0);
       }, 0);
     });
-  },
-
-  created() {
-    this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
-    this.inquiryId = this.$route.query.inquiryId;
-    document.title = this.$route.query.title;
-    this.year = this.doHandleYear();
-    // 默认刷新列表
-    // this.onSearch();
   }
+
+
 };
 </script>
 
 <style lang="scss">
-
 </style>
 <style lang="scss" scoped>
 @import "@/assets/styles/base/calc_vm.scss";

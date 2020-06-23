@@ -1,4 +1,4 @@
-// 展会详情  http://localhost:9000/home_details?id=1272919606905835521&title=%E4%BA%9A%E6%A3%AE%E5%9B%BD%E9%99%85
+// 展会详情  id=1272919606905835521
 <template>
   <div class="home_details">
     <!-- <div v-if="details.enterprise && details.enterprise.id"> -->
@@ -168,7 +168,7 @@ export default {
   data() {
     return {
       // 企业id
-      id: '',
+      id: "",
       // 当前年
       year: "",
       // 分享弹窗
@@ -248,7 +248,7 @@ export default {
     this.doHandleYear();
     // 默认刷新列表
     this.handleGetDetail();
-    console.log('二维码,跳转路由,接口')
+    console.log("二维码,跳转路由,接口");
   },
 
   methods: {
@@ -267,35 +267,34 @@ export default {
           let { code, msg, data, total } = res;
           if (code == 200) {
             this.details = data;
-             document.title = this.details.enterprise.name;
-
+            document.title = this.details.enterprise.name;
           }
         })
         .catch(err => {
-            this.details = {}
+          this.details = {};
         });
     },
     // 关注/取消关注  followStatus 1表示关注，0表示取消关注
     handleIsFollow(followStatus) {
       let param = {
         // followStatus 1表示关注，0表示取消关注
-        followStatus: followStatus || '',
+        followStatus: followStatus || "",
         // 要关注的企业id或人物id
         followId: this.details.enterprise.id,
         // 1：关注企业，2：关注人物
-        followType: '1',
+        followType: "1",
         // 用户openId
-        openId: ''
-      }
+        openId: "open"
+      };
       Api.setIsFollow(param)
         .then(res => {
           let { code, msg, data, total } = res;
           if (code == 200) {
-            Notify({ type: 'success', message: msg });
+            Notify({ type: "success", message: msg });
           }
         })
         .catch(err => {
-            this.details = {}
+          this.details = {};
         });
     },
 
@@ -326,7 +325,8 @@ export default {
         this.$router.push({
           name: "home_calendar",
           query: {
-            id: 1
+            // 企业id
+            id: this.details.enterprise.id
           }
         });
       }
@@ -335,7 +335,8 @@ export default {
         this.$router.push({
           name: "home_introduce",
           query: {
-            id: 1
+            // 企业id
+            id: this.details.enterprise.id
           }
         });
       }
@@ -345,7 +346,8 @@ export default {
         this.$router.push({
           name: "home_introduce",
           query: {
-            id: 1
+            // 企业id
+            id: this.details.enterprise.id
           }
         });
       }
@@ -355,7 +357,8 @@ export default {
         this.$router.push({
           name: "home_introduce",
           query: {
-            id: 1
+            // 企业id
+            id: this.details.enterprise.id
           }
         });
       }
@@ -365,7 +368,8 @@ export default {
         this.$router.push({
           name: "home_introduce",
           query: {
-            id: 1
+            // 企业id
+            id: this.details.enterprise.id
           }
         });
       }

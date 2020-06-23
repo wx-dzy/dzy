@@ -78,6 +78,34 @@ export default [
         component: () => import('@/views/customer/home/components/home_calendar.vue')
     },
 
+    // 参展商目录-首页
+    {
+        path: '/exhibitor_home',
+        meta: {
+            requiresAuth: false,
+            title: '参展商目录-首页',
+        },
+        name: 'exhibitor_home',
+        component: () => import('@/views/customer/exhibitor/exhibitor_home.vue')
+    },
+    {
+        path: '/exhibitor_details',
+        meta: {
+            requiresAuth: false,
+            title: '参展商目录-参展商详情',
+        },
+        name: 'exhibitor_details',
+        component: () => import('@/views/customer/exhibitor/exhibitor_details')
+    }, 
+    {
+        path: '/person',
+        meta: {
+            requiresAuth: false,
+            title: '企业人物',
+        },
+        name: 'person',
+        component: () => import('@/views/customer/exhibitor/person')
+    },
 
 
 

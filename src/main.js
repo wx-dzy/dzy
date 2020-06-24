@@ -34,7 +34,8 @@ import {
   Overlay,
   ShareSheet,
   Toast,
-  Divider
+  Divider,
+  Empty
 
 
 } from 'vant';
@@ -63,6 +64,7 @@ Vue.use(Overlay);
 Vue.use(ShareSheet);
 Vue.use(Toast);
 Vue.use(Divider);
+Vue.use(Empty);
 
 
 

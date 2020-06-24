@@ -1,48 +1,67 @@
-// 展会企业 介绍 id=1272919606905835521
+// 展会企业简介 介绍 id=1272919606905835521
 <template>
   <div class="home_introduce">
-    <div v-if="details.enterprise.id">
-      <div v-if="src">
-        <Video-Demo :src="src" :showVideo="showVideo" style="width: 100%;" />
-      </div>
-      <img
-        v-else
-        src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1592312719436&di=a174ad3a0041a8649adb737b7e66816f&imgtype=0&src=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D4006718874%2C3505974745%26fm%3D214%26gp%3D0.jpg"
-        alt
-        class="banner"
+    <div v-if="details.enterprise && details.enterprise.id">
+      <Video-Demo
+        v-if="details.enterpriseDetail.videoUrl"
+        :src="details.enterpriseDetail.videoUrl"
+        :bannerIMG="details.enterpriseDetail.mediaUrl"
+        style="width: 100%;"
       />
+      <img v-else :src="details.enterpriseDetail.mediaUrl" alt class="banner" />
 
       <van-row class="cont">
         <van-col span="24">
-          <h2 class="tit">欧亚国际幼儿教育博览会</h2>
+          <h2 class="tit">{{ details.enterprise.name }}</h2>
         </van-col>
 
         <van-col span="16">
-          <van-button icon="icon iconfont yz-guanzhu" size="small" type="default" class="btnNone">关注</van-button>
           <van-button
-            icon="icon iconfont yz-yiguanzhu"
-            size="small"
+            v-show="!details.followStatus"
+            icon="icon iconfont yz-guanzhu"
             type="default"
+            size="small"
             class="btnNone"
+            @click="handleIsFollow(1)"
+          >关注</van-button>
+          <van-button
+            v-show="details.followStatus"
+            icon="icon iconfont yz-yiguanzhu"
+            type="default"
+            size="small"
+            class="btnNone"
+            @click="handleIsFollow(0)"
           >已关注</van-button>
         </van-col>
 
         <van-col span="8" class="text-right">
-          <van-button type="default" size="small" round color="#F8D57E" @click="handleWith">咨询客服</van-button>
+          <van-button
+            type="default"
+            size="small"
+            round
+            color="#F8D57E"
+            class="color0"
+            @click="handleWith"
+          >咨询客服</van-button>
         </van-col>
 
         <van-col span="24" class="text_wrap">
           <img
-            src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1592312719436&di=a174ad3a0041a8649adb737b7e66816f&imgtype=0&src=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D4006718874%2C3505974745%26fm%3D214%26gp%3D0.jpg"
+            v-if="details.enterprise.introduction"
+            :src="details.enterprise.introduction"
             alt
-            class="text"
+            class="textImg"
           />
+          <van-empty v-else description="暂无介绍" />
+          <!-- <p v-html="details.enterprise.introduction" class="text"></p> -->
         </van-col>
       </van-row>
     </div>
 
     <!-- 占位图 -->
-    <img v-else src="@/assets/images/null.png" class="nullImg" alt />
+    <van-empty v-else image="search" description="暂无内容" />
+
+    <!-- <img v-else src="@/assets/images/null.png" class="nullImg" alt /> -->
   </div>
 </template>
 
@@ -63,109 +82,61 @@ export default {
   data() {
     return {
       showVideo: false,
-      src: require("@/assets/images/video1.mp4"),
 
-      // 当前年
-      year: "",
       showShare: false,
-      details: {
-        id: "1",
-        
-      }
-      // loading: false,
-      // finished: false,
-      // refreshing: false,
-      // pageSize: 10,
-      // pageNum: 1
+      details: {}
     };
   },
   created() {
-    this.details.id = this.$route.query.id;
-    // document.title = this.$route.query.title;
-    this.year = this.doHandleYear();
+    this.id = this.$route.query.id;
     // 获取详情
-    this.handleGetDetail()
+    this.handleGetDetail();
   },
   methods: {
-    // 获取当前年
-    doHandleYear(tYear) {
-      var myDate = new Date();
-      var tYear = myDate.getFullYear();
-      return tYear;
-    },
-
-    // 咨询客服
-    handleWith() {},
-
     // 获取详情
     handleGetDetail() {
-       Api.getEnterpriseBaseInfoById(this.details.id)
+      Api.getEnterpriseBaseInfoById(this.$route.query.id)
         .then(res => {
           let { data, code, msg, total } = res;
-          if(code == 200) {
-            this.details = data
+          if (code == 200) {
+            this.details = data;
           }
-
         })
         .catch(err => {});
     },
 
-    // 请求参数 params status{1:上拉刷新，2：正常请求}
-    onsubmt(params, statu) {
-      let status = statu ? statu : 2; // 默认正常请求
-      Api.getCalendarListByEnterpriseId(params)
-        .then(res => {
-          let { rows, total } = res;
-          // console.log(rows,rows.length,'rows,rows.length')
-          // if (rows.length) {
-          // 加载状态结束
-          this.loading = false;
-
-          if (status == 1) {
-            // 上拉刷新
-            this.refreshing = false;
-            this.questionList = rows;
-            this.$toast("刷新成功");
-          } else {
-            rows.forEach(element => {
-              this.questionList.push(element);
-            });
-          }
-          // 数据全部加载完成
-          if (rows.length < this.pageSize) {
-            this.finished = true;
-          }
-          // }
-        })
-        .catch(err => {
-          // 上拉刷新
-          this.refreshing = false;
-          console.log(err, "err");
-        });
+    // 咨询客服
+    handleWith() {
+      util.warning("敬请期待！");
     },
 
-    // 查看详情
-    handleLook(_id) {
-      this.$router.push({
-        name: "toBeQuotedDetails",
-        query: {
-          inquiryId: _id
-        }
-      });
+    // 关注/取消关注  followStatus 1表示关注，0表示取消关注
+    handleIsFollow(followStatus) {
+      let param = {
+        // followStatus 1表示关注，0表示取消关注
+        followStatus: followStatus || "",
+        // 要关注的企业id或人物id
+        followId: this.details.enterprise.id,
+        // 1：关注企业，2：关注人物
+        followType: "1",
+        // 用户openId
+        openId: "open"
+      };
+      Api.setIsFollow(param)
+        .then(res => {
+          let { code, msg, data, total } = res;
+          if (code == 200) {
+            util.success(msg);
+            // 默认刷新列表
+            this.handleGetDetail();
+          }
+        })
+        .catch(err => {});
     }
-  
+
   },
 
   computed: {},
-
-  beforeRouteLeave(to, from, next) {
-    // 主页禁止返回
-    if (to.fullPath == "/login") {
-      next(false);
-    } else {
-      next();
-    }
-  },
 
   mounted() {
     this.$nextTick().then(() => {
@@ -174,8 +145,6 @@ export default {
       }, 0);
     });
   }
-
-
 };
 </script>
 
@@ -185,10 +154,10 @@ export default {
 @import "@/assets/styles/base/calc_vm.scss";
 @import "../home.scss";
 .home_introduce {
-  .nullImg {
-    width: 4rem;
-    margin: 0.4rem 1.47rem;
-  }
+  // .nullImg {
+  //   width: 4rem;
+  //   margin: 0.4rem 1.47rem;
+  // }
 }
 </style>
 

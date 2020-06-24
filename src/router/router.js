@@ -51,7 +51,7 @@ export default [
         path: '/home_details',
         meta: {
             requiresAuth: false,
-            title: '',
+            title: '会展详情',
         },
         name: 'home_details',
         component: () => import('@/views/customer/home/components/home_details.vue')
@@ -72,10 +72,32 @@ export default [
         path: '/home_calendar',
         meta: {
             requiresAuth: false,
-            title: '企业简介',
+            title: '展会日历',
         },
         name: 'home_calendar',
         component: () => import('@/views/customer/home/components/home_calendar.vue')
+    },
+
+    // 展会日程
+    {
+        path: '/home_arrange',
+        meta: {
+            requiresAuth: false,
+            title: '展会日程',
+        },
+        name: 'home_arrange',
+        component: () => import('@/views/customer/home/components/home_arrange.vue')
+    },
+
+    // 展会预约
+    {
+        path: '/home_order',
+        meta: {
+            requiresAuth: false,
+            title: '参观预约',
+        },
+        name: 'home_order',
+        component: () => import('@/views/customer/home/components/home_order.vue')
     },
 
     // 参展商目录-首页

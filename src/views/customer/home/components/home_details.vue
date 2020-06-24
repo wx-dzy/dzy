@@ -242,13 +242,13 @@ export default {
 
   created() {
     // 企业id
-    this.id = this.$route.query.id;
+    // this.id = this.$route.query.id;
     // document.title = this.$route.query.title;
     // 获取当前年
     this.doHandleYear();
     // 默认刷新列表
     this.handleGetDetail();
-    console.log("二维码,跳转路由,接口");
+    console.log("分享二维码,接口openid");
   },
 
   methods: {
@@ -274,6 +274,7 @@ export default {
           this.details = {};
         });
     },
+    
     // 关注/取消关注  followStatus 1表示关注，0表示取消关注
     handleIsFollow(followStatus) {
       let param = {
@@ -290,11 +291,12 @@ export default {
         .then(res => {
           let { code, msg, data, total } = res;
           if (code == 200) {
-            Notify({ type: "success", message: msg });
+            util.success(msg);
+            // 默认刷新列表
+            this.handleGetDetail();
           }
         })
         .catch(err => {
-          this.details = {};
         });
     },
 
@@ -344,10 +346,12 @@ export default {
       // 参展商目录
       if (type == 3) {
         this.$router.push({
-          name: "home_introduce",
+          name: "exhibitor_home",
           query: {
-            // 企业id
-            id: this.details.enterprise.id
+            // 活动id
+            enterpriseShowId: this.details.enterpriseShow.id,
+            // 展览馆id，全部时传0
+            placeId: '0'
           }
         });
       }
@@ -355,7 +359,7 @@ export default {
       // 展会日程
       if (type == 4) {
         this.$router.push({
-          name: "home_introduce",
+          name: "home_arrange",
           query: {
             // 企业id
             id: this.details.enterprise.id
@@ -366,7 +370,7 @@ export default {
       // 参观预约
       if (type == 5) {
         this.$router.push({
-          name: "home_introduce",
+          name: "home_order",
           query: {
             // 企业id
             id: this.details.enterprise.id

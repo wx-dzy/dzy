@@ -81,6 +81,7 @@ export default {
   created() {
     this.id = this.$route.query.id;
     document.title = this.$route.query.title;
+    console.log(1272919606301855745, 'id')
 
     // 获取详情
     this.handleGetDetail();

@@ -156,6 +156,7 @@ import * as Api from "@/api/customer/home";
 import img1 from "@/assets/images/home/1.png";
 import img2 from "@/assets/images/home/2.png";
 import img3 from "@/assets/images/home/3.png";
+import nullImg from "@/assets/images/null.png";
 
 // import footerNav from "@/components/customer/footerNav/index.vue";
 
@@ -274,7 +275,7 @@ export default {
           this.details = {};
         });
     },
-    
+
     // 关注/取消关注  followStatus 1表示关注，0表示取消关注
     handleIsFollow(followStatus) {
       let param = {
@@ -296,8 +297,7 @@ export default {
             this.handleGetDetail();
           }
         })
-        .catch(err => {
-        });
+        .catch(err => {});
     },
 
     // 分享
@@ -328,7 +328,8 @@ export default {
           name: "home_calendar",
           query: {
             // 企业id
-            id: this.details.enterprise.id
+            id: this.details.enterprise.id,
+            name: this.details.enterprise.name
           }
         });
       }
@@ -348,10 +349,10 @@ export default {
         this.$router.push({
           name: "exhibitor_home",
           query: {
-            // 活动id
+            // 活动id（展会id）
             enterpriseShowId: this.details.enterpriseShow.id,
             // 展览馆id，全部时传0
-            placeId: '0'
+            placeId: "0"
           }
         });
       }
@@ -362,7 +363,8 @@ export default {
           name: "home_arrange",
           query: {
             // 企业id
-            id: this.details.enterprise.id
+            id: this.details.enterprise.id,
+            _scr: this.details.enterpriseShow.scheduleImageUrl
           }
         });
       }
@@ -372,8 +374,8 @@ export default {
         this.$router.push({
           name: "home_order",
           query: {
-            // 企业id
-            id: this.details.enterprise.id
+            // 活动id（展会id）
+            enterpriseShowId: this.details.enterpriseShow.id
           }
         });
       }

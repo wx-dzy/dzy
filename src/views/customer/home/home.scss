@@ -378,3 +378,51 @@
         }
     }
 }
+
+// 展会宣传片
+.home_trailer {
+    background: #fff;
+    min-height: 100vh;
+
+    .head {
+        
+        padding: 0.54rem 0.33rem;
+        padding-top: 0.35rem;
+        .tit {
+            font-size: 0.34rem;
+            line-height: 0.4rem;
+        }
+        .timer {
+            line-height: 0.5rem;
+        }
+        .status {
+            display: inline-block;
+            padding: 0 0.2rem;
+            font-size: 0.2rem;
+            background: rgb(248, 213, 126);
+            color: #313437;
+            line-height: 0.38rem;
+        }
+        .btnwrap {
+            text-align: right;
+        }
+        .van-button--round {
+            margin: 0 0.1rem;
+        }
+    }
+
+    .banner {width: 100%;}
+    .color0 {color: rgba(49, 52, 55, 1) !important;}
+    .color1 {
+        color: #7386A0 !important;
+        background-color:#fff !important;
+    }
+    .text_wrap { margin-top: 0.3rem;
+    padding: 0.28rem;}
+    .textImg { width: 100%;}
+    .text {
+        background: #F7F8FA;
+        padding: 0.42rem 0.42rem 0.6rem;
+        text-indent: 2em;
+    }
+}

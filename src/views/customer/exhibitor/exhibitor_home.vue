@@ -93,14 +93,13 @@
         </van-tab>
       </van-tabs>
     </div>
-
     <van-divider dashed>我是有底线的</van-divider>
-    <!-- <van-divider
-      :style="{ color: '#a5a9ae', borderColor: '#a5a9ae', padding: '1.44rem 0.25rem' }"
-    >我是有底线的</van-divider>-->
   </div>
 </template>
 <script>
+import { util } from "@/utils";
+import { mapGetters } from "vuex";
+import * as Api from "@/api/customer/exhibitor";
 export default {
   name: "exhibitor_home",
   components: {},
@@ -146,10 +145,36 @@ export default {
       ]
     };
   },
-  created() {},
+  created() {
+    this.handleGetDetail();
+  },
   methods: {
-    goTo(){
-      this.$router.push({ path: "/exhibitor_details.vue" });
+    goTo() {
+      this.$router.push({ path: "/exhibitor_details" });
+    },
+    handleGetDetail() {
+      Api.getExhibitorList()
+        .then(res => {
+          let { code, msg, data, total } = res;
+          console.log(res);
+
+          // if (code == 200) {
+          //   this.details = data;
+          //   document.title = this.details.enterprise.name;
+          // }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+
+      Api.getSwiperText()
+        .then(res => {
+          let { code, msg, data, total } = res;
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   },
   mounted() {
@@ -208,11 +233,10 @@ export default {
     }
   }
   .item-box {
-    //   margin-bottom: 1.44rem;
+    margin-bottom: 1.3rem;
     // overflow: scroll;
     // height: calc(100% - 2.67rem);
     .list {
-      
       margin-left: 0.29rem;
       margin-top: 0.41rem;
       width: 6.96rem;
@@ -235,19 +259,22 @@ export default {
         left: 2.26rem;
         .title {
           margin-top: 0.26rem;
-          //   font-family:"楷体";
+          width: 4.02rem;
+          height: 0.54rem;
+          font-size: 0.32rem;
+          line-height: 0.44rem;
           font-weight: bold;
         }
         .type {
           span {
-            font-size: 9px;
+            font-size: 0.18rem;
             background-color: #fed26e;
             padding: 0 5px;
             border-radius: 2px;
           }
         }
         .num {
-          font-size: 12px;
+          font-size: 0.24rem;
           color: #a5a9ae;
           margin-top: 0.1rem;
           span {
@@ -266,5 +293,15 @@ export default {
 }
 /deep/ .van-tabs__line {
   background-color: #ffcf62;
+}
+/deep/ .van-tab--active {
+  font-size: 0.32rem;
+  // font-weight: bold;
+}
+/deep/ .van-tab__text--ellipsis {
+  font-size: 0.28rem;
+}
+/deep/ .van-divider{
+  font-size: 0.24rem;
 }
 </style>

@@ -35,7 +35,7 @@ import {
   ShareSheet,
   Toast,
   Divider,
-  Empty
+  Empty,
 
 
 } from 'vant';

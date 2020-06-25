@@ -120,6 +120,15 @@ export default [
         component: () => import('@/views/customer/exhibitor/exhibitor_details')
     }, 
     {
+        path: '/company_details',
+        meta: {
+            requiresAuth: false,
+            title: '参展商目录-公司详情',
+        },
+        name: 'company_details',
+        component: () => import('@/views/customer/exhibitor/company_details')
+    }, 
+    {
         path: '/person',
         meta: {
             requiresAuth: false,

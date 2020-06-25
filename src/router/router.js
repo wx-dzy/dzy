@@ -100,6 +100,21 @@ export default [
         component: () => import('@/views/customer/home/components/home_order.vue')
     },
 
+    // 展会宣传片
+    {
+        path: '/home_trailer',
+        meta: {
+            requiresAuth: false,
+            title: '展会宣传片',
+        },
+        name: 'home_trailer',
+        component: () => import('@/views/customer/home/components/home_trailer.vue')
+    },
+
+
+
+
+    
     // 参展商目录-首页
     {
         path: '/exhibitor_home',

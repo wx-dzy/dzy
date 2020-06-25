@@ -51,7 +51,6 @@ instance.interceptors.request.use(config => {
         config.headers =  {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + util.getCookie('dzy_token')
-            // 'Authorization':  util.getCookie('dzy_token')
         };
     }
     return config

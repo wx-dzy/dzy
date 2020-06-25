@@ -168,8 +168,17 @@ export default {
       ]
     };
   },
-  created() {},
+  created() {
+    this.handelGetExhibitor_details()
+  },
   methods: {
+    handelGetExhibitor_details(){
+      Api.getExhibitor_details(this.$route.query.id)
+        .then(res => {
+          console.log(this.$route.query);
+        })
+        .catch(err => {});
+    },
     goCompany_details(){
       this.$router.push({ path: "/company_details" });
     }

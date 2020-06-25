@@ -1,48 +1,50 @@
 // 参观预约 介绍 id=1272919606905835521
 <template>
-  <div class="home_introduce">
-    <div v-if="details.enterprise && details.enterprise.id">
-      <div v-if="src">
-        <Video-Demo :src="src" :showVideo="showVideo" style="width: 100%;" />
-      </div>
-      <img
-        v-else
-        src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1592312719436&di=a174ad3a0041a8649adb737b7e66816f&imgtype=0&src=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D4006718874%2C3505974745%26fm%3D214%26gp%3D0.jpg"
-        alt
-        class="banner"
+  <div class="home_order">
+    <van-form :validate-first="true" label-width="100" @failed="onFailed">
+      <van-field
+        v-model="formData.name"
+        lable="姓名"
+        name="name"
+
+        placeholder="请填写姓名"
+        :rules="[{ required: true, message: '请填写姓名' }]"
+        clearable
+        :autofocus='true'
+      />
+      <!-- 通过 validatetel 进行正则校验 -->
+      <van-field
+        v-model="formData.tel"
+        name="tel"
+        type="tel"
+        lable="手机号"
+        placeholder="请填写手机号"
+        :rules="[{ validatetel, message: '请正确填写手机号' }]"
       />
 
-      <van-row class="cont">
-        <van-col span="24">
-          <h2 class="tit">参观预约  欧亚国际幼儿教育博览会</h2>
-        </van-col>
-
-        <van-col span="16">
-          <van-button icon="icon iconfont yz-guanzhu" size="small" type="default" class="btnNone">关注</van-button>
-          <van-button
-            icon="icon iconfont yz-yiguanzhu"
-            size="small"
-            type="default"
-            class="btnNone"
-          >已关注</van-button>
-        </van-col>
-
-        <van-col span="8" class="text-right">
-          <van-button type="default" size="small" round color="#F8D57E" @click="handleWith">咨询客服</van-button>
-        </van-col>
-
-        <van-col span="24" class="text_wrap">
-          <img
-            src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1592312719436&di=a174ad3a0041a8649adb737b7e66816f&imgtype=0&src=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D4006718874%2C3505974745%26fm%3D214%26gp%3D0.jpg"
-            alt
-            class="text"
-          />
-        </van-col>
-      </van-row>
-    </div>
-
-    <!-- 占位图 -->
-    <img v-else src="@/assets/images/null.png" class="nullImg" alt />
+      <van-field v-model="formData.sms" center clearable label="短信验证码" placeholder="请输入短信验证码">
+        <template #button>
+          <van-button size="small" type="primary">发送验证码</van-button>
+        </template>
+      </van-field>
+      <!-- 通过 validator 进行函数校验 -->
+      <van-field
+        v-model="formData.value2"
+        name="validator"
+        placeholder="函数校验"
+        :rules="[{ validator, message: '请输入正确内容' }]"
+      />
+      <!-- 通过 validator 进行异步函数校验 -->
+      <van-field
+        v-model="formData.value3"
+        name="asyncValidator"
+        placeholder="异步函数校验"
+        :rules="[{ validator: asyncValidator, message: '请输入正确内容' }]"
+      />
+      <div style="margin: 16px;">
+        <van-button round block type="info" native-type="submit">提交</van-button>
+      </div>
+    </van-form>
   </div>
 </template>
 
@@ -55,105 +57,85 @@ import VideoDemo from "@/components/customer/videoPlay/index.vue";
 // import footerNav from "@/components/customer/footerNav/index.vue";
 
 export default {
-  name: "home_introduce",
+  name: "home_order",
   components: {
     VideoDemo // 播放
     // footerNav
   },
   data() {
+    // const validatetel = (rule, value, callback) => {
+    //   const reg = ;
+    //   if (!reg.test(value)) {
+    //     callback(new Error("手机号码有误，请重填"));
+    //   } else {
+    //     callback();
+    //   }
+    // };
     return {
-      showVideo: false,
-      src: require("@/assets/images/video1.mp4"),
+      loading: false,
+      id: "",
+      formData: {
+        name: "晓刚0-0",
+        tel: "18801012566",
+        sms: '',
 
-      // 当前年
-      year: "",
-      showShare: false,
-      details: {
-        id: "1",
-        
-      }
-      // loading: false,
-      // finished: false,
-      // refreshing: false,
-      // pageSize: 10,
-      // pageNum: 1
+        value2: "",
+        value3: ""
+      },
+      validatetel: /^1[3456789]\d{9}$/,
+      pattern: /\d{6}/
     };
   },
   created() {
-    this.details.id = this.$route.query.id;
-    // document.title = this.$route.query.title;
-    this.year = this.doHandleYear();
-    // 获取详情
-    this.handleGetDetail()
+    this.id = this.$route.query.id;
   },
   methods: {
-    // 获取当前年
-    doHandleYear(tYear) {
-      var myDate = new Date();
-      var tYear = myDate.getFullYear();
-      return tYear;
+    // 校验函数返回 true 表示校验通过，false 表示不通过
+    validator(val) {
+      return /1\d{10}/.test(val);
+    },
+    // 异步校验函数返回 Promise
+    asyncValidator(val) {
+      return new Promise(resolve => {
+        Toast.loading("验证中...");
+
+        setTimeout(() => {
+          Toast.clear();
+          resolve(/\d{6}/.test(val));
+        }, 1000);
+      });
+    },
+    onFailed(errorInfo) {
+      console.log("failed", errorInfo);
     },
 
-    // 咨询客服
-    handleWith() {},
+    // 请求参数 params
+    onSubmit(params) {
+      this.loading = true;
 
-    // 获取详情
-    handleGetDetail() {
-       Api.getEnterpriseBaseInfoById(this.details.id)
+      Api.setShowOrderAdd(params)
         .then(res => {
           let { data, code, msg, total } = res;
-          if(code == 200) {
-            this.details = data
-          }
-
-        })
-        .catch(err => {});
-    },
-
-    // 请求参数 params status{1:上拉刷新，2：正常请求}
-    onsubmt(params, statu) {
-      let status = statu ? statu : 2; // 默认正常请求
-      Api.getCalendarListByEnterpriseId(params)
-        .then(res => {
-          let { rows, total } = res;
-          // console.log(rows,rows.length,'rows,rows.length')
-          // if (rows.length) {
-          // 加载状态结束
           this.loading = false;
-
-          if (status == 1) {
-            // 上拉刷新
-            this.refreshing = false;
-            this.questionList = rows;
-            this.$toast("刷新成功");
-          } else {
-            rows.forEach(element => {
-              this.questionList.push(element);
-            });
-          }
           // 数据全部加载完成
-          if (rows.length < this.pageSize) {
-            this.finished = true;
+          if (code == 200) {
           }
           // }
         })
         .catch(err => {
-          // 上拉刷新
-          this.refreshing = false;
           console.log(err, "err");
         });
     },
 
     // 查看详情
-    handleLook(_id) {
-      this.$router.push({
-        name: "toBeQuotedDetails",
-        query: {
-          inquiryId: _id
-        }
-      });
-    }
-  
+    // handleLook(_id) {
+    //   this.$router.push({
+    //     name: "toBeQuotedDetails",
+    //     query: {
+    //       inquiryId: _id
+    //     }
+    //   });
+    // }
   },
 
   computed: {},
@@ -174,8 +156,6 @@ export default {
       }, 0);
     });
   }
-
-
 };
 </script>
 
@@ -184,7 +164,7 @@ export default {
 <style lang="scss" scoped>
 @import "@/assets/styles/base/calc_vm.scss";
 @import "../home.scss";
-.home_introduce {
+.home_order {
   .nullImg {
     width: 4rem;
     margin: 0.4rem 1.47rem;

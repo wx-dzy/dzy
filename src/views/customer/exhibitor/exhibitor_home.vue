@@ -146,35 +146,34 @@ export default {
     };
   },
   created() {
-    this.handleGetDetail();
+    // this.handleGetDetail();
+    this.handleGetSwiperText();
   },
   methods: {
     goTo() {
       this.$router.push({ path: "/exhibitor_details" });
     },
-    handleGetDetail() {
-      Api.getExhibitorList()
-        .then(res => {
-          let { code, msg, data, total } = res;
-          console.log(res);
 
+    // handleGetDetail() {
+    //   Api.getExhibitorList(this.$route.query.id)
+    //     .then(res => {
+    //       console.log("结果：");
+    //       console.log(this.$route.query);
+    //     })
+    //     .catch(err => {
+    //       // console.log(err);
+    //     });
+    // },
+    handleGetSwiperText() {
+      Api.getSwiperText(this.$route.query.id)
+        .then(res => {
+          console.log(this.$route.query);
+          // let { data, code, msg, total } = res;
           // if (code == 200) {
           //   this.details = data;
-          //   document.title = this.details.enterprise.name;
           // }
         })
-        .catch(err => {
-          console.log(err);
-        });
-
-      Api.getSwiperText()
-        .then(res => {
-          let { code, msg, data, total } = res;
-          console.log(res);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+        .catch(err => {});
     }
   },
   mounted() {
@@ -202,16 +201,16 @@ export default {
     .left {
       display: inline-block;
       margin-left: 0.5rem;
-      width: 2.23rem;
+      // width: 2.23rem;
       height: 1.11rem;
       .title {
-        font-size: 19px;
-        letter-spacing: 2px;
+        font-size: 0.4rem;
+        letter-spacing: 0.02rem;
         font-weight: 550;
       }
       .item {
         margin-top: 0.1rem;
-        font-size: 12px;
+        font-size: 0.24rem;
         color: #b2b6bb;
       }
     }
@@ -220,7 +219,7 @@ export default {
       bottom: 0;
       display: inline-block;
       margin-left: 0.79rem;
-      font-size: 12px;
+      font-size: 0.26rem;
       .left_btn {
         border: 1px solid #b2b6bb;
         color: #b2b6bb;
@@ -289,7 +288,7 @@ export default {
 /deep/ .van-info {
   top: -5px;
   background-color: #ff7109;
-  font-size: 10px;
+  font-size: 0.22rem;
 }
 /deep/ .van-tabs__line {
   background-color: #ffcf62;
@@ -301,7 +300,7 @@ export default {
 /deep/ .van-tab__text--ellipsis {
   font-size: 0.28rem;
 }
-/deep/ .van-divider{
+/deep/ .van-divider {
   font-size: 0.24rem;
 }
 </style>

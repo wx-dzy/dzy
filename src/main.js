@@ -35,7 +35,8 @@ import {
   ShareSheet,
   Toast,
   Divider,
-  Empty
+  Empty,
+  Form
 
 
 } from 'vant';
@@ -65,6 +66,7 @@ Vue.use(ShareSheet);
 Vue.use(Toast);
 Vue.use(Divider);
 Vue.use(Empty);
+Vue.use(Form);
 
 
 

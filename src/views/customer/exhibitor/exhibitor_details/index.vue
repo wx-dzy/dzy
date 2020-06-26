@@ -41,7 +41,7 @@
     </div>
     <!-- 企业相关视频 -->
     <div class="exhibitor_video">
-      <div class="top-title">
+      <div class="top-title" @click="goTo">
         <span>企业相关视频</span>
         <van-icon name="arrow" />
       </div>
@@ -86,6 +86,9 @@
 </template>
 <script>
 import VideoDemo from "@/components/customer/videoPlay";
+import { util } from "@/utils";
+import { mapGetters } from "vuex";
+import * as Api from "@/api/customer/exhibitor";
 export default {
   name: "exhibitor_details",
   components: {},
@@ -169,18 +172,27 @@ export default {
     };
   },
   created() {
-    this.handelGetExhibitor_details()
+    this.handelGetExhibitor_details();
   },
   methods: {
-    handelGetExhibitor_details(){
-      Api.getExhibitor_details(this.$route.query.id)
+    handelGetExhibitor_details() {
+      Api.getExhibitor_details(this.$route.query.enterpriseExhibitorsId)
         .then(res => {
-          console.log(this.$route.query);
+          let { code, msg, data, total } = res;
+          console.log(res);
+
+          if (code == 200) {
+            this.details = data;
+          }
         })
         .catch(err => {});
     },
-    goCompany_details(){
+    goCompany_details() {
       this.$router.push({ path: "/company_details" });
+    },
+    goTo() {
+      // 跳转至企业相关视频页
+      // this.$router.push({ path: "" });
     }
   }
 };
@@ -423,7 +435,7 @@ export default {
     margin-top: 0.12rem;
   }
 }
-/deep/ .van-divider{
+/deep/ .van-divider {
   font-size: 0.24rem;
 }
 </style>

@@ -3,10 +3,10 @@
   <div class="exhibitor_home">
     <div class="top">
       <div class="left">
-        <div class="title">汽配展馆</div>
+        <div class="title">{{showName}}</div>
         <div class="item">
           共
-          <span>86</span>家参展商
+          <span>{{totalExhibitors}}</span>家参展商
         </div>
       </div>
       <div class="right">
@@ -14,7 +14,7 @@
         <van-button class="right_btn" round size="small" color="#ffd36f">参观预约</van-button>
       </div>
     </div>
-    <div class="item-box">
+    <div class="item-box" v-if="totalExhibitors==0 ? true : false">
       <van-tabs v-model="active" class="tab" swipe-threshold="5" title-active-color="#000">
         <van-tab title="全部">
           <div class="list" v-for="(item,index) in list" :key="index" @click="goTo">
@@ -93,19 +93,24 @@
         </van-tab>
       </van-tabs>
     </div>
-    <van-divider dashed>我是有底线的</van-divider>
+    <img v-else src="@/assets/images/null.png" class="nullImg" alt />
+    <van-divider dashed v-if="totalExhibitors==0 ? false : true">我是有底线的</van-divider>
   </div>
 </template>
 <script>
 import { util } from "@/utils";
 import { mapGetters } from "vuex";
 import * as Api from "@/api/customer/exhibitor";
+import nullImg from "@/assets/images/null.png";
 export default {
   name: "exhibitor_home",
   components: {},
   data() {
     return {
       active: 0,
+      showName: "",
+      totalExhibitors: "",
+      details: {},
       list: [
         {
           src: "/assets/images/logo1.jpg",
@@ -146,34 +151,49 @@ export default {
     };
   },
   created() {
-    // this.handleGetDetail();
+    this.handleGetDetail();
     this.handleGetSwiperText();
   },
   methods: {
-    goTo() {
-      this.$router.push({ path: "/exhibitor_details" });
-    },
-
-    // handleGetDetail() {
-    //   Api.getExhibitorList(this.$route.query.id)
-    //     .then(res => {
-    //       console.log("结果：");
-    //       console.log(this.$route.query);
-    //     })
-    //     .catch(err => {
-    //       // console.log(err);
-    //     });
-    // },
     handleGetSwiperText() {
-      Api.getSwiperText(this.$route.query.id)
+      Api.getSwiperText(this.$route.query.enterpriseShowId)
         .then(res => {
-          console.log(this.$route.query);
-          // let { data, code, msg, total } = res;
-          // if (code == 200) {
-          //   this.details = data;
-          // }
+          let { data, code, msg, total } = res;
+          console.log(res);
+          if (code == 200) {
+            this.details = data;
+            this.showName = data.enterpriseShow.showName;
+            this.totalExhibitors = data.enterpriseShow.totalExhibitors;
+            var enterpriseExhibitorsId = data.enterpriseShow.id;
+          }
         })
         .catch(err => {});
+    },
+    handleGetDetail() {
+      Api.getExhibitorList([
+        this.$route.query.enterpriseShowId,
+        this.$route.query.placeId
+      ])
+        .then(res => {
+          let { code, msg, data, total } = res;
+          console.log(res);
+
+          if (code == 200) {
+            this.details = data;
+          }
+        })
+        .catch(err => {
+          // console.log(err);
+        });
+    },
+    goTo() {
+      this.$router.push({
+        path: "/exhibitor_details",
+        query: {
+          // 参展商id
+          enterpriseExhibitorsId: this.details.enterpriseShow.id
+        }
+      });
     }
   },
   mounted() {
@@ -302,5 +322,9 @@ export default {
 }
 /deep/ .van-divider {
   font-size: 0.24rem;
+}
+.nullImg {
+  width: 4rem;
+  margin: 0.4rem 1.47rem;
 }
 </style>

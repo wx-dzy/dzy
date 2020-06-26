@@ -36,10 +36,7 @@ import {
   Toast,
   Divider,
   Empty,
-<<<<<<< HEAD
-=======
   Form
->>>>>>> 8243d8d11d781506d6ea91fa0fef1ba7745dfb5e
 
 
 } from 'vant';

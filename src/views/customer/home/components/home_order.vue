@@ -1,50 +1,121 @@
 // 参观预约 介绍 id=1272919606905835521
 <template>
   <div class="home_order">
-    <van-form :validate-first="true" label-width="100" @failed="onFailed">
+    <van-form :validate-first="true" label-width="2.32rem" @failed="onFailed">
+      <p class="redWrap">
+        <i class="red">*</i>必填项：
+      </p>
       <van-field
-        v-model="formData.name"
-        lable="姓名"
-        name="name"
-
-        placeholder="请填写姓名"
-        :rules="[{ required: true, message: '请填写姓名' }]"
+        v-model="formData.realName"
+        name="realName"
+        label="姓名"
+        placeholder="请输入您的姓名"
+        :rules="[{ required: true, message: '请输入您的姓名' }]"
         clearable
-        :autofocus='true'
-      />
-      <!-- 通过 validatetel 进行正则校验 -->
-      <van-field
-        v-model="formData.tel"
-        name="tel"
-        type="tel"
-        lable="手机号"
-        placeholder="请填写手机号"
-        :rules="[{ validatetel, message: '请正确填写手机号' }]"
       />
 
-      <van-field v-model="formData.sms" center clearable label="短信验证码" placeholder="请输入短信验证码">
+      <!-- 通过 pattern 进行正则校验 -->
+      <van-field
+        v-model="formData.mobile"
+        name="mobile"
+        type="tel"
+        label="手机号"
+        placeholder="请输入您的手机号"
+        :rules="[{ pattern, message: '请正确填写手机号' }]"
+        clearable
+      />
+
+      <van-field
+        v-model="formData.verifyCode"
+        name="verifyCode"
+        center
+        label="验证码"
+        placeholder="请输入验证码"
+        :rules="[{ required: true, message: '请输入验证码' }]"
+        clearable
+      >
         <template #button>
-          <van-button size="small" type="primary">发送验证码</van-button>
+          <van-button
+            v-show="!isSend"
+            size="small"
+            color="rgba(157,161,166,1)"
+            type="primary"
+            @click="handleTime"
+          >获取验证码</van-button>
+
+          <van-button
+            v-show="isSend"
+            size="small"
+            color="rgba(157,161,166,1)"
+            type="primary"
+          >{{ sendNum ? sendNum + 's': '' }}</van-button>
         </template>
       </van-field>
-      <!-- 通过 validator 进行函数校验 -->
+
       <van-field
-        v-model="formData.value2"
-        name="validator"
-        placeholder="函数校验"
-        :rules="[{ validator, message: '请输入正确内容' }]"
+        readonly
+        clickable
+        :value="formData.orderDate"
+        name="calendar"
+        label="预计参观日期"
+        placeholder="点击选择日期"
+        :rules="[{ required: true, message: '请选择日期' }]"
+        @click="showCalendar = true"
       />
-      <!-- 通过 validator 进行异步函数校验 -->
+      <van-calendar v-model="showCalendar" @confirm="onConfirm" />
+
+      <p class="redWrap">选填项：</p>
+
+      <van-field name="card" label="名片" placeholder="（上传名片更多功能可使用）">
+        <template #input>
+          <uploaderImg :imgSrc.sync="imgSrc" :maxCount="1" />
+          <!-- <van-uploader/> -->
+        </template>
+      </van-field>
+
       <van-field
-        v-model="formData.value3"
-        name="asyncValidator"
-        placeholder="异步函数校验"
-        :rules="[{ validator: asyncValidator, message: '请输入正确内容' }]"
+        v-model="formData.businessName"
+        name="businessName"
+        label="企业名称"
+        placeholder="请输入您当前所在企业的名称"
+        clearable
       />
+      <van-field
+        v-model="formData.businessPost"
+        name="businessPost"
+        label="职   位"
+        placeholder="请输入您当前所在企业的职位"
+        clearable
+      />
+      <van-field
+        v-model="formData.businessEmail"
+        name="businessEmail"
+        label="邮   箱"
+        placeholder="请输入您当前所在企业的邮箱"
+        clearable
+      />
+
+      <van-field
+        v-model="formData.businessRemarks"
+        name="businessRemarks"
+        rows="1"
+        autosize
+        label="备   注"
+        type="textarea"
+        placeholder="请您留言"
+        clearable
+      />
+
       <div style="margin: 16px;">
-        <van-button round block type="info" native-type="submit">提交</van-button>
+        <van-button block type="info" color="#F8D57E" native-type="submit" @click="onSubmit">提 交</van-button>
       </div>
     </van-form>
+
+    <van-overlay :show="loading">
+      <div class="wrapper" @click.stop>
+        <van-loading type="spinner" color="#1989fa" size="0.8rem" vertical>加载中...</van-loading>
+      </div>
+    </van-overlay>
   </div>
 </template>
 
@@ -52,90 +123,125 @@
 import { util } from "@/utils";
 import { mapGetters } from "vuex";
 import * as Api from "@/api/customer/home";
-import VideoDemo from "@/components/customer/videoPlay/index.vue";
-
-// import footerNav from "@/components/customer/footerNav/index.vue";
+// import VideoDemo from "@/components/customer/videoPlay/index.vue";
+import uploaderImg from "@/components/customer/uploaderImg.vue";
 
 export default {
   name: "home_order",
   components: {
-    VideoDemo // 播放
-    // footerNav
+    // VideoDemo, // 播放
+    uploaderImg // 上传图片
   },
   data() {
-    // const validatetel = (rule, value, callback) => {
-    //   const reg = ;
-    //   if (!reg.test(value)) {
-    //     callback(new Error("手机号码有误，请重填"));
-    //   } else {
-    //     callback();
-    //   }
-    // };
     return {
       loading: false,
-      id: "",
+      // 日历
+      showCalendar: false,
       formData: {
-        name: "晓刚0-0",
-        tel: "18801012566",
-        sms: '',
-
-        value2: "",
-        value3: ""
+        // 活动id（展会id）
+        enterpriseShowId: "", // 展会id
+        realName: "", // 真实姓名
+        mobile: "", // 手机号
+        verifyCode: "", // 验证码
+        orderDate: "", // 预计参观日期，格式yyyy-MM-dd
+        card: '', // 名称地址url
+        businessName: "", // 企业名称
+        businessPost: "", // 职位
+        businessEmail: "", // 邮箱
+        businessRemarks: "" // 备注
       },
-      validatetel: /^1[3456789]\d{9}$/,
-      pattern: /\d{6}/
+      // imgSrc: [{ url: "https://img.yzcdn.cn/vant/leaf.jpg" }], // 名称地址url
+      imgSrc: [], // 名称地址url
+      isSend: false,
+      sendNum: 59,
+      pattern: /^1[3456789]\d{9}$/
     };
   },
   created() {
-    this.id = this.$route.query.id;
+    // 活动id（展会id）
+    this.formData.enterpriseShowId = this.$route.query.enterpriseShowId;
+    console.log(this.formData.enterpriseShowId, "活动id（展会id）");
   },
   methods: {
-    // 校验函数返回 true 表示校验通过，false 表示不通过
-    validator(val) {
-      return /1\d{10}/.test(val);
+    // 日期转化
+    onConfirm(date) {
+      this.formData.orderDate = `${date.getFullYear()}/${date.getMonth() +
+        1}/${date.getDate()}`;
+      this.showCalendar = false;
     },
-    // 异步校验函数返回 Promise
-    asyncValidator(val) {
-      return new Promise(resolve => {
-        Toast.loading("验证中...");
 
-        setTimeout(() => {
-          Toast.clear();
-          resolve(/\d{6}/.test(val));
-        }, 1000);
-      });
-    },
+    // 验证
     onFailed(errorInfo) {
-      console.log("failed", errorInfo);
+      // console.log("failed", errorInfo);
+      util.error("请输入必填项！！");
     },
 
     // 请求参数 params
     onSubmit(params) {
       this.loading = true;
+      let param = Object.assign({}, this.formData);
+      param.card = this.imgSrc.length ? this.imgSrc[0].url : "";
+      this.loading = true;
 
-      Api.setShowOrderAdd(params)
+      Api.setShowOrderAdd(param)
+        .then(res => {
+          this.loading = false;
+          let { data, code, msg, total } = res;
+          if (code == 200) {
+            util.success("保存成功！！");
+            setTimeout(() => {
+              this.handleLook();
+            }, 1500);
+          }
+        })
+        .catch(err => {});
+    },
+
+    // 倒计时
+    handleTime() {
+      if (!this.pattern.test(this.formData.mobile)) {
+        util.error("手机号码有误，请重填");
+      } else {
+        this.isSend = true;
+        // 获取验证码
+        this.handleSedMa();
+        const timer = setInterval(() => {
+          if (this.sendNum < 2) {
+            this.isSend = false;
+            this.sendNum = 59;
+            clearInterval(timer);
+          }
+          this.sendNum--;
+        }, 1000);
+      }
+    },
+
+    //  获取验证码
+    handleSedMa() {
+      const reg = "";
+      let param = {
+        enterpriseShowId: this.formData.enterpriseShowId,
+        mobile: this.formData.mobile
+      };
+      Api.getSendVerifyCode(param)
         .then(res => {
           let { data, code, msg, total } = res;
-          this.loading = false;
-          // 数据全部加载完成
           if (code == 200) {
+            util.success("验证码已发送" + param.mobile + "手机！");
           }
-          // }
         })
-        .catch(err => {
-          console.log(err, "err");
-        });
+        .catch(err => {});
     },
 
     // 查看详情
-    // handleLook(_id) {
-    //   this.$router.push({
-    //     name: "toBeQuotedDetails",
-    //     query: {
-    //       inquiryId: _id
-    //     }
-    //   });
-    // }
+    handleLook() {
+      this.$router.push({
+        name: "home_details",
+        query: {
+          id: this.$route.query.id
+        }
+      });
+    }
   },
 
   computed: {},
@@ -165,6 +271,13 @@ export default {
 @import "@/assets/styles/base/calc_vm.scss";
 @import "../home.scss";
 .home_order {
+  .wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+
   .nullImg {
     width: 4rem;
     margin: 0.4rem 1.47rem;

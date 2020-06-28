@@ -23,7 +23,7 @@ export default [
         name: 'login',
         component: () => import('@/views/customer/login/login.vue')
     },
-     // 注册
+    // 注册
     //  {
     //     path: '/login',
     //     meta: {
@@ -114,7 +114,7 @@ export default [
 
 
 
-    
+
     // 参展商目录-首页
     {
         path: '/exhibitor_home',
@@ -133,7 +133,7 @@ export default [
         },
         name: 'exhibitor_details',
         component: () => import('@/views/customer/exhibitor/exhibitor_details')
-    }, 
+    },
     {
         path: '/company_details',
         meta: {
@@ -142,7 +142,7 @@ export default [
         },
         name: 'company_details',
         component: () => import('@/views/customer/exhibitor/company_details')
-    }, 
+    },
     {
         path: '/person',
         meta: {
@@ -152,11 +152,30 @@ export default [
         name: 'person',
         component: () => import('@/views/customer/exhibitor/person')
     },
+    {
+        path: '/juridical_person',
+        meta: {
+            requiresAuth: false,
+            title: '法人详情',
+        },
+        name: 'juridical_person',
+        component: () => import('@/views/customer/exhibitor/juridical_person')
+    },
+    {
+
+        path: '/exact_information',
+        meta: {
+            requiresAuth: false,
+            title: '索取资料',
+        },
+        name: 'exact_information',
+        component: () => import('@/views/customer/exhibitor/exact_information')
+    },
 
 
 
 
-    
+
     // 订单列表
     // {
     //     path: '/orderList',
@@ -222,8 +241,8 @@ export default [
     //     name: 'changePassword',
     //     component: () => import('@/views/personal/changePassword.vue')
     // },
-  
-    
+
+
     // 500
     {
         path: '/err-500',
@@ -245,7 +264,7 @@ export default [
         name: 'err-404',
         component: () => import('@/views/error/err-404.vue')
     },
-    
+
     // 错误页面 重定向 跳转404
     // {
     //     path:'*',

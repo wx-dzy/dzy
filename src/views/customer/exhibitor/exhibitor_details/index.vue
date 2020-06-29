@@ -1,5 +1,5 @@
 <template>
-  <!-- 参展商详情 -->
+  <!-- 参展商目录-参展商详情 -->
   <div class="exhibitor_details">
     <div class="top">
       <div class="title">风风火火汽车电子公司</div>
@@ -11,7 +11,7 @@
         </i>
       </div>
       <div class="btn">
-        <button class="left_btn">获取公司资料</button>
+        <button class="left_btn" @click="goCompany_details">获取公司资料</button>
         <button class="right_btn">预约面谈</button>
         <!-- <van-button round size="small"></van-button>
         <van-button round size="small" color="#ffd36f">预约面谈</van-button>-->
@@ -23,7 +23,7 @@
       <div class="type">
         <!-- <van-button icon="icon iconfont yz-yiguanzhu" type="default" class="btnNone">已关注</van-button> -->
         <van-icon class="icon iconfont yz-yiguanzhu" />
-        <div>已关注</div>
+        <div class="type_name">已关注</div>
       </div>
     </div>
     <div class="exhibitor">
@@ -32,42 +32,71 @@
         <van-icon name="arrow" />
       </div>
       <div class="item">
-        <!-- <div class="box"> -->
         <div class="person" v-for="(item,index) in person" :key="index">
-          <!-- <div class="personBox"> -->
           <img src="../../../../assets/images/logo1.jpg" alt />
           <div class="name">{{item.name}}</div>
           <div class="type">{{item.type}}</div>
-          <!-- </div> -->
         </div>
-        <!-- <van-swipe
-          class="my-integral"
-          width="128"
-          indicator-color="white"
-          :show-indicators="false"
-          :loop="false"
-        >
-          <van-swipe-item class="my-integral-item" v-for="(item,index) in person" :key="index">
-            <div class="goods">
-              <div class="img" style="height:90px;">
-                <img src="../../../../assets/images/logo1.jpg" alt />
-              </div>
-              <div class="name">{{item.name}}</div>
-              <div class="type">{{item.type}}</div>
-            </div>
-          </van-swipe-item>
-        </van-swipe>-->
-        <!-- </div> -->
       </div>
     </div>
+    <!-- 企业相关视频 -->
+    <div class="exhibitor_video">
+      <div class="top-title" @click="goTo">
+        <span>企业相关视频</span>
+        <van-icon name="arrow" />
+      </div>
+      <div class="item">
+        <div class="video_box" v-for="(item, index)  in listData" :key="index">
+          <!-- <Video-Demo
+            :_id="item.id"
+            :src="item.videoUrl"
+            :bannerIMG="item.mediaUrl"
+            :playVideoId.sync="playVideoId"
+            style="width: 100%;"
+          />-->
+          <!-- <Video-Demo :src="item.videoUrl" style="width: 100%;"/> -->
+          <video src="../../../../assets/images/video1.mp4" controls></video>
+          <div class="name">{{item.name}}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 企业产品目录 -->
+    <div class="product_catalog">
+      <div class="top-title">
+        <span>企业产品目录</span>
+        <van-icon name="arrow" />
+      </div>
+      <div class="item">
+        <div class="itemList" v-for="(item,index) in productList" :key="index">
+          <img :src="item.imgSrc" alt />
+          <div class="right">
+            <div class="title">{{item.title}}</div>
+            <div class="nums">
+              <div class="idNum">订货号：{{item.idNum}}</div>
+              <div class="num">起订量：{{item.num}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <van-divider dashed>我是有底线的</van-divider>
   </div>
 </template>
 <script>
+import VideoDemo from "@/components/customer/videoPlay";
+import { util } from "@/utils";
+import { mapGetters } from "vuex";
+import * as Api from "@/api/customer/exhibitor";
 export default {
   name: "exhibitor_details",
   components: {},
   data() {
     return {
+      playVideoId: "0",
+      active: "home",
+      src: require("@/assets/images/video1.mp4"),
       person: [
         {
           src: "../../../../assets/images/logo1.jpg",
@@ -88,12 +117,84 @@ export default {
           src: "../../../../assets/images/logo1.jpg",
           name: "易烊千玺",
           type: "销售"
+        },
+        {
+          src: "../../../../assets/images/logo1.jpg",
+          name: "易烊",
+          type: "销售"
+        },
+        {
+          src: "../../../../assets/images/logo1.jpg",
+          name: "千玺",
+          type: "销售"
+        }
+      ],
+      listData: [
+        {
+          videoUrl: "../../../../assets/images/video.mp4",
+          name: "2020年荣获“天眼杯”导航仪金奖"
+        },
+        {
+          videoUrl: "../../../../assets/images/video1.mp4",
+          name: "2019年荣获“天眼杯”导航仪金奖"
+        }
+      ],
+      productList: [
+        {
+          imgSrc: "",
+          title:
+            "360 行车记录仪 g300 高清夜视隐藏式免安装无线迷你车载测速电子狗",
+          idNum: "A2323",
+          num: 1
+        },
+        {
+          imgSrc: "",
+          title:
+            "360 行车记录仪 g300 高清夜视隐藏式免安装无线迷你车载测速电子狗",
+          idNum: "A2323",
+          num: 1
+        },
+        {
+          imgSrc: "",
+          title:
+            "360 行车记录仪 g300 高清夜视隐藏式免安装无线迷你车载测速电子狗",
+          idNum: "A2323",
+          num: 1
+        },
+        {
+          imgSrc: "",
+          title:
+            "360 行车记录仪 g300 高清夜视隐藏式免安装无线迷你车载测速电子狗",
+          idNum: "A2323",
+          num: 1
         }
       ]
     };
   },
-  created() {},
-  methods: {}
+  created() {
+    this.handelGetExhibitor_details();
+  },
+  methods: {
+    handelGetExhibitor_details() {
+      Api.getExhibitor_details(this.$route.query.enterpriseExhibitorsId)
+        .then(res => {
+          let { code, msg, data, total } = res;
+          console.log(res);
+
+          if (code == 200) {
+            this.details = data;
+          }
+        })
+        .catch(err => {});
+    },
+    goCompany_details() {
+      this.$router.push({ path: "/company_details" });
+    },
+    goTo() {
+      // 跳转至企业相关视频页
+      // this.$router.push({ path: "" });
+    }
+  }
 };
 </script>
 <style lang='scss' scoped>
@@ -118,11 +219,11 @@ export default {
     border-radius: 0.16rem;
     position: relative;
     .title {
-      font-size: 17px;
+      font-size: 0.4rem;
       padding-top: 0.4rem;
     }
     .middle {
-      font-size: 10px;
+      font-size: 0.24rem;
       margin-top: 0.18rem;
       margin-bottom: 0.71rem;
       .name_type {
@@ -131,19 +232,19 @@ export default {
         height: 0.36rem;
         text-align: center;
         margin: auto 0;
-        background: rgba(229, 204, 157, 1);
+        background: #e5cc9d;
         border-radius: 0.04rem;
         color: #313437;
       }
       .icon {
         display: inline;
-        color: rgba(229, 204, 157, 1);
+        color: #e5cc9d;
         margin-left: 0.26rem;
         margin-right: 0.14rem;
       }
     }
     .btn {
-      font-size: 12px;
+      font-size: 0.24rem;
       position: absolute;
       right: 0.16rem;
       bottom: 1rem;
@@ -162,6 +263,7 @@ export default {
         border: none;
         margin-left: 0.26rem;
         padding: 0.12rem 0.36rem;
+        color: #313437;
       }
     }
     .more {
@@ -171,7 +273,7 @@ export default {
       position: absolute;
       left: 0.38rem;
       bottom: 0.26rem;
-      font-size: 12px;
+      font-size: 0.24rem;
       .van-icon {
         height: 0.34rem;
         // line-height: 0.34rem;
@@ -189,36 +291,151 @@ export default {
         text-align: center;
         color: #f8d57e;
       }
+      .type_name {
+        font-size: 0.24rem;
+      }
     }
   }
   .exhibitor {
-    height: 0.44rem;
-    line-height: 0.44rem;
-    position: relative;
-    .top-title {
-      span {
-        font-size: 15px;
-        font-weight: bold;
-      }
-      .van-icon {
-        position: absolute;
-        right: 0.32rem;
-        margin-top: 0.12rem;
-      }
-    }
     .item {
-      width: 100%;
+      height: 2.26rem;
+      margin-top: 0.6rem;
+      justify-content: space-between;
+      overflow-x: scroll;
+      overflow-y: hidden;
+      white-space: nowrap;
+      display: flex;
       .person {
-        display: flex;
-        flex: 25%;
+        height: 2.26rem;
+        width: 1.28rem;
+        text-align: center;
+        word-wrap: break-word;
+        word-break: break-all;
+        margin-right: 0.6rem;
 
         img {
+          display: block;
           width: 1.28rem;
           height: 1.28rem;
-          border: 1px solid red;
+          border-radius: 50%;
+          border: 0.02rem solid rgba(233, 233, 233, 1);
+        }
+        .name {
+          margin-top: 0.06rem;
+          font-size: 0.28rem;
+          width: 1.28rem;
+        }
+        .type {
+          width: 0.8rem;
+          height: 0.32rem;
+          line-height: 0.32rem;
+          background: rgba(157, 161, 166, 1);
+          border-radius: 0.08rem;
+          font-size: 0.2rem;
+          margin: 0.06rem auto;
+          color: #ffffff;
+        }
+      }
+    }
+    ::-webkit-scrollbar {
+      display: none !important;
+    }
+  }
+  .exhibitor_video {
+    margin-top: 0.92rem;
+    .item {
+      margin-top: 0.4rem;
+      // height: 3.36rem;
+      justify-content: space-between;
+      overflow-x: scroll;
+      overflow-y: hidden;
+      white-space: nowrap;
+      display: flex;
+      .video_box {
+        video {
+          width: 4.18rem;
+          height: 2.24rem;
+          margin-right: 0.4rem;
+        }
+        .name {
+          display: block;
+          margin-top: 0.32rem;
+          width: 2.94rem;
+          // height: 0.8rem;
+          // background-color: pink;
+          color: #313437;
+          font-size: 0.28rem;
+          word-break: break-all;
+          white-space: pre-wrap;
+          word-wrap: break-word;
+          margin-left: 0.04rem;
+        }
+      }
+    }
+    ::-webkit-scrollbar {
+      display: none !important;
+    }
+  }
+  .product_catalog {
+    margin-top: 1.02rem;
+    margin-bottom: 1.3rem;
+    .itemList {
+      width: 6.96rem;
+      height: 2.24rem;
+      background: rgba(255, 255, 255, 1);
+      box-shadow: 0rem 0.1rem 0.26rem 0rem rgba(223, 227, 233, 0.51);
+      border-radius: 0.16rem;
+      margin-top: 0.4rem;
+      position: relative;
+      img {
+        margin-top: 0.22rem;
+        width: 1.8rem;
+        height: 1.8rem;
+        border: 1px solid #babcc0;
+      }
+      .right {
+        position: absolute;
+        left: 2.08rem;
+        top: 0.22rem;
+        .title {
+          width: 4.42rem;
+          height: 0.9rem;
+          line-height: 0.45rem;
+          font-size: 0.28rem;
+          // word-break: break-all;
+          // white-space: pre-wrap;
+          // word-wrap: break-word;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          overflow: hidden;
+        }
+        .nums {
+          margin-top: 0.14rem;
+          font-size: 0.24rem;
+          color: #babcc0;
+          width: 2.3rem;
+          height: 0.72rem;
+          line-height: 0.36rem;
         }
       }
     }
   }
+}
+.top-title {
+  color: #313437;
+  position: relative;
+  span {
+    font-size: 0.32rem;
+    font-weight: bold;
+  }
+  .van-icon {
+    position: absolute;
+    right: 0.32rem;
+    margin-top: 0.12rem;
+  }
+}
+/deep/ .van-divider {
+  font-size: 0.24rem;
 }
 </style>

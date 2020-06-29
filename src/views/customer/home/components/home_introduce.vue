@@ -97,6 +97,8 @@ export default {
     handleGetDetail() {
       Api.getEnterpriseBaseInfoById(this.$route.query.id)
         .then(res => {
+          console.log(this.$route.query);
+          
           let { data, code, msg, total } = res;
           if (code == 200) {
             this.details = data;

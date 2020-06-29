@@ -251,6 +251,7 @@ export default {
     this.handleGetDetail();
     console.log("分享二维码,接口openid");
     console.log("1272919606905835521");
+    console.log(this.$route.query);
   },
 
   methods: {
@@ -353,9 +354,10 @@ export default {
             // 活动id（展会id）
             enterpriseShowId: this.details.enterpriseShow.id,
             // 展览馆id，全部时传0
-            placeId: "0"
+            placeId: "0",
           }
         });
+        
       }
 
       // 展会日程

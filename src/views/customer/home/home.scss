@@ -430,5 +430,14 @@
 
 // 参观预约
 .home_order {
-    
+    background: #F0F2F5;
+    padding-bottom: 1.18rem;
+    min-height: 100vh;
+    .redWrap {
+        padding-top: 0.26rem;
+        color: #939393;
+        line-height: 0.56rem;
+        text-indent: 0.16rem;
+        .red {color: #EF6530;}
+    }
 }

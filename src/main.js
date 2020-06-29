@@ -36,7 +36,10 @@ import {
   Toast,
   Divider,
   Empty,
-  Form
+  Form,
+  Uploader,
+  Calendar,
+  Loading,
 
 
 } from 'vant';
@@ -67,6 +70,9 @@ Vue.use(Toast);
 Vue.use(Divider);
 Vue.use(Empty);
 Vue.use(Form);
+Vue.use(Uploader);
+Vue.use(Calendar);
+Vue.use(Loading);
 
 
 

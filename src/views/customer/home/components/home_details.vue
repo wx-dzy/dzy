@@ -377,22 +377,15 @@ export default {
         this.$router.push({
           name: "home_order",
           query: {
+            id: this.details.enterprise.id,
             // 活动id（展会id）
             enterpriseShowId: this.details.enterpriseShow.id
           }
         });
       }
-    },
-
-    // 查看详情
-    handleLook(_id) {
-      this.$router.push({
-        name: "toBeQuotedDetails",
-        query: {
-          inquiryId: _id
-        }
-      });
     }
+
+
   },
 
   computed: {},

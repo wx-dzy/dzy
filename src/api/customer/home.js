@@ -24,5 +24,8 @@ export const getCalendarListByEnterpriseId= params => axios.get('/c/enterprise-s
 // 参观者-展会宣传片-详情  /c/enterprise-show/get-by-id-for-calendar/{enterpriseShowId}
 export const getByIdForCalendar= params => axios.get('/c/enterprise-show/get-by-id-for-calendar/'+params);
 
+// 承办公司-单个会展预约-发送验证码 /c/show-order/send-verify-code/{enterpriseShowId}/{mobile}
+export const getSendVerifyCode= params => axios.get('/c/show-order/send-verify-code/'+params.enterpriseShowId + '/' + params.mobile);
+
 // 承办公司-单个会展预约  /c/show-order/add
 export const setShowOrderAdd = params => axios.post('/c/show-order/add', params);

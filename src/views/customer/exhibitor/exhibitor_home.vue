@@ -14,7 +14,7 @@
         <van-button class="right_btn" round size="small" color="#ffd36f">参观预约</van-button>
       </div>
     </div>
-    <div class="item-box" v-if="totalExhibitors==0 ? true : false">
+    <div class="item-box" v-if="totalExhibitors==0 ? false : true">
       <van-tabs v-model="active" class="tab" swipe-threshold="5" title-active-color="#000">
         <van-tab title="全部">
           <div class="list" v-for="(item,index) in list" :key="index" @click="goTo">
@@ -107,41 +107,43 @@ export default {
   components: {},
   data() {
     return {
+      enterpriseShowId: "", // 展会id
+      placeId:"0",
       active: 0,
       showName: "",
       totalExhibitors: "",
       details: {},
       list: [
         {
-          src: "/assets/images/logo1.jpg",
+          src: require("../../../assets/images/logo1.jpg"),
           title: "01风风火火汽车电子公司",
           type: "电子产品展馆",
           warning: "236",
           follow: "889"
         },
         {
-          src: "../../assets/images/logo2.jpg",
+          src: require("../../../assets/images/logo1.jpg"),
           title: "01风风火火汽车电子公司",
           type: "电子产品展馆",
           warning: "236",
           follow: "889"
         },
         {
-          src: "../../assets/images/logo3.jpg",
+          src: require("../../../assets/images/logo1.jpg"),
           title: "01风风火火汽车电子公司",
           type: "电子产品展馆",
           warning: "236",
           follow: "889"
         },
         {
-          src: "",
+          src: require("../../../assets/images/logo1.jpg"),
           title: "01风风火火汽车电子公司",
           type: "电子产品展馆",
           warning: "236",
           follow: "889"
         },
         {
-          src: "",
+          src: require("../../../assets/images/logo1.jpg"),
           title: "01风风火火汽车电子公司",
           type: "电子产品展馆",
           warning: "236",
@@ -155,6 +157,26 @@ export default {
     this.handleGetSwiperText();
   },
   methods: {
+    handleGetDetail() {
+      const reg = "";
+      let param = {
+        enterpriseShowId: this.$route.query.enterpriseShowId,
+        placeId: this.$route.query.placeId
+      };
+      Api.getExhibitorList(param)
+        .then(res => {
+          let { code, msg, data, total } = res;
+          console.log("res");
+          console.log(res);
+
+          if (code == 200) {
+            this.details = data;
+          }
+        })
+        .catch(err => {
+          // console.log(err);
+        });
+    },
     handleGetSwiperText() {
       Api.getSwiperText(this.$route.query.enterpriseShowId)
         .then(res => {
@@ -168,23 +190,6 @@ export default {
           }
         })
         .catch(err => {});
-    },
-    handleGetDetail() {
-      Api.getExhibitorList([
-        this.$route.query.enterpriseShowId,
-        this.$route.query.placeId
-      ])
-        .then(res => {
-          let { code, msg, data, total } = res;
-          console.log(res);
-
-          if (code == 200) {
-            this.details = data;
-          }
-        })
-        .catch(err => {
-          // console.log(err);
-        });
     },
     goTo() {
       this.$router.push({

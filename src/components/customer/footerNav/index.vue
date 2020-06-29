@@ -1,7 +1,7 @@
 // 底部导航 组件
 <template>
   <div class="footerNav">
-    <van-tabbar v-model="active" active-color="#313437" inactive-color="#C8CCD3">
+    <van-tabbar v-model="_active" active-color="#313437" inactive-color="#C8CCD3">
       <van-tabbar-item
         v-for="(item, index) in navList"
         :key="index"
@@ -19,14 +19,14 @@ export default {
 
   data() {
     return {
-      // active: '',
+      _active: '',
       navList: [
         {
           ico: "home-o",
           name: "home",
           lable: "会展",
           // 路由
-          path: "personal"
+          path: "home"
         },
         {
           ico: "icon iconfont yz-ziyuan",
@@ -37,8 +37,8 @@ export default {
         },
         {
           ico: "icon iconfont yz-wode",
-          name: "my",
-          lable: "身份",
+          name: "personal",
+          lable: "我",
           // 路由
           path: "personal"
         }
@@ -57,7 +57,9 @@ export default {
     //   }
     // }
   },
-  created() {},
+  created() {
+    this._active = this.active
+  },
   methods: {
     handleClick(url) {
       this.$router.push({

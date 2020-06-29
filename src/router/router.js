@@ -114,7 +114,7 @@ export default [
 
 
 
-    
+
     // 参展商目录-首页
     {
         path: '/exhibitor_home',
@@ -145,60 +145,60 @@ export default [
     },
 
 
-
-
-    
-    // 订单列表
+    // 我的
+    {
+        path: '/personal',
+        // redirect: '/personal/personal_index',
+        meta: {
+            requiresAuth: false,
+            title: '我的',
+        },
+        name: 'personal',
+        component: () => import('@/views/customer/personal/index.vue'),
+        children: [
+            //  
+            // {
+            //     path: 'personal_index',
+            //     meta: {
+            //         requiresAuth: false,
+            //         title: '详情',
+            //     },
+            //     name: 'orderList-toBeQuoted',
+            //     component: () => import('@/views/customer/personal/toBeQuoted.vue'),
+            // }
+        ]
+    },
+    // 资源
     // {
-    //     path: '/orderList',
-    //     redirect: '/orderList/toBeQuoted',
+    //     path: '/resources',
+    //     // redirect: '/personal/personal_index',
     //     meta: {
     //         requiresAuth: false,
-    //         title: '询价单列表',
+    //         title: '资源',
     //     },
-    //     name: 'orderList',
-    //     component: () => import('@/views/orderList/orderList.vue'),
+    //     name: 'resources',
+    //     component: () => import('@/views/customer/resources/index.vue'),
     //     children: [
-    //         // 待报价 
-    //         {
-    //             path: 'toBeQuoted',
-    //             meta: {
-    //                 requiresAuth: false,
-    //                 title: '询价单列表',
-    //             },
-    //             name: 'orderList-toBeQuoted',
-    //             component: () => import('@/views/orderList/components/toBeQuoted.vue'),
-    //         },
-    //         // 已报价
-    //         {
-    //             path: 'quotedPrice',
-    //             meta: {
-    //                 requiresAuth: false,
-    //                 title: '询价单列表',
-    //             },
-    //             name: 'orderList-quotedPrice',
-    //             component: () => import('@/views/orderList/components/quotedPrice.vue'),
-    //         },
-    //         // 已完成
-    //         {
-    //             path: 'completed',
-    //             meta: {
-    //                 requiresAuth: false,
-    //                 title: '询价单列表',
-    //             },
-    //             name: 'orderList-completed',
-    //             component: () => import('@/views/orderList/components/completed.vue'),
-    //         },
-    //         // 已超时
-    //         {
-    //             path: 'overtime',
-    //             meta: {
-    //                 requiresAuth: false,
-    //                 title: '询价单列表',
-    //             },
-    //             name: 'orderList-overtime',
-    //             component: () => import('@/views/orderList/components/overtime.vue'),
-    //         }
+            // // 资源人物首页 
+            // {
+            //     path: 'resources_man',
+            //     meta: {
+            //         requiresAuth: false,
+            //     meta: {
+            //         requiresAuth: false,
+            //         title: '资源企业',
+            //     },
+            //     name: 'resources_company',
+            //     component: () => import('@/views/customer/resources/company.vue'),
+            // }     title: '资源人物首页',
+            //     },
+            //     name: 'orderList-toBeQuoted',
+            //     component: () => import('@/views/customer/resources/man.vue'),
+            // },
+            // // 资源企业
+            // {
+            //     path: 'resources_company',
+            //    
     //     ]
     // },
 

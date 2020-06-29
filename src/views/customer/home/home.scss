@@ -1,6 +1,7 @@
 .home {
     position: relative;
     min-height: 100vh;
+    background: #F5F6F8;
 
     .bgFFF {
         padding: 0 0.275rem;
@@ -26,12 +27,92 @@
         }
     }
 
+    .title {
+        padding-top: 0.2rem;
+        font-size: 0.32rem;
+        color: rgba(49, 52, 55, 1);
+        line-height: 1rem;
+    }
+
+    .specifyWrap {
+        width: 100%;
+        padding-left: 0.28rem;
+        overflow-y: auto;
+
+        .contentItem {
+            overflow: hidden;
+            float: left;
+            width: 4.22rem;
+            margin-right: 0.4rem;
+            position: relative;
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0rem 0.1rem 0.4rem 0rem rgba(223, 227, 233, 1);
+            border-radius: 0.16rem;
+
+            .contentItem {
+                background: rgba(255, 255, 255, 1);
+            }
+
+            .itemImg {
+                width: 100%;
+            }
+
+            .cont {
+                padding: 0.24rem 0.29rem;
+            }
+
+            .tit {
+                font-size: 0.3rem;
+                line-height: 0.42rem;
+                color: rgb(49, 50, 51);
+
+                .type {
+                    display: inline-block;
+                    padding: 0 0.22rem;
+                    font-size: 0.2rem;
+                    color: rgba(49, 52, 55, 1);
+                    line-height: 0.3rem;
+                    background: rgba(248, 213, 126, 1);
+                    border-radius: 0.08rem;
+                    vertical-align: middle;
+                    margin-right: 0.1rem;
+
+                }
+            }
+
+            .logo {
+                // width: 0.3rem;
+                height: 0.3rem;
+                margin-right: 0.12rem;
+                vertical-align: middle;
+            }
+
+            .btn {
+                line-height: 0.58rem;
+                border-radius: 0.29rem;
+                border: 0.02rem solid rgba(200, 204, 211, 1);
+            }
+
+            .timer {
+                padding-top: 0.05rem;
+                font-size: 0.24rem;
+                color: rgba(157, 161, 166, 1);
+                line-height: 0.34rem;
+            }
+
+
+
+
+
+        }
+    }
+
     .content {
         padding: 0 0.275rem;
     }
 
     .my-swipe {
-        margin-bottom: 0.38rem;
+        // margin-bottom: 0.38rem;
         background: rgba(255, 255, 255, 1);
 
         .van-swipe-item {
@@ -63,21 +144,17 @@
 
             .itemImg {
                 width: 100%;
-                // width: 6.96rem;
-                // height: 3.36rem;
             }
 
-            .status {
-                position: absolute;
-                left: 0.29rem;
-                top: 0.22rem;
-                padding: 0 0.2rem;
-                line-height: 0.38rem;
-                background: rgba(0, 0, 0, 1);
-                border-radius: 0.08rem;
-                opacity: 0.35;
-                font-size: 0.24rem;
-                color: rgba(255, 255, 255, 1);
+            .statusWrap {
+                float: right;
+                padding: 0;
+
+                .status {
+                    margin-right: 0;
+                    margin-left: 0.18rem;
+                }
+
             }
 
             .cont {
@@ -103,7 +180,7 @@
             }
 
             .logo {
-                width: 0.46rem;
+                // width: 0.46rem;
                 height: 0.46rem;
                 margin-right: 0.12rem;
                 vertical-align: middle;
@@ -126,10 +203,26 @@
         .van-cell.margin0 {
             margin-bottom: 0;
         }
+    }
+
+    .statusWrap {
+        padding-top: 0.48rem;
+        .status {
+            display: inline-block;
+            margin-right: 0.18rem;
+            border: 0.02rem solid rgba(195, 177, 255, 1);
+            padding: 0 0.2rem;
+            line-height: 0.3rem;
+            border-radius: 0.08rem;
+            opacity: 0.35;
+            font-size: 0.22rem;
+            color: rgba(157, 161, 166, 1);
+        }
 
     }
-}
 
+}
+// 展会详情
 .home_details {
     position: relative;
     min-height: 100vh;
@@ -329,6 +422,7 @@
         line-height: 0.4rem;
         border: none;
     }
+
     .color0 {
         color: rgba(49, 52, 55, 1) !important;
     }
@@ -385,16 +479,19 @@
     min-height: 100vh;
 
     .head {
-        
+
         padding: 0.54rem 0.33rem;
         padding-top: 0.35rem;
+
         .tit {
             font-size: 0.34rem;
             line-height: 0.4rem;
         }
+
         .timer {
             line-height: 0.5rem;
         }
+
         .status {
             display: inline-block;
             padding: 0 0.2rem;
@@ -403,23 +500,38 @@
             color: #313437;
             line-height: 0.38rem;
         }
+
         .btnwrap {
             text-align: right;
         }
+
         .van-button--round {
             margin: 0 0.1rem;
         }
     }
 
-    .banner {width: 100%;}
-    .color0 {color: rgba(49, 52, 55, 1) !important;}
+    .banner {
+        width: 100%;
+    }
+
+    .color0 {
+        color: rgba(49, 52, 55, 1) !important;
+    }
+
     .color1 {
         color: #7386A0 !important;
-        background-color:#fff !important;
+        background-color: #fff !important;
     }
-    .text_wrap { margin-top: 0.3rem;
-    padding: 0.28rem;}
-    .textImg { width: 100%;}
+
+    .text_wrap {
+        margin-top: 0.3rem;
+        padding: 0.28rem;
+    }
+
+    .textImg {
+        width: 100%;
+    }
+
     .text {
         background: #F7F8FA;
         padding: 0.42rem 0.42rem 0.6rem;
@@ -433,11 +545,15 @@
     background: #F0F2F5;
     padding-bottom: 1.18rem;
     min-height: 100vh;
+
     .redWrap {
         padding-top: 0.26rem;
         color: #939393;
         line-height: 0.56rem;
         text-indent: 0.16rem;
-        .red {color: #EF6530;}
+
+        .red {
+            color: #EF6530;
+        }
     }
 }

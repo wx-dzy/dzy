@@ -1,72 +1,60 @@
-// 首页
+// 我的
 <template>
-  <div class="home footerPad">
+  <div class="personal footerPad">
+    <van-row class="info">
+      <van-col span="5">
+        <van-image round width="0.96rem" height="0.96rem" :src="detail.infoImg" />
+      </van-col>
+      <van-col span="14">
+        <h3 class="name">{{detail.name}}</h3>
+        <span class="status">{{detail.status == 1 ? '已认证' : '未认证'}}</span>
+      </van-col>
+      <van-col span="5" class="text-right" @click="handleSetInfo">
+        <span class="inffAll">
+          个人信息
+          <van-icon name="arrow" />
+        </span>
+      </van-col>
+
+      <van-col span="24" class="activeInfo clear">
+        当前身份：{{ detail.activeInfo }}
+        <van-button
+          round
+          type="info"
+          size="mini"
+          color="#F8D57E"
+          class="switchInfo pull-right"
+          @click="handleSetInfo"
+        >切换身份</van-button>
+      </van-col>
+    </van-row>
+
+
+    <!-- 名片 -->
+    <div class="visitingCard">
+      <visitingCard :dataList='dataList' ctive="active">
+
+      </visitingCard>
+    </div>
+
+    <van-swipe v-if="banner.length" class="my-swipe" :autoplay="30000" indicator-color="white" @change="onChange">
+      <van-swipe-item v-for="(image, index)  in banner" :key="index">
+        <!-- <router-link :to="{'path':'personal'}"> -->
+        <img :src="image.mediaUrl" alt />
+        <!-- </router-link> -->
+      </van-swipe-item>
+
+      <template #indicator>
+        <div class="custom-indicator">{{ current + 1 }}/4</div>
+      </template>
+    </van-swipe>
+
     <!-- 下拉刷新 -->
-    <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-      <div class="bgFFF">
-        <h2 class="head">
-          大招云
-          <i>帮你放大招！</i>
-        </h2>
-
-        <van-swipe v-if="banner.length" class="my-swipe" :autoplay="3000" indicator-color="white">
-          <van-swipe-item v-for="(image, index)  in banner" :key="index">
-            <!-- <router-link :to="{'path':'personal'}"> -->
-            <img :src="image.mediaUrl" alt />
-            <!-- </router-link> -->
-          </van-swipe-item>
-        </van-swipe>
-      </div>
-
-      <!-- 指定参加  列表内容-->
-      <div v-if="specifyList.length">
-        <div class="specifyWrap">
-          <h3 class="title">指定参加</h3>
-          <ul class="specifyList clearfix" :style="{width: (4.62 *  specifyList.length) + 'rem'}">
-            <li
-              v-for="(item, index)  in specifyList"
-              :key="index"
-              class="contentItem"
-              :class="index+1 == specifyList.length ? 'margin0' : ''"
-              @click="handleLook(item)"
-            >
-              <!-- <img :src="item.videoUrl" alt class="itemImg" /> -->
-              <div class="itemImg">
-                <Video-Demo
-                  :_id="item.id"
-                  :src="item.videoUrl"
-                  :bannerIMG="item.mediaUrl"
-                  :playVideoId.sync="playVideoId"
-                  style="width: 100%;"
-                />
-              </div>
-              <ol class="cont">
-                <li class="tit">
-                  <span class="type">{{ item.tagName }}</span>
-                  {{item.showName}}
-                </li>
-                <!-- <li class="timer">{{ item.planStartDate.replace('-', ".") }} - {{ item.planEndDate.replace(/-/, ".") }}</li> -->
-                <li class="timer">{{ item.planStartDate }} - {{ item.planEndDate }}</li>
-                <li class="clearfix">
-                  <img :src="item.logo" alt="logo" class="logo" />
-                  <i>{{ item.enterpriseName }}</i>
-                  <p class="statusWrap">
-                    <span
-                      class="status"
-                    >{{ item.showFormat == 1 ? '仅线上' : item.showFormat == 2 ? '仅线下' : item.showFormat == 3 ? '全包括' : ''}}</span>
-                    <span v-show="item.specifyStatus == 1" class="status">企业指定</span>
-                  </p>
-                  <!-- <van-button round type="default" size="small" style="float:right;">了解更多</van-button> -->
-                </li>
-              </ol>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- 全部展会 列表内容 -->
-      <div class="content" v-if="listData.length">
-        <h3 class="title">全部展会</h3>
+    <van-pull-refresh v-if="0" v-model="refreshing" @refresh="onRefresh">
+      <!-- 占位图 -->
+      <img v-if="!listData.length" src="@/assets/images/null.png" class="nullImg" alt />
+      <!-- 列表内容 -->
+      <div class="content" v-else>
         <!-- List 列表 -->
         <van-list
           v-model="loading"
@@ -81,49 +69,46 @@
             :key="index"
             class="contentItem"
             :class="index+1 == listData.length ? 'margin0' : ''"
-            @click="handleLook(item)"
           >
             <!-- <img :src="item.videoUrl" alt class="itemImg" /> -->
             <div class="itemImg">
-              <Video-Demo
+              <!-- <Video-Demo
                 :_id="item.id"
                 :src="item.videoUrl"
                 :bannerIMG="item.mediaUrl"
                 :playVideoId.sync="playVideoId"
                 style="width: 100%;"
-              />
+              />-->
             </div>
 
+            <p
+              class="status"
+            >{{ item.showFormat == 1 ? '仅线上' : item.showFormat == 2 ? '仅线下' : item.showFormat == 3 ? '全包括' : ''}}</p>
             <ol class="cont">
               <li class="tit">
                 <span class="type">{{ item.tagName }}</span>
                 {{item.showName}}
               </li>
+              <!-- <li class="timer">{{ item.planStartDate.replace('-', ".") }} - {{ item.planEndDate.replace(/-/, ".") }}</li> -->
               <li class="timer">{{ item.planStartDate }} - {{ item.planEndDate }}</li>
               <li class="clearfix">
                 <img :src="item.logo" alt="logo" class="logo" />
                 <i>{{ item.enterpriseName }}</i>
-                <p class="statusWrap">
-                  <span
-                    class="status"
-                  >{{ item.showFormat == 1 ? '仅线上' : item.showFormat == 2 ? '仅线下' : item.showFormat == 3 ? '全包括' : ''}}</span>
-                  <span v-show="item.specifyStatus == 1" class="status">企业指定</span>
-                </p>
-                
+                <!-- <router-link :to="{'path':'personal',}"> -->
+                <van-button
+                  round
+                  type="default"
+                  size="small"
+                  style="float:right;"
+                  @click="handleLook(item)"
+                >了解更多</van-button>
+                <!-- </router-link> -->
               </li>
             </ol>
           </van-cell>
         </van-list>
         <!-- <van-button round type="default" size="small" style="float:right;" @click="showVideo = !showVideo">了解更多</van-button> -->
       </div>
-
-      <!-- 占位图 -->
-      <!-- <img
-        v-show="!specifyList.length && !listData.length"
-        src="@/assets/images/null.png"
-        class="nullImg"
-        alt
-      /> -->
     </van-pull-refresh>
     <footer-nav :active="active" />
   </div>
@@ -132,25 +117,49 @@
 <script>
 import { util } from "@/utils";
 import { mapGetters } from "vuex";
-import * as Api from "@/api/customer/home";
+import * as Api from "@/api/customer/personal";
 import VideoDemo from "@/components/customer/videoPlay/index.vue";
 import footerNav from "@/components/customer/footerNav/index.vue";
+import visitingCard from "@/components/customer/visitingCard.vue";
 
 export default {
-  name: "home",
+  name: "personal",
   components: {
     VideoDemo, // 播放
-    footerNav
+    footerNav,
+    // 名片
+    visitingCard
   },
   data() {
     return {
+      detail: {
+        infoImg: "https://img.yzcdn.cn/vant/cat.jpeg",
+        name: "xiaogang0-0",
+        status: 1,
+        activeInfo: "参观房"
+      },
+      dataList: [
+        {
+          name: '姓名',
+          arr: '好招数创（北京）科技有限公司',
+          tel: '86-1351234567',
+          eml: 'lidada@163.com',
+          addr: '北京市朝阳区新源南路 8 号托原西塔 2'
+        },
+        {
+          name: '姓名1',
+          arr: '好招数创（北京）科技有限公司',
+          tel: '86-1351234567',
+          eml: 'lidada@163.com',
+          addr: '北京市朝阳区新源南路 8 号托原西塔 2'
+        }
+      ],
+      current: 0,
       playVideoId: "0",
-      active: "home",
+      active: "personal",
       src: require("@/assets/images/video1.mp4"),
       // 轮播
       banner: [],
-      // 置顶参加会展
-      specifyList: [],
       listData: [],
       // list: [
       //   "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1592212479210&di=67b3ada2b2c47521e7ea2de18d9ffa0b&imgtype=0&src=http%3A%2F%2Fn.sinaimg.cn%2Fsinacn%2Fw640h640%2F20180109%2Fb756-fyqnici7832949.jpg",
@@ -179,19 +188,22 @@ export default {
     }
   },
   methods: {
+
+    onChange(index) {
+      this.current = index;
+    },
+ 
     // 获取轮播图
     handleGetBanner() {
       Api.getHomeMediaList()
         .then(res => {
           let { code, msg, data, total } = res;
           if (code == 200) {
-            this.banner = data.mediaList;
-            this.specifyList = data.specifyList;
+            this.banner = data;
           }
         })
         .catch(err => {
           this.banner = [];
-          this.specifyList = [];
         });
     },
 
@@ -261,10 +273,21 @@ export default {
         });
     },
 
+    handleSetInfo(row) {
+      this.$router.push({
+        name: "personal_details",
+        query: {
+          // 企业id
+          id: row.enterpriseId
+          // title: row.enterpriseName
+        }
+      });
+    },
+
     // 查看详情
     handleLook(row) {
       this.$router.push({
-        name: "home_details",
+        name: "personal_details",
         query: {
           // 企业id
           id: row.enterpriseId
@@ -297,23 +320,10 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/assets/styles/base/calc_vm.scss";
-@import "./home.scss";
-
+@import "./personal.scss";
 .nullImg {
   width: 4rem;
   margin: 0.4rem 1.47rem;
-}
-</style>
-
-<style lang="scss">
-.home {
-  .specifyList {
-    .videoPlayerContainer .video-js .vjs-big-play-button {
-      // width: 1rem !important;
-      // height: 1rem !important;
-      zoom: 0.7;
-    }
-  }
 }
 </style>
 

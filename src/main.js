@@ -40,7 +40,8 @@ import {
   Uploader,
   Calendar,
   Loading,
-
+  Skeleton,
+  Image as VanImage,
 
 } from 'vant';
  
@@ -73,6 +74,8 @@ Vue.use(Form);
 Vue.use(Uploader);
 Vue.use(Calendar);
 Vue.use(Loading);
+Vue.use(Skeleton);
+Vue.use(VanImage);
 
 
 

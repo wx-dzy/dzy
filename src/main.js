@@ -40,8 +40,10 @@ import {
   Uploader,
   Calendar,
   Loading,
-
-
+  DropdownMenu,
+  DropdownItem,
+  popup,
+  Popup
 } from 'vant';
  
 Vue.use(Button);
@@ -73,7 +75,9 @@ Vue.use(Form);
 Vue.use(Uploader);
 Vue.use(Calendar);
 Vue.use(Loading);
-
+Vue.use(DropdownMenu);
+Vue.use(DropdownItem);
+Vue.use(Popup);
 
 
 // 视频播放

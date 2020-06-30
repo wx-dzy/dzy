@@ -1,55 +1,34 @@
 <template>
   <!--参展商主页-公司详情  -->
   <div class="company_details">
-    <div class="top" v-if="details.enterprise">
-      <div class="name">{{details.enterprise.name}}</div>
+    <div class="top">
+      <div class="name">风风火火汽车电子公司</div>
       <div class="middle">
-        <span class="name_type">{{details.enterprise.enterpriseShowPlaceName}}</span>
+        <span class="name_type">电子产品馆</span>
         <i class="huiyuan">
           <van-icon class="icon iconfont yz-huiyuan" />
-          <span v-show="details.enterprise.memberStatus == 1">会员</span>
-          <span v-show="details.enterprise.memberStatus == 0">非会员</span>
+          <span>会员</span>
         </i>
       </div>
-      <div class="address">{{details.enterprise.addressDetail}}</div>
-      <div class="type" v-show="details.followStatus == 1">
+      <div class="address">天津市南开区黄河道与广开四马路交叉路口往西约50米（格调春天花园）</div>
+      <div class="type">
         <van-icon class="icon iconfont yz-guanzhu" />
         <div class="type_name">关注</div>
-      </div>
-	  <div class="type" v-show="details.followStatus == 0">
-        <van-icon name="star-o" />
-        <div class="type_name">未关注</div>
       </div>
     </div>
     <div class="details">
       <van-tabs v-model="active" class="tab" swipe-threshold="4" title-active-color="#000">
         <van-tab title="工商信息">
-          <div class="item" v-if="details.enterprise">
-            <div class="company_name">企业名称：{{details.enterprise.name}}</div>
-            <div class="company_address">企业住所：{{details.enterprise.addressDetail}}</div>
-            <div class="company_people">企业法定代表人姓名：{{details.enterpriseBusiness.legalPerson}}</div>
-			<!-- ???????? -->
+          <div class="item">
+            <div class="company_name">企业名称：风风火火汽车电子公司</div>
+            <div class="company_address">企业住所：北京朝阳</div>
+            <div class="company_people">企业法定代表人姓名：你猜啊</div>
             <div class="company_num">企业注册资本数额：{{34324}}万</div>
           </div>
         </van-tab>
-        <van-tab title="服务承诺">
-			<div class="item">
-				<p>服务承诺: {{ details.servicePromise }}</p>
-			</div>
-		</van-tab>
-        <van-tab title="资质信息">
-			<div class="item">
-				<div>统一社会信用代码: {{ details.enterpriseBusiness.creditCode }}</div>
-			</div>
-		</van-tab>
-        <van-tab title="荣誉信息">
-			<div class="item">
-				<div>统一社会信用代码: {{ details.honours.creditCode }}</div>
-				<div>营业执照: {{ details.honours.businessLicense }}</div>
-				<div>营业执照有效期: {{ details.honours.businessLicenseEndDate }}</div>
-				<div>营业执照有效期: {{ details.honours.businessLicenseEndDate }}</div>
-			</div>
-		</van-tab>
+        <van-tab title="服务承诺"></van-tab>
+        <van-tab title="资质信息"></van-tab>
+        <van-tab title="荣誉信息"></van-tab>
       </van-tabs>
     </div>
     <div class="synopsis">
@@ -83,42 +62,16 @@
   </div>
 </template>
 <script>
-import VideoDemo from "@/components/customer/videoPlay";
-import { util } from "@/utils";
-import { mapGetters } from "vuex";
-import * as Api from "@/api/customer/exhibitor";
 export default {
   name: "company_details",
   components: {},
   data() {
     return {
-	  active: 0,
-	  details: {}
+      active: 0
     };
   },
-  created() {
-    this.handleGetCompnyDetail()
-  },
-  methods: {
-    handleGetCompnyDetail () {
-		console.log('enterpriseExhibitorsId:',this.enterpriseExhibitorsId);
-		
-      
-      Api.getCompany_details(this.$route.query.enterpriseExhibitorsId)
-      .then( (res) => {
-		  let { code, msg, data, total } = res;
-		  console.log('参展公司详情',res);
-		  if ( code == 200 ) {
-			  this.details = data
-		  }
-
-	  })
-	  .catch( (err) => {
-		  console.log('err:',err);
-		  
-	  })
-    }
-  }
+  created() {},
+  methods: {}
 };
 </script>
 <style lang='scss' scoped>
@@ -172,7 +125,7 @@ export default {
       }
       .type_name {
         font-size: 0.24rem;
-        width: 1 rem;
+        width: 0.5rem;
         margin: 0 auto;
       }
     }

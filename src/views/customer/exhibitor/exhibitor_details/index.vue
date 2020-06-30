@@ -1,14 +1,13 @@
 <template>
   <!-- 参展商目录-参展商详情 -->
   <div class="exhibitor_details">
-    <div class="top" v-if="details.exhibitors">
-      <div class="title">{{details.exhibitors.name}}</div>
+    <div class="top">
+      <div class="title">风风火火汽车电子公司</div>
       <div class="middle">
-        <span class="name_type">{{details.exhibitors.enterpriseShowPlaceName}}</span>
+        <span class="name_type">电子产品馆</span>
         <i class="huiyuan">
           <van-icon class="icon iconfont yz-huiyuan" />
-          <span v-show="details.exhibitors.memberStatus == 1">会员</span>
-          <span v-show="details.exhibitors.memberStatus == 0">非会员</span>
+          <span>会员</span>
         </i>
       </div>
       <div class="btn">
@@ -17,44 +16,37 @@
         <!-- <van-button round size="small"></van-button>
         <van-button round size="small" color="#ffd36f">预约面谈</van-button>-->
       </div>
-      <div class="more" @click="goTo">
+      <div class="more">
         公司更多信息
         <van-icon name="arrow" />
       </div>
-      <div class="type" v-show="details.followStatus == 1">
+      <div class="type">
         <!-- <van-button icon="icon iconfont yz-yiguanzhu" type="default" class="btnNone">已关注</van-button> -->
         <van-icon class="icon iconfont yz-yiguanzhu" />
         <div class="type_name">已关注</div>
-      </div>
-      <div class="type" v-show="details.followStatus == 0">
-        <!-- <van-button icon="icon iconfont yz-yiguanzhu" type="default" class="btnNone">已关注</van-button> -->
-        <!-- <van-icon class="icon iconfont yz-yiguanzhu" /> -->
-        <van-icon name="star-o" />
-        <div class="type_name">未关注</div>
       </div>
     </div>
     <div class="exhibitor">
       <div class="top-title">
         <span>企业人物</span>
-        <van-icon name="arrow" @click="goToPerson"/>
+        <van-icon name="arrow" />
       </div>
       <div class="item">
         <div class="person" v-for="(item,index) in person" :key="index">
-          <img :src="item.avatar" alt />
-          <div class="name">{{item.realName}}</div>
-          <div class="type">{{item.postName}}</div>
+          <img src="../../../../assets/images/logo1.jpg" alt />
+          <div class="name">{{item.name}}</div>
+          <div class="type">{{item.type}}</div>
         </div>
       </div>
     </div>
     <!-- 企业相关视频 -->
     <div class="exhibitor_video">
-      <div class="top-title">
+      <div class="top-title" @click="goTo">
         <span>企业相关视频</span>
         <van-icon name="arrow" />
       </div>
-
       <div class="item">
-        <div class="video_box" v-for="(item, index)  in videoList" :key="index">
+        <div class="video_box" v-for="(item, index)  in listData" :key="index">
           <!-- <Video-Demo
             :_id="item.id"
             :src="item.videoUrl"
@@ -63,15 +55,8 @@
             style="width: 100%;"
           />-->
           <!-- <Video-Demo :src="item.videoUrl" style="width: 100%;"/> -->
-          <!-- <video :src="item.videoUrl" controls></video> -->
-              <Video-Demo
-                :_id="item.id"
-                :src="item.videoUrl"
-                :bannerIMG="item.mediaUrl"
-                :playVideoId.sync="playVideoId"
-                style="width: 100%;"
-              />
-          <div class="name">{{item.mediaTitle}}</div>
+          <video src="../../../../assets/images/video1.mp4" controls></video>
+          <div class="name">{{item.name}}</div>
         </div>
       </div>
     </div>
@@ -100,23 +85,60 @@
   </div>
 </template>
 <script>
-import VideoDemo from "@/components/customer/videoPlay/index.vue";
+import VideoDemo from "@/components/customer/videoPlay";
 import { util } from "@/utils";
 import { mapGetters } from "vuex";
 import * as Api from "@/api/customer/exhibitor";
 export default {
   name: "exhibitor_details",
-  components: {
-    VideoDemo, // 播放
-  },
+  components: {},
   data() {
     return {
-      enterpriseExhibitorsId: this.$route.query.enterpriseExhibitorsId,
       playVideoId: "0",
       active: "home",
       src: require("@/assets/images/video1.mp4"),
-      person: [],
-      videoList: [],
+      person: [
+        {
+          src: "../../../../assets/images/logo1.jpg",
+          name: "王小花",
+          type: "法人"
+        },
+        {
+          src: "../../../../assets/images/logo1.jpg",
+          name: "李达达",
+          type: "总经理"
+        },
+        {
+          src: "../../../../assets/images/logo1.jpg",
+          name: "张晓鹏",
+          type: "销售"
+        },
+        {
+          src: "../../../../assets/images/logo1.jpg",
+          name: "易烊千玺",
+          type: "销售"
+        },
+        {
+          src: "../../../../assets/images/logo1.jpg",
+          name: "易烊",
+          type: "销售"
+        },
+        {
+          src: "../../../../assets/images/logo1.jpg",
+          name: "千玺",
+          type: "销售"
+        }
+      ],
+      listData: [
+        {
+          videoUrl: "../../../../assets/images/video.mp4",
+          name: "2020年荣获“天眼杯”导航仪金奖"
+        },
+        {
+          videoUrl: "../../../../assets/images/video1.mp4",
+          name: "2019年荣获“天眼杯”导航仪金奖"
+        }
+      ],
       productList: [
         {
           imgSrc: "",
@@ -146,58 +168,27 @@ export default {
           idNum: "A2323",
           num: 1
         }
-      ],
-      details:''
+      ]
     };
   },
   created() {
     this.handelGetExhibitor_details();
   },
   methods: {
-    // 跳转至法人详情
-    goToPerson () {
-      this.$router.push({ 
-        path: "/juridical_person",
-        query: {
-          enterpriseExhibitorsId:this.enterpriseExhibitorsId
-        }
-        });
-    },
-    // 跳转至企业人物
-    goToPerson () {
-      this.$router.push({ 
-        path: "/person",
-        query: {
-          enterpriseExhibitorsId:this.enterpriseExhibitorsId,
-          name: this.details.exhibitors.name, //企业名称
-          followStatus: this.details.followStatus  //是否关注
-        }
-        });
-    },
-    // 获取参展商详情
     handelGetExhibitor_details() {
-      Api.getExhibitor_details(this.enterpriseExhibitorsId)
+      Api.getExhibitor_details(this.$route.query.enterpriseExhibitorsId)
         .then(res => {
           let { code, msg, data, total } = res;
-          console.log('参展商详情',res);
+          console.log(res);
 
           if (code == 200) {
             this.details = data;
-            this.person = data.peopleList;
-            this.videoList = data.videoList;
-            
           }
         })
         .catch(err => {});
     },
-    // 跳转至参展公司详情
     goCompany_details() {
-      this.$router.push({ 
-        path: "/company_details",
-        query: {
-          enterpriseExhibitorsId:this.enterpriseExhibitorsId
-        }
-        });
+      this.$router.push({ path: "/company_details" });
     },
     goTo() {
       // 跳转至企业相关视频页

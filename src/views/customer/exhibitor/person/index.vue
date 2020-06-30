@@ -1,132 +1,55 @@
-// 企业人物
 <template>
   <div class="person">
-      <!-- 下拉刷新 -->
-    <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-      <div class="topCard">
-        <img :src="companyBaseInfo.logo" alt />
-        <div class="name">{{companyBaseInfo.name}}</div>
-
-        <div class="date">企业成立日期：{{companyBaseInfo.registerDate}}</div>
-        <div class="huiyuan">
-          <van-icon class="icon iconfont yz-huiyuan" />
-          <span v-show="companyBaseInfo.memberStatus == 1">会员</span>
-          <span v-show="companyBaseInfo.memberStatus == 0">非会员</span>
-        </div>
+    <div class="topCard">
+      <img src="../../../../assets/images/logo1.jpg" alt />
+      <div class="name">风风火火汽车电子公司</div>
+      <div class="date">企业成立日期：2000.03.01</div>
+      <div class="huiyuan">
+        <van-icon class="icon iconfont yz-huiyuan" />
+        <span>会员</span>
       </div>
-      <!-- 上拉加载 -->
-      <div v-if="personList?true:false" style="width:7.5rem;text-align:center;">
-        <van-list
-            v-model="loading"
-            :finished="finished"
-            finished-text="----- 我是有底线的 -----"
-            error-text="请求失败，点击重新加载"
-            @load="onLoad"
-            class="contentList"
-          >
-          <div class="ItemContainer" v-for="(item,index) in personList" :key="index">
-            <img :src="item.avatar" alt />
-            <div class="center">
-              <div class="name">{{item.realName}}</div>
-              <div class="type">{{item.postName}}</div>
-            </div>
-            <!-- <button class="right">预约面试</button> -->
-            <van-icon name="arrow" @click="toPersonDetail" />
-          </div>
-        </van-list>
-      <!-- <van-divider dashed>我是有底线的</van-divider> -->
+    </div>
+    <div class="ItemContainer" v-for="(item,index) in listItem" :key="index">
+      <img src="item.src" alt />
+      <div class="center">
+        <div class="name">{{item.name}}</div>
+        <div class="type">{{item.type}}</div>
       </div>
-      <img src="@/assets/images/null.png" alt="" v-else style="width: 4rem;margin:0.4rem 1.47rem;">
-    </van-pull-refresh>
+      <!-- <button class="right">预约面试</button> -->
+      <van-icon name="arrow" />
+    </div>
+    <van-divider dashed>我是有底线的</van-divider>
   </div>
-    
 </template>
 <script>
-import { util } from "@/utils";
-import { mapGetters } from "vuex";
-import * as Api from "@/api/customer/exhibitor";
-import nullImg from "@/assets/images/null.png";
-
-import axios from 'axios';
-
 export default {
   name: "person",
   data() {
     return {
-      loading: false,
-      companyBaseInfo: {},
-      finished: true,
-      refreshing: false,
-      pageNum: 1,
-      pageSize: 10,
-      personList: [],
-      enterpriseExhibitorsId: this.$route.query.enterpriseExhibitorsId, //参展商id
-    };
-  },
-  created () {
-    this.getExhibitorsInfo();   
-    this.getPerson()
-  },
-  methods: {
-    // 跳转至企业人物详情
-    toPersonDetail () {
-      this.$router.push({
-        path: '/juridical_person',
-        query: {
-          enterpriseExhibitorsId: this.enterpriseExhibitorsId
+      listItem: [
+        {
+          src: "../../../../assets/images/logo1.jpg",
+          name: "张琪琪",
+          type: "法人"
+        },
+        {
+          src: "../../../../assets/images/logo1.jpg",
+          name: "张琪琪",
+          type: "法人"
+        },
+        {
+          src: "../../../../assets/images/logo1.jpg",
+          name: "张琪琪",
+          type: "法人"
+        },
+        {
+          src: "../../../../assets/images/logo1.jpg",
+          name: "张琪琪",
+          type: "法人"
         }
-      })
-    },
-        // 下拉刷新
-    onRefresh() {
-      this.getExhibitorsInfo()
-      this.getPerson();
-      this.loading = true;
-      this.refreshing = true
-    },
-    // 懒加载请求加载列表
-    onLoad() {
-      this.pageNum++;
-      this.getPerson();
-      this.loading = true
-    },
-
-    // 获取企业基本信息
-    getExhibitorsInfo () {
-      Api.getExhibitorsInfo(this.enterpriseExhibitorsId)
-      .then ( res => {
-        console.log('获取企业基本信息:',res);
-        this.loading = false;
-        this.refreshing = false
-        this.finished = true
-        this.companyBaseInfo = res.data
-      })
-    },
-    // 获取企业人物信息
-    getPerson () {
-      
-      let enterpriseExhibitorsId = this.enterpriseExhibitorsId
-      console.log('enterpriseExhibitorsId:',enterpriseExhibitorsId);
-      
-      Api.getPerson(enterpriseExhibitorsId,{
-          pageNum: this.pageNum,
-          pageSize: this.pageSize
-      })
-      .then ( (res) => {
-        console.log('获取企业人物',res);
-        this.loading = false;
-        this.finished = true;
-        this.refreshing = false
-        this.personList = res.data
-        
-      })
-      .catch( (err) => {
-        console.log('err',err);
-        
-      })
-    }
+      ]
+    };
   }
-
 };
 </script>
 <style lang='scss' scoped>

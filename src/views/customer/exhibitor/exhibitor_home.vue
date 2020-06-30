@@ -14,85 +14,41 @@
         <van-button class="right_btn" round size="small" color="#ffd36f">参观预约</van-button>
       </div>
     </div>
-    <div class="item-box">
-      <van-tabs v-model="active" class="tab" swipe-threshold="5" title-active-color="#000">
+    <div class="item-box" v-if="totalExhibitors==0 ? true : false">
+      <van-tabs v-model="active" class="tab" swipe-threshold="5" title-active-color="#000"  @click="changeTab">
         <van-tab title="全部">
-          <div class="list" v-for="(item,index) in list" :key="index" @click="goTo">
-            <img :src="item.src" alt />
+          <div class="list" v-for="item in list" :key="item.index" @click="goTo(item.id,$event)" name="0">
+            <img :src="item.logo" alt />
             <div class="right">
-              <div class="title">{{item.title}}</div>
+              <div class="title">{{item.enterpriseName}}</div>
               <div class="type">
-                <span>{{item.type}}</span>
+                <span>{{item.enterpriseShowPlaceName}}</span>
               </div>
               <div class="num">
-                <span class="warning">约谈：{{item.warning}}次</span>
-                <span class="warning">关注：{{item.follow}}次</span>
+                <span class="warning">约谈：{{item.orderTimes}}次</span>
+                <span class="warning">关注：{{item.followTimes}}次</span>
               </div>
             </div>
           </div>
         </van-tab>
-        <van-tab title="内饰馆">
-          <div class="list" v-for="(item,index) in list" :key="index" @click="goTo">
-            <img :src="item.src" alt />
+        <van-tab v-for="item_1 in details.showPlaceList" :key="item_1.index" :title="item_1.placeName" :name="item_1.id">
+          <div class="list" v-for="item in list" :key="item.index" @click="goTo(item.id,$event)">
+            <img :src="item.logo" alt />
             <div class="right">
-              <div class="title">{{item.title}}</div>
+              <div class="title">{{item.enterpriseName}}</div>
               <div class="type">
-                <span>{{item.type}}</span>
+                <span>{{item.enterpriseShowPlaceName}}</span>
               </div>
               <div class="num">
-                <span class="warning">约谈：{{item.warning}}次</span>
-                <span class="warning">关注：{{item.follow}}次</span>
-              </div>
-            </div>
-          </div>
-        </van-tab>
-        <van-tab title="外饰馆" badge="火爆">
-          <div class="list" v-for="(item,index) in list" :key="index" @click="goTo">
-            <img :src="item.src" alt />
-            <div class="right">
-              <div class="title">{{item.title}}</div>
-              <div class="type">
-                <span>{{item.type}}</span>
-              </div>
-              <div class="num">
-                <span class="warning">约谈：{{item.warning}}次</span>
-                <span class="warning">关注：{{item.follow}}次</span>
-              </div>
-            </div>
-          </div>
-        </van-tab>
-        <van-tab title="香氛馆">
-          <div class="list" v-for="(item,index) in list" :key="index" @click="goTo">
-            <img :src="item.src" alt />
-            <div class="right">
-              <div class="title">{{item.title}}</div>
-              <div class="type">
-                <span>{{item.type}}</span>
-              </div>
-              <div class="num">
-                <span class="warning">约谈：{{item.warning}}次</span>
-                <span class="warning">关注：{{item.follow}}次</span>
-              </div>
-            </div>
-          </div>
-        </van-tab>
-        <van-tab title="电子产品">
-          <div class="list" v-for="(item,index) in list" :key="index" @click="goTo">
-            <img :src="item.src" alt />
-            <div class="right">
-              <div class="title">{{item.title}}</div>
-              <div class="type">
-                <span>{{item.type}}</span>
-              </div>
-              <div class="num">
-                <span class="warning">约谈：{{item.warning}}次</span>
-                <span class="warning">关注：{{item.follow}}次</span>
+                <span class="warning">约谈：{{item.orderTimes}}次</span>
+                <span class="warning">关注：{{item.followTimes}}次</span>
               </div>
             </div>
           </div>
         </van-tab>
       </van-tabs>
     </div>
+    <img  src="@/assets/images/null.png" class="nullImg" v-else alt />
     <van-divider dashed v-if="totalExhibitors==0 ? false : true">我是有底线的</van-divider>
     <img v-else src="@/assets/images/null.png" class="nullImg" alt />
   </div>
@@ -114,41 +70,13 @@ export default {
       totalExhibitors: "",
       details: {},
       list: [
-        {
-          src: require("../../../assets/images/logo1.jpg"),
-          title: "01风风火火汽车电子公司",
-          type: "电子产品展馆",
-          warning: "236",
-          follow: "889"
-        },
-        {
-          src: require("../../../assets/images/logo1.jpg"),
-          title: "01风风火火汽车电子公司",
-          type: "电子产品展馆",
-          warning: "236",
-          follow: "889"
-        },
-        {
-          src: require("../../../assets/images/logo1.jpg"),
-          title: "01风风火火汽车电子公司",
-          type: "电子产品展馆",
-          warning: "236",
-          follow: "889"
-        },
-        {
-          src: require("../../../assets/images/logo1.jpg"),
-          title: "01风风火火汽车电子公司",
-          type: "电子产品展馆",
-          warning: "236",
-          follow: "889"
-        },
-        {
-          src: require("../../../assets/images/logo1.jpg"),
-          title: "01风风火火汽车电子公司",
-          type: "电子产品展馆",
-          warning: "236",
-          follow: "889"
-        }
+      //   {
+      //     src: require("../../../assets/images/logo1.jpg"),
+      //     title: "01风风火火汽车电子公司",
+      //     type: "电子产品展馆",
+      //     warning: "236",
+      //     follow: "889"
+      //   },
       ]
     };
   },
@@ -157,31 +85,63 @@ export default {
     this.handleGetSwiperText();
   },
   methods: {
-    handleGetDetail() {
-      const reg = "";
-      let param = {
+    //切换tab
+    changeTab (title,name) {
+      this.list = []
+      let placeId_1 = title
+      console.log('placeId_1',placeId_1);
+     let param = {
+         
         enterpriseShowId: this.$route.query.enterpriseShowId,
-        placeId: this.$route.query.placeId
+        // enterpriseShowId: 1272919606301855745,
+        placeId: placeId_1
+        // placeId: 0
       };
       Api.getExhibitorList(param)
         .then(res => {
           let { code, msg, data, total } = res;
           console.log("res");
-          console.log(res);
-
+          console.log('获取列表',res);
           if (code == 200) {
-            this.details = data;
+            this.list = data;
           }
         })
         .catch(err => {
           // console.log(err);
         });
     },
+    // 获取列表
+    handleGetDetail() {
+         console.log('enterpriseShowId',this.$route.query.enterpriseShowId);
+         console.log('placeId',this.$route.query.placeId);
+
+      const reg = "";
+      let param = {
+         
+        enterpriseShowId: this.$route.query.enterpriseShowId,
+        // placeId: this.$route.query.placeId
+        placeId: 0
+      };
+      Api.getExhibitorList(param)
+        .then(res => {
+          let { code, msg, data, total } = res;
+          console.log("res");
+          console.log('获取列表',res);
+
+          if (code == 200) {
+            this.list = data;
+          }
+        })
+        .catch(err => {
+          // console.log(err);
+        });
+    },
+    //获取头部
     handleGetSwiperText() {
       Api.getSwiperText(this.$route.query.enterpriseShowId)
         .then(res => {
           let { data, code, msg, total } = res;
-          console.log(res);
+          console.log('getSwiperText',res);
           if (code == 200) {
             this.details = data;
             this.showName = data.enterpriseShow.showName;
@@ -191,12 +151,15 @@ export default {
         })
         .catch(err => {});
     },
-    goTo() {
+    //跳转至
+    goTo(enterpriseId,event) {
+      console.log('enterpriseId',enterpriseId);
+      
       this.$router.push({
         path: "/exhibitor_details",
         query: {
           // 参展商id
-          enterpriseExhibitorsId: this.details.enterpriseShow.id
+          enterpriseExhibitorsId: enterpriseId
         }
       });
     }

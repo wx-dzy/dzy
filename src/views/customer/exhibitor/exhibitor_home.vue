@@ -1,7 +1,7 @@
 <template>
   <!-- 参展商目录-首页 -->
   <div class="exhibitor_home">
-    <div class="top">
+    <div class="top"><!--v-if="totalExhibitors==0 ? false : true"-->
       <div class="left">
         <div class="title">{{showName}}</div>
         <div class="item">
@@ -14,7 +14,7 @@
         <van-button class="right_btn" round size="small" color="#ffd36f">参观预约</van-button>
       </div>
     </div>
-    <div class="item-box" v-if="totalExhibitors==0 ? false : true">
+    <div class="item-box">
       <van-tabs v-model="active" class="tab" swipe-threshold="5" title-active-color="#000">
         <van-tab title="全部">
           <div class="list" v-for="(item,index) in list" :key="index" @click="goTo">
@@ -93,8 +93,8 @@
         </van-tab>
       </van-tabs>
     </div>
-    <img v-else src="@/assets/images/null.png" class="nullImg" alt />
     <van-divider dashed v-if="totalExhibitors==0 ? false : true">我是有底线的</van-divider>
+    <img v-else src="@/assets/images/null.png" class="nullImg" alt />
   </div>
 </template>
 <script>
@@ -108,7 +108,7 @@ export default {
   data() {
     return {
       enterpriseShowId: "", // 展会id
-      placeId:"0",
+      placeId: "0",
       active: 0,
       showName: "",
       totalExhibitors: "",

@@ -162,7 +162,6 @@ export default [
         component: () => import('@/views/customer/exhibitor/juridical_person')
     },
     {
-
         path: '/exact_information',
         meta: {
             requiresAuth: false,

@@ -1,5 +1,7 @@
 import { axios } from '@/utils';
 
+//  post
+// export const quotationList = params => axios.post('url', params);
 
 // 我-首页 /c/user/my-index
 export const getUserMyIndex = params => axios.get('c/user/my-index', {params});
@@ -12,7 +14,3 @@ export const setCancelInterview = params => axios.post('/c/show-people-interview
 
 // 切换身份
 export const setChangeIdentity = params => axios.post('url'+ params,);
-
-//  post
-export const quotationList = params => axios.post('url', params);
-

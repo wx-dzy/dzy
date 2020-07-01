@@ -1,6 +1,6 @@
 // 我的
 <template>
-  <div class="personal footerPad" v-if="1">
+  <div class="personal" v-if="1">
     <!-- 下拉刷新 -->
     <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
       <van-row class="info">
@@ -29,7 +29,7 @@
             size="mini"
             color="#F8D57E"
             class="switchInfo pull-right"
-            @click="handleTabInfo"
+            @click="changeIdentity = true"
           >切换身份</van-button>
         </van-col>
       </van-row>
@@ -177,31 +177,23 @@ export default {
   methods: {
     // 获取详情
     handleDetail() {
-      // this.loading = true;
       Api.getUserMyIndex()
         .then(res => {
-          // this.loading = false;
           let { code, msg, data, total } = res;
           if (code == 200) {
             this.detail = data;
           }
         })
         .catch(err => {
-          // this.loading = false;
           this.detail = {};
         });
     },
 
-    // 切换身份
-    handleTabInfo() {
-      this.changeIdentity = true;
-      return console.log("切换身份");
-    },
-
-    //    切换身份 satus=1 '参展方'   satus=2 '参观方'
+    // 切换身份 satus=1 '参展方'   satus=2 '参观方'
     handleChangeIdentity(satus) {
-      console.log(satus, "-- 1参展方,2参观方");
+      // console.log(satus, "-- 1参展方,2参观方");
       let params = {};
+      return alert(satus+ "暂无接口-- 1参展方,2参观方")
       Api.setChangeIdentity(params)
         .then(res => {
           this.changeIdentity = false;
@@ -245,7 +237,6 @@ export default {
         pageSize: this.pageSize // 每页几条数据
       };
       this.onsubmt(params, 1);
-
       // this.detail.userCardList = [];
       // // // 获取详情
       // this.handleDetail();
@@ -308,7 +299,6 @@ export default {
 
     // 取消预约
     handleCancel(row) {
-      // console.log(row);
       let param = {
         // 预约明细id
         userPreInterviewDetailId: row.id,
@@ -324,10 +314,8 @@ export default {
           }
         })
         .catch(err => {
-          // this.loading = false;
           this.detail = {};
         });
-      // event.stopPropagation()
     },
 
     // 判断日期是否为今天

@@ -185,15 +185,15 @@ export default [
         name: 'personal',
         component: () => import('@/views/customer/personal/index.vue'),
         children: [
-            {
-                path: 'personal_editCard',
-                meta: {
-                    requiresAuth: false,
-                    title: '编辑名片',
-                },
-                name: 'personal_editCard',
-                component: () => import('@/views/customer/personal/personal_editCard.vue'),
-            },
+            // {
+            //     path: 'personal_editCard',
+            //     meta: {
+            //         requiresAuth: false,
+            //         title: '编辑名片',
+            //     },
+            //     name: 'personal_editCard',
+            //     component: () => import('@/views/customer/personal/personal_editCard.vue'),
+            // },
             // {
             //     path: 'personal_editInfo',
             //     meta: {
@@ -205,6 +205,37 @@ export default [
             // }
         ]
     },
+
+    {
+        path: 'personal_editCard',
+        meta: {
+            requiresAuth: false,
+            title: '编辑名片',
+        },
+        name: 'personal_editCard',
+        component: () => import('@/views/customer/personal/personal_editCard.vue'),
+    },
+    {
+        path: 'personal_editInfo',
+        meta: {
+            requiresAuth: false,
+            title: '编辑个人信息',
+        },
+        name: 'personal_editInfo',
+        component: () => import('@/views/customer/personal/personal_editInfo.vue'),
+    },
+
+    {
+        path: 'personal_attestation',
+        meta: {
+            requiresAuth: false,
+            title: '职业身份认证',
+        },
+        name: 'personal_attestation',
+        component: () => import('@/views/customer/personal/personal_attestation.vue'),
+    },
+
+    
 
     // 资源
     // {

@@ -135,7 +135,7 @@ export default {
     handleEdit() {
       console.log(this.activeId);
       this.$router.push({
-        name: "editCard",
+        name: "personal_editCard",
         query: {
           // 名片ID
           id: this.activeId

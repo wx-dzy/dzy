@@ -174,9 +174,11 @@ export default [
 
 
 
-    // 我的
+    // ------------------   我的   start ------------------
+
     {
         path: '/personal',
+        // redirect: '/personal/personal_index',
         meta: {
             requiresAuth: false,
             title: '我的',
@@ -224,44 +226,45 @@ export default [
         name: 'personal_attestation',
         component: () => import('@/views/customer/personal/personal_attestation.vue'),
     },
+    // ------------------   我的   end ------------------
 
-    // 资源
 
-    
-
-    // 资源
+    // ------------------   资源   start ------------------
     {
         path: '/resources',
-        // redirect: '/personal/personal_index',
         meta: {
             requiresAuth: false,
             title: '资源',
         },
         name: 'resources',
         component: () => import('@/views/customer/resources/index.vue'),
-        children: [
-            // // 资源人物首页 
-            // {
-            //     path: 'resources_man',
-            //     meta: {
-            //         requiresAuth: false,
-            //     meta: {
-            //         requiresAuth: false,
-            //         title: '资源企业',
-            //     },
-            //     name: 'resources_company',
-            //     component: () => import('@/views/customer/resources/company.vue'),
-            // }     title: '资源人物首页',
-            //     },
-            //     name: 'orderList-toBeQuoted',
-            //     component: () => import('@/views/customer/resources/man.vue'),
-            // },
-            // // 资源企业
-            // {
-            //     path: 'resources_company',
-               
-        ]
     },
+    // 资源-企业详情
+    {
+        path: '/resources_enterpriseDetail',
+        // redirect: '/personal/personal_index',
+        meta: {
+            requiresAuth: false,
+            title: '公司主页',
+        },
+        name: 'resources_enterpriseDetail',
+        component: () => import('@/views/customer/resources/resources_enterpriseDetail.vue'),
+    },
+
+    // 资源-人物详情
+    {
+        path: '/resources_personDetail',
+        meta: {
+            requiresAuth: false,
+            title: '关注的人物',
+        },
+        name: 'resources_personDetail',
+        component: () => import('@/views/customer/resources/resources_personDetail.vue'),
+    },
+
+    
+    // ------------------   资源   end ------------------
+
 
 
     // 修改密碼 changePassword

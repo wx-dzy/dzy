@@ -1,66 +1,58 @@
-// 资源
+// 资源 tabs切换
 <template>
-  <div class="resources" v-if="1">
-   资源
+  <div class="resources">
+    <van-tabs
+      v-model="activeName"
+      swipeable
+      class="resources_tab"
+      title-active-color="#313437"
+      title-inactive-color="#9DA1A6"
+      @click="onClick"
+    >
+      <van-tab title="企业" name="enterprise_list" />
+      <van-tab title="人物" name="person_list" />
+    </van-tabs>
+
+    <div class="tab_content">
+      <enterpriseList v-if="activeName == 'enterprise_list' " :activeName="activeName" />
+      <personList v-if="activeName == 'person_list' " :activeName="activeName" />
+    </div>
   </div>
-  <!-- 占位图 -->
-  <img
-    v-else
-    src="@/assets/images/null.png"
-    style="width: 4rem; margin: 1.4rem 1.47rem;"
-    class="nullImg"
-    alt
-  />
 </template>
 
 <script>
 import { util } from "@/utils";
-import { mapGetters } from "vuex";
-import * as Api from "@/api/customer/resources";
-import footerNav from "@/components/customer/footerNav/index.vue";
+// import { mapGetters } from "vuex";
+// import * as Api from "@/api/customer/resources";
+import enterpriseList from "./components/enterpriseList.vue";
+import personList from "./components/personList.vue";
+
+// import footerNav from "@/components/customer/footerNav/index.vue";
 
 export default {
   name: "resources",
   components: {
-    footerNav,
+    // 企业
+    enterpriseList,
+    // 人物
+    personList
+    // footerNav
   },
   data() {
     return {
-      // 
-      listData: [],
-
-      loading: false,
-      finished: false,
-      refreshing: false,
-      pageSize: 10,
-      pageNum: 1
-      // active: "resources",
+      activeName: "enterprise_list"
     };
   },
 
-  created() {
-  },
+  created() {},
   watch: {},
   methods: {
-    // 获取详情
-    handleDetail() {
-      Api.getUserMyIndex()
-        .then(res => {
-          let { code, msg, data, total } = res;
-          if (code == 200) {
-            this.detail = data;
-          }
-        })
-        .catch(err => {
-          this.detail = {};
-        });
-    },
-
+    onClick(name, title) {
+      // console.log(name, title);
+    }
   },
 
   computed: {},
-
-
 
   mounted() {
     this.$nextTick().then(() => {
@@ -72,12 +64,27 @@ export default {
 };
 </script>
 
+<style lang="scss">
+.resources {
+  .resources_tab {
+    .van-tabs__line {
+      width: 15% !important;
+      background-color: #f8d57e;
+    }
+    .van-hairline--top-bottom::after {
+      border: none;
+    }
+    .van-tab--active {
+      font-size: 0.36rem;
+    }
+    .van-tabs__nav {
+      width: 45%;
+    }
+  }
+}
+</style>
 <style lang="scss" scoped>
 @import "@/assets/styles/base/calc_vm.scss";
-// @import "./resources.scss";
-.nullImg {
-  width: 4rem;
-  margin: 0.4rem 1.47rem;
-}
+@import "./resources.scss";
 </style>
 

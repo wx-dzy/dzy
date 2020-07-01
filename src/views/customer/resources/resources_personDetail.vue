@@ -1,8 +1,8 @@
-// 编辑个人信息
+// 资源-人物详情
 <template>
   <div class="personal_editInfo">
     <router-view />
-      编辑个人信息
+      资源-人物详情
   </div>
 </template>
 
@@ -62,7 +62,7 @@ export default {
     // 查看详情
     handleLook(row) {
       this.$router.push({
-        name: "personal_details",
+        name: "resources_personDetail",
         query: {
           // 企业id
           id: row.enterpriseId
@@ -88,7 +88,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/assets/styles/base/calc_vm.scss";
-@import "./personal.scss";
+@import "./resources.scss";
 .nullImg {
   width: 4rem;
   margin: 0.4rem 1.47rem;

@@ -177,7 +177,6 @@ export default [
     // 我的
     {
         path: '/personal',
-        // redirect: '/personal/editCard',
         meta: {
             requiresAuth: false,
             title: '我的',
@@ -193,15 +192,6 @@ export default [
             //     },
             //     name: 'personal_editCard',
             //     component: () => import('@/views/customer/personal/personal_editCard.vue'),
-            // },
-            // {
-            //     path: 'personal_editInfo',
-            //     meta: {
-            //         requiresAuth: false,
-            //         title: '编辑个人信息',
-            //     },
-            //     name: 'personal_editInfo',
-            //     component: () => import('@/views/customer/personal/personal_editInfo.vue'),
             // }
         ]
     },
@@ -235,19 +225,21 @@ export default [
         component: () => import('@/views/customer/personal/personal_attestation.vue'),
     },
 
+    // 资源
+
     
 
     // 资源
-    // {
-    //     path: '/resources',
-    //     // redirect: '/personal/personal_index',
-    //     meta: {
-    //         requiresAuth: false,
-    //         title: '资源',
-    //     },
-    //     name: 'resources',
-    //     component: () => import('@/views/customer/resources/index.vue'),
-    //     children: [
+    {
+        path: '/resources',
+        // redirect: '/personal/personal_index',
+        meta: {
+            requiresAuth: false,
+            title: '资源',
+        },
+        name: 'resources',
+        component: () => import('@/views/customer/resources/index.vue'),
+        children: [
             // // 资源人物首页 
             // {
             //     path: 'resources_man',
@@ -267,9 +259,9 @@ export default [
             // // 资源企业
             // {
             //     path: 'resources_company',
-            //    
-    //     ]
-    // },
+               
+        ]
+    },
 
 
     // 修改密碼 changePassword

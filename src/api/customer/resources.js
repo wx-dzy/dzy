@@ -1,4 +1,4 @@
-// 我的
+// 资源
 import { axios } from '@/utils';
 
 //  post

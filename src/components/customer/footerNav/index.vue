@@ -33,7 +33,7 @@ export default {
           name: "search",
           lable: "资源",
           // 路由
-          path: "personal"
+          path: "resources"
         },
         {
           ico: "icon iconfont yz-wode",

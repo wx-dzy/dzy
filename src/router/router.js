@@ -177,7 +177,7 @@ export default [
     // 我的
     {
         path: '/personal',
-        // redirect: '/personal/personal_index',
+        // redirect: '/personal/editCard',
         meta: {
             requiresAuth: false,
             title: '我的',
@@ -185,18 +185,27 @@ export default [
         name: 'personal',
         component: () => import('@/views/customer/personal/index.vue'),
         children: [
-            //  
+            {
+                path: 'personal_editCard',
+                meta: {
+                    requiresAuth: false,
+                    title: '编辑名片',
+                },
+                name: 'personal_editCard',
+                component: () => import('@/views/customer/personal/personal_editCard.vue'),
+            },
             // {
-            //     path: 'personal_index',
+            //     path: 'personal_editInfo',
             //     meta: {
             //         requiresAuth: false,
-            //         title: '详情',
+            //         title: '编辑个人信息',
             //     },
-            //     name: 'orderList-toBeQuoted',
-            //     component: () => import('@/views/customer/personal/toBeQuoted.vue'),
+            //     name: 'personal_editInfo',
+            //     component: () => import('@/views/customer/personal/personal_editInfo.vue'),
             // }
         ]
     },
+
     // 资源
     // {
     //     path: '/resources',

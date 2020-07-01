@@ -1,31 +1,18 @@
 import { axios } from '@/utils';
 
+
+// 我-首页 /c/user/my-index
+export const getUserMyIndex = params => axios.get('c/user/my-index', {params});
+
+// 我-首页-我的预约列表  /c/user-interview/my-interview
+export const getMyInterviewPage = params => axios.get('/c/user-interview/my-interview', {params});
+
+// 参展商目录-预约日历-预约/取消预约
+export const setCancelInterview = params => axios.post('/c/show-people-interview/pre-interview/'+ params.userPreInterviewDetailId + '/' + params.type,);
+
+// 切换身份
+export const setChangeIdentity = params => axios.post('url'+ params,);
+
 //  post
 export const quotationList = params => axios.post('url', params);
 
-// 首页-顶部轮播图列表/c/index/media-list
-export const getHomeMediaList = params => axios.get('/c/index/media-list', {params});
-
-// 首页-展会分页列表  /c/index/page
-export const getHomePage = params => axios.get('/c/index/page', {params});
-
-// 参观者-展会详情  /c/enterprise-show/get-by-id/{id}
-export const getHomePageDetails= params => axios.get('/c/enterprise-show/get-by-id/'+params);
-
-// 关注/取消关注企业（人物）  /c/user-follow/follow/{followStatus}
-export const setIsFollow = params => axios.post('/c/user-follow/follow', params);
-
-// 展会企业介绍   /c/enterprise/get-enterprise-base-info-by-id/{enterpriseId}
-export const getEnterpriseBaseInfoById= params => axios.get('/c/enterprise/get-enterprise-base-info-by-id/'+params);
-
-// 参观者-展会日历列表 /c/enterprise-show/calendar/list-by-enterprise-id/{enterpriseId}
-export const getCalendarListByEnterpriseId= params => axios.get('/c/enterprise-show/calendar/list-by-enterprise-id/'+params);
-
-// 参观者-展会宣传片-详情  /c/enterprise-show/get-by-id-for-calendar/{enterpriseShowId}
-export const getByIdForCalendar= params => axios.get('/c/enterprise-show/get-by-id-for-calendar/'+params);
-
-// 承办公司-单个会展预约-发送验证码 /c/show-order/send-verify-code/{enterpriseShowId}/{mobile}
-export const getSendVerifyCode= params => axios.get('/c/show-order/send-verify-code/'+params.enterpriseShowId + '/' + params.mobile);
-
-// 承办公司-单个会展预约  /c/show-order/add
-export const setShowOrderAdd = params => axios.post('/c/show-order/add', params);

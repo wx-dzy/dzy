@@ -9,7 +9,7 @@
           <i>帮你放大招！</i>
         </h2>
 
-        <van-swipe v-if="banner.length" class="my-swipe" :autoplay="3000" indicator-color="white">
+        <van-swipe v-if="banner.length" class="my-swipe" :autoplay="30000" indicator-color="white">
           <van-swipe-item v-for="(image, index)  in banner" :key="index">
             <!-- <router-link :to="{'path':'personal'}"> -->
             <img :src="image.mediaUrl" alt />

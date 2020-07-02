@@ -88,13 +88,13 @@
         margin: 0.24rem 0.26rem 0 0;
         width: 6.96rem;
         height: 3.76rem;
-        padding-left: 0.38rem;
+        padding: 0 0.38rem;
+
         background: linear-gradient(300deg,
                 rgba(74, 96, 119, 1) 0%,
                 rgba(45, 72, 95, 1) 100%);
         color: #fff;
         border-radius: 0.16rem;
-        position: relative;
 
         .title {
             font-size: 0.4rem;
@@ -134,7 +134,6 @@
 
         .btn {
             font-size: 0.24rem;
-            padding: 0 0.2rem;
             text-align: right;
 
             button {
@@ -142,7 +141,7 @@
                 border-radius: 0.29rem;
                 padding: 0 0.18rem;
                 border: 0.02rem solid rgba(255, 255, 255, 1);
-                margin: 0 0.13rem;
+                margin-left: 0.26rem;
             }
 
             .left_btn {
@@ -156,21 +155,8 @@
             }
         }
 
-        .type {
-            position: absolute;
-            top: 0.54rem;
-            right: 0.42rem;
-
-            .van-icon {
-                width: 0.74rem;
-                height: 0.34rem;
-                text-align: center;
-                color: #f8d57e;
-            }
-
-            .type_name {
-                font-size: 0.24rem;
-            }
+        .maTop40 {
+            padding-top: 0.5rem;
         }
     }
 

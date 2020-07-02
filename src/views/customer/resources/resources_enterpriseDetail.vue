@@ -1,34 +1,39 @@
 // 资源-企业详情
 <template>
   <div class="resources_enterpriseDetail">
-    <div class="top" v-if="details.enterprise">
-      <div class="title">{{details.enterprise.name}}</div>
-      <div class="middle">
-        <span
-          v-show="details.enterprise.enterpriseShowPlaceName"
-          class="name_type"
-        >{{details.enterprise.enterpriseShowPlaceName}}</span>
-        <i class="huiyuan">
-          <van-icon class="icon iconfont yz-huiyuan" />
-          <span v-show="details.enterprise.memberStatus == 1">会员</span>
-          <span v-show="details.enterprise.memberStatus == 0">非会员</span>
-        </i>
-      </div>
-      <div class="btn">
+    <van-row class="top" v-if="details.enterprise">
+      <van-col span="20">
+        <p class="title">{{details.enterprise.name}}</p>
+
+        <div class="middle">
+          <span
+            v-show="details.enterprise.enterpriseShowPlaceName"
+            class="name_type"
+          >{{details.enterprise.enterpriseShowPlaceName}}</span>
+          <i class="huiyuan">
+            <van-icon class="icon iconfont yz-huiyuan" />
+            <span v-show="details.enterprise.memberStatus == 1">会员</span>
+            <span v-show="details.enterprise.memberStatus == 0">非会员</span>
+          </i>
+        </div>
+      </van-col>
+      <van-col span="4" class="text-right maTop40">
+        <!-- 关注组件 -->
+        <follow
+          :followType="1"
+          :followId="details.enterprise.id"
+          :followStatus.sync="details.followStatus"
+          :showIndex="2"
+          @successCBK="handleFollow"
+        />
+      </van-col>
+      <van-col span="24" class="btn">
         <button class="left_btn" @click="handRoter_companyInfo">获取公司资料</button>
         <button class="right_btn" @click="handRoter_companyDetails">公司情况</button>
         <!-- <button class="right_btn">预约面谈</button> -->
-      </div>
-      <div class="type" v-show="details.followStatus == 1">
-        <van-icon class="icon iconfont yz-yiguanzhu" />
-        <div class="type_name">已关注</div>
-      </div>
-      <div class="type" v-show="details.followStatus == 0">
-        <van-icon name="star-o" />
-        <div class="type_name">未关注</div>
-      </div>
-      <p class="timer">更新时间：{{ details.enterprise.updateTime }}</p>
-    </div>
+      </van-col>
+      <van-col span="24" class="timer">更新时间：{{ details.enterprise.updateTime }}</van-col>
+    </van-row>
 
     <!-- 企业相关视频  列表内容-->
     <div v-if="details.videoList.length">
@@ -69,7 +74,12 @@
       </van-row>
 
       <div class="listWrap" v-if="productList.length">
-        <van-row class="itemList" v-for="(item,index) in productList" :key="index" @click="handleLookItem(item)">
+        <van-row
+          class="itemList"
+          v-for="(item,index) in productList"
+          :key="index"
+          @click="handleLookItem(item)"
+        >
           <van-col span="7">
             <img :src="item.goodsLogo" alt class="logo" />
           </van-col>
@@ -98,6 +108,7 @@
 </template>
 <script>
 import VideoDemo from "@/components/customer/videoPlay/index.vue";
+import follow from "@/components/customer/follow.vue";
 import { util } from "@/utils";
 import { mapGetters } from "vuex";
 import * as Api from "@/api/customer/resources";
@@ -105,7 +116,10 @@ import * as Api from "@/api/customer/resources";
 export default {
   name: "resources_enterpriseDetail",
   components: {
-    VideoDemo // 播放
+    // // 播放
+    VideoDemo,
+    // 关注
+    follow
   },
   data() {
     return {
@@ -163,7 +177,7 @@ export default {
 
     // 获取公司资料
     handRoter_companyInfo() {
-      console.log('需要确定是否需要接口及参数名称')
+      console.log("需要确定是否需要接口及参数名称");
       this.$router.push({
         name: "exact_information",
         query: {
@@ -183,7 +197,7 @@ export default {
     },
     // 查看全部企业产品目录
     handleLookList() {
-      return console.log('暂无路由')
+      return console.log("暂无路由");
       // 接口地址  http://rap2.taobao.org/repository/editor?id=258218&mod=389957&itf=1629307
       this.$router.push({
         name: "",
@@ -196,7 +210,7 @@ export default {
 
     // 查看产品详情
     handleLookItem(row) {
-      return console.log('暂无路由')
+      return console.log("暂无路由");
       // 接口地址  http://rap2.taobao.org/repository/editor?id=258218&mod=389957&itf=1631624
       this.$router.push({
         name: "",
@@ -205,10 +219,13 @@ export default {
           goodsId: row.id
         }
       });
-    }
+    },
 
-    
-    
+    // 关注组件回调 status 1为当前 已关注 2为当前未关注(取消关注)
+    handleFollow(status) {
+      console.log(status, "关注组件回调");
+      this.handelGetDetails();
+    }
   }
 };
 </script>

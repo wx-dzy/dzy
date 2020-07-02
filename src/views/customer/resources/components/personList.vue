@@ -32,7 +32,7 @@
                 <img :src="item.avatar" alt class="avatar" />
               </van-col>
               <van-col span="17">
-                <h3 class="title">
+                <h3 class="title" style="line-height: 1.3rem;">
                   <!-- <span v-show="1" class="type">法 人</span> -->
                   {{ item.realName }} 
                   <!-- <i v-show="item.post" class="border"> {{ item.post || '职位'}}</i>  -->

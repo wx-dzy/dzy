@@ -1,6 +1,6 @@
 // 资源-人物详情
 <template>
-  <div class="personal_editInfo">
+  <div class="resources_personDetail">
     <router-view />
       资源-人物详情
   </div>
@@ -13,7 +13,7 @@ import * as Api from "@/api/customer/personal";
 import visitingCard from "@/components/customer/visitingCard.vue";
 
 export default {
-  name: "personal_editInfo",
+  name: "resources_personDetail",
   components: {
     // 名片
     visitingCard

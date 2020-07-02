@@ -1,7 +1,6 @@
 // 资源-企业详情
 <template>
-  <div class="personal_editInfo">
-    <router-view />
+  <div class="resources_enterpriseDetail">
       资源-企业详情
   </div>
 </template>
@@ -13,7 +12,7 @@ import * as Api from "@/api/customer/personal";
 import visitingCard from "@/components/customer/visitingCard.vue";
 
 export default {
-  name: "personal_editInfo",
+  name: "resources_enterpriseDetail",
   components: {
     // 名片
     visitingCard

@@ -158,8 +158,8 @@ export default {
     // 查看详情
     handleLook(row) {
       this.$router.push({
-        // name: "resources_enterpriseDetail",
-        name: "exhibitor_details",
+        name: "resources_enterpriseDetail",
+        // name: "exhibitor_details",
         query: {
           // 企业id
           id: row.enterpriseId

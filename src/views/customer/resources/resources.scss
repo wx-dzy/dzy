@@ -78,5 +78,135 @@
 
 // 资源-企业详情
 .resources_enterpriseDetail {
-    
+    height: 100vh;
+    color: #000;
+    padding-left: 0.24rem;
+    box-sizing: border-box;
+
+    // 企业信息
+    .top {
+        margin: 0.24rem 0.26rem 0 0;
+        width: 6.96rem;
+        height: 3.76rem;
+        padding-left: 0.38rem;
+        background: linear-gradient(300deg,
+                rgba(74, 96, 119, 1) 0%,
+                rgba(45, 72, 95, 1) 100%);
+        color: #fff;
+        border-radius: 0.16rem;
+        position: relative;
+
+        .title {
+            font-size: 0.4rem;
+            padding-top: 0.4rem;
+        }
+
+        .middle {
+            font-size: 0.24rem;
+            margin-top: 0.18rem;
+            margin-bottom: 0.71rem;
+
+            .name_type {
+                display: inline-block;
+                width: 1.4rem;
+                height: 0.36rem;
+                text-align: center;
+                margin: auto 0;
+                background: #e5cc9d;
+                border-radius: 0.04rem;
+                color: #313437;
+            }
+
+            .icon {
+                display: inline;
+                color: #e5cc9d;
+                margin-left: 0.26rem;
+                margin-right: 0.14rem;
+            }
+        }
+
+        .timer {
+            padding-top: 0.14rem;
+            line-height: 0.8rem;
+            font-size: 0.24rem;
+            color: rgba(255, 255, 255, 1);
+        }
+
+        .btn {
+            font-size: 0.24rem;
+            padding: 0 0.2rem;
+            text-align: right;
+
+            button {
+                height: 0.58rem;
+                border-radius: 0.29rem;
+                padding: 0 0.18rem;
+                border: 0.02rem solid rgba(255, 255, 255, 1);
+                margin: 0 0.13rem;
+            }
+
+            .left_btn {
+                background-color: #3c546b;
+            }
+
+            .right_btn {
+                background-color: #e5cc9d;
+                border: none;
+                color: #313437;
+            }
+        }
+
+        .type {
+            position: absolute;
+            top: 0.54rem;
+            right: 0.42rem;
+
+            .van-icon {
+                width: 0.74rem;
+                height: 0.34rem;
+                text-align: center;
+                color: #f8d57e;
+            }
+
+            .type_name {
+                font-size: 0.24rem;
+            }
+        }
+    }
+
+    // 企业相关视频
+    .specifyWrap_title {
+        font-size: 0.32rem;
+        font-weight: bold;
+        line-height: 1.3rem;
+    }
+    .specifyWrap {
+        width: 100%;
+        overflow-y: auto;
+
+        .contentItem {
+            overflow: hidden;
+            float: left;
+            width: 4.18rem;
+            margin-right: 0.4rem;
+            position: relative;
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0rem 0.1rem 0.4rem 0rem rgba(223, 227, 233, 1);
+            // border-radius: 0.16rem;
+            .itemImg {
+                width: 100%;
+            }
+
+            .cont {
+                padding: 0.24rem 0;
+                font-size: 0.3rem;
+                line-height: 0.42rem;
+                color: rgb(49, 50, 51);
+                line-height: 0.4rem;
+                color: #383B3F;
+            }
+
+
+        }
+    }
 }

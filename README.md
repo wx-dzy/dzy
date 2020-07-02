@@ -47,7 +47,7 @@ configureWebpack: {
 ```
 
 ### 项目地址
-git clone https://github.com/xiaogang0-0/wx-dzy.git
+git clone https://github.com/wx-dzy/dzy.git
 
 ### 开发环境
 

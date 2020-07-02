@@ -267,7 +267,7 @@ export default {
         name: "home_details",
         query: {
           // 企业id
-          id: row.enterpriseId
+          id: row.id
           // title: row.enterpriseName
         }
       });

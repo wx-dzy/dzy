@@ -1,0 +1,157 @@
+.personal {
+    position: relative;
+    min-height: 100vh;
+    overflow: auto;
+    padding: 0.5rem 0;
+
+
+    .van-button {
+        color: #000 !important;
+    }
+
+    .info {
+        padding: 0 0.27rem;
+
+        .name {
+            font-size: 0.36rem;
+            color: rgba(49, 52, 55, 1);
+            line-height: 0.5rem;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 0 0.18rem;
+            font-size: 0.2rem;
+            color: rgba(49, 52, 55, 1);
+            line-height: 0.36rem;
+            border-radius: 0.08rem;
+            border: 0.02rem solid rgba(255, 165, 165, 1);
+        }
+
+        .van-icon,
+        .inffAll {
+            display: inline-block;
+            padding: 0;
+            font-size: 0.24rem;
+            color: rgba(49, 52, 55, 1);
+            line-height: 0.84rem;
+        }
+
+        .van-icon {
+            position: relative;
+            top: 0.03rem;
+        }
+
+        .activeInfo {
+            padding: 0 0.42rem;
+            margin: 0.4rem 0 0.32rem;
+            line-height: 0.8rem;
+            background: linear-gradient(270deg, rgba(248, 213, 126, 0.32) 0%, rgba(229, 204, 157, 1) 100%);
+
+            border-radius: 0.12rem;
+
+            .van-button {
+                color: #313437 !important;
+                margin-top: 0.2rem;
+                padding: 0 0.32rem;
+            }
+        }
+    }
+
+    .myOrder {
+        padding: 0.3rem 0.28rem 0.74rem;
+
+        .title {
+            font-size: 0.32rem;
+            color: rgba(49, 52, 55, 1);
+            line-height: 1rem;
+        }
+
+        .contItem {
+            padding-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
+            box-shadow: 0rem 0.1rem 0.26rem 0rem rgba(223, 227, 233, 0.51);
+            border-radius: 0.16rem;
+
+            .item_i {
+                padding: 0.46rem 0.28rem;
+
+            }
+
+            .tit {
+                padding-left: 0.28rem;
+                border-bottom: 0.02rem solid #F5F5F5;
+                font-size: 0.28rem;
+                color: rgba(49, 52, 55, 1);
+                line-height: 0.84rem;
+            }
+
+            .photo {
+                width: 0.96rem;
+                height: 0.96rem;
+                border-radius: 50%;
+            }
+
+            .con {
+                font-size: 0.26rem;
+                color: rgba(49, 52, 55, 1);
+                line-height: 0.36rem;
+            }
+
+            .color999 {
+                color: #9DA1A6;
+            }
+
+            .nterview {
+                min-height: 0.72rem;
+            }
+
+            .van-button {
+                padding: 0 0.18rem;
+                margin-top: -0.07rem;
+                line-height: 0.34rem;
+                font-size: 0.2rem;
+                color: rgba(49, 52, 55, 1) !important;
+            }
+        }
+
+    }
+
+    .changeIdentityWrap {
+        .wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .block {
+            width: 5.06rem;
+            height: 6.34rem;
+            background: rgba(0, 0, 0, 0);
+
+            .topImg {
+                width: 100%;
+            }
+
+            .fot {
+                width: 5.06rem;
+                height: 3.3rem;
+                padding-top: 0.86rem;
+                background: #fff;
+                border-radius: 0 0 0.16rem 0.16rem;
+                text-align: center;
+
+
+                .van-button {
+                    padding: 0 0.88rem;
+                    margin:0.2rem 0;
+                }
+
+
+            }
+        }
+    }
+
+
+}

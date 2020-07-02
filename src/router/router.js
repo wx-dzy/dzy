@@ -182,61 +182,97 @@ export default [
 
 
 
+    // ------------------   我的   start ------------------
+
+    {
+        path: '/personal',
+        // redirect: '/personal/personal_index',
+        meta: {
+            requiresAuth: false,
+            title: '我的',
+        },
+        name: 'personal',
+        component: () => import('@/views/customer/personal/index.vue'),
+        children: [
+            // {
+            //     path: 'personal_editCard',
+            //     meta: {
+            //         requiresAuth: false,
+            //         title: '编辑名片',
+            //     },
+            //     name: 'personal_editCard',
+            //     component: () => import('@/views/customer/personal/personal_editCard.vue'),
+            // }
+        ]
+    },
+
+    {
+        path: 'personal_editCard',
+        meta: {
+            requiresAuth: false,
+            title: '编辑名片',
+        },
+        name: 'personal_editCard',
+        component: () => import('@/views/customer/personal/personal_editCard.vue'),
+    },
+    {
+        path: 'personal_editInfo',
+        meta: {
+            requiresAuth: false,
+            title: '编辑个人信息',
+        },
+        name: 'personal_editInfo',
+        component: () => import('@/views/customer/personal/personal_editInfo.vue'),
+    },
+
+    {
+        path: 'personal_attestation',
+        meta: {
+            requiresAuth: false,
+            title: '职业身份认证',
+        },
+        name: 'personal_attestation',
+        component: () => import('@/views/customer/personal/personal_attestation.vue'),
+    },
+    // ------------------   我的   end ------------------
 
 
-    // 订单列表
-    // {
-    //     path: '/orderList',
-    //     redirect: '/orderList/toBeQuoted',
-    //     meta: {
-    //         requiresAuth: false,
-    //         title: '询价单列表',
-    //     },
-    //     name: 'orderList',
-    //     component: () => import('@/views/orderList/orderList.vue'),
-    //     children: [
-    //         // 待报价 
-    //         {
-    //             path: 'toBeQuoted',
-    //             meta: {
-    //                 requiresAuth: false,
-    //                 title: '询价单列表',
-    //             },
-    //             name: 'orderList-toBeQuoted',
-    //             component: () => import('@/views/orderList/components/toBeQuoted.vue'),
-    //         },
-    //         // 已报价
-    //         {
-    //             path: 'quotedPrice',
-    //             meta: {
-    //                 requiresAuth: false,
-    //                 title: '询价单列表',
-    //             },
-    //             name: 'orderList-quotedPrice',
-    //             component: () => import('@/views/orderList/components/quotedPrice.vue'),
-    //         },
-    //         // 已完成
-    //         {
-    //             path: 'completed',
-    //             meta: {
-    //                 requiresAuth: false,
-    //                 title: '询价单列表',
-    //             },
-    //             name: 'orderList-completed',
-    //             component: () => import('@/views/orderList/components/completed.vue'),
-    //         },
-    //         // 已超时
-    //         {
-    //             path: 'overtime',
-    //             meta: {
-    //                 requiresAuth: false,
-    //                 title: '询价单列表',
-    //             },
-    //             name: 'orderList-overtime',
-    //             component: () => import('@/views/orderList/components/overtime.vue'),
-    //         }
-    //     ]
-    // },
+    // ------------------   资源   start ------------------
+    {
+        path: '/resources',
+        meta: {
+            requiresAuth: false,
+            title: '资源',
+        },
+        name: 'resources',
+        component: () => import('@/views/customer/resources/index.vue'),
+    },
+    // 资源-企业详情
+    {
+        path: '/resources_enterpriseDetail',
+        // redirect: '/personal/personal_index',
+        meta: {
+            requiresAuth: false,
+            title: '公司主页',
+        },
+        name: 'resources_enterpriseDetail',
+        component: () => import('@/views/customer/resources/resources_enterpriseDetail.vue'),
+    },
+
+    // 资源-人物详情
+    {
+        path: '/resources_personDetail',
+        meta: {
+            requiresAuth: false,
+            title: '关注的人物',
+        },
+        name: 'resources_personDetail',
+        component: () => import('@/views/customer/resources/resources_personDetail.vue'),
+    },
+
+    
+    // ------------------   资源   end ------------------
+
 
 
     // 修改密碼 changePassword

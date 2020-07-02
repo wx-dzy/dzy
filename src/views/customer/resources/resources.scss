@@ -1,0 +1,82 @@
+// 资源 tabs页
+.resources {
+    padding-top: 0.2rem;
+
+    .tab_content {
+        padding-top: 0.39rem;
+        padding: 0.39rem 0.25rem;
+    }
+
+    .resources_tab {}
+}
+
+
+// 资源-企业列表  资源-人物列表
+.enterprise_list,
+.person_list {
+    .contentItem {
+        padding: 0.1rem 0.28rem;
+        margin-bottom: 0.4rem;
+        background: rgba(255, 255, 255, 1);
+        box-shadow: 0rem 0.1rem 0.26rem 0rem rgba(223, 227, 233, 0.51);
+        border-radius: 0.16rem;
+    }
+
+    .logo {
+        width: 1.56rem;
+        height: 1.56rem;
+        border-radius: 0.04rem;
+        border: 0.02rem solid rgba(233, 233, 233, 1);
+    }
+
+    .title {
+        padding-bottom: 0.08rem;
+        font-size: 0.32rem;
+        color: rgba(49, 52, 55, 1);
+        line-height: 0.54rem;
+    }
+
+    .color999 {
+        font-size: 0.24rem;
+        color: rgba(157, 161, 166, 1);
+        line-height: 0.34rem;
+    }
+
+}
+
+// 资源-人物列表
+.person_list {
+    .avatar {
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 50%;
+    }
+
+    .type {
+        display: inline-block;
+        padding: 0 0.18rem;
+        margin-right: 0.36rem;
+        line-height: 0.32rem;
+        background: rgba(248, 213, 126, 1);
+        border-radius: 0.08rem;
+        font-size: 0.2rem;
+        color: rgba(49, 52, 55, 1);
+        vertical-align: middle;
+        margin-top: -0.02rem;
+    }
+
+    .border {
+        display: inline-block;
+        font-size: 0.28rem;
+        line-height: 0.28rem;
+        font-weight: 500;
+        margin-left: 0.1rem;
+        padding-left: 0.1rem;
+        border-left: 0.02rem solid #E9E9E9;
+    }
+}
+
+// 资源-企业详情
+.resources_enterpriseDetail {
+    
+}

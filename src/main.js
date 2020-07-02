@@ -42,7 +42,7 @@ import {
   Loading,
   DropdownMenu,
   DropdownItem,
-  popup,
+  Popup,
   Skeleton,
   Image as VanImage,
 

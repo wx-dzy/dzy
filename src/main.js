@@ -40,16 +40,13 @@ import {
   Uploader,
   Calendar,
   Loading,
-<<<<<<< HEAD
   DropdownMenu,
   DropdownItem,
   popup,
-  Popup
-=======
+  Popup,
   Skeleton,
   Image as VanImage,
 
->>>>>>> a142e9ef4e20c5c47f7aefd02758dd9f6eaec85b
 } from 'vant';
  
 Vue.use(Button);
@@ -81,15 +78,12 @@ Vue.use(Form);
 Vue.use(Uploader);
 Vue.use(Calendar);
 Vue.use(Loading);
-<<<<<<< HEAD
 Vue.use(DropdownMenu);
 Vue.use(DropdownItem);
 Vue.use(Popup);
-=======
 Vue.use(Skeleton);
 Vue.use(VanImage);
 
->>>>>>> a142e9ef4e20c5c47f7aefd02758dd9f6eaec85b
 
 
 // 视频播放

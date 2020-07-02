@@ -152,6 +152,8 @@ export default {
   },
   created() {
     this.handelGetExhibitor_details();
+    
+    
   },
   methods: {
     // 跳转至法人详情
@@ -176,6 +178,7 @@ export default {
     },
     // 获取参展商详情
     handelGetExhibitor_details() {
+      console.log(this.enterpriseExhibitorsId);
       Api.getExhibitor_details(this.enterpriseExhibitorsId)
         .then(res => {
           let { code, msg, data, total } = res;

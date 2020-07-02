@@ -109,6 +109,10 @@ export default {
     border-radius: 1em;
     margin-left: -1em;
   }
+  .vjs-poster {
+        // background: #000 url(https://org.modao.cc/uploads4/images/4612/46122644/v2_q7op1z.jpg) no-repeat 0 0;
+    background-size: calc(100% + 1px) 100%;
+  }
 }
 </style>
 <style lang="scss" scoped>

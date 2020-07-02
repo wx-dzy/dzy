@@ -250,8 +250,7 @@ export default {
     // 默认刷新列表
     this.handleGetDetail();
     console.log("分享二维码,接口openid");
-    console.log("1272919606905835521");
-    console.log(this.$route.query);
+    // console.log("1272919606905835521");
   },
 
   methods: {

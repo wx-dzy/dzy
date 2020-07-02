@@ -159,6 +159,7 @@ export default {
     handleLook(row) {
       this.$router.push({
         name: "resources_enterpriseDetail",
+        // name: "exhibitor_details",
         query: {
           // 企业id
           id: row.enterpriseId

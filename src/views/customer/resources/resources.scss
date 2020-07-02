@@ -78,7 +78,7 @@
 
 // 资源-企业详情
 .resources_enterpriseDetail {
-    height: 100vh;
+    // height: 100vh;
     color: #000;
     padding-left: 0.24rem;
     box-sizing: border-box;
@@ -180,6 +180,7 @@
         font-weight: bold;
         line-height: 1.3rem;
     }
+
     .specifyWrap {
         width: 100%;
         overflow-y: auto;
@@ -191,7 +192,8 @@
             margin-right: 0.4rem;
             position: relative;
             background: rgba(255, 255, 255, 1);
-            box-shadow: 0rem 0.1rem 0.4rem 0rem rgba(223, 227, 233, 1);
+
+            // box-shadow: 0rem 0.1rem 0.4rem 0rem rgba(223, 227, 233, 1);
             // border-radius: 0.16rem;
             .itemImg {
                 width: 100%;
@@ -209,4 +211,46 @@
 
         }
     }
+
+
+    .product_catalog {
+        margin-top: 0.3rem;
+        // margin-bottom: 0.8rem;
+        .top-title {
+            color: #313437;
+            line-height: 1rem;
+            font-size: 0.32rem;
+            font-weight: bold;
+            padding-right: 0.26rem;
+        }
+
+        .itemList {
+            margin-bottom: 0.4rem;
+            padding: 0.22rem;
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0rem 0.1rem 0.26rem 0rem rgba(223, 227, 233, 0.51);
+            border-radius: 0.16rem;
+
+            .logo {
+                // border: 1px solid #babcc0;
+                width: 1.8rem;
+                height: 1.8rem;
+                border-radius: 0.04rem;
+            }
+
+            .title {
+                font-size: 0.28rem;
+                color: #313437;
+                line-height: 0.4rem;
+            }
+
+            .nums {
+                margin-top: 0.14rem;
+                font-size: 0.24rem;
+                line-height: 0.36rem;
+                color:rgba(157,161,166,1);
+            }
+        }
+    }
+    .van-divider {padding-top: 0.5rem;}
 }

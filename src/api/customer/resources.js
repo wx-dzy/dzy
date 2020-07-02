@@ -11,6 +11,9 @@ export const getPeoplePage = params => axios.post('/c/user-follow/page-people', 
 // 资源-企业详情 /c/user-follow/enterprise-detail-by-id/{enterpriseId}
 export const getEnterpriseDetailById = params => axios.get('/c/user-follow/enterprise-detail-by-id/' + params);
 
+// 企业产品目录-列表页
+export const getGoodsSearch = params => axios.post('/c/enterprise-goods/goods-search', params);
+
 
 
 

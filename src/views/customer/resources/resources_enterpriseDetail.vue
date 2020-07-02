@@ -34,12 +34,11 @@
     <div v-if="details.videoList.length">
       <h3 class="specifyWrap_title">企业相关视频</h3>
       <div class="specifyWrap">
-        <ul class="specifyList clearfix" :style="{width: (4.62 *  videoList.length) + 'rem'}">
-          <li
-            v-for="(item, index)  in details.videoList"
-            :key="index"
-            class="contentItem"
-          >
+        <ul
+          class="specifyList clearfix"
+          :style="{width: (4.62 *  details.videoList.length) + 'rem'}"
+        >
+          <li v-for="(item, index)  in details.videoList" :key="index" class="contentItem">
             <!-- :class="index+1 == details.videoList.length ? 'margin0' : ''" -->
             <!-- <img :src="item.videoUrl" alt class="itemImg" /> -->
             <div class="itemImg">
@@ -59,25 +58,33 @@
 
     <!-- 企业产品目录 -->
     <div class="product_catalog">
-      <div class="top-title">
-        <span>企业产品目录</span>
-        <van-icon name="arrow" />
-      </div>
-      <div class="item">
-        <div class="itemList" v-for="(item,index) in productList" :key="index">
-          <img :src="item.imgSrc" alt />
-          <div class="right">
-            <div class="title">{{item.title}}</div>
+      <van-row class="top-title">
+        <van-col span="21">
+          <h3 class="tit">企业产品目录</h3>
+        </van-col>
+        <van-col span="3" class="text-right">
+          <van-icon name="arrow" />
+        </van-col>
+      </van-row>
+
+      <div class="listWrap" v-if="productList.length">
+        <van-row class="itemList" v-for="(item,index) in productList" :key="index">
+          <van-col span="7">
+            <img :src="item.goodsLogo" alt class="logo" />
+          </van-col>
+          <van-col span="17">
+            <div class="title">{{item.goodsName}}</div>
             <div class="nums">
-              <div class="idNum">订货号：{{item.idNum}}</div>
-              <div class="num">起订量：{{item.num}}</div>
+              <p class="idNum">订货号：{{item.orderNo}}</p>
+              <p
+                class="num"
+              >起订量：{{ item.minOrderQuantity ? item.minOrderQuantity + item.goodsUnit : '' }}</p>
             </div>
-          </div>
-        </div>
+          </van-col>
+        </van-row>
+        <van-divider dashed>我是有底线的</van-divider>
       </div>
     </div>
-
-    <van-divider dashed>我是有底线的</van-divider>
   </div>
 </template>
 <script>
@@ -94,10 +101,9 @@ export default {
   data() {
     return {
       // 企业id
-      enterpriseId: this.$route.query.id,
+      enterpriseId: "",
       details: {
         enterprise: {},
-        videoList: [],
         followStatus: "",
         total: ""
       },
@@ -105,46 +111,47 @@ export default {
       playVideoId: "0",
       active: "home",
       src: require("@/assets/images/video1.mp4"),
-      person: [],
-      videoList: [],
-      productList: [
-        {
-          imgSrc: "",
-          title:
-            "360 行车记录仪 g300 高清夜视隐藏式免安装无线迷你车载测速电子狗",
-          idNum: "A2323",
-          num: 1
-        },
-        {
-          imgSrc: "",
-          title:
-            "360 行车记录仪 g300 高清夜视隐藏式免安装无线迷你车载测速电子狗",
-          idNum: "A2323",
-          num: 1
-        },
-        {
-          imgSrc: "",
-          title:
-            "360 行车记录仪 g300 高清夜视隐藏式免安装无线迷你车载测速电子狗",
-          idNum: "A2323",
-          num: 1
-        },
-        {
-          imgSrc: "",
-          title:
-            "360 行车记录仪 g300 高清夜视隐藏式免安装无线迷你车载测速电子狗",
-          idNum: "A2323",
-          num: 1
-        }
-      ]
+      productList: []
     };
   },
   created() {
-    console.log(this.$route.query.id);
-
+    this.enterpriseId = this.$route.query.id;
     this.handelGetDetails();
+    // 获取企业产品目录
+    this.handelGetGoodsSearch();
   },
   methods: {
+    // 获取参展商详情
+    handelGetDetails() {
+      Api.getEnterpriseDetailById(this.enterpriseId)
+        .then(res => {
+          let { code, msg, data, total } = res;
+          if (code == 200) {
+            this.details = data;
+          }
+        })
+        .catch(err => {});
+    },
+
+    // 获取企业产品目录
+    handelGetGoodsSearch() {
+      let param = {
+        enterpriseId: this.enterpriseId, // 企业id
+        pageNum: "1", // 页码
+        pageSize: "5", // 每页记录数
+        isAsc: "1", // 排序，1：正序，2：倒序
+        params: "" // 查询条件
+      };
+      Api.getGoodsSearch(param)
+        .then(res => {
+          let { code, msg, data, total } = res;
+          if (code == 200) {
+            this.productList = data;
+          }
+        })
+        .catch(err => {});
+    },
+
     // 跳转至法人详情
     goToPerson() {
       this.$router.push({
@@ -165,21 +172,7 @@ export default {
         }
       });
     },
-    // 获取参展商详情
-    handelGetDetails() {
-      Api.getEnterpriseDetailById(this.$route.query.id)
-        .then(res => {
-          let { code, msg, data, total } = res;
-          console.log("参展商详情", res);
 
-          if (code == 200) {
-            this.details = data;
-            this.person = data.peopleList;
-            this.videoList = data.videoList;
-          }
-        })
-        .catch(err => {});
-    },
     // 跳转至参展公司详情
     goCompany_details() {
       this.$router.push({
@@ -196,70 +189,20 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+.resources_enterpriseDetail {
+  .vjs-custom-skin > .video-js .vjs-control-bar {
+    zoom: 0.6;
+  }
+  .videoPlayerContainer .video-js .vjs-big-play-button {
+    zoom: 0.7;
+  }
+}
+</style>
 <style lang='scss' scoped>
 @import "@/assets/styles/base/calc_vm.scss";
 @import "./resources.scss";
 .resources_enterpriseDetail {
-  .product_catalog {
-    margin-top: 1.02rem;
-    margin-bottom: 1.3rem;
-    .itemList {
-      width: 6.96rem;
-      height: 2.24rem;
-      background: rgba(255, 255, 255, 1);
-      box-shadow: 0rem 0.1rem 0.26rem 0rem rgba(223, 227, 233, 0.51);
-      border-radius: 0.16rem;
-      margin-top: 0.4rem;
-      position: relative;
-      img {
-        margin-top: 0.22rem;
-        width: 1.8rem;
-        height: 1.8rem;
-        border: 1px solid #babcc0;
-      }
-      .right {
-        position: absolute;
-        left: 2.08rem;
-        top: 0.22rem;
-        .title {
-          width: 4.42rem;
-          height: 0.9rem;
-          line-height: 0.45rem;
-          font-size: 0.28rem;
-          // word-break: break-all;
-          // white-space: pre-wrap;
-          // word-wrap: break-word;
-          display: -webkit-box;
-          -webkit-box-orient: vertical;
-          -webkit-line-clamp: 2;
-          overflow: hidden;
-        }
-        .nums {
-          margin-top: 0.14rem;
-          font-size: 0.24rem;
-          color: #babcc0;
-          width: 2.3rem;
-          height: 0.72rem;
-          line-height: 0.36rem;
-        }
-      }
-    }
-  }
-}
-.top-title {
-  color: #313437;
-  position: relative;
-  span {
-    font-size: 0.32rem;
-    font-weight: bold;
-  }
-  .van-icon {
-    position: absolute;
-    right: 0.32rem;
-    margin-top: 0.12rem;
-  }
-}
-/deep/ .van-divider {
-  font-size: 0.24rem;
 }
 </style>

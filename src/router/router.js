@@ -144,6 +144,15 @@ export default [
         component: () => import('@/views/customer/exhibitor/company_details')
     },
     {
+        path: '/appointment_calendar',
+        meta: {
+            requiresAuth: false,
+            title: '参展商目录-预约日历',
+        },
+        name: 'appointment_calendar',
+        component: () => import('@/views/customer/exhibitor/appointment_calendar')
+    },
+    {
         path: '/person',
         meta: {
             requiresAuth: false,

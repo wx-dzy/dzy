@@ -110,8 +110,30 @@ export default {
     margin-left: -1em;
   }
   .vjs-poster {
-        // background: #000 url(https://org.modao.cc/uploads4/images/4612/46122644/v2_q7op1z.jpg) no-repeat 0 0;
+    // background: #000 url(https://org.modao.cc/uploads4/images/4612/46122644/v2_q7op1z.jpg) no-repeat 0 0;
     background-size: calc(100% + 1px) 100%;
+  }
+
+  // 小尺寸适配
+}
+.videoPlayerContainer.zoom {
+  .video-js .vjs-control-bar {
+    zoom: 0.6;
+  }
+  .video-js .vjs-big-play-button {
+    zoom: 0.7;
+  }
+  .video-js .vjs-play-progress:before {
+    top: -0.62em;
+  }
+  // 全屏恢复 底部大小
+  .video-js.vjs-fullscreen {
+    .vjs-control-bar {
+      zoom: 1;
+    }
+    .vjs-play-progress:before {
+      top: -0.3em;
+    }
   }
 }
 </style>

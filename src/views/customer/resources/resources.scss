@@ -212,10 +212,9 @@
         }
     }
 
-
     .product_catalog {
         margin-top: 0.3rem;
-        // margin-bottom: 0.8rem;
+
         .top-title {
             color: #313437;
             line-height: 1rem;
@@ -248,9 +247,188 @@
                 margin-top: 0.14rem;
                 font-size: 0.24rem;
                 line-height: 0.36rem;
-                color:rgba(157,161,166,1);
+                color: rgba(157, 161, 166, 1);
             }
         }
     }
-    .van-divider {padding-top: 0.5rem;}
+
+    .van-divider {
+        padding-top: 0.5rem;
+    }
 }
+
+// 资源-人物详情
+.resources_personDetail {
+    .head {
+        position: relative;
+        padding: 0.42rem 0 0.68rem 0.52rem;
+
+        .photo {
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 50%;
+        }
+
+        .name {
+            padding-top: 0.14rem;
+            line-height: 0.72rem;
+            font-size: 0.32rem;
+            color: rgba(49, 52, 55, 1);
+        }
+
+        .status {
+            display: inline-block;
+            padding: 0 0.18rem;
+            font-size: 0.2rem;
+            line-height: 0.36rem;
+            color: rgba(49, 52, 55, 1);
+            background: #DAF6F4;
+            border-radius: 0.08rem;
+        }
+
+        .status0 {
+            background: #F8D57E;
+        }
+
+        .status1 {
+            background: #DAF6F4;
+        }
+
+        .status2 {
+            background: #EAE2FE;
+        }
+
+        .status3 {
+            background: #FEE1DD;
+        }
+
+        .btnWrap {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .getBtn {
+            padding: 0 0.3rem;
+            // margin-top: 0.44rem;
+            border-radius: 0.29rem 0rem 0rem 0.29rem;
+            color: rgba(49, 52, 55, 1) !important;
+            font-weight: 800;
+        }
+    }
+
+    // 个人简介
+    .infoWrap {
+        padding-top: 0.2rem;
+    }
+
+    // 工作经历
+    .workHistory {
+        padding: 0.28rem;
+
+        .title {
+            font-size: 0.32rem;
+            color: rgba(49, 52, 55, 1);
+            line-height: 0.84rem;
+        }
+
+        .workItem {
+            position: relative;
+            padding: 0.32rem 0.18rem 0.32rem 0.22rem;
+            margin-bottom: 0.4rem;
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0rem 0.1rem 0.26rem 0rem rgba(223, 227, 233, 0.51);
+            border-radius: 0.16rem;
+
+            .logo {
+                width: 1.56rem;
+                height: 1.56rem;
+                border-radius: 0.04rem;
+                border: 0.02rem solid rgba(233, 233, 233, 1);
+            }
+
+            .post {
+                font-size: 0.28rem;
+                color: rgba(49, 52, 55, 1);
+                line-height: 0.4rem;
+            }
+
+            .name {
+                padding-top: 0.1rem;
+                font-size: 0.28rem;
+                color: rgba(49, 52, 55, 1);
+                line-height: 0.4rem;
+            }
+
+            .cont {
+                font-size: 0.24rem;
+                color: rgba(157, 161, 166, 1);
+                line-height: 0.36rem;
+            }
+
+            .status {
+                display: inline-block;
+                padding: 0 0.18rem;
+                margin-left: 0.15rem;
+                font-size: 0.2rem;
+                line-height: 0.32rem;
+                color: rgba(49, 52, 55, 1);
+                border-radius: 0.08rem;
+            }
+
+            .status0 {
+                background: #E9E9E9;
+            }
+
+            .status1 {
+                background: #F8D57E;
+            }
+
+
+            .itemRight {
+                position: absolute;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                .van-icon {
+                    color: #9DA1A6;
+                }
+            }
+        }
+
+        .workItem.margin0 {
+            margin: 0;
+        }
+    }
+
+    .footerBtn {
+        padding: 0.28rem 0.28rem 0.5rem;
+
+        .van-button {
+            height: 0.8rem;
+            background: rgba(248, 213, 126, 1);
+            border-radius: 0.16rem;
+            color: rgba(49, 52, 55, 1) !important;
+        }
+    }
+
+    .textHid {
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        
+    }
+}
+
+// 资源-工作经历
+.resources_info {}

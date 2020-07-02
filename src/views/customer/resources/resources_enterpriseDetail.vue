@@ -1,4 +1,4 @@
-// 资源-企业详情 resources_enterpriseDetail
+// 资源-企业详情
 <template>
   <div class="resources_enterpriseDetail">
     <div class="top" v-if="details.enterprise">
@@ -15,8 +15,8 @@
         </i>
       </div>
       <div class="btn">
-        <button class="left_btn" @click="goCompany_details">获取公司资料</button>
-        <button class="right_btn" @click="goTo">公司情况</button>
+        <button class="left_btn" @click="handRoter_companyInfo">获取公司资料</button>
+        <button class="right_btn" @click="handRoter_companyDetails">公司情况</button>
         <!-- <button class="right_btn">预约面谈</button> -->
       </div>
       <div class="type" v-show="details.followStatus == 1">
@@ -48,6 +48,7 @@
                 :bannerIMG="item.mediaUrl"
                 :playVideoId.sync="playVideoId"
                 style="width: 100%;"
+                class="zoom"
               />
             </div>
             <p class="cont">{{item.mediaTitle}}</p>
@@ -58,7 +59,7 @@
 
     <!-- 企业产品目录 -->
     <div class="product_catalog">
-      <van-row class="top-title">
+      <van-row class="top-title" @click="handleLookList">
         <van-col span="21">
           <h3 class="tit">企业产品目录</h3>
         </van-col>
@@ -68,7 +69,7 @@
       </van-row>
 
       <div class="listWrap" v-if="productList.length">
-        <van-row class="itemList" v-for="(item,index) in productList" :key="index">
+        <van-row class="itemList" v-for="(item,index) in productList" :key="index" @click="handleLookItem(item)">
           <van-col span="7">
             <img :src="item.goodsLogo" alt class="logo" />
           </van-col>
@@ -84,6 +85,14 @@
         </van-row>
         <van-divider dashed>我是有底线的</van-divider>
       </div>
+      <!-- 占位图 -->
+      <img
+        v-else
+        src="@/assets/images/nullImgText.png"
+        style="width: 2.6rem; margin: 1.4rem 2rem;"
+        class="nullImg"
+        alt
+      />
     </div>
   </div>
 </template>
@@ -104,14 +113,14 @@ export default {
       enterpriseId: "",
       details: {
         enterprise: {},
+        videoList: [],
         followStatus: "",
         total: ""
       },
-
-      playVideoId: "0",
-      active: "home",
-      src: require("@/assets/images/video1.mp4"),
-      productList: []
+      // 企业产品目录列表
+      productList: [],
+      // 当前播放器id(预留暂时无用)
+      playVideoId: "0"
     };
   },
   created() {
@@ -152,53 +161,60 @@ export default {
         .catch(err => {});
     },
 
-    // 跳转至法人详情
-    goToPerson() {
+    // 获取公司资料
+    handRoter_companyInfo() {
+      console.log('需要确定是否需要接口及参数名称')
       this.$router.push({
-        path: "/juridical_person",
+        name: "exact_information",
         query: {
-          enterpriseExhibitorsId: this.enterpriseId
-        }
-      });
-    },
-    // 跳转至企业人物
-    goToPerson() {
-      this.$router.push({
-        path: "/person",
-        query: {
-          enterpriseExhibitorsId: this.enterpriseId,
-          name: this.details.exhibitors.name, //企业名称
-          followStatus: this.details.followStatus //是否关注
+          // enterpriseExhibitorsId: this.enterpriseId
         }
       });
     },
 
-    // 跳转至参展公司详情
-    goCompany_details() {
+    // 公司情况
+    handRoter_companyDetails() {
       this.$router.push({
-        path: "/company_details",
+        name: "company_details",
         query: {
           enterpriseExhibitorsId: this.enterpriseId
         }
       });
     },
-    goTo() {
-      // 跳转至企业相关视频页
-      // this.$router.push({ path: "" });
+    // 查看全部企业产品目录
+    handleLookList() {
+      return console.log('暂无路由')
+      // 接口地址  http://rap2.taobao.org/repository/editor?id=258218&mod=389957&itf=1629307
+      this.$router.push({
+        name: "",
+        query: {
+          // 企业id
+          enterpriseId: this.enterpriseId
+        }
+      });
+    },
+
+    // 查看产品详情
+    handleLookItem(row) {
+      return console.log('暂无路由')
+      // 接口地址  http://rap2.taobao.org/repository/editor?id=258218&mod=389957&itf=1631624
+      this.$router.push({
+        name: "",
+        query: {
+          // 商品id
+          goodsId: row.id
+        }
+      });
     }
+
+    
+    
   }
 };
 </script>
 
 <style lang="scss">
-.resources_enterpriseDetail {
-  .vjs-custom-skin > .video-js .vjs-control-bar {
-    zoom: 0.6;
-  }
-  .videoPlayerContainer .video-js .vjs-big-play-button {
-    zoom: 0.7;
-  }
-}
+// .resources_enterpriseDetail {}
 </style>
 <style lang='scss' scoped>
 @import "@/assets/styles/base/calc_vm.scss";

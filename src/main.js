@@ -45,6 +45,7 @@ import {
   Popup,
   Skeleton,
   Image as VanImage,
+  Collapse, CollapseItem
 
 } from 'vant';
  
@@ -82,6 +83,9 @@ Vue.use(DropdownItem);
 Vue.use(Popup);
 Vue.use(Skeleton);
 Vue.use(VanImage);
+Vue.use(Collapse);
+Vue.use(CollapseItem);
+
 
 
 

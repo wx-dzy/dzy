@@ -196,9 +196,5 @@ export default {
 <style lang="scss" scoped>
 @import "@/assets/styles/base/calc_vm.scss";
 @import "../resources.scss";
-.nullImg {
-  width: 4rem;
-  margin: 0.4rem 1.47rem;
-}
 </style>
 

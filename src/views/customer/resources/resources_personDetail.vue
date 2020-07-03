@@ -73,7 +73,7 @@
               >{{item.onJob == 1 ? '在职' : item.onJob == 0 ? '离职' : '' }}</span>
             </h3>
             <p class="name">
-              {{item.companyName}}
+              {{item.enterpriseName}}
             </p>
             <p class="cont">
               {{item.startDate + '-' + (item.endDate ? item.endDate : '至今') }}
@@ -126,41 +126,7 @@ export default {
       details: {
         user: {},
         userCardList: [],
-        workList: [
-          {
-            id: "1",
-            authStatus: "2",
-            companyLogo: "3",
-            companyName: "公司明晨公司明晨公司明晨公司明晨",
-            postName: "销售经理",
-            startDate: "6",
-            endDate: "7",
-            onJob: "1",
-            workDesc: "9"
-          },
-          {
-            id: "1",
-            authStatus: "2",
-            companyLogo: "3",
-            companyName: "4",
-            postName: "销售经理",
-            startDate: "6",
-            endDate: "7",
-            onJob: "0",
-            workDesc: "9"
-          },
-          {
-            id: "1",
-            authStatus: "2",
-            companyLogo: "3",
-            companyName: "4",
-            postName: "销售经理",
-            startDate: "6",
-            endDate: "7",
-            onJob: "1",
-            workDesc: "9"
-          }
-        ],
+        workList: [],
         DemList: {
           id: "1272913711522246658",
           mediaTitle: "视频标题",

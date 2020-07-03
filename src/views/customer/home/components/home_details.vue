@@ -33,20 +33,14 @@
             </van-row>
           </van-col>
           <van-col span="24" class="text-right">
-            <van-button
-              v-show="!details.followStatus"
-              icon="icon iconfont yz-guanzhu"
-              type="default"
-              class="btnNone"
-              @click="handleIsFollow(1)"
-            >关注</van-button>
-            <van-button
-              v-show="details.followStatus"
-              icon="icon iconfont yz-yiguanzhu"
-              type="default"
-              class="btnNone"
-              @click="handleIsFollow(0)"
-            >已关注</van-button>
+            <!-- 关注组件 -->
+            <follow
+              :followType="1"
+              :followId="details.enterprise.id"
+              :followStatus.sync="details.followStatus"
+              :showIndex="1"
+              @successCBK="handleFollow"
+            />
             <van-button
               icon="icon iconfont yz-fenxiang"
               type="default"
@@ -157,13 +151,14 @@ import img1 from "@/assets/images/home/1.png";
 import img2 from "@/assets/images/home/2.png";
 import img3 from "@/assets/images/home/3.png";
 import nullImg from "@/assets/images/null.png";
+import follow from "@/components/customer/follow.vue";
 
 // import footerNav from "@/components/customer/footerNav/index.vue";
 
 export default {
   name: "home_details",
   components: {
-    // VideoDemo, // 播放
+    follow
     // footerNav
   },
   data() {
@@ -189,54 +184,10 @@ export default {
         }
       ],
       details: {
-        // mediaList: [
-        //   {
-        //     id: 1272913711522246658,
-        //     enterpriseShowId: 1272919606301855745,
-        //     enterpriseShowName: "夏季汽配展",
-        //     mediaUrl:
-        //       "https://img30.360buyimg.com/popWaterMark/jfs/t1/117113/35/8884/224865/5ed3b7eaE848717a8/bb3a27cfcac3a2e8.jpg",
-        //     mediaTitle: "测1",
-        //     mediaType: 1,
-        //     videoUrl:
-        //       "https://vod.300hu.com/4c1f7a6atransbjngwcloud1oss/56219e93229189724781699073/v.f30.mp4",
-        //     remarks: "",
-        //     showOrder: ""
-        //   },
-        //   {
-        //     id: 1272913711522246659,
-        //     enterpriseShowId: 1272919606301855745,
-        //     enterpriseShowName: "夏季汽配展",
-        //     mediaUrl:
-        //       "http://himg2.huanqiu.com/attachment2010/2015/0407/10/16/20150407101608259.jpg",
-        //     mediaTitle: "测2",
-        //     mediaType: 0,
-        //     videoUrl: "",
-        //     remarks: "",
-        //     showOrder: 100
-        //   }
-        // ],
+        // mediaList: [],
         // followStatus: 1,
-        // enterprise: {
-        //   id: 1272913711522246658,
-        //   logo:
-        //     "https://org.modao.cc/uploads4/images/4826/48266322/v2_qa1ods.jpg",
-        //   name: "亚森国际",
-        //   shortName: "亚森"
-        // },
-        // enterpriseShow: {
-        //   id: 1272919606301855745,
-        //   showName: "夏季汽配展",
-        //   showFormat: 1,
-        //   provinceName: "河北省",
-        //   cityName: "石家庄市",
-        //   planStartDate: "2020-01-16",
-        //   planEndDate: "2020-01-19",
-        //   hosts: "中国交通协会",
-        //   organizer: "亚森国际有限公司",
-        //   coOrganizer: "北京市交通协会",
-        //   supportMedia: "一览展会网, 大招网"
-        // },
+        // enterprise: {},
+        // enterpriseShow: {},
       }
     };
   },
@@ -250,7 +201,6 @@ export default {
     // 默认刷新列表
     this.handleGetDetail();
     console.log("分享二维码,接口openid");
-    // console.log("1272919606905835521");
   },
 
   methods: {
@@ -277,30 +227,12 @@ export default {
         });
     },
 
-    // 关注/取消关注  followStatus 1表示关注，0表示取消关注
-    handleIsFollow(followStatus) {
-      let param = {
-        // followStatus 1表示关注，0表示取消关注
-        followStatus: followStatus || "",
-        // 要关注的企业id或人物id
-        followId: this.details.enterprise.id,
-        // 1：关注企业，2：关注人物
-        followType: "1",
-        // 用户openId
-        openId: "open"
-      };
-      Api.setIsFollow(param)
-        .then(res => {
-          let { code, msg, data, total } = res;
-          if (code == 200) {
-            util.success(msg);
-            // 默认刷新列表
-            this.handleGetDetail();
-          }
-        })
-        .catch(err => {});
+    // 关注组件回调
+    handleFollow(status) {
+      // console.log(status, "关注组件回调");
+      this.handleGetDetail();
     },
-
+    
     // 分享
     handleShare() {
       this.showShare = true;
@@ -353,10 +285,9 @@ export default {
             // 活动id（展会id）
             enterpriseShowId: this.details.enterpriseShow.id,
             // 展览馆id，全部时传0
-            placeId: "0",
+            placeId: "0"
           }
         });
-        
       }
 
       // 展会日程
@@ -383,8 +314,6 @@ export default {
         });
       }
     }
-
-
   },
 
   computed: {},

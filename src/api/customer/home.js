@@ -14,7 +14,7 @@ export const getHomePage = params => axios.get('/c/index/page', {params});
 export const getHomePageDetails= params => axios.get('/c/enterprise-show/get-by-id/'+params);
 
 // 关注/取消关注企业（人物）  /c/user-follow/follow/{followStatus}
-export const setIsFollow = params => axios.post('/c/user-follow/follow', params);
+// export const setIsFollow = params => axios.post('/c/user-follow/follow', params);
 
 // 展会企业介绍   /c/enterprise/get-enterprise-base-info-by-id/{enterpriseId}
 export const getEnterpriseBaseInfoById= params => axios.get('/c/enterprise/get-enterprise-base-info-by-id/'+params);

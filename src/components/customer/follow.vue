@@ -102,14 +102,19 @@ export default {
 <style lang="scss" scoped>
 .follow {
   display: inline-block;
-  .sty2 {
+  .sty1 {
     .btnNone {
       font-size: 0.28rem;
       color: #313437;
       line-height: 0.4rem;
-      margin: 0.3rem 0 0.1rem;
       border: none;
+      background: rgba(0, 0, 0, 0);
+      .iconfont {
+        color: #f8d57e;
+      }
     }
+  }
+  .sty2 {
     .type .van-icon {
       width: 0.74rem;
       height: 0.34rem;

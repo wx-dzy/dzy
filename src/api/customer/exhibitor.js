@@ -17,3 +17,9 @@ export const getPerson = (enterpriseExhibitorsId,params) => axios.get('/c/enterp
 
 // 参展商-企业基本信息
 export const getExhibitorsInfo = params => axios.get('/c/enterprise-show-exhibitors/exhibitors-base-info/' + params);
+
+// 参展商目录-企业人物-详情
+export const getPeopleDetails = params => axios.get('/c/enterprise-people/exhibitors-people-info/' + params);
+
+// 企业产品目录-列表页
+export const getGoods = data => axios.post('/c/enterprise-goods/goods-search', data);

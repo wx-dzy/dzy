@@ -165,8 +165,7 @@ export default {
         name: "resources_personDetail",
         query: {
           // 用户id
-          id: row.userId
-          // title: row.enterpriseName
+          userId: row.userId
         }
       });
     }
@@ -199,9 +198,6 @@ export default {
 <style lang="scss" scoped>
 @import "@/assets/styles/base/calc_vm.scss";
 @import "../resources.scss";
-.nullImg {
-  width: 4rem;
-  margin: 0.4rem 1.47rem;
-}
+
 </style>
 

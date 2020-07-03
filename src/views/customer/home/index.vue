@@ -38,6 +38,7 @@
                   :bannerIMG="item.mediaUrl"
                   :playVideoId.sync="playVideoId"
                   style="width: 100%;"
+                  class="zoom"
                 />
               </div>
               <ol class="cont">
@@ -109,7 +110,6 @@
                   >{{ item.showFormat == 1 ? '仅线上' : item.showFormat == 2 ? '仅线下' : item.showFormat == 3 ? '全包括' : ''}}</span>
                   <span v-show="item.specifyStatus == 1" class="status">企业指定</span>
                 </p>
-                
               </li>
             </ol>
           </van-cell>
@@ -123,7 +123,7 @@
         src="@/assets/images/null.png"
         class="nullImg"
         alt
-      /> -->
+      />-->
     </van-pull-refresh>
     <footer-nav :active="active" />
   </div>
@@ -294,7 +294,9 @@ export default {
   }
 };
 </script>
-
+<style lang="scss">
+// .home {}
+</style>
 <style lang="scss" scoped>
 @import "@/assets/styles/base/calc_vm.scss";
 @import "./home.scss";
@@ -302,18 +304,6 @@ export default {
 .nullImg {
   width: 4rem;
   margin: 0.4rem 1.47rem;
-}
-</style>
-
-<style lang="scss">
-.home {
-  .specifyList {
-    .videoPlayerContainer .video-js .vjs-big-play-button {
-      // width: 1rem !important;
-      // height: 1rem !important;
-      zoom: 0.7;
-    }
-  }
 }
 </style>
 

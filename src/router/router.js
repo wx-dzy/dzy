@@ -138,7 +138,8 @@ export default [
         path: '/company_details',
         meta: {
             requiresAuth: false,
-            title: '参展商目录-公司详情',
+            // 参展商目录-公司详情
+            title: '公司详情',
         },
         name: 'company_details',
         component: () => import('@/views/customer/exhibitor/company_details')
@@ -270,7 +271,18 @@ export default [
         component: () => import('@/views/customer/resources/resources_personDetail.vue'),
     },
 
-    
+    // 资源-工作经历
+    {
+        path: '/resources_info',
+        meta: {
+            requiresAuth: false,
+            title: '查看个人信息',
+        },
+        name: 'resources_info',
+        component: () => import('@/views/customer/resources/resources_info.vue'),
+    },
+
+
     // ------------------   资源   end ------------------
 
 

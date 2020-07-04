@@ -17,3 +17,12 @@ export const getPerson = (enterpriseExhibitorsId,params) => axios.get('/c/enterp
 
 // 参展商-企业基本信息
 export const getExhibitorsInfo = params => axios.get('/c/enterprise-show-exhibitors/exhibitors-base-info/' + params);
+
+// 参展商预约日历-获取人员等信息
+export const getUserInfo = params => axios.get('/c/show-people-interview/exhibitors-user-info/' + params);
+
+// 参展商预约日历-获取周数据
+export const getWeekData = params => axios.post('/c/show-people-interview/exhibitors-user-calendar-by-week' + params);
+
+// 参展商预约日历-获取日数据
+export const getTodayData = params => axios.get('/c/show-people-interview/exhibitors-user-calendar-by-day/' + params);

@@ -13,11 +13,11 @@
       </div>
       <div class="btn">
         <button class="left_btn" @click="goCompany_details">获取公司资料</button>
-        <button class="right_btn">预约面谈</button>
+        <button class="right_btn" @click="toaCalendar">预约面谈</button>
         <!-- <van-button round size="small"></van-button>
         <van-button round size="small" color="#ffd36f">预约面谈</van-button>-->
       </div>
-      <div class="more" @click="goTo">
+      <div class="more"  @click="goCompany_details">
         公司更多信息
         <van-icon name="arrow" />
       </div>
@@ -33,7 +33,7 @@
         <div class="type_name">未关注</div>
       </div>
     </div>
-    <div class="exhibitor">
+    <div class="exhibitor" v-if="person.length > 0">
       <div class="top-title">
         <span>企业人物</span>
         <van-icon name="arrow" @click="goToPerson"/>
@@ -47,7 +47,7 @@
       </div>
     </div>
     <!-- 企业相关视频 -->
-    <div class="exhibitor_video">
+    <div class="exhibitor_video" v-if="videoList.length>0">
       <div class="top-title">
         <span>企业相关视频</span>
         <van-icon name="arrow" />
@@ -77,7 +77,7 @@
     </div>
 
     <!-- 企业产品目录 -->
-    <div class="product_catalog">
+    <!-- <div class="product_catalog">
       <div class="top-title">
         <span>企业产品目录</span>
         <van-icon name="arrow" />
@@ -94,9 +94,9 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
-    <van-divider dashed>我是有底线的</van-divider>
+    <!-- <van-divider dashed>我是有底线的</van-divider> -->
   </div>
 </template>
 <script>
@@ -117,36 +117,7 @@ export default {
       src: require("@/assets/images/video1.mp4"),
       person: [],
       videoList: [],
-      productList: [
-        {
-          imgSrc: "",
-          title:
-            "360 行车记录仪 g300 高清夜视隐藏式免安装无线迷你车载测速电子狗",
-          idNum: "A2323",
-          num: 1
-        },
-        {
-          imgSrc: "",
-          title:
-            "360 行车记录仪 g300 高清夜视隐藏式免安装无线迷你车载测速电子狗",
-          idNum: "A2323",
-          num: 1
-        },
-        {
-          imgSrc: "",
-          title:
-            "360 行车记录仪 g300 高清夜视隐藏式免安装无线迷你车载测速电子狗",
-          idNum: "A2323",
-          num: 1
-        },
-        {
-          imgSrc: "",
-          title:
-            "360 行车记录仪 g300 高清夜视隐藏式免安装无线迷你车载测速电子狗",
-          idNum: "A2323",
-          num: 1
-        }
-      ],
+      productList: [],
       details:''
     };
   },
@@ -156,6 +127,17 @@ export default {
     
   },
   methods: {
+    // 获取企业产品
+    getGoods(){
+
+      Api.getGoods()
+    },
+    // 预约日历
+    toaCalendar () {
+      this.$router.push({
+        path: '/appointment_calendar'
+      })
+    },
     // 跳转至法人详情
     goToPerson () {
       this.$router.push({ 
@@ -338,7 +320,7 @@ export default {
           width: 1.28rem;
         }
         .type {
-          width: 0.8rem;
+          width: 1rem;
           height: 0.32rem;
           line-height: 0.32rem;
           background: rgba(157, 161, 166, 1);

@@ -50,7 +50,7 @@
     </div>
     <img  src="@/assets/images/null.png" class="nullImg" v-else alt />
     <van-divider dashed v-if="totalExhibitors==0 ? false : true">我是有底线的</van-divider>
-    <img v-else src="@/assets/images/null.png" class="nullImg" alt />
+    <img v-if="list.length == 0" src="@/assets/images/null.png" class="nullImg" alt />
   </div>
 </template>
 <script>

@@ -243,7 +243,7 @@ export default [
         path: '/resources',
         meta: {
             requiresAuth: false,
-            title: '资源',
+            title: '关注资源',
         },
         name: 'resources',
         component: () => import('@/views/customer/resources/index.vue'),

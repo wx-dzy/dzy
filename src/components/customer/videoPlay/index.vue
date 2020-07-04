@@ -1,7 +1,6 @@
 // 播放器 组件  https://www.jb51.net/article/173816.htm
 <template>
   <div v-if="_id && src" class="videoPlayerContainer">
-    {{_id}}
     <div class="player">
       <video-player
         class="video-player vjs-custom-skin"

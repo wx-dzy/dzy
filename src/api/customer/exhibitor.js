@@ -26,3 +26,9 @@ export const getWeekData = params => axios.post('/c/show-people-interview/exhibi
 
 // 参展商预约日历-获取日数据
 export const getTodayData = params => axios.get('/c/show-people-interview/exhibitors-user-calendar-by-day/' + params);
+
+// 参展商目录-企业人物-详情
+export const getPeopleDetails = params => axios.get('/c/enterprise-people/exhibitors-people-info/' + params);
+
+// 企业产品目录-列表页
+export const getGoods = data => axios.post('/c/enterprise-goods/goods-search', data);

@@ -18,10 +18,55 @@
         </van-swipe>
       </div>
 
-      <!-- 占位图 -->
-      <img v-if="!listData.length" src="@/assets/images/null.png" class="nullImg" alt />
-      <!-- 列表内容 -->
-      <div class="content" v-else>
+      <!-- 指定参加  列表内容-->
+      <div v-if="specifyList.length">
+        <div class="specifyWrap">
+          <h3 class="title">指定参加</h3>
+          <ul class="specifyList clearfix" :style="{width: (4.62 *  specifyList.length) + 'rem'}">
+            <li
+              v-for="(item, index)  in specifyList"
+              :key="index"
+              class="contentItem"
+              :class="index+1 == specifyList.length ? 'margin0' : ''"
+              @click="handleLook(item)"
+            >
+              <!-- <img :src="item.videoUrl" alt class="itemImg" /> -->
+              <div class="itemImg">
+                <Video-Demo
+                  :_id="item.id"
+                  :src="item.videoUrl"
+                  :bannerIMG="item.mediaUrl"
+                  :playVideoId.sync="playVideoId"
+                  style="width: 100%;"
+                />
+              </div>
+              <ol class="cont">
+                <li class="tit">
+                  <span class="type">{{ item.tagName }}</span>
+                  {{item.showName}}
+                </li>
+                <!-- <li class="timer">{{ item.planStartDate.replace('-', ".") }} - {{ item.planEndDate.replace(/-/, ".") }}</li> -->
+                <li class="timer">{{ item.planStartDate }} - {{ item.planEndDate }}</li>
+                <li class="clearfix">
+                  <img :src="item.logo" alt="logo" class="logo" />
+                  <i>{{ item.enterpriseName }}</i>
+                  <p class="statusWrap">
+                    <span
+                      class="status"
+                    >{{ item.showFormat == 1 ? '仅线上' : item.showFormat == 2 ? '仅线下' : item.showFormat == 3 ? '全包括' : ''}}</span>
+                    <span v-show="item.specifyStatus == 1" class="status">企业指定</span>
+                  </p>
+                  <!-- <van-button round type="default" size="small" style="float:right;">了解更多</van-button> -->
+                </li>
+              </ol>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 全部展会 列表内容 -->
+      <div class="content" v-if="listData.length">
+        <h3 class="title">全部展会</h3>
         <!-- List 列表 -->
         <van-list
           v-model="loading"
@@ -36,6 +81,7 @@
             :key="index"
             class="contentItem"
             :class="index+1 == listData.length ? 'margin0' : ''"
+            @click="handleLook(item)"
           >
             <!-- <img :src="item.videoUrl" alt class="itemImg" /> -->
             <div class="itemImg">
@@ -48,34 +94,36 @@
               />
             </div>
 
-            <p
-              class="status"
-            >{{ item.showFormat == 1 ? '仅线上' : item.showFormat == 2 ? '仅线下' : item.showFormat == 3 ? '全包括' : ''}}</p>
             <ol class="cont">
               <li class="tit">
                 <span class="type">{{ item.tagName }}</span>
                 {{item.showName}}
               </li>
-              <!-- <li class="timer">{{ item.planStartDate.replace('-', ".") }} - {{ item.planEndDate.replace(/-/, ".") }}</li> -->
               <li class="timer">{{ item.planStartDate }} - {{ item.planEndDate }}</li>
               <li class="clearfix">
                 <img :src="item.logo" alt="logo" class="logo" />
                 <i>{{ item.enterpriseName }}</i>
-                <!-- <router-link :to="{'path':'personal',}"> -->
-                <van-button
-                  round
-                  type="default"
-                  size="small"
-                  style="float:right;"
-                  @click="handleLook(item)"
-                >了解更多</van-button>
-                <!-- </router-link> -->
+                <p class="statusWrap">
+                  <span
+                    class="status"
+                  >{{ item.showFormat == 1 ? '仅线上' : item.showFormat == 2 ? '仅线下' : item.showFormat == 3 ? '全包括' : ''}}</span>
+                  <span v-show="item.specifyStatus == 1" class="status">企业指定</span>
+                </p>
+                
               </li>
             </ol>
           </van-cell>
         </van-list>
         <!-- <van-button round type="default" size="small" style="float:right;" @click="showVideo = !showVideo">了解更多</van-button> -->
       </div>
+
+      <!-- 占位图 -->
+      <!-- <img
+        v-show="!specifyList.length && !listData.length"
+        src="@/assets/images/null.png"
+        class="nullImg"
+        alt
+      /> -->
     </van-pull-refresh>
     <footer-nav :active="active" />
   </div>
@@ -101,6 +149,8 @@ export default {
       src: require("@/assets/images/video1.mp4"),
       // 轮播
       banner: [],
+      // 置顶参加会展
+      specifyList: [],
       listData: [],
       // list: [
       //   "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1592212479210&di=67b3ada2b2c47521e7ea2de18d9ffa0b&imgtype=0&src=http%3A%2F%2Fn.sinaimg.cn%2Fsinacn%2Fw640h640%2F20180109%2Fb756-fyqnici7832949.jpg",
@@ -135,11 +185,13 @@ export default {
         .then(res => {
           let { code, msg, data, total } = res;
           if (code == 200) {
-            this.banner = data;
+            this.banner = data.mediaList;
+            this.specifyList = data.specifyList;
           }
         })
         .catch(err => {
           this.banner = [];
+          this.specifyList = [];
         });
     },
 
@@ -215,7 +267,7 @@ export default {
         name: "home_details",
         query: {
           // 企业id
-          id: row.enterpriseId,
+          id: row.id
           // title: row.enterpriseName
         }
       });
@@ -246,9 +298,22 @@ export default {
 <style lang="scss" scoped>
 @import "@/assets/styles/base/calc_vm.scss";
 @import "./home.scss";
+
 .nullImg {
   width: 4rem;
   margin: 0.4rem 1.47rem;
+}
+</style>
+
+<style lang="scss">
+.home {
+  .specifyList {
+    .videoPlayerContainer .video-js .vjs-big-play-button {
+      // width: 1rem !important;
+      // height: 1rem !important;
+      zoom: 0.7;
+    }
+  }
 }
 </style>
 

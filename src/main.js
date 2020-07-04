@@ -43,7 +43,10 @@ import {
   DropdownMenu,
   DropdownItem,
   popup,
-  Popup
+  Popup,
+  Skeleton,
+  Image as VanImage,
+
 } from 'vant';
  
 Vue.use(Button);
@@ -78,6 +81,9 @@ Vue.use(Loading);
 Vue.use(DropdownMenu);
 Vue.use(DropdownItem);
 Vue.use(Popup);
+Vue.use(Skeleton);
+Vue.use(VanImage);
+
 
 
 // 视频播放

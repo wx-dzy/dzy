@@ -1,7 +1,7 @@
 <template>
   <!-- 参展商目录-首页 -->
   <div class="exhibitor_home">
-    <div class="top">
+    <div class="top"><!--v-if="totalExhibitors==0 ? false : true"-->
       <div class="left">
         <div class="title">{{showName}}</div>
         <div class="item">
@@ -50,6 +50,7 @@
     </div>
     <img  src="@/assets/images/null.png" class="nullImg" v-else alt />
     <van-divider dashed v-if="totalExhibitors==0 ? false : true">我是有底线的</van-divider>
+    <img v-if="list.length == 0" src="@/assets/images/null.png" class="nullImg" alt />
   </div>
 </template>
 <script>
@@ -63,7 +64,7 @@ export default {
   data() {
     return {
       enterpriseShowId: "", // 展会id
-      placeId:"0",
+      placeId: "0",
       active: 0,
       showName: "",
       totalExhibitors: "",

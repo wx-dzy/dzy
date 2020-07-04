@@ -46,9 +46,6 @@ import { util } from "@/utils";
 import { mapGetters } from "vuex";
 import * as Api from "@/api/customer/exhibitor";
 import nullImg from "@/assets/images/null.png";
-
-import axios from 'axios';
-
 export default {
   name: "person",
   data() {

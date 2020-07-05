@@ -72,7 +72,8 @@
     <!-- <div class="text">2/4</div> -->
     <div class="btn">
       <button class="share">分享名片</button>
-      <button>交换名片</button>
+      <button v-if="personInfo.exchangeStatus == 1">已交换名片</button>
+      <button v-if="personInfo.exchangeStatus == 0">未交换名片</button>
     </div>
     <div class="synopsis">
       <div class="title">简介</div>
@@ -95,7 +96,7 @@
       </div>
       <!-- <div style="text-align: center;">收起</div> -->
     </div>
-    <button class="time">预约面谈还剩12小时</button>
+    <button class="time">预约面谈还剩{{personInfo.myInterviewDesc == ''?0:personInfo.myInterviewDesc }}小时</button>
   </div>
 </template>
 <script>

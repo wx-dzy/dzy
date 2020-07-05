@@ -11,7 +11,7 @@
       </div>
       <div class="right">
         <van-button class="left_btn" round size="small">咨询客服</van-button>
-        <van-button class="right_btn" round size="small" color="#ffd36f">参观预约</van-button>
+        <van-button class="right_btn" round size="small" color="#ffd36f" @click="toHomeOrder">参观预约</van-button>
       </div>
     </div>
     <div class="item-box" v-if="totalExhibitors==0 ? true : false">
@@ -85,6 +85,15 @@ export default {
     this.handleGetSwiperText();
   },
   methods: {
+    // 参观预约
+    toHomeOrder() {
+      this.$router.push({
+        path: '/home_order',
+        query: {
+          enterpriseShowId: this.$route.query.enterpriseShowId
+        }
+      })
+    },
     //切换tab
     changeTab (title,name) {
       this.list = []

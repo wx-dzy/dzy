@@ -1,6 +1,6 @@
 <template>
   <!--参展商主页-公司详情  -->
-  <div class="company_details">
+  <div class="company_details" v-if="details != ''">
     <div class="top" v-if="details.enterprise">
       <div class="name">{{details.enterprise.name}}</div>
       <div class="middle">
@@ -23,36 +23,42 @@
     </div>
     <div class="details">
       <van-tabs v-model="active" class="tab" swipe-threshold="4" title-active-color="#000">
-        <van-tab title="工商信息">
+        <van-tab title="工商信息" class="vant_tabs">
           <div class="item" v-if="details.enterprise">
             <div class="company_name">企业名称：{{details.enterprise.name}}</div>
             <div class="company_address">企业住所：{{details.enterprise.addressDetail}}</div>
             <div class="company_people">企业法定代表人姓名：{{details.enterpriseBusiness.legalPerson}}</div>
-			<!-- ???????? -->
-            <div class="company_num">企业注册资本数额：{{34324}}万</div>
+            <div class="company_num">企业注册资本数额：{{details.enterpriseBusiness.registeredCapital}}万</div>
           </div>
         </van-tab>
-        <van-tab title="服务承诺">
+        <van-tab title="服务承诺" class="vant_tabs">
 			<div class="item">
 				<p>服务承诺: {{ details.servicePromise }}</p>
 			</div>
 		</van-tab>
-        <van-tab title="资质信息">
-			<div class="item">
-				<div>统一社会信用代码: {{ details.enterpriseBusiness.creditCode }}</div>
+        <van-tab title="资质信息" class="vant_tabs_2">
+			<div class="item" v-for="item in details.qualifications" :key="item.index">
+				<div>资质名称: {{ item.qualificationName }}</div>
+				<div>有效日期: {{ item.qualificationEndDate }}</div>
+				<div>发放单位: {{ item.qualificationUnit }}</div>
+        <div class="images">
+          <img :src="item.qualification" alt="">
+        </div>
+        
 			</div>
 		</van-tab>
-        <van-tab title="荣誉信息">
-			<div class="item">
-				<div>统一社会信用代码: {{ details.honours.creditCode }}</div>
-				<div>营业执照: {{ details.honours.businessLicense }}</div>
-				<div>营业执照有效期: {{ details.honours.businessLicenseEndDate }}</div>
-				<div>营业执照有效期: {{ details.honours.businessLicenseEndDate }}</div>
+        <van-tab title="荣誉信息" class="vant_tabs_2">
+			<div class="item" v-for="item in details.honours" :key="item.index">
+				<div>证书名称: {{ item.qualificationName }}</div>
+				<div>颁发机构: {{ item.qualificationUnit }}</div>
+				<div class="images">
+					<img :src="item.qualification" alt="">
+				</div>
 			</div>
 		</van-tab>
       </van-tabs>
     </div>
-    <div class="synopsis">
+    <!-- <div class="synopsis">
       <div class="title">简介</div>
       <div class="item_text">
         带领OPPO公司转型专攻智能手机市场，先后发布
@@ -77,7 +83,7 @@
         照技术的5.5英寸2K屏幕手机Find7，不断引领中
         国智能手机市场的新潮流。
       </div>
-    </div>
+    </div> -->
 
     <button>拨打客服电话</button>
   </div>
@@ -179,16 +185,44 @@ export default {
   }
   .details {
     margin-top: 0.92rem;
-    .item {
-      height: 2.98rem;
-      width: 6.96rem;
-      margin-top: 0.35rem;
-      padding: 0.46rem;
-      box-sizing: border-box;
-      font-size: 0.28rem;
-      background-color: #f7f8fa;
-    }
+    .tab {
+        .vant_tabs {
+          .item {
+            height: 2.98rem;
+            width: 6.96rem;
+            margin-top: 0.35rem;
+            padding: 0.46rem;
+            box-sizing: border-box;
+            font-size: 0.28rem;
+            background-color: #f7f8fa;
+          }
+        }
+        .vant_tabs_2{
+			.item{
+				// height: 5.98rem;
+				width: 6.96rem;
+				margin-top: 0.35rem;
+				padding: 0.46rem;
+				box-sizing: border-box;
+				font-size: 0.28rem;
+				background-color: #f7f8fa;
+					.images {
+					// width: 5rem;
+					height: auto;
+					// margin: 0.1rem auto;
+					margin-top: 0.3rem;
+					img {
+						width: 100%;
+						height: 100%;
+					}
+					}
+			}
+          
+    }  
+    
   }
+    }
+  
   .synopsis {
     margin-left: 0.2rem;
     margin-top: 0.62rem;

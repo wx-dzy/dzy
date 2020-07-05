@@ -180,6 +180,7 @@ export default [
         name: 'exact_information',
         component: () => import('@/views/customer/exhibitor/exact_information')
     },
+    
 
 
     // ------------------   我的   start ------------------

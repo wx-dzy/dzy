@@ -88,7 +88,7 @@ export default {
   },
   computed:{
     isFull(day){
-      console.log(day);
+      // console.log(day);
       return 1
     }
   },

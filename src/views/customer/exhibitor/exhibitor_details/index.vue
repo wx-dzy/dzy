@@ -12,7 +12,7 @@
         </i>
       </div>
       <div class="btn">
-        <button class="left_btn" @click="goCompany_details">获取公司资料</button>
+        <button class="left_btn" @click="toInfomation">获取公司资料</button>
         <button class="right_btn" @click="toaCalendar">预约面谈</button>
         <!-- <van-button round size="small"></van-button>
         <van-button round size="small" color="#ffd36f">预约面谈</van-button>-->
@@ -21,17 +21,14 @@
         公司更多信息
         <van-icon name="arrow" />
       </div>
-      <div class="type" v-show="details.followStatus == 1">
-        <!-- <van-button icon="icon iconfont yz-yiguanzhu" type="default" class="btnNone">已关注</van-button> -->
+      <!-- <div class="type" v-show="details.followStatus == 1">
         <van-icon class="icon iconfont yz-yiguanzhu" />
         <div class="type_name">已关注</div>
-      </div>
-      <div class="type" v-show="details.followStatus == 0">
-        <!-- <van-button icon="icon iconfont yz-yiguanzhu" type="default" class="btnNone">已关注</van-button> -->
-        <!-- <van-icon class="icon iconfont yz-yiguanzhu" /> -->
+      </div> -->
+      <!-- <div class="type" v-show="details.followStatus == 0">
         <van-icon name="star-o" />
         <div class="type_name">未关注</div>
-      </div>
+      </div> -->
     </div>
     <div class="exhibitor" v-if="person.length > 0">
       <div class="top-title">
@@ -127,6 +124,10 @@ export default {
     
   },
   methods: {
+    // 获取公司资料
+    toInfomation () {
+
+    },
     // 获取企业产品
     getGoods(){
 
@@ -135,7 +136,10 @@ export default {
     // 预约日历
     toaCalendar () {
       this.$router.push({
-        path: '/appointment_calendar'
+        path: '/appointment_calendar',
+        query: {
+          enterpriseShowId: this.person[1].userId
+        }
       })
     },
     // 跳转至法人详情

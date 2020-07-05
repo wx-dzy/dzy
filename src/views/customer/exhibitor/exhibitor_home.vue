@@ -150,7 +150,7 @@ export default {
       Api.getSwiperText(this.$route.query.enterpriseShowId)
         .then(res => {
           let { data, code, msg, total } = res;
-          console.log('getSwiperText',res);
+          console.log('getSwiperTe5444444',res);
           if (code == 200) {
             this.details = data;
             this.showName = data.enterpriseShow.showName;

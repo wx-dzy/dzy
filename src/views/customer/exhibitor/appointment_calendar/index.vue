@@ -83,7 +83,8 @@ export default {
       days: [],
       todayList:[],//当日预约情况
       userInfo:{},//用户信息
-      userHeadUrl:'http://img4.imgtn.bdimg.com/it/u=1027245443,3552957153&fm=26&gp=0.jpg'
+      userHeadUrl:'http://img4.imgtn.bdimg.com/it/u=1027245443,3552957153&fm=26&gp=0.jpg',
+      enterpriseShowId: '', //人物id
     };
   },
   computed:{
@@ -93,11 +94,19 @@ export default {
     }
   },
   created() {
-    Api.getUserInfo(1).then(res=>{
+    this.enterpriseShowId = this.$route.query.enterpriseShowId
+    console.log('人物id',this.enterpriseShowId);
+    
+    Api.getUserInfo(1)
+    .then(res=>{
       console.log('人物信息'+res);
       if (res.code == 200) {
         this.userInfo = res.data
       }
+    })
+    .catch( err => {
+      console.log('err',err);
+      
     })
     // //日数据-貌似是本人当前天
     // Api.getTodayData(1).then(res=>{

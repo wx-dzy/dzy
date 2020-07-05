@@ -58,9 +58,9 @@
 		</van-tab>
       </van-tabs>
     </div>
-    <!-- <div class="synopsis">
+    <div class="synopsis">
       <div class="title">简介</div>
-      <div class="item_text">
+      <!-- <div class="item_text">
         带领OPPO公司转型专攻智能手机市场，先后发布
         了X903、全球最薄的智能手机 Finder、以动态美颜
         引发手机自拍革命的“自拍神器”Uike2，首款搭
@@ -69,11 +69,11 @@
         快最安全的vooC闪充技术、配备500万高清画质拍
         照技术的5.5英寸2K屏幕手机Find7，不断引领中
         国智能手机市场的新潮流。
-      </div>
+      </div> -->
       <div class="imgs">
-        <img src="../../../../assets/images/编组.png" alt />
+        <img :src="details.enterprise.introduction" alt />
       </div>
-      <div class="item_text">
+      <!-- <div class="item_text">
         带领OPPO公司转型专攻智能手机市场，先后发布
         了X903、全球最薄的智能手机 Finder、以动态美颜
         引发手机自拍革命的“自拍神器”Uike2，首款搭
@@ -82,8 +82,8 @@
         快最安全的vooC闪充技术、配备500万高清画质拍
         照技术的5.5英寸2K屏幕手机Find7，不断引领中
         国智能手机市场的新潮流。
-      </div>
-    </div> -->
+      </div> -->
+    </div>
 
     <button>拨打客服电话</button>
   </div>
@@ -238,8 +238,8 @@ export default {
     }
     .imgs {
       width: 7.5rem;
-      height: 3.8rem;
-      margin-left: -0.5rem;
+    //   height: 3.8rem;
+	  margin: 0.5rem 0 0.5rem -0.5rem;
       img {
         width: 100%;
         height: 100%;

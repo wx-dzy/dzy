@@ -96,7 +96,29 @@
       </div>
       <!-- <div style="text-align: center;">收起</div> -->
     </div>
-    <button class="time">预约面谈还剩{{personInfo.myInterviewDesc == ''?0:personInfo.myInterviewDesc }}小时</button>
+
+    <!-- 推荐商品 -->
+    <div class="product_catalog" v-show="recommendGoods.length > 0">
+      <div class="top-title">
+        <span>推荐商品</span>
+        <van-icon name="arrow" />
+      </div>
+      <div class="item">
+        <div class="itemList" v-for="(item,index) in recommendGoods" :key="index">
+          <img :src="item.goodsLogo" alt />
+          <div class="right">
+            <div class="title">{{item.goodsName}}</div>
+            <div class="nums">
+              <div class="idNum">订货号：{{item.orderNo}}</div>
+              <div class="num">起订量：{{item.minOrderQuantity}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> 
+
+ 
+    <button class="time" v-show="personInfo.myInterviewDesc.myInterviewDesc != '' ">{{personInfo.myInterviewDesc.myInterviewDesc}}</button>
   </div>
 </template>
 <script>
@@ -121,12 +143,16 @@ export default {
       userCardList: [], //我的名片列表
       myEnterpriseList: [], // 我的企业列表
       user: {}, //企业人物信息
+      recommendGoods: [], //推荐商品,
+      followStatus: '', //是否关注人物  1是0否
     };
   },
   created() {
     this.getPeopleDel()
   },
   methods: {
+    // 关注
+    
      // 名片组件的 回调函数 返回名片的当前选中索引
     handleActive(index) {
       this.current = index;
@@ -142,15 +168,34 @@ export default {
           this.personInfo = data;
           this.userCardList = data.userCardList;
           this.myEnterpriseList = data.myEnterpriseList;
+          this.recommendGoods = data.recommendGoods
           this.user = data.user
+          this.followStatus = data.followStatus
         }
       })
     },
     favor(e) {
-      this.liked = !this.liked;
-      if (this.liked) {
+      const care = (this.followStatus == 0)?1:0
+      let params = {
+        followId:this.user.userId,
+        followType: 2,
+        followStatus: care,
+        openId: 0
+      }
+      Api.getFollow(params)
+      .then( res => {
+        console.log('关注成功',res);
+        
+      })
+
+      if (this.followStatus == 0){
+        this.followStatus == 1
+      }else if (this.followStatus == 1){
+          this.followStatus == 0
+      }
+      if (this.followStatus == 1) {
         this.content = "已关注";
-      } else {
+      } else if(this.followStatus == 0) {
         this.content = "+关注";
       }
     }
@@ -384,6 +429,7 @@ export default {
   }
   .myCompany {
     margin-top: 0.66rem;
+    margin-bottom: 0.66rem;
     margin-left: 0.52rem;
     width: 6.52rem;
     position: relative;
@@ -412,6 +458,63 @@ export default {
       }
       span {
         margin-top: 0.02rem;
+      }
+    }
+  }
+  .product_catalog {
+    margin-top: 1.02rem;
+    margin-bottom: 1.3rem;
+    padding: 0 0.28rem;
+    .top-title {
+      font-size: 0.34rem;
+      font-weight: 700;
+      position: relative;
+      .arrow_right {
+        position: absolute;
+        right: 0.28rem;
+        top: 0;
+        bottom: 0;
+      }
+    }
+    .itemList {
+      width: 6.96rem;
+      height: 2.24rem;
+      background: rgba(255, 255, 255, 1);
+      box-shadow: 0rem 0.1rem 0.26rem 0rem rgba(223, 227, 233, 0.51);
+      border-radius: 0.16rem;
+      margin-top: 0.4rem;
+      position: relative;
+      img {
+        margin-top: 0.22rem;
+        width: 1.8rem;
+        height: 1.8rem;
+        border: 1px solid #babcc0;
+      }
+      .right {
+        position: absolute;
+        left: 2.08rem;
+        top: 0.22rem;
+        .title {
+          width: 4.42rem;
+          height: 0.9rem;
+          line-height: 0.45rem;
+          font-size: 0.28rem;
+          // word-break: break-all;
+          // white-space: pre-wrap;
+          // word-wrap: break-word;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          overflow: hidden;
+        }
+        .nums {
+          margin-top: 0.14rem;
+          font-size: 0.24rem;
+          color: #babcc0;
+          width: 2.3rem;
+          height: 0.72rem;
+          line-height: 0.36rem;
+        }
       }
     }
   }

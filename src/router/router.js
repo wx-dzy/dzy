@@ -91,7 +91,7 @@ export default [
 
     // 展会预约
     {
-        path: '/home_order',
+        path: ' ',
         meta: {
             requiresAuth: false,
             title: '参观预约',

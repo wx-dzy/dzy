@@ -61,13 +61,17 @@
           />-->
           <!-- <Video-Demo :src="item.videoUrl" style="width: 100%;"/> -->
           <!-- <video :src="item.videoUrl" controls></video> -->
-              <Video-Demo
+          <div class="video">
+            <Video-Demo
                 :_id="item.id"
                 :src="item.videoUrl"
                 :bannerIMG="item.mediaUrl"
                 :playVideoId.sync="playVideoId"
                 style="width: 100%;"
+                class="zoom"
               />
+          </div>
+              
           <div class="name">{{item.mediaTitle}}</div>
         </div>
       </div>
@@ -122,6 +126,11 @@ export default {
     this.handelGetExhibitor_details();
     
     
+  },
+  watch: {
+    playVideoId(newVal, oldVal) {
+      console.log(newVal, "22222wwww");
+    }
   },
   methods: {
     // 获取公司资料
@@ -319,7 +328,7 @@ export default {
           border: 0.02rem solid rgba(233, 233, 233, 1);
         }
         .name {
-          margin-top: 0.06rem;
+          // margin-top: 0.06rem;
           font-size: 0.28rem;
           width: 1.28rem;
         }
@@ -350,14 +359,14 @@ export default {
       white-space: nowrap;
       display: flex;
       .video_box {
-        video {
-          width: 4.18rem;
-          height: 2.24rem;
+        .video {
+          // width: 4.18rem;
+          // height: 2.24rem;
           margin-right: 0.4rem;
         }
-        .name {
+        /deep/.name {
           display: block;
-          margin-top: 0.32rem;
+          // margin-top: 0.32rem;
           width: 2.94rem;
           // height: 0.8rem;
           // background-color: pink;

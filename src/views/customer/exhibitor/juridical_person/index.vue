@@ -185,6 +185,9 @@ export default {
       Api.getFollow(params)
       .then( res => {
         console.log('关注成功',res);
+      })
+      .catch (err => {
+        console.log('err');
         
       })
 

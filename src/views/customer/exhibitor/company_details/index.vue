@@ -85,7 +85,8 @@
       </div> -->
     </div>
 
-    <button>拨打客服电话</button>
+    <a class="button" href="tel:15810355372">拨打客服电话</a>
+    <!-- <button  class="button">拨打客服电话</button> -->
   </div>
 </template>
 <script>
@@ -247,14 +248,17 @@ export default {
     }
   }
 
-  button {
+  .button {
     display: block;
     width: 6.84rem;
     height: 0.8rem;
+	line-height: 0.8rem;
+	text-align: center;
     border: none;
     margin-bottom: 0.48rem;
     background-color: #f8d57e;
-    border-radius: 0.08rem;
+	border-radius: 0.08rem;
+	color: #000;
   }
 }
 /deep/ .van-tabs__line {

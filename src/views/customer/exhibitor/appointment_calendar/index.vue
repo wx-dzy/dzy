@@ -50,8 +50,8 @@
       </div>
       <div class="date_content">
         <div class="item" v-for="(item,index) in todayList" :key="index">
-          <p class="item_top">{{item.timeFrame}}{{item.interviewTime.substr(0,5)}}</p>
-          <p class="item_bottom">{{item.interviewStatus==2?'已预约':''}}</p>
+          <p class="item_top">{{item.interviewTime.substr(0,5)}}</p>
+          <p class="item_bottom">{{item.interviewStatus_1}}</p>
         </div>
       </div>
       <p class="refreshTip">
@@ -126,7 +126,8 @@ export default {
       todayList: [], //当日预约情况
       userInfo: {}, //用户信息
       userHeadUrl:
-        "http://img4.imgtn.bdimg.com/it/u=1027245443,3552957153&fm=26&gp=0.jpg"
+        "http://img4.imgtn.bdimg.com/it/u=1027245443,3552957153&fm=26&gp=0.jpg",
+        enterpriseShowPeopleId: '', //展会企业人物ID
     };
   },
   computed: {
@@ -136,10 +137,17 @@ export default {
     }
   },
   created() {
-    Api.getUserInfo(1).then(res => {
-      console.log("人物信息" + res);
+    this.enterpriseShowPeopleId = this.$route.query.enterpriseShowPeopleId
+    this.userHeadUrl = this.$route.query.avatar
+    console.log('enterpriseShowPeopleId',this.enterpriseShowPeopleId);
+    // 获取人物信息
+    Api.getUserInfo(this.enterpriseShowPeopleId).then(res => {
+      
+      const {code, msg, data, total} = res 
+      console.log("人物信息",data);
       if (res.code == 200) {
         this.userInfo = res.data;
+        this.getWeekInfo() //获取周数据
       }
     });
     // //日数据-貌似是本人当前天
@@ -157,6 +165,58 @@ export default {
     
   },
   methods: {
+    // 获取日数据
+    getDayInfo () {
+      let userPreInterviewId = this.weekList[0].userPreInterviewId
+      
+      // let params = {
+      //   userPreInterviewId : userPreInterviewId
+      // }
+      
+      Api.getTodayData(userPreInterviewId)
+      .then (res => {
+        if(res.code == 200 ) {
+          this.todayList = res.data
+        
+        for (var i = 0; i < this.todayList.length; i ++) {
+          if (this.todayList[i].interviewStatus == 0){
+            this.todayList[i].interviewStatus_1 = '不可预约'
+          }else if (this.todayList[i].interviewStatus == 1) {
+            this.todayList[i].interviewStatus_1 = '可预约'
+          }else if (this.todayList[i].interviewStatus == 2) {
+            this.todayList[i].interviewStatus_1 = '已预约'
+          }else if (this.todayList[i].interviewStatus == 3) {
+            this.todayList[i].interviewStatus_1 = '预约其他'
+          }
+        }
+        console.log('获取日数据',this.todayList);
+        }
+        
+      })
+    },
+    // 获取周数据
+    getWeekInfo () {
+      console.log('enterpriseShowPeopleId11111111111',this.enterpriseShowPeopleId);
+      
+      const params = {
+        enterpriseShowPeopleId: this.enterpriseShowPeopleId,
+        startDate: '2020-07-05',
+        endDate: '2020-07-11'
+      }
+      Api.getWeekData(params)
+      .then( res => {
+        console.log('获取周数据',res);
+        if (res.code == 200 && res.data != '') {
+          this.weekList = res.data
+          this.getDayInfo()
+        }
+        
+      })
+      .catch( err => {
+        console.log('获取周数据失败',err);
+        
+      })
+    },
     initTodayList() {
       let data = [
         {
@@ -284,14 +344,14 @@ export default {
         d.setDate(d.getDate() - i - 1);
         // console.log(y:" + d.getDate())
         this.days.push(d);
-        console.log(i, d);
+        // console.log(i, d);
       }
       for (let i = 1; i <= 32 - this.currentWeek; i += 1) {
         const d = new Date(str);
         d.setDate(d.getDate() + i - 1);
         this.days.push(d);
 
-        console.log(i, d);
+        // console.log(i, d);
       }
     },
 
@@ -326,7 +386,7 @@ export default {
       const d = new Date(
         this.formatDate(this.currentYear, this.currentMonth, 1)
       );
-      console.log(d);
+      // console.log(d);
       d.setDate(35);
       this.initData(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1));
     },

@@ -118,7 +118,8 @@
     </div> 
 
  
-    <button class="time" v-show="personInfo.myInterviewDesc.myInterviewDesc != '' ">{{personInfo.myInterviewDesc.myInterviewDesc}}</button>
+    <button class="time" @click="toCalender">距离预约面谈还剩12小时</button>
+    <!-- <button class="time" @click="toCalender" v-show="personInfo.myInterviewDesc.myInterviewDesc != '' ">{{personInfo.myInterviewDesc.myInterviewDesc}}</button> -->
   </div>
 </template>
 <script>
@@ -145,12 +146,24 @@ export default {
       user: {}, //企业人物信息
       recommendGoods: [], //推荐商品,
       followStatus: '', //是否关注人物  1是0否
+      peopleId: this.$route.query.peopleId
     };
   },
   created() {
     this.getPeopleDel()
   },
   methods: {
+    //  预约面谈
+    toCalender () {
+      this.$router.push({
+        path: '/appointment_calendar',
+        query: {
+          enterpriseShowPeopleId:this.enterpriseShowPeopleId,
+          avatar: this.user.avatar,
+          peopleId: this.peopleId
+        }
+      })
+    },
     // 关注
     
      // 名片组件的 回调函数 返回名片的当前选中索引

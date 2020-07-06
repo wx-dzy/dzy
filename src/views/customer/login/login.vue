@@ -8,13 +8,16 @@
       <br />我们将为您提供更好的服务,快来完善吧!
     </p>
     <p class="logoTitle"></p>
-
+ 
     <div class="loginForm">
-      <div class="text-center">
-        <img :src="userImg" alt class="userImg" />
-        <p class="userName" @click="upUserImage">上传头像</p>
-        <!-- <p class="userName">{{username}}</p> -->
-      </div>
+      <van-uploader class="upLoader" :max-count="1" accept="image/*" v-model="userImage" :deletable=deletable>
+        <div class="text-center">
+          <img :src="userImg" alt class="userImg" />
+          <p class="userName" @click="upUserImage">上传头像</p>
+          <!-- <p class="userName">{{username}}</p> -->
+        </div>
+      </van-uploader>
+      
 
       <!-- <van-field
         v-model="username"
@@ -148,7 +151,9 @@ export default {
       // 密码
       password: "",
       code:'',
-      appId: ''
+      appId: '',
+      userImage: [], //上传的头像
+      deletable: false, //是否显示删除按钮
       // userInfo:{
       // access_token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiaGx3bC1wbGF0Zm9ybS1yZXNvdXJjZS1pZCJdLCJ1c2VyX25hbWUiOiJhZG1pbiIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdLCJwYXJlbnRVc2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNTY5NDYxNzQ0LCJ1c2VySWQiOjEwMDksImF1dGhvcml0aWVzIjpbIjQ2NjNkMTkyLWI4N2ItNDhkMi04MzMwLWFkNTBhYWFiMjg1YiIsIi91c2VyL3N5cy91c2VyL3BhZ2UiLCJiNzVkNzA3ZS1hNDAxLTRiZDEtYWMzNC1jMTNiYWMwMjNlODEiLCIzZDE2YmU5Yy1mOGVlLTQ2MDQtOTk5Ny0yOGE5ZWQ2OGM5OWYiLCJST0xFX1VTRVIiLCIvdXNlci9zeXMvcm9sZS9wYWdlIiwicmZxOnF1b3RhdGlvbjptYW5hZ2U6cGFnZSIsIi9yZnEvcXVvdGF0aW9uL21hbmFnZS9wYWdlIiwic3lzOnVzZXI6YWxsIiwic3lzOnJvbGU6cGFnZSIsIjQyZjQ4MDNkLTkzMDEtNDAxMy05YTk2LTIxYTdjZmFlNDUzNSJdLCJqdGkiOiIzNTZlYTdmNy1hOGJjLTQyMzQtOTlhMS1mMjljY2ZhOGEyMWUiLCJwYXJlbnRJZCI6MTAwOSwiY2xpZW50X2lkIjoiaGx3bC1wbGF0Zm9ybS1yZXNvdXJjZSIsInVzZXJuYW1lIjoiYWRtaW4ifQ.2XH6gHkIvEqUMVitrIfCUP277nFw1VdMMUWusZjVWEo",
       // expires_in:2591998,
@@ -186,20 +191,20 @@ export default {
     //           }
     //       },
     // 获取js配置
-    getPJ () {
-      Api.getAppId()
-      .then(res => {
-        console.log('获取appid',res)
-        this.appId = res.data.appId
-        console.log('appid',this.appId)
-        // 获取code
-        this.getCode()
-      })
-      .catch( err => {
-        console.log('err',err);
+    // getPJ () {
+    //   Api.getAppId()
+    //   .then(res => {
+    //     console.log('获取appid',res)
+    //     this.appId = res.data.appId
+    //     console.log('appid',this.appId)
+    //     // 获取code
+    //     this.getCode()
+    //   })
+    //   .catch( err => {
+    //     console.log('err',err);
         
-      })
-    },
+    //   })
+    // },
     // getCode () {
     //   const _this = this
     //         var code = this.getUrlParam(name)
@@ -215,21 +220,21 @@ export default {
     //           _this.getopenid_data(data)
     //         }
     //     },
-    getUrlParam (name) {
-              var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
-              let url = window.location.href.split('#')[0]
-              let search = url.split('?')[1]
-              if (search) {
-                  var r = search.substr(0).match(reg)
-                  if (r !== null) return unescape(r[2])
-                  return null
-              } else {
-                  return null
-              }
-          },
+    // getUrlParam (name) {
+    //           var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
+    //           let url = window.location.href.split('#')[0]
+    //           let search = url.split('?')[1]
+    //           if (search) {
+    //               var r = search.substr(0).match(reg)
+    //               if (r !== null) return unescape(r[2])
+    //               return null
+    //           } else {
+    //               return null
+    //           }
+    //       },
     // 获取验证码
     getVerification () {
-      console.log('获取验证码');
+      console.log('获取验证码',this.mobile);
       Api.getMobile(this.mobile)
       .then( res=> {
         console.log('验证码',res);
@@ -352,6 +357,19 @@ export default {
 @import "@/assets/styles/base/calc_vm.scss";
 // 登录页图标样式
 .login {
+  .upLoader {
+    width: 3rem;
+    margin: 0 auto;
+    display: block;
+    .van-uploader__input-wrapper {
+      margin: 0 auto;
+      display: block;
+    }
+    .van-uploader__preview {
+      display: block;
+      margin: 0 auto;
+    }
+  }
   .iconfont {
     font-size: vw(50);
     color: #dedede;

@@ -8,9 +8,9 @@ import { axios } from '@/utils';
 
 /*登录*/
 export const loginInit = params => axios.post('url', params);
-//  验证码
 
-export const getMobile = params => axios.post('/c/login/mobile', params);
+//  验证码
+export const getMobile = params => axios.get('/c/sms/send-verify-code/', params);
 
 // 获取js配置
 

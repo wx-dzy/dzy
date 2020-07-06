@@ -135,7 +135,15 @@ export default {
   methods: {
     // 获取公司资料
     toInfomation () {
-
+      const enterpriseExhibitorsId = this.details.exhibitors.id
+      console.log('enterpriseExhibitorsId',enterpriseExhibitorsId);
+      
+      this.$router.push({
+        path: '/exact_information',
+        query: {
+        enterpriseExhibitorsId: enterpriseExhibitorsId
+        }
+      })
     },
     // 获取企业产品
     getGoods(){

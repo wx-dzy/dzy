@@ -35,3 +35,6 @@ export const getGoods = data => axios.post('/c/enterprise-goods/goods-search', d
 
 // 关注/取消关注企业（人物）
 export const getFollow = params => axios.post('/c/user-follow/follow' + params);
+
+// 参展商目录-索取资料
+export const getInfomation = params => axios.get('/c/enterprise-show-exhibitors/request-enterprise-pdf/' + params);

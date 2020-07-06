@@ -11,7 +11,7 @@
       </div>
       <div class="right">
         <van-button class="left_btn" round size="small">咨询客服</van-button>
-        <van-button class="right_btn" round size="small" color="#ffd36f">参观预约</van-button>
+        <van-button class="right_btn" round size="small" color="#ffd36f" @click="toHomeOrder">参观预约</van-button>
       </div>
     </div>
     <div class="item-box" v-if="totalExhibitors==0 ? true : false">
@@ -50,7 +50,7 @@
     </div>
     <img  src="@/assets/images/null.png" class="nullImg" v-else alt />
     <van-divider dashed v-if="totalExhibitors==0 ? false : true">我是有底线的</van-divider>
-    <img v-else src="@/assets/images/null.png" class="nullImg" alt />
+    <img v-if="list.length == 0" src="@/assets/images/null.png" class="nullImg" alt />
   </div>
 </template>
 <script>
@@ -85,6 +85,15 @@ export default {
     this.handleGetSwiperText();
   },
   methods: {
+    // 参观预约
+    toHomeOrder() {
+      this.$router.push({
+        path: '/home_order',
+        query: {
+          enterpriseShowId: this.$route.query.enterpriseShowId
+        }
+      })
+    },
     //切换tab
     changeTab (title,name) {
       this.list = []

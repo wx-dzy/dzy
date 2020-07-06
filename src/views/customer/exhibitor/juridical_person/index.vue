@@ -3,23 +3,23 @@
   <div class="juridical_person">
     <div class="topCard">
       <div class="box">
-        <div class="company_name">好招数创（北京）科技有限公司</div>
+        <div class="company_name">{{user.enterpriseName}}</div>
         <div class="item">
-          <span class="name">李达达</span>
-          <span class="type">法人</span>
+          <span class="name">{{user.realName}}</span>
+          <span class="type">{{user.postName}}</span>
         </div>
         <div class="message">
           <div class="phone">
             <van-icon class="icon iconfont yz-dianhua" />
-            <span>86-1351234567</span>
+            <span>{{ user.mobile }}</span>
           </div>
           <div class="email">
             <van-icon class="icon iconfont yz-youjian" />
-            <span>lidada@163.com</span>
+            <span>{{user.email}}</span>
           </div>
           <div class="address">
             <van-icon class="icon iconfont yz-dizhi" />
-            <span class="addressText">北京市朝阳区新源南路8号托原西塔26层北京市朝阳区新源南路8号托原西塔26层北京市朝阳区新源南路8号托原西塔26层</span>
+            <span class="addressText">{{user.companyAddress}}</span>
           </div>
         </div>
         <button class="add_follow" @click="favor">
@@ -27,18 +27,27 @@
           <div class="type_name">{{content}}</div>
         </button>
       </div>
-      <img src alt />
+      <img :src="user.avatar" alt />
     </div>
     <div class="personCard">
-      <div class="left"></div>
-      <div class="middle">
-        <img src alt />
+
+      <div class="visitingCard" v-if="userCardList.length">
+        <visitingCard
+          :dataList.sync="userCardList"
+          :disabled="false"
+          @successCBK="handleActive"
+        ></visitingCard>
+      </div>
+
+      <!-- <div class="left"></div>
+      <div class="middle" v-for="item in userCardList" :key="item.index">
+        <img :src="item.companyLogo" alt />
         <div class="rightCard">
           <div class="title">
-            <span class="name">李达达</span>
-            <span class="type">法人</span>
+            <span class="name">{{item.userRealName}}</span>
+            <span class="type">{{item.postName}}</span>
           </div>
-          <div class="company_name">好招数创（北京）科技有限公司</div>
+          <div class="company_name">{{item.enterpriseName}}</div>
           <div class="message">
             <div class="phone">
               <van-icon class="icon iconfont yz-dianhua" />
@@ -50,68 +59,93 @@
             </div>
             <div class="address">
               <van-icon class="icon iconfont yz-dizhi" />
-              <span class="addressText">北京市朝阳区新源南路8号托原西塔26层北京市朝阳区新源南路8号托原西塔26层北京市朝阳区新源南路8号托原西塔26层</span>
+              <span class="addressText">{{item.companyAddress}}</span>
             </div>
           </div>
         </div>
       </div>
-      <div class="right"></div>
+      <div class="right"></div> -->
       <!-- <div class="text">2/4</div> -->
+      
     </div>
-    <div class="text">2/4</div>
+    <div class="text"></div>
+    <!-- <div class="text">2/4</div> -->
     <div class="btn">
       <button class="share">分享名片</button>
-      <button>交换名片</button>
+      <button v-if="personInfo.exchangeStatus == 1">已交换名片</button>
+      <button v-if="personInfo.exchangeStatus == 0">未交换名片</button>
     </div>
     <div class="synopsis">
       <div class="title">简介</div>
       <div class="item_text">
-        带领OPPO公司转型专攻智能手机市场，先后发布
-        了X903、全球最薄的智能手机 Finder、以动态美颜
-        引发手机自拍革命的“自拍神器”Uike2，首款搭
-        载1080P高清屏幕的旗舰手机Find5、全球首款配
-        旋转摄像头的大屏拍照手机N1，搭载全球充电最
-        快最安全的vooC闪充技术、配备500万高清画质拍
-        照技术的5.5英寸2K屏幕手机Find7，不断引领中
-        国智能手机市场的新潮流。
+        {{personInfo.workDesc}}
       </div>
     </div>
     <div class="myCompany">
       <div class="title">我的企业</div>
       <div class="item_text">
-        <div class="name" v-for="(item,index) in companyList" :key="index">{{item.name}}</div>
+        <div class="name" v-for="(item,index) in myEnterpriseList" :key="index">{{item.enterpriseName}}</div>
       </div>
-      <div class="type">
+      <div class="type" v-if="personInfo.followStatus==1">
         <van-icon class="icon iconfont yz-yiguanzhu" />
         <span>已关注</span>
       </div>
-      <div style="text-align: center;">收起</div>
+      <div class="type" v-if="personInfo.followStatus==0">
+        <van-icon class="icon iconfont yz-yiguanzhu" />
+        <span>未关注</span>
+      </div>
+      <!-- <div style="text-align: center;">收起</div> -->
     </div>
-    <button class="time">预约面谈还剩12小时</button>
+    <button class="time">预约面谈还剩{{personInfo.myInterviewDesc == ''?0:personInfo.myInterviewDesc }}小时</button>
   </div>
 </template>
 <script>
+import { util } from "@/utils";
+import { mapGetters } from "vuex";
+import * as Api from "@/api/customer/exhibitor";
+import nullImg from "@/assets/images/null.png";
+import visitingCard from "@/components/customer/visitingCard.vue";
+
 export default {
   name: "",
-  components: {},
+  components: {
+    //名片
+    visitingCard
+  },
   data() {
     return {
+      current: 0,// 名片当前的索引
       content: "+关注",
-      companyList: [
-        {
-          name: "风风火火汽车电子公司"
-        },
-        {
-          name: " 2020年B2B创新型企业"
-        },
-        {
-          name: " 高科技高新企业"
-        }
-      ]
+      enterpriseShowPeopleId: this.$route.query.enterpriseShowPeopleId,
+      personInfo: {}, // 获取到的总信息
+      userCardList: [], //我的名片列表
+      myEnterpriseList: [], // 我的企业列表
+      user: {}, //企业人物信息
     };
   },
-  created() {},
+  created() {
+    this.getPeopleDel()
+  },
   methods: {
+     // 名片组件的 回调函数 返回名片的当前选中索引
+    handleActive(index) {
+      this.current = index;
+      // console.log(index, this.current);
+    },
+    // 获取人物详情
+    getPeopleDel () {
+      Api.getPeopleDetails(this.enterpriseShowPeopleId)
+      .then ( (res) => {
+        console.log('获取人物详情',res);
+        let { code, msg, data, total } = res;
+        if ( code == 200) {
+          this.personInfo = data;
+          this.userCardList = data.userCardList;
+          this.myEnterpriseList = data.myEnterpriseList;
+          this.user = data.user
+        }
+      })
+    },
     favor(e) {
       this.liked = !this.liked;
       if (this.liked) {
@@ -319,7 +353,7 @@ export default {
   }
   .btn {
     button {
-      margin: 0 auto;
+      margin: 0.3rem auto 0;
       width: 1.7rem;
       height: 0.6rem;
       background: rgba(248, 213, 126, 1);

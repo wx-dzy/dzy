@@ -2,9 +2,9 @@
   <!--参展商主页-预约日历  -->
   <div class="appointment_calendar">
     <div class="top_header">
-      <img src="" class="head_img" alt="">
-      <p class="user_name">王小花</p>
-      <p class="job_title">销售经理</p>
+      <img :src="userHeadUrl" class="head_img" alt="">
+      <p class="user_name">{{userInfo.realName}}</p>
+      <p class="job_title">{{userInfo.postName}}</p>
     </div>
     <div class="year_month">
       <span class="left" @click="weekPre"></span>
@@ -65,6 +65,7 @@
   </div>
 </template>
 <script>
+import * as Api from "@/api/customer/exhibitor";
 export default {
   name: "appointment_calendar",
   components: {},
@@ -81,15 +82,30 @@ export default {
       currentWeek: 1,  // 星期
       days: [],
       todayList:[],//当日预约情况
+      userInfo:{},//用户信息
+      userHeadUrl:'http://img4.imgtn.bdimg.com/it/u=1027245443,3552957153&fm=26&gp=0.jpg'
     };
   },
   computed:{
     isFull(day){
-      console.log(day);
+      // console.log(day);
       return 1
     }
   },
   created() {
+    Api.getUserInfo(1).then(res=>{
+      console.log('人物信息'+res);
+      if (res.code == 200) {
+        this.userInfo = res.data
+      }
+    })
+    // //日数据-貌似是本人当前天
+    // Api.getTodayData(1).then(res=>{
+    //   console.log('日信息'+res);
+    //   if (res.code == 200) {
+        
+    //   }
+    // })
     this.initData(null)
     this.initTodayList()
   },
@@ -275,7 +291,6 @@ export default {
       border-radius: 100%;
       width:1.28rem;
       height:1.28rem;
-      background: #ccc;
     }
     >p{
       margin-top: 0.12rem;

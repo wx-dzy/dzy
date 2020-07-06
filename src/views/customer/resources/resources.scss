@@ -1,15 +1,12 @@
 // 资源 tabs页
 .resources {
     padding-top: 0.2rem;
-
     .tab_content {
         padding-top: 0.39rem;
         padding: 0.39rem 0.25rem;
     }
-
-    .resources_tab {}
+    // .resources_tab {}
 }
-
 
 // 资源-企业列表  资源-人物列表
 .enterprise_list,
@@ -21,27 +18,23 @@
         box-shadow: 0rem 0.1rem 0.26rem 0rem rgba(223, 227, 233, 0.51);
         border-radius: 0.16rem;
     }
-
     .logo {
         width: 1.4rem;
         height: 1.4rem;
         border-radius: 0.04rem;
         border: 0.02rem solid rgba(233, 233, 233, 1);
     }
-
     .title {
         padding-bottom: 0.08rem;
         font-size: 0.32rem;
         color: rgba(49, 52, 55, 1);
         line-height: 0.54rem;
     }
-
     .color999 {
         font-size: 0.24rem;
         color: rgba(157, 161, 166, 1);
         line-height: 0.34rem;
     }
-
 }
 
 // 资源-人物列表
@@ -51,7 +44,6 @@
         height: 1.5rem;
         border-radius: 50%;
     }
-
     .type {
         display: inline-block;
         padding: 0 0.18rem;
@@ -64,7 +56,6 @@
         vertical-align: middle;
         margin-top: -0.02rem;
     }
-
     .border {
         display: inline-block;
         font-size: 0.28rem;
@@ -116,7 +107,6 @@
                 border-radius: 0.04rem;
                 color: #313437;
             }
-
             .icon {
                 display: inline;
                 color: #e5cc9d;
@@ -135,7 +125,6 @@
         .btn {
             font-size: 0.24rem;
             text-align: right;
-
             button {
                 height: 0.58rem;
                 border-radius: 0.29rem;
@@ -143,18 +132,15 @@
                 border: 0.02rem solid rgba(255, 255, 255, 1);
                 margin-left: 0.26rem;
             }
-
             .left_btn {
                 background-color: #3c546b;
             }
-
             .right_btn {
                 background-color: #e5cc9d;
                 border: none;
                 color: #313437;
             }
         }
-
         .maTop40 {
             padding-top: 0.5rem;
         }
@@ -248,20 +234,17 @@
     .head {
         position: relative;
         padding: 0.42rem 0 0.68rem 0.52rem;
-
         .photo {
             width: 1.5rem;
             height: 1.5rem;
             border-radius: 50%;
         }
-
         .name {
             padding-top: 0.14rem;
             line-height: 0.72rem;
             font-size: 0.32rem;
             color: rgba(49, 52, 55, 1);
         }
-
         .status {
             display: inline-block;
             padding: 0 0.18rem;
@@ -271,23 +254,18 @@
             background: #DAF6F4;
             border-radius: 0.08rem;
         }
-
         .status0 {
             background: #F8D57E;
         }
-
         .status1 {
             background: #DAF6F4;
         }
-
         .status2 {
             background: #EAE2FE;
         }
-
         .status3 {
             background: #FEE1DD;
         }
-
         .btnWrap {
             position: absolute;
             right: 0;
@@ -297,7 +275,6 @@
             justify-content: flex-end;
             align-items: center;
         }
-
         .getBtn {
             padding: 0 0.3rem;
             // margin-top: 0.44rem;
@@ -321,7 +298,6 @@
             color: rgba(49, 52, 55, 1);
             line-height: 0.84rem;
         }
-
         .workItem {
             position: relative;
             padding: 0.32rem 0.18rem 0.32rem 0.22rem;
@@ -389,7 +365,6 @@
                 }
             }
         }
-
         .workItem.margin0 {
             margin: 0;
         }
@@ -397,7 +372,6 @@
 
     .footerBtn {
         padding: 0.28rem 0.28rem 0.5rem;
-
         .van-button {
             height: 0.8rem;
             background: rgba(248, 213, 126, 1);
@@ -411,8 +385,6 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-
-        
     }
 }
 

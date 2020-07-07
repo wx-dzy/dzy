@@ -39,8 +39,7 @@
       <van-collapse v-model="activeName" accordion :border="false" @change="handleChange">
         <van-collapse-item title="个人简介" name="1" :value="activeStatus">
           <p class="text">
-            沈阳通广电器有限公司(民营企业)
-            渠道主管 公司主要从事市场一线品牌的冰箱、冰柜、洗衣机电器的批发销售，销往省内各地，销售的冰箱品牌有海尔、容声、科龙、美菱、新飞等，冰柜品牌有新飞、小天鹅、华美、三洋等，洗衣机有小天鹅、海尔、松下、荣事达、小燕子等。在行业有一定的知名度。本人主要负责渠道的建设和开发，在我的努力下，在辽宁省范围内所有市县镇的客户开发率达到70%，为公司开放了一批有实力的渠道经销商，为公司稳定发展打下了良好的基础。
+            {{details.workDesc}}
           </p>
           <div v-if="1" class="playVideo">
             <!-- <Video-Demo
@@ -53,7 +52,6 @@
           </div>
         </van-collapse-item>
       </van-collapse>
-      <!-- <h3 class="title">个人简介</h3> -->
     </div>
 
     <!-- 工作经历 -->
@@ -95,7 +93,7 @@
       />
     </div>
     <div class="footerBtn">
-      <van-button type="primary" color="#F8D57E" block @click="handleLookOrder">预约面谈还剩{{ '12' }}小时</van-button>
+      <van-button v-show="details.myInterviewDesc.myInterviewDesc" type="primary" color="#F8D57E" block @click="handleLookOrder">{{details.myInterviewDesc.myInterviewDesc}}</van-button>
     </div>
   </div>
 </template>
@@ -151,7 +149,7 @@ export default {
     this.userId = this.$route.query.userId;
     // 获取人物详情
     this.handelGetDetails();
-    console.log('缺工作经历 视频的 显示if 预约小时 以及跳转路由')
+    console.log('缺工作经历 视频的 显示if  以及跳转路由')
   },
 
   watch: {},
@@ -202,8 +200,7 @@ export default {
       this.$router.push({
         name: "appointment_calendar",
         query: {
-          // // 企业id
-          // id: row.enterpriseId
+          // timer: JSON.stringify(this.details.myInterviewDesc.myInterviewDate + ' 1' + this.details.myInterviewDesc.myInterviewTime)
         }
       });
     }

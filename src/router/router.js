@@ -286,6 +286,29 @@ export default [
     // ------------------   资源   end ------------------
 
 
+    // ------------------   企业产品目录 start------------------
+    {
+        path: '/products',
+        meta: {
+            requiresAuth: false,
+            title: '企业产品目录',
+        },
+        name: 'products',
+        component: () => import('@/views/customer/products/index.vue'),
+    },
+
+    {
+        path: '/products_details',
+        meta: {
+            requiresAuth: false,
+            title: '产品详情',
+        },
+        name: 'products_details',
+        component: () => import('@/views/customer/products/products_details.vue'),
+    },
+    // ------------------   企业产品目录   end ------------------
+
+
 
     // 修改密碼 changePassword
     // {

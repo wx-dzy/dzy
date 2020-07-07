@@ -1,5 +1,5 @@
 <template>
-  <!-- 参展商目录-首页 -->
+  <!-- 参展商目录-首页  -->
   <div class="exhibitor_home">
     <div class="top"><!--v-if="totalExhibitors==0 ? false : true"-->
       <div class="left">

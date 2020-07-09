@@ -133,6 +133,7 @@ export default {
         weekData: [],
         weekIndex: 0, //当前选中日期的下标
         todayData: [], // 获取到的日数据
+        todayInfo: []
     };
   },
   computed: {
@@ -185,14 +186,62 @@ export default {
       .then (res => {
         if(res.code == 200 ) {
           this.todayData = res.data
-          for (var i =  0;i < this.todayData.length;i ++){
-            for( var j = 0;j < this.todayList.length;j ++) {
-              if (this.todayData[i].interviewTime == this.todayList[j].interviewTime){
-                this.todayList[j].interviewStatus = this.todayData[i].interviewStatus
-              }
-              
-            }
-          }
+          this.todayInfo = this.todayList.concat(this.todayData)
+          console.log('todayInfo',this.todayInfo);
+          
+            
+			let tempArr = [];
+			let Data = [];
+			for (let i = 0; i < this.todayInfo.length; i++) {
+			if (tempArr.indexOf(this.todayInfo[i].interviewTime) === -1) {
+				Data.push({
+				interviewTime: this.todayInfo[i].interviewTime,
+				dataInfo: [this.todayInfo[i]]
+				});
+				tempArr.push(this.todayInfo[i].interviewTime);
+			} else {
+				for (let j = 0; j < Data.length; j++) {
+				if (Data[j].interviewTime == this.todayInfo[i].interviewTime) {
+					Data[j].dataInfo.push(this.todayInfo[i]);
+					break;
+				}
+				}
+			}
+			}					
+								console.log('Data',Data[0].dataInfo[0])
+								const Data_1 = []
+								for (var i=0;i < Data.length;i++){
+									Data_1.push(Data[i].dataInfo[0])
+									
+								}
+								console.log('Data_1:',Data_1);
+
+								
+								let Data_2 = {}
+								Data_1.forEach(item=> {
+									Data_2[item.name] = item.name
+								})
+								console.log('Data_2:',Data_2);
+								
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         console.log('获取日数据',this.todayData);
         }
@@ -225,82 +274,82 @@ export default {
     initTodayList() {
       let data = [
         {
-          userPreInterviewDetailId: "1276685523884294146",
+          userPreInterviewDetailId: "",
           interviewTime: "08:00:00",
           interviewStatus: 4
         },
         {
-          userPreInterviewDetailId: "1276685523884294146",
+          userPreInterviewDetailId: "",
           interviewTime: "08:30:00",
           interviewStatus: 4
         },
         {
-          userPreInterviewDetailId: "1276685523884294146",
+          userPreInterviewDetailId: "",
           interviewTime: "09:00:00",
           interviewStatus: 4
         },
         {
-          userPreInterviewDetailId: "1276685523884294146",
+          userPreInterviewDetailId: "",
           interviewTime: "09:30:00",
           interviewStatus: 4
         },
         {
-          userPreInterviewDetailId: "1276685523884294146",
+          userPreInterviewDetailId: "",
           interviewTime: "10:00:00",
           interviewStatus: 4
         },
         {
-          userPreInterviewDetailId: "1276685523884294146",
+          userPreInterviewDetailId: "",
           interviewTime: "10:30:00",
           interviewStatus: 4
         },
         {
-          userPreInterviewDetailId: "1276685523884294146",
+          userPreInterviewDetailId: "",
           interviewTime: "11:00:00",
           interviewStatus: 4
         },
         {
-          userPreInterviewDetailId: "1276685523884294146",
+          userPreInterviewDetailId: "",
           interviewTime: "11:30:00",
           interviewStatus: 4
         },
         {
-          userPreInterviewDetailId: "1276685523884294146",
+          userPreInterviewDetailId: "",
           interviewTime: "13:00:00",
           interviewStatus: 4
         },
         {
-          userPreInterviewDetailId: "1276685523884294146",
+          userPreInterviewDetailId: "",
           interviewTime: "13:30:00",
           interviewStatus: 4
         },
         {
-          userPreInterviewDetailId: "1276685523884294146",
+          userPreInterviewDetailId: "",
           interviewTime: "14:00:00",
           interviewStatus: 4
         },
         {
-          userPreInterviewDetailId: "1276685523884294146",
+          userPreInterviewDetailId: "",
           interviewTime: "14:30:00",
           interviewStatus: 4
         },
         {
-          userPreInterviewDetailId: "1276685523884294146",
+          userPreInterviewDetailId: "",
           interviewTime: "15:00:00",
           interviewStatus:4
         },
         {
-          userPreInterviewDetailId: "1276685523884294146",
+          userPreInterviewDetailId: "",
           interviewTime: "15:30:00",
           interviewStatus: 4
         },
         {
-          userPreInterviewDetailId: "1276685523884294146",
+          userPreInterviewDetailId: "",
           interviewTime: "16:00:00",
           interviewStatus:4
         },
         {
-          userPreInterviewDetailId: "1276685523884294146",
+          userPreInterviewDetailId: "",
           interviewTime: "16:30:00",
           interviewStatus: 4
         }

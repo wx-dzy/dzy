@@ -168,70 +168,89 @@ export default {
       // },
     };
   },
+    created() {
+    this.getPJ()
+    // this.getUrlParam()
+    // 获取本地登录信息
+    let username = util.getCookie("username");
+    let password = util.getCookie("password");
+    this.username = username;
+    this.password = password;
+
+    if (username && password) {
+      // this.KeepPassword = true;
+      setTimeout(() => {
+        // this.hanldSubClick();
+      }, 1000);
+    }
+  },
   methods: {
     // 上传头像
     upUserImage () {
       
     },
     // 获取code
-    // getUrlParam () {
-    //           var reg = new RegExp('(^|&)' + 'code' + '=([^&]*)(&|$)')
-    //           console.log('reg',reg);
+    getUrlParam () {
+              var reg = new RegExp('(^|&)' + 'code' + '=([^&]*)(&|$)')
+              console.log('reg',reg);
               
-    //           let url = window.location.href.split('#')[0]
-    //           console.log('url',url);
+              let url = window.location.href.split('#')[0]
+              console.log('url',url);
               
-    //           let search = url.split('?')[1]
-    //           if (search) {
-    //               var r = search.substr(0).match(reg)
-    //               if (r !== null) return unescape(r[2])
-    //               return null
-    //           } else {
-    //               return null
-    //           }
-    //       },
+              let search = url.split('?')[1]
+              if (search) {
+                  var r = search.substr(0).match(reg)
+                  if (r !== null) return unescape(r[2])
+                  return null
+              } else {
+                  return null
+              }
+          },
     // 获取js配置
-    // getPJ () {
-    //   Api.getAppId()
-    //   .then(res => {
-    //     console.log('获取appid',res)
-    //     this.appId = res.data.appId
-    //     console.log('appid',this.appId)
-    //     // 获取code
-    //     this.getCode()
-    //   })
-    //   .catch( err => {
-    //     console.log('err',err);
+    getPJ () {
+      Api.getAppId()
+      .then(res => {
+        console.log('获取appid',res)
+        this.appId = res.data.appId
+        console.log('appid',this.appId)
+        // 获取code
+        this.getCode()
+      })
+      .catch( err => {
+        console.log('err',err);
         
-    //   })
-    // },
-    // getCode () {
-    //   const _this = this
-    //         var code = this.getUrlParam(name)
-    //         var local = window.location.href
+      })
+    },
+    getCode () {
+      const _this = this
+            var code = _this.getUrlParam('code')
+            // var local = 'http://192.168.31.221:9000/'
 
-    //         if (code == null || code == '') {
-    //             window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + _this.appId +'&redirect_uri=' + encodeURIComponent(local) + '&response_type=code&scope=snsapi_base&state=state#wechat_redirect'
-    //         } else {
-    //           _this.code = code
-    //           var data = {
-    //             code: _this.code
-    //           }
-    //           _this.getopenid_data(data)
-    //         }
-    //     },
-    // getUrlParam (name) {
-    //           var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
-    //           let url = window.location.href.split('#')[0]
-    //           let search = url.split('?')[1]
-    //           if (search) {
-    //               var r = search.substr(0).match(reg)
-    //               if (r !== null) return unescape(r[2])
-    //               return null
-    //           } else {
-    //               return null
-    //           }
-    //       },
+            if (code == null || code == '') {
+                window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + this.appId +'&redirect_uri='+encodeURIComponent('http://localhost:9000/&response_type=code&scope=snsapi_base&state=123#wechat_redirect')
+
+            } else {
+              _this.code = code
+              console.log('code',_this.code);
+              
+              var data = {
+                code: _this.code
+              }
+              _this.getopenid_data(data)
+            }
+        },
+    getUrlParam (name) {
+              var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
+              let url = window.location.href.split('#')[0]
+              let search = url.split('?')[1]
+              if (search) {
+                  var r = search.substr(0).match(reg)
+                  if (r !== null) return unescape(r[2])
+                  return null
+              } else {
+                  return null
+              }
+          },
     // 获取验证码
     getVerification () {
       console.log('获取验证码',this.mobile);
@@ -329,22 +348,7 @@ export default {
     }
   },
 
-  created() {
-    this.getPJ()
-    this.getUrlParam()
-    // 获取本地登录信息
-    let username = util.getCookie("username");
-    let password = util.getCookie("password");
-    this.username = username;
-    this.password = password;
 
-    if (username && password) {
-      // this.KeepPassword = true;
-      setTimeout(() => {
-        // this.hanldSubClick();
-      }, 1000);
-    }
-  }
 };
 </script>
 

@@ -229,6 +229,23 @@ util.rtrim = function (str) {
 };
 
 /**
+ * 获取url参数
+ * @param cname  字符串
+ * @returns {*}
+ */
+
+util.getQueryString = function (cname) {
+    var reg = new RegExp("(^|&)" + cname + "=([^&]*)(&|$)", 'i'); // 匹配目标参数
+    var result = window.location.search.substr(1).match(reg); // 对querystring匹配目标参数
+    if (result != null) {
+        return decodeURIComponent(result[2]);
+    } else {
+        return null;
+    }
+}
+
+
+/**
  * 去除首尾空格
  * @param str   字符串
  * @returns {*}
@@ -287,6 +304,7 @@ util.removeToken = function () {
 // util.delCookie_ = function(cname) {
 // 	document.cookie = cname + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT ;path=/hlwl_wexin/uploadInquiry";
 // }
+
 
 
 /**

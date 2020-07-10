@@ -15,3 +15,6 @@ export const getMobile = params => axios.get('/c/sms/send-verify-code/', params)
 // 获取js配置
 
 export const getAppId = params => axios.get('/c/wx/wx-js-config', params);
+
+// 获取openid
+export const getOpenId = url => axios.get(url);

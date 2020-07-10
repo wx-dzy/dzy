@@ -109,40 +109,24 @@ export default {
 
   created() {
     this.form.enterpriseId = this.$route.query.enterpriseId;
+    this.handleDetails()
     // 默认刷新列表
     this.onSearch();
   },
   watch: {},
   methods: {
     handleDetails() {
-      let params = 'enterpriseShowPeopleId'
+      // let params = 'enterpriseShowPeopleId'
+      let params =  this.form.enterpriseId 
       Api.getExhibitorsPeopleInfo(params)
         .then(res => {
           let { code, msg, data, total } = res;
           // 加载状态结束
-          this.loading = false;
           if (code == 200) {
-            if (status == 1) {
-              // 上拉刷新
-              this.refreshing = false;
-              this.listData = data;
-              x;
-              this.$toast("刷新成功");
-            } else {
-              data.forEach(element => {
-                this.listData.push(element);
-              });
-            }
-            // 数据全部加载完成
-            if (data.length < this.form.pageSize) {
-              this.finished = true;
-            }
+          this.details = data
           }
         })
         .catch(err => {
-          // 上拉刷新
-          this.refreshing = false;
-          // console.log(err, "err");
         });
     },
     // 搜索
@@ -206,7 +190,7 @@ export default {
     // 查看详情
     handleLook(row) {
       this.$router.push({
-        name: "resources_enterpriseDetail",
+        name: "products_details",
         // name: "exhibitor_details",
         query: {
           // 企业id

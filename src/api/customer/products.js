@@ -10,10 +10,3 @@ export const getGoodSearch= params => axios.post('/c/enterprise-goods/goods-sear
 // 产品详情 /c/goods/goods-detail-by-id/{goodsId}
 export const getGoodDetailById = params => axios.get('c/user/my-index', {params});
 
-// 查看全部企业产品目录 接口地址  http://rap2.taobao.org/repository/editor?id=258218&mod=389957&itf=1629307
-// 查看产品详情 接口地址  http://rap2.taobao.org/repository/editor?id=258218&mod=389957&itf=1631624
-
-
-// 企业产品目录-列表页  getGoodSearch   products
-
-

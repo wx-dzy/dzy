@@ -99,6 +99,8 @@ https://juejin.im/post/5cbff700e51d456e361ed904
     ```
     播放组件 当前播放 其他暂停功能  暂停显示封面功能
     资源tabs切换 加默认选中
+    Object.keys(this.listObj).every(item => this.listObj[item].hasSuccess)
+
 
     蓝湖的修改
     资源-工作经历

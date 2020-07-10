@@ -33,18 +33,19 @@
           <li>五</li>
             <li class="weekends">六</li>-->
           </ul>
-          <li @click="pick(day)" v-for="(day, index) in days" :key="index">
+          <li @click="pick(day,index)" v-for="(day, index) in days" :key="index">
             <!--本月-->
             <span v-if="day.getMonth()+1 != currentMonth" class="other-month">{{ day.getDate() }}</span>
             <span v-else>
               <!--今天-->
-              <span
+              <!-- <span
                 v-if="day.getFullYear() == new Date().getFullYear() && day.getMonth() == new Date().getMonth() && day.getDate() == new Date().getDate()"
                 class="active"
-              >{{ day.getDate() }}</span>
-              <span v-else>{{ day.getDate() }}</span>
+              >{{ day.getDate() }}</span> -->
+              <span :class="{'active':index==current}">{{ day.getDate() }}</span>
+              <!-- <span v-else>{{ day.getDate() }}</span> -->
             </span>
-            <p class="full" v-if="isFull">约满</p>
+            <!-- <p class="full" v-if="isFull">约满</p> -->
           </li>
         </ul>
       </div>
@@ -76,6 +77,7 @@ export default {
   components: {},
   data() {
     return {
+      current: 0,// 选中的日期下标
       weekList: [
         { text: "日" },
         { text: "一" },
@@ -128,6 +130,10 @@ export default {
       userHeadUrl:
         "http://img4.imgtn.bdimg.com/it/u=1027245443,3552957153&fm=26&gp=0.jpg",
         enterpriseShowPeopleId: '', //展会企业人物ID
+        weekData: [],
+        weekIndex: 0, //当前选中日期的下标
+        todayData: [], // 获取到的日数据
+        todayInfo: []
     };
   },
   computed: {
@@ -148,7 +154,13 @@ export default {
       if (res.code == 200) {
         this.userInfo = res.data;
         this.getWeekInfo() //获取周数据
+        this.initData(null);
+        this.initTodayList();
+        console.log('meiyueyouduoshaotian',this.days);
+        this.weekList = this.weekList.splice(0,this.days.length)
+        console.log('weekList',this.weekList);
       }
+      
     });
     // //日数据-貌似是本人当前天
     // Api.getTodayData(1).then(res=>{
@@ -157,17 +169,14 @@ export default {
 
     //   }
     // })
-    this.initData(null);
-    this.initTodayList();
-    console.log('meiyueyouduoshaotian',this.days);
-    this.weekList = this.weekList.splice(0,this.days.length)
-    console.log('weekList',this.weekList);
+    
     
   },
   methods: {
     // 获取日数据
     getDayInfo () {
-      let userPreInterviewId = this.weekList[0].userPreInterviewId
+      let userPreInterviewId = this.weekData[this.weekIndex].userPreInterviewId
+      console.log('userPreInterviewId',userPreInterviewId);
       
       // let params = {
       //   userPreInterviewId : userPreInterviewId
@@ -176,20 +185,65 @@ export default {
       Api.getTodayData(userPreInterviewId)
       .then (res => {
         if(res.code == 200 ) {
-          this.todayList = res.data
-        
-        for (var i = 0; i < this.todayList.length; i ++) {
-          if (this.todayList[i].interviewStatus == 0){
-            this.todayList[i].interviewStatus_1 = '不可预约'
-          }else if (this.todayList[i].interviewStatus == 1) {
-            this.todayList[i].interviewStatus_1 = '可预约'
-          }else if (this.todayList[i].interviewStatus == 2) {
-            this.todayList[i].interviewStatus_1 = '已预约'
-          }else if (this.todayList[i].interviewStatus == 3) {
-            this.todayList[i].interviewStatus_1 = '预约其他'
-          }
-        }
-        console.log('获取日数据',this.todayList);
+          this.todayData = res.data
+          this.todayInfo = this.todayList.concat(this.todayData)
+          console.log('todayInfo',this.todayInfo);
+          
+            
+			let tempArr = [];
+			let Data = [];
+			for (let i = 0; i < this.todayInfo.length; i++) {
+			if (tempArr.indexOf(this.todayInfo[i].interviewTime) === -1) {
+				Data.push({
+				interviewTime: this.todayInfo[i].interviewTime,
+				dataInfo: [this.todayInfo[i]]
+				});
+				tempArr.push(this.todayInfo[i].interviewTime);
+			} else {
+				for (let j = 0; j < Data.length; j++) {
+				if (Data[j].interviewTime == this.todayInfo[i].interviewTime) {
+					Data[j].dataInfo.push(this.todayInfo[i]);
+					break;
+				}
+				}
+			}
+			}					
+								console.log('Data',Data[0].dataInfo[0])
+								const Data_1 = []
+								for (var i=0;i < Data.length;i++){
+									Data_1.push(Data[i].dataInfo[0])
+									
+								}
+								console.log('Data_1:',Data_1);
+
+								
+								let Data_2 = {}
+								Data_1.forEach(item=> {
+									Data_2[item.name] = item.name
+								})
+								console.log('Data_2:',Data_2);
+								
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        console.log('获取日数据',this.todayData);
         }
         
       })
@@ -207,7 +261,7 @@ export default {
       .then( res => {
         console.log('获取周数据',res);
         if (res.code == 200 && res.data != '') {
-          this.weekList = res.data
+          this.weekData = res.data
           this.getDayInfo()
         }
         
@@ -220,84 +274,84 @@ export default {
     initTodayList() {
       let data = [
         {
-          userPreInterviewDetailId: "1276685523884294146",
+          userPreInterviewDetailId: "",
           interviewTime: "08:00:00",
-          interviewStatus: 1
+          interviewStatus: 4
         },
         {
-          userPreInterviewDetailId: "1276685523884294146",
+          userPreInterviewDetailId: "",
           interviewTime: "08:30:00",
-          interviewStatus: 2
+          interviewStatus: 4
         },
         {
-          userPreInterviewDetailId: "1276685523884294146",
+          userPreInterviewDetailId: "",
           interviewTime: "09:00:00",
-          interviewStatus: 0
+          interviewStatus: 4
         },
         {
-          userPreInterviewDetailId: "1276685523884294146",
+          userPreInterviewDetailId: "",
           interviewTime: "09:30:00",
-          interviewStatus: 0
+          interviewStatus: 4
         },
         {
-          userPreInterviewDetailId: "1276685523884294146",
+          userPreInterviewDetailId: "",
           interviewTime: "10:00:00",
-          interviewStatus: 2
+          interviewStatus: 4
         },
         {
-          userPreInterviewDetailId: "1276685523884294146",
+          userPreInterviewDetailId: "",
           interviewTime: "10:30:00",
-          interviewStatus: 1
+          interviewStatus: 4
         },
         {
-          userPreInterviewDetailId: "1276685523884294146",
+          userPreInterviewDetailId: "",
           interviewTime: "11:00:00",
-          interviewStatus: 0
+          interviewStatus: 4
         },
         {
-          userPreInterviewDetailId: "1276685523884294146",
+          userPreInterviewDetailId: "",
           interviewTime: "11:30:00",
-          interviewStatus: 0
+          interviewStatus: 4
         },
         {
-          userPreInterviewDetailId: "1276685523884294146",
+          userPreInterviewDetailId: "",
           interviewTime: "13:00:00",
-          interviewStatus: 0
+          interviewStatus: 4
         },
         {
-          userPreInterviewDetailId: "1276685523884294146",
+          userPreInterviewDetailId: "",
           interviewTime: "13:30:00",
-          interviewStatus: 0
+          interviewStatus: 4
         },
         {
-          userPreInterviewDetailId: "1276685523884294146",
+          userPreInterviewDetailId: "",
           interviewTime: "14:00:00",
-          interviewStatus: 0
+          interviewStatus: 4
         },
         {
-          userPreInterviewDetailId: "1276685523884294146",
+          userPreInterviewDetailId: "",
           interviewTime: "14:30:00",
-          interviewStatus: 1
+          interviewStatus: 4
         },
         {
-          userPreInterviewDetailId: "1276685523884294146",
+          userPreInterviewDetailId: "",
           interviewTime: "15:00:00",
-          interviewStatus: 1
+          interviewStatus:4
         },
         {
-          userPreInterviewDetailId: "1276685523884294146",
+          userPreInterviewDetailId: "",
           interviewTime: "15:30:00",
-          interviewStatus: 0
+          interviewStatus: 4
         },
         {
-          userPreInterviewDetailId: "1276685523884294146",
+          userPreInterviewDetailId: "",
           interviewTime: "16:00:00",
-          interviewStatus: 2
+          interviewStatus:4
         },
         {
-          userPreInterviewDetailId: "1276685523884294146",
+          userPreInterviewDetailId: "",
           interviewTime: "16:30:00",
-          interviewStatus: 1
+          interviewStatus: 4
         }
       ];
       data.forEach((item, index) => {
@@ -308,6 +362,19 @@ export default {
         }
       });
       this.todayList = data;
+      for (var i = 0; i < this.todayList.length; i ++) {
+          if (this.todayList[i].interviewStatus == 0){
+            this.todayList[i].interviewStatus_1 = '不可预约'
+          }else if (this.todayList[i].interviewStatus == 1) {
+            this.todayList[i].interviewStatus_1 = '可预约'
+          }else if (this.todayList[i].interviewStatus == 2) {
+            this.todayList[i].interviewStatus_1 = '已预约'
+          }else if (this.todayList[i].interviewStatus == 3) {
+            this.todayList[i].interviewStatus_1 = '预约其他'
+          }else if (this.todayList[i].interviewStatus == 4) {
+            this.todayList[i].interviewStatus_1 = ''
+          }
+        }
     },
     formatDate(year, month, day) {
       const y = year;
@@ -392,10 +459,27 @@ export default {
     },
 
     // 当前选择日期
-    pick(date) {
-      console.log(
-        this.formatDate(date.getFullYear(), date.getMonth() + 1, date.getDate())
-      );
+    pick(date,index) {
+      console.log('picker',index);index
+      this.current= index
+      // console.log(
+      //   this.formatDate(date.getFullYear(), date.getMonth() + 1, date.getDate())
+      // );
+      const checkData = this.formatDate(date.getFullYear(), date.getMonth() + 1, date.getDate())
+      // console.log('week',this.weekData);
+      
+      for (var i = 0; i < this.weekData.length; i ++) {
+        // console.log('333',this.weekData[i].dateOfMonth);
+        
+        if (checkData == this.weekData[i].dateOfMonth) {
+          this.weekIndex = i;
+          break
+        }
+          
+        
+      }
+      console.log('weekIndex',this.weekIndex);
+      this.getDayInfo()
     },
     onConfirm(value) {
       this.value1 = value;

@@ -223,7 +223,7 @@ export default {
     },
     getCode () {
       const _this = this
-            var code = _this.getUrlParam('code')
+            var code = _this.getUrlParam('code') 
             // var local = 'http://192.168.31.221:9000/'
 
             if (code == null || code == '') {

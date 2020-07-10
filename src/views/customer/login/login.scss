@@ -19,19 +19,21 @@
         font-size: 0.48rem;
         color: rgba(49, 52, 55, 1);
         line-height: 0.66rem;
-        text-align: center;
+        // text-align: center;
+        margin-left: 0.28rem;
     }
 
     .logoTitle {
         font-size: 0.28rem;
         color: rgba(157, 161, 166, 1);
-        line-height: 0.6rem;
-        text-align: center;
+        line-height: 1.5;
+        // text-align: center;
+        margin-left: 0.28rem;
+        margin-top: 0.3rem;
     }
 
     .loginForm {
-        padding-top: 1.5rem;
-
+        padding-top: 0.1rem;
         .userImg {
             width: 2rem;
             height: 2rem;
@@ -41,8 +43,7 @@
         .userName {
             font-size: 0.32rem;
             color: rgba(49, 52, 55, 1);
-            line-height: 0.68rem;
-
+            line-height: 1;
         }
 
         .van-cell {
@@ -74,7 +75,16 @@
             right: 15px;
             border-bottom: 1px solid #DEDEDE;
         }
-
+        .submitBtn{
+            background: #F8D57E;
+            border: none;
+            color: #313437;
+            border-radius: 10px;
+            width: 92%;
+            margin: 1rem auto;
+            font-size: 18px;
+            display: block;
+        }
     }
 
     // }

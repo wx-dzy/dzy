@@ -1,5 +1,5 @@
 <template>
-  <!-- 参展商目录-首页 -->
+  <!-- 参展商目录-首页  -->
   <div class="exhibitor_home">
     <div class="top"><!--v-if="totalExhibitors==0 ? false : true"-->
       <div class="left">
@@ -10,7 +10,7 @@
         </div>
       </div>
       <div class="right">
-        <van-button class="left_btn" round size="small">咨询客服</van-button>
+        <!-- <van-button class="left_btn" round size="small">咨询客服</van-button> -->
         <van-button class="right_btn" round size="small" color="#ffd36f" @click="toHomeOrder">参观预约</van-button>
       </div>
     </div>
@@ -150,7 +150,7 @@ export default {
       Api.getSwiperText(this.$route.query.enterpriseShowId)
         .then(res => {
           let { data, code, msg, total } = res;
-          console.log('getSwiperText',res);
+          console.log('getSwiperTe5444444',res);
           if (code == 200) {
             this.details = data;
             this.showName = data.enterpriseShow.showName;

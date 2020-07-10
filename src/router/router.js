@@ -91,7 +91,7 @@ export default [
 
     // 展会预约
     {
-        path: '/home_order',
+        path: ' ',
         meta: {
             requiresAuth: false,
             title: '参观预约',
@@ -180,6 +180,7 @@ export default [
         name: 'exact_information',
         component: () => import('@/views/customer/exhibitor/exact_information')
     },
+
 
 
     // ------------------   我的   start ------------------

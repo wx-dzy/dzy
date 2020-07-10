@@ -22,7 +22,7 @@ export const getExhibitorsInfo = params => axios.get('/c/enterprise-show-exhibit
 export const getUserInfo = params => axios.get('/c/show-people-interview/exhibitors-user-info/' + params);
 
 // 参展商预约日历-获取周数据
-export const getWeekData = params => axios.post('/c/show-people-interview/exhibitors-user-calendar-by-week' + params);
+export const getWeekData = (data) => axios.post('/c/show-people-interview/exhibitors-user-calendar-by-week',data);
 
 // 参展商预约日历-获取日数据
 export const getTodayData = params => axios.get('/c/show-people-interview/exhibitors-user-calendar-by-day/' + params);
@@ -32,3 +32,9 @@ export const getPeopleDetails = params => axios.get('/c/enterprise-people/exhibi
 
 // 企业产品目录-列表页
 export const getGoods = data => axios.post('/c/enterprise-goods/goods-search', data);
+
+// 关注/取消关注企业（人物）
+export const getFollow = params => axios.post('/c/user-follow/follow' + params);
+
+// 参展商目录-索取资料
+export const getInfomation = params => axios.get('/c/enterprise-show-exhibitors/request-enterprise-pdf/' + params);

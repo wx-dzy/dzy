@@ -12,8 +12,8 @@
         </i>
       </div>
       <div class="btn">
-        <button class="left_btn" @click="goCompany_details">获取公司资料</button>
-        <button class="right_btn" @click="toaCalendar">预约面谈</button>
+        <button class="left_btn" @click="toInfomation">获取公司资料</button>
+        <button class="right_btn" @click="goToPerson">预约面谈</button>
         <!-- <van-button round size="small"></van-button>
         <van-button round size="small" color="#ffd36f">预约面谈</van-button>-->
       </div>
@@ -21,17 +21,14 @@
         公司更多信息
         <van-icon name="arrow" />
       </div>
-      <div class="type" v-show="details.followStatus == 1">
-        <!-- <van-button icon="icon iconfont yz-yiguanzhu" type="default" class="btnNone">已关注</van-button> -->
+      <!-- <div class="type" v-show="details.followStatus == 1">
         <van-icon class="icon iconfont yz-yiguanzhu" />
         <div class="type_name">已关注</div>
-      </div>
-      <div class="type" v-show="details.followStatus == 0">
-        <!-- <van-button icon="icon iconfont yz-yiguanzhu" type="default" class="btnNone">已关注</van-button> -->
-        <!-- <van-icon class="icon iconfont yz-yiguanzhu" /> -->
+      </div> -->
+      <!-- <div class="type" v-show="details.followStatus == 0">
         <van-icon name="star-o" />
         <div class="type_name">未关注</div>
-      </div>
+      </div> -->
     </div>
     <div class="exhibitor" v-if="person.length > 0">
       <div class="top-title">
@@ -64,13 +61,17 @@
           />-->
           <!-- <Video-Demo :src="item.videoUrl" style="width: 100%;"/> -->
           <!-- <video :src="item.videoUrl" controls></video> -->
-              <Video-Demo
+          <div class="video">
+            <Video-Demo
                 :_id="item.id"
                 :src="item.videoUrl"
                 :bannerIMG="item.mediaUrl"
                 :playVideoId.sync="playVideoId"
                 style="width: 100%;"
+                class="zoom"
               />
+          </div>
+              
           <div class="name">{{item.mediaTitle}}</div>
         </div>
       </div>
@@ -126,7 +127,24 @@ export default {
     
     
   },
+  watch: {
+    playVideoId(newVal, oldVal) {
+      console.log(newVal, "22222wwww");
+    }
+  },
   methods: {
+    // 获取公司资料
+    toInfomation () {
+      const enterpriseExhibitorsId = this.details.exhibitors.id
+      console.log('enterpriseExhibitorsId',enterpriseExhibitorsId);
+      
+      this.$router.push({
+        path: '/exact_information',
+        query: {
+        enterpriseExhibitorsId: enterpriseExhibitorsId
+        }
+      })
+    },
     // 获取企业产品
     getGoods(){
 
@@ -135,7 +153,10 @@ export default {
     // 预约日历
     toaCalendar () {
       this.$router.push({
-        path: '/appointment_calendar'
+        path: '/person',
+        query: {
+
+        }
       })
     },
     // 跳转至法人详情
@@ -315,7 +336,7 @@ export default {
           border: 0.02rem solid rgba(233, 233, 233, 1);
         }
         .name {
-          margin-top: 0.06rem;
+          // margin-top: 0.06rem;
           font-size: 0.28rem;
           width: 1.28rem;
         }
@@ -346,14 +367,14 @@ export default {
       white-space: nowrap;
       display: flex;
       .video_box {
-        video {
-          width: 4.18rem;
-          height: 2.24rem;
+        .video {
+          // width: 4.18rem;
+          // height: 2.24rem;
           margin-right: 0.4rem;
         }
-        .name {
+        /deep/.name {
           display: block;
-          margin-top: 0.32rem;
+          // margin-top: 0.32rem;
           width: 2.94rem;
           // height: 0.8rem;
           // background-color: pink;

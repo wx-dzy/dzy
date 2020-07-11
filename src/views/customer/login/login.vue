@@ -12,8 +12,8 @@
     <div class="loginForm">
       <van-uploader class="upLoader" :max-count="1" accept="image/*" v-model="userImage" :deletable=deletable>
         <div class="text-center">
-          <img :src="userImg" alt class="userImg" />
-          <p class="userName" @click="upUserImage">上传头像</p>
+          <img :src="headimgurl" alt class="userImg" />
+          <p class="userName">{{nickname}}</p>
           <!-- <p class="userName">{{username}}</p> -->
         </div>
       </van-uploader>
@@ -71,9 +71,9 @@
           type="info"
           loading-type="spinner"
           loading-text="登 录 中..."
-          class="idea_btn"
+          class="idea_btn submitBtn"
           native-type="submit"
-        >登 录</van-button>
+        >下一步</van-button>
       </van-form>
 
       <!-- 验证码登录 -->
@@ -89,11 +89,20 @@
         >
           <template #button>
             <van-button
+            v-show="!isBtn"
               size="small"
               type="primary"
               native-type="button"
               @click="getVerification"
             >获取验证码</van-button>
+            <van-button
+            v-show="isBtn"
+              size="small"
+              type="primary"
+              disabled
+              native-type="button"
+              @click="getVerification"
+            >{{count}} s</van-button>
           </template>
         </van-field>
 
@@ -138,7 +147,7 @@ export default {
 
   data() {
     return {
-      pwd: false, //是否是密码登录
+      pwd: false, //是否是首次
       mobile: '',// 手机号
       userImg: img3,
       verification: '', // 验证码
@@ -154,6 +163,12 @@ export default {
       appId: '',
       userImage: [], //上传的头像
       deletable: false, //是否显示删除按钮
+      openId: sessionStorage.getItem('openId'),
+      headimgurl:'',  // 用户头像
+      nickname: '', // 用户昵称
+      isBtn: false,  // 是否显示禁用状态按钮
+      count:60, // 获取验证码倒计时
+      timer:null,
       // userInfo:{
       // access_token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiaGx3bC1wbGF0Zm9ybS1yZXNvdXJjZS1pZCJdLCJ1c2VyX25hbWUiOiJhZG1pbiIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdLCJwYXJlbnRVc2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNTY5NDYxNzQ0LCJ1c2VySWQiOjEwMDksImF1dGhvcml0aWVzIjpbIjQ2NjNkMTkyLWI4N2ItNDhkMi04MzMwLWFkNTBhYWFiMjg1YiIsIi91c2VyL3N5cy91c2VyL3BhZ2UiLCJiNzVkNzA3ZS1hNDAxLTRiZDEtYWMzNC1jMTNiYWMwMjNlODEiLCIzZDE2YmU5Yy1mOGVlLTQ2MDQtOTk5Ny0yOGE5ZWQ2OGM5OWYiLCJST0xFX1VTRVIiLCIvdXNlci9zeXMvcm9sZS9wYWdlIiwicmZxOnF1b3RhdGlvbjptYW5hZ2U6cGFnZSIsIi9yZnEvcXVvdGF0aW9uL21hbmFnZS9wYWdlIiwic3lzOnVzZXI6YWxsIiwic3lzOnJvbGU6cGFnZSIsIjQyZjQ4MDNkLTkzMDEtNDAxMy05YTk2LTIxYTdjZmFlNDUzNSJdLCJqdGkiOiIzNTZlYTdmNy1hOGJjLTQyMzQtOTlhMS1mMjljY2ZhOGEyMWUiLCJwYXJlbnRJZCI6MTAwOSwiY2xpZW50X2lkIjoiaGx3bC1wbGF0Zm9ybS1yZXNvdXJjZSIsInVzZXJuYW1lIjoiYWRtaW4ifQ.2XH6gHkIvEqUMVitrIfCUP277nFw1VdMMUWusZjVWEo",
       // expires_in:2591998,
@@ -170,6 +185,8 @@ export default {
   },
     created() {
     this.getPJ()
+    console.log('openId',this.openId);
+    this.getInfo()
     // this.getUrlParam()
     // 获取本地登录信息
     let username = util.getCookie("username");
@@ -185,19 +202,31 @@ export default {
     }
   },
   methods: {
+    // 获取用户信息
+      getInfo () {
+        Api.getUserInfo(this.openId).then( res => {
+          console.log('获取用户信息',res);
+          if (res.code == 200) {
+            this.headimgurl = res.data.headimgurl
+            this.nickname = res.data.nickname
+          }
+        })
+      },
     // 获取openid
     getopenid_data(data) {
-      console.log('data',this.code);
-      
-      let url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' + this.appId + '&secret=SECRET&code=' + this.code + '&grant_type=authorization_code'
-      Api.getOpenId(url).then( res => {
-        console.log( 'openid',res);
+      if(this.openId == '') {
+        console.log('data',this.code);
+      Api.getOpenId(this.code).then( res => {
+        console.log('获取openid',res );
+        if (res.code == 200) {
+          sessionStorage.setItem('openId',res.data.openId)
+          this.openId = sessionStorage.getItem('openId')
+          this.getInfo()
+        }
+        
         
       })
-    },
-    // 上传头像
-    upUserImage () {
-      
+      }
     },
     // 获取code
     getUrlParam () {
@@ -237,7 +266,7 @@ export default {
             // var local = 'http://192.168.31.221:9000/'
 
             if (code == null || code == '') {
-                window.location.href = 'http://121.196.122.19/get-weixin-code.html?appid=' + this.appId + '7                  &scope=snsapi_base&state=123&redirect_uri=http://127.0.0.1:9000&response_type=code&scope=snsapi_base&state=123'
+                window.location.href = 'http://121.196.122.19/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://127.0.0.1:9000&response_type=code'
 
             } else {
               _this.code = code
@@ -263,16 +292,44 @@ export default {
     // 获取验证码
     getVerification () {
       console.log('获取验证码',this.mobile);
-      Api.getMobile(this.mobile)
+      if(!(/^1[3456789]\d{9}$/.test(this.mobile))){
+        this.$toast('请输入正确手机号')
+      }else{
+        Api.getMobile(this.code,this.mobile)
       .then( res=> {
         console.log('验证码',res);
-        
+        if (res.code == 200){
+          this.isBtn = true
+          this.showTimer()
+          this.$toast(res.data)
+        }
       })
+      }
+      
     },
+    // 获取验证码倒计时
+    showTimer() {
+      const TIME_COUNT = 5;
+      if (!this.timer) {
+       this.count = TIME_COUNT;
+      //  this.show = false;
+       this.timer = setInterval(() => {
+       if (this.count > 0 && this.count <= TIME_COUNT) {
+         this.count--;
+        } else {
+         this.isBtn = false;
+         clearInterval(this.timer);
+         this.timer = null;
+        }
+       }, 1000)
+      }
+    },
+    
     // 查看密码
     handleLook() {
       this.lookPassword = !this.lookPassword;
     },
+  
     // 点击登录登录
     hanldSubClick() {
       // if (this.username == "") {
@@ -294,15 +351,26 @@ export default {
       } else if (this.verification == "") {
         util.error("请输入您的验证码");
       }else {
-        let params = {
+        if (this.pwd == true) {
+          let params = {
           username: this.username,
           password: this.password,
           moduleId: 4,
           code: this.$route.query.code ? this.$route.query.code : ""
           // "moduleId":1,
         };
+        }else{
+          let params = {
+            verifyCode: this.verification,
+            mobile: this.mobile,
+            openId: this.openId
+          }
+          console.log('params',params);
+        
         // 请求登录
         this.onSubmt(params);
+        }
+        
       }
     },
     // 请求登录
@@ -311,7 +379,7 @@ export default {
       util.showLoading();
       Api.loginInit(params)
         .then(res => {
-          // console.log(res,'res')
+          console.log('res',res)
           if (res.code == 417) {
             this_.$message.error(res.message);
           } else if (res.code == 200) {
@@ -326,9 +394,9 @@ export default {
             // }
 
             // 本地缓存
-            localStorage.setItem("userInfo", JSON.stringify(res.data));
-            util.setCookie("dzy_token", access_token, 365);
-            util.setCookie("username", username, 365);
+            // localStorage.setItem("userInfo", JSON.stringify(res.data));
+            // util.setCookie("dzy_token", access_token, 365);
+            // util.setCookie("username", username, 365);
             this.$router.push({
               name: "home"
             });
@@ -374,6 +442,9 @@ export default {
     width: 3rem;
     margin: 0 auto;
     display: block;
+    .userName{
+      margin-top: 0.1rem;
+    }
     .van-uploader__input-wrapper {
       margin: 0 auto;
       display: block;

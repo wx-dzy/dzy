@@ -185,6 +185,16 @@ export default {
     }
   },
   methods: {
+    // 获取openid
+    getopenid_data(data) {
+      console.log('data',this.code);
+      
+      let url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' + this.appId + '&secret=SECRET&code=' + this.code + '&grant_type=authorization_code'
+      Api.getOpenId(url).then( res => {
+        console.log( 'openid',res);
+        
+      })
+    },
     // 上传头像
     upUserImage () {
       
@@ -227,12 +237,11 @@ export default {
             // var local = 'http://192.168.31.221:9000/'
 
             if (code == null || code == '') {
-                window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + this.appId +'&redirect_uri='+encodeURIComponent('http://localhost:9000/&response_type=code&scope=snsapi_base&state=123#wechat_redirect')
+                window.location.href = 'http://121.196.122.19/get-weixin-code.html?appid=' + this.appId + '7                  &scope=snsapi_base&state=123&redirect_uri=http://127.0.0.1:9000&response_type=code&scope=snsapi_base&state=123'
 
             } else {
               _this.code = code
               console.log('code',_this.code);
-              
               var data = {
                 code: _this.code
               }

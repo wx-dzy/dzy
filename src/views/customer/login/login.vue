@@ -214,8 +214,10 @@ export default {
       },
     // 获取openid
     getopenid_data(data) {
-      if(this.openId == '') {
-        console.log('data',this.code);
+      console.log('data',data);
+      
+      if(this.openId == '' || this.openId == undefined) {
+        console.log('code_1',this.code);
       Api.getOpenId(this.code).then( res => {
         console.log('获取openid',res );
         if (res.code == 200) {
@@ -229,22 +231,22 @@ export default {
       }
     },
     // 获取code
-    getUrlParam () {
-              var reg = new RegExp('(^|&)' + 'code' + '=([^&]*)(&|$)')
-              console.log('reg',reg);
+    // getUrlParam () {
+    //           var reg = new RegExp('(^|&)' + 'code' + '=([^&]*)(&|$)')
+    //           console.log('reg',reg);
               
-              let url = window.location.href.split('#')[0]
-              console.log('url',url);
+    //           let url = window.location.href.split('#')[0]
+    //           console.log('url',url);
               
-              let search = url.split('?')[1]
-              if (search) {
-                  var r = search.substr(0).match(reg)
-                  if (r !== null) return unescape(r[2])
-                  return null
-              } else {
-                  return null
-              }
-          },
+    //           let search = url.split('?')[1]
+    //           if (search) {
+    //               var r = search.substr(0).match(reg)
+    //               if (r !== null) return unescape(r[2])
+    //               return null
+    //           } else {
+    //               return null
+    //           }
+    //       },
     // 获取js配置
     getPJ () {
       Api.getAppId()

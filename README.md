@@ -95,6 +95,14 @@ https://juejin.im/post/5cbff700e51d456e361ed904
     util.setCookie('dzy_token','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1OTU0Mjg3MzMsInVzZXJfbmFtZSI6ImFkbWluIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImp0aSI6IkMzUWxUQW9nTzQxNEJwLUE1SU9CX1ZjNTR6RSIsImNsaWVudF9pZCI6ImR6eS1jbG91ZC1zaG93LWNsaWVudC0xIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.JzRnqIly2A9F--sd8iAAFpBr-7HBIYvTKr Y1AusD59U',365)
     ```
 
+## 开发时获取code临时
+    ```
+    // 开发的时候调用  开发完注销调
+    if( !util.getQueryString('code')){
+        window.location.href="http://121.196.122.19/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://127.0.0.1:9000&response_type=code&scope=snsapi_base&state=123"
+    } 
+    ```
+
 ### 待完善
     ```
     播放组件 当前播放 其他暂停功能  暂停显示封面功能

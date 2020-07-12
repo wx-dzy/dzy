@@ -304,7 +304,7 @@ export default {
           this.$toast(res.data)
         }
       })
-      }
+      } 
       
     },
     // 获取验证码倒计时

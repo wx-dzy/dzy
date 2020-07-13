@@ -197,10 +197,8 @@ export default {
     },
     // 查看全部企业产品目录
     handleLookList() {
-      return console.log("暂无路由");
-      // 接口地址  http://rap2.taobao.org/repository/editor?id=258218&mod=389957&itf=1629307
       this.$router.push({
-        name: "",
+        name: "products",
         query: {
           // 企业id
           enterpriseId: this.enterpriseId
@@ -210,10 +208,9 @@ export default {
 
     // 查看产品详情
     handleLookItem(row) {
-      return console.log("暂无路由");
       // 接口地址  http://rap2.taobao.org/repository/editor?id=258218&mod=389957&itf=1631624
       this.$router.push({
-        name: "",
+        name: "products_details",
         query: {
           // 商品id
           goodsId: row.id

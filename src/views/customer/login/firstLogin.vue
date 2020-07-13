@@ -4,14 +4,18 @@
     <h1 class="title">大招云</h1>
 
     <p class="logoTitle">
-      随时随地看展 时时刻刻参展
+      首次登陆请完成您的主体咖个人信息,
+      <br />我们将为您提供更好的服务,快来完善吧!
     </p>
     <p class="logoTitle"></p>
 
     <div class="loginForm">
       <div class="loginMiddle">
-        
-        <!-- <div>
+        <div class="text-left" style="text-align:right" @click="chooseImg_man" v-show="avatarShow">
+          <img :src="portrait_man" alt class="userImg" />
+          <p class="userName"></p>
+        </div>
+        <div>
           <van-uploader
             class="upLoader"
             :max-count="1"
@@ -20,10 +24,15 @@
             :deletable="deletable"
             :after-read="afterRead"
           >
+            <div class="text-center">
+              <img :src="portrait" class="userImg" />
+              <p class="userName" v-show="avatarShow">上传头像</p>
+              <!-- <p class="userName">{{username}}</p> -->
+            </div>
           </van-uploader>
-        </div> -->
+        </div>
         <div
-          class="text-avatar"
+          class="text-right"
           style="text-align:left"
           @click="chooseImg_women"
           v-show="avatarShow"
@@ -43,7 +52,13 @@
       />-->
       <!-- 注册 -->
       <van-form @submit="hanldSubClick">
-        
+        <van-field
+          v-model="nickname"
+          ref="password"
+          v-if="true"
+          clearable
+          placeholder="请输入昵称"
+        />
         <van-field
           v-model="password"
           ref="password"
@@ -51,7 +66,14 @@
           clearable
           placeholder="请输入您的密码"
         />
-        <div class="mobile" @click="toCodeLogin">手机登录<van-icon name="arrow" size="14"  /></div>
+        <van-field
+          v-model="password"
+          ref="password"
+          v-if="true"
+          clearable
+          placeholder="请再次输入您的密码"
+        />
+
         <!-- <van-checkbox
         v-model="KeepPassword"
         shape="square"
@@ -85,7 +107,6 @@ import {
 } from "vant";
 import { mapActions, mapGetters } from "vuex";
 import { setTimeout } from "timers";
-import codeLoginVue from './codeLogin.vue';
 
 export default {
   name: "login",
@@ -117,12 +138,6 @@ export default {
   created() {
   },
   methods: {
-    //   手机号登陆
-    toCodeLogin () {
-        this.$router.push({
-            path: '/codeLogin'
-        })
-    },
     //   上传头像
     afterRead (file) {
         console.log('上传头像',file.file.path);
@@ -199,23 +214,15 @@ export default {
 @import "@/assets/styles/base/calc_vm.scss";
 @import "./login.scss";
 </style>
- 
+
 <style lang="scss">
 @import "@/assets/styles/base/calc_vm.scss";
 // 登录页图标样式
 .login {
-    .title{
-        text-align: center;
-    }
-    .logoTitle{
-        text-align: center;
-        margin-top: 0!important;
-        line-height: 2;
-    }
   .loginMiddle {
     display: flex;
     div {
-        margin: 1.3rem auto 0;
+      flex: 1;
       .userImg {
         width: 1.7rem !important;
         height: 1.7rem !important;
@@ -225,15 +232,6 @@ export default {
         margin-top: 0.15rem;
       }
     }
-  }
-  .mobile{
-      color: #9DA1A6FF;
-      text-align: right;
-      padding: 10px 0;
-      margin: 0 15px;
-      .van-icon {
-          vertical-align: middle;
-      }
   }
   .upLoader {
     width: 3rem;

@@ -3,6 +3,15 @@ export default [
         path: '',
         redirect: '/login'
     },
+    {
+        path: '/codeLogin',
+        meta: {
+            requiresAuth: false,
+            title: '登录',
+        },
+        name: 'codeLogin',
+        component: () => import('@/views/customer/login/codeLogin.vue')
+    },
     // demo
     {
         path: '/Main',

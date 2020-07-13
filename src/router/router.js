@@ -1,8 +1,8 @@
 export default [
-    {
-        path: '',
-        redirect: '/login'
-    },
+    // {
+    //     path: '/login',
+    //     redirect: '/login'
+    // },
     // demo
     {
         path: '/Main',
@@ -13,9 +13,18 @@ export default [
         name: 'Main',
         component: () => import('@/components/customer/Main.vue')
     },
-    // 登录
+    // 手机号验证码登录
     {
-        path: '/login',
+        path: '/codeLogin',
+        meta: {
+            requiresAuth: false,
+            title: '手机号登录',
+        },
+        name: 'codeLogin',
+        component: () => import('@/views/customer/login/codeLogin.vue')
+    },
+    {
+        path: '',
         meta: {
             requiresAuth: false,
             title: '登录',
@@ -23,16 +32,17 @@ export default [
         name: 'login',
         component: () => import('@/views/customer/login/login.vue')
     },
+    
     // 注册
-    //  {
-    //     path: '/login',
-    //     meta: {
-    //         requiresAuth: false,
-    //         title: '登录',
-    //     },
-    //     name: 'login',
-    //     component: () => import('@/views/customer/login/login.vue')
-    // },
+     {
+        path: '/firstLogin',
+        meta: {
+            requiresAuth: false,
+            title: '首次登录',
+        },
+        name: 'firstLogin',
+        component: () => import('@/views/customer/login/firstLogin.vue')
+    },
 
     // ---------------customer客户端------------------
     // 首页
@@ -91,7 +101,7 @@ export default [
 
     // 展会预约
     {
-        path: ' ',
+        path: '/home_order',
         meta: {
             requiresAuth: false,
             title: '参观预约',

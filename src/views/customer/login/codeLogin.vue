@@ -167,8 +167,8 @@ export default {
       userImage: [], //上传的头像
       deletable: false, //是否显示删除按钮
       openId: sessionStorage.getItem('openId'),
-      headimgurl:'',  // 用户头像
-      nickname: '', // 用户昵称
+      headimgurl: sessionStorage.getItem('headimgurl'),  // 用户头像
+      nickname: sessionStorage.getItem('nickname'), // 用户昵称
       isBtn: false,  // 是否显示禁用状态按钮
       count:60, // 获取验证码倒计时
       timer:null,
@@ -191,7 +191,7 @@ export default {
       
     this.getPJ()
     console.log('openId',this.openId);
-    this.getInfo()
+    // this.getInfo()
     // this.getUrlParam()
     // 获取本地登录信息
     let username = util.getCookie("username");
@@ -209,14 +209,18 @@ export default {
   methods: {
     // 获取用户信息
       getInfo () {
-        Api.getUserInfo(this.openId).then( res => {
+        if(!this.headimgurl || !this.nickname){
+          Api.getUserInfo(this.openId).then( res => {
           console.log('获取用户信息',res);
           if (res.code == 200) {
             this.headimgurl = res.data.headimgurl
             this.nickname = res.data.nickname
-            
+            sessionStorage.setItem('headimgurl',res.data.headimgurl)
+            sessionStorage.setItem('nickname',res.data.nickname)
           }
         })
+        }
+        
       },
     // 获取openid
     getopenid_data(data) {
@@ -274,7 +278,7 @@ export default {
             // var local = 'http://192.168.31.221:9000/'
 
             if (code == null || code == '') {
-                window.location.href = 'http://121.196.122.19/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://127.0.0.1:9000&response_type=code'
+                window.location.href = 'http://121.196.122.19/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://127.0.0.1:9000/codeLogin&response_type=code'
 
             } else {
               _this.code = code
@@ -289,7 +293,7 @@ export default {
               var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
               let url = window.location.href.split('#')[0]
               let search = url.split('?')[1]
-              if (search) {77777777777777777
+              if (search) {
                   var r = search.substr(0).match(reg)
                   if (r !== null) return unescape(r[2])
                   return null
@@ -396,11 +400,11 @@ export default {
             sessionStorage.setItem('userId',res.data.userId)
 
             // let { access_token, username } = res.data;
-            if (res.data.firstLogin == 1){
+            if (res.data.firstLogin == 0){
               this.$router.push({
                 path: "/home"
               });
-            }else if (res.data.firstLogin == 0) {
+            }else if (res.data.firstLogin == 1) {
               this.$router.push({
                 path: "/firstLogin"
               });

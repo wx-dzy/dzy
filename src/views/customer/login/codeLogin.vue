@@ -139,8 +139,13 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 import * as Api from "@/api/customer/login";
 import { util } from "@/utils";
+=======
+import * as Api from '@/api/customer/login'
+import { util } from '@/utils'
+>>>>>>> 946df165865fabe245c13ee994d5ccf12f0fbb63
 import {
   Field,
   Button,
@@ -149,13 +154,20 @@ import {
   CheckboxGroup,
   Form,
   Uploader
+<<<<<<< HEAD
 } from "vant";
 import { mapActions, mapGetters } from "vuex";
 import { setTimeout } from "timers";
 import img3 from "@/assets/images/login/portrait.png";
+=======
+} from 'vant'
+import { mapActions, mapGetters } from 'vuex'
+import { setTimeout } from 'timers'
+import img3 from '@/assets/images/login/portrait.png'
+>>>>>>> 946df165865fabe245c13ee994d5ccf12f0fbb63
 
 export default {
-  name: "login",
+  name: 'login',
   components: {
     Field,
     Button,
@@ -169,7 +181,7 @@ export default {
   data() {
     return {
       pwd: false, //是否是首次
-      mobile: "", // 手机号
+      mobile: '', // 手机号
       userImg: img3,
       verification: "", // 验证码
       // 记住密码
@@ -177,7 +189,7 @@ export default {
       // 查看密码
       lookPassword: true,
       // 账户
-      username: "",
+      username: '',
       // 密码
       password: "",
       code: "",
@@ -205,24 +217,26 @@ export default {
       // userId:1009,
       // username:"admin",
       // },
-    };
+    }
   },
   created() {
-    this.getPJ();
-    console.log("openId", this.openId);
+    console.log('进入手机号登陆')
+
+    this.getPJ()
+    console.log('openId', this.openId)
     // this.getInfo()
     // this.getUrlParam()
     // 获取本地登录信息
-    let username = util.getCookie("username");
-    let password = util.getCookie("password");
-    this.username = username;
-    this.password = password;
+    let username = util.getCookie('username')
+    let password = util.getCookie('password')
+    this.username = username
+    this.password = password
 
     if (username && password) {
       // this.KeepPassword = true;
       setTimeout(() => {
         // this.hanldSubClick();
-      }, 1000);
+      }, 1000)
     }
   },
   methods: {
@@ -371,7 +385,7 @@ export default {
 
     // 查看密码
     handleLook() {
-      this.lookPassword = !this.lookPassword;
+      this.lookPassword = !this.lookPassword
     },
 
     // 点击登录登录
@@ -418,14 +432,14 @@ export default {
     },
     // 请求登录
     onSubmt(params) {
-      console.log(params);
-      util.showLoading();
+      console.log(params)
+      util.showLoading()
       Api.loginInit(params)
         .then(res => {
           console.log("res", res);
           let {code, data, msg, total} = res
           if (res.code == 417) {
-            this_.$message.error(res.message);
+            this_.$message.error(res.message)
           } else if (res.code == 200) {
             // sessionStorage.setItem("userId", res.data.userId);
             util.setCookie('dzy_userInfo',JSON.stringify(data),7)
@@ -439,8 +453,8 @@ export default {
               });
             } else if (res.data.firstLogin == 1) {
               this.$router.push({
-                path: "/firstLogin"
-              });
+                path: '/firstLogin'
+              })
             }
 
             //  console.log(
@@ -449,25 +463,25 @@ export default {
             //     util.getCookie("password")
             // )
           }
-          util.hideLoading();
+          util.hideLoading()
         })
         .catch(err => {
-          console.log(err);
-          util.hideLoading();
-        });
+          console.log(err)
+          util.hideLoading()
+        })
     }
   },
 
   computed: {},
 
   mounted() {
-    if (this.mobile == "") {
-      this.$refs.mobile.focus();
-    } else if (this.verification == "") {
-      this.$refs.verification.focus();
+    if (this.mobile == '') {
+      this.$refs.mobile.focus()
+    } else if (this.verification == '') {
+      this.$refs.verification.focus()
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -504,5 +518,3 @@ export default {
   }
 }
 </style>
-
-7

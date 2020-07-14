@@ -45,6 +45,7 @@ instance.interceptors.request.use(config => {
     // 暂时设置临时的token  调取接口用
     // util.setCookie('dzy_token','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1OTU0Mjg3MzMsInVzZXJfbmFtZSI6ImFkbWluIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImp0aSI6IkMzUWxUQW9nTzQxNEJwLUE1SU9CX1ZjNTR6RSIsImNsaWVudF9pZCI6ImR6eS1jbG91ZC1zaG93LWNsaWVudC0xIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.JzRnqIly2A9F--sd8iAAFpBr-7HBIYvTKrY1AusD59U',365) 
 
+    console.log("token",util.getCookie('dzy_token'));
     // 统一携带tooken
     if(util.getCookie('dzy_token')){
         config.headers =  {

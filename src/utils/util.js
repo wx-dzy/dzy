@@ -284,18 +284,20 @@ util.clearCookie = function(cname) {
 
 
 
-const TokenKey = 'hlwl_token'
-
+const TokenKey = 'dzy_token'
 util.getToken = function() {
-  return sessionStorage.getItem(TokenKey)
+//   return sessionStorage.getItem(TokenKey)
+  return util.getCookie(TokenKey)
 }
 
 util.setToken = function (token) {
-  return sessionStorage.setItem(TokenKey, token)
+//   return sessionStorage.setItem(TokenKey, token)
+  return util.setCookie(TokenKey, token)
 }
 
 util.removeToken = function () {
-  return sessionStorage.removeItem(TokenKey)
+//   return sessionStorage.removeItem(TokenKey)
+  return util.clearCookie(TokenKey)
 }
 
 // util.delCookie = function(cname) {

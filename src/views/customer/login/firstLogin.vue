@@ -173,7 +173,8 @@ export default {
         util.error("确认密码错误");
       } else {
         let params = {
-            id: sessionStorage.getItem('userId'),
+            // id: sessionStorage.getItem('userId'),
+            id: JSON.parse(util.getCookie('dzy_userInfo')).userId ,
           nickname: this.nickname,
           password: this.password,
           avatar: this.portrait,

@@ -116,3 +116,26 @@ https://juejin.im/post/5cbff700e51d456e361ed904
     我的
     
     ```
+
+### demo
+    ```
+    1，用户首页
+
+    http://121.196.122.19/hlwl_wexin/userManager.html?username=huangzb&telephone=17601001098
+
+    2，询价单列表
+
+    http://121.196.122.19/hlwl_wexin/uploadInquiry/order/tobeQuoted.html
+
+    3，上传询价单
+
+    http://121.196.122.19/hlwl_wexin/uploadInquiry/submit-inquiry.html
+
+    4，合同待签署列表
+
+    http://121.196.122.19/hlwl_wexin/manager/purchaseContract/awaitContract.html
+
+    5，订单待发货列表
+
+    http://121.196.122.19/hlwl_wexin/orderRemake/orderList.html?orderStatus=2
+    ```

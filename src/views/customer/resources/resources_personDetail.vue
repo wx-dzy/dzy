@@ -1,7 +1,6 @@
 // 资源-人物详情
 <template>
   <div class="resources_personDetail">
-    <!-- {{details}} -->
     <van-row class="head">
       <van-col span="7">
         <img :src="details.user.avatar || nullPhoto" alt class="photo" />
@@ -92,9 +91,9 @@
         alt
       />
     </div>
-    <div class="footerBtn">
+    <!-- <div class="footerBtn">
       <van-button v-show="details.myInterviewDesc.myInterviewDesc" type="primary" color="#F8D57E" block @click="handleLookOrder">{{details.myInterviewDesc.myInterviewDesc}}</van-button>
-    </div>
+    </div> -->
   </div>
 </template>
 

@@ -139,13 +139,8 @@
 </template>
 
 <script>
-<<<<<<< HEAD
-import * as Api from "@/api/customer/login";
-import { util } from "@/utils";
-=======
 import * as Api from '@/api/customer/login'
 import { util } from '@/utils'
->>>>>>> 946df165865fabe245c13ee994d5ccf12f0fbb63
 import {
   Field,
   Button,
@@ -154,17 +149,10 @@ import {
   CheckboxGroup,
   Form,
   Uploader
-<<<<<<< HEAD
-} from "vant";
-import { mapActions, mapGetters } from "vuex";
-import { setTimeout } from "timers";
-import img3 from "@/assets/images/login/portrait.png";
-=======
 } from 'vant'
 import { mapActions, mapGetters } from 'vuex'
 import { setTimeout } from 'timers'
 import img3 from '@/assets/images/login/portrait.png'
->>>>>>> 946df165865fabe245c13ee994d5ccf12f0fbb63
 
 export default {
   name: 'login',

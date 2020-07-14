@@ -99,7 +99,8 @@ export default {
       portrait: require('@/assets/images/login/portrait.png'), // 空头像
 
       // 昵称
-      nickname: sessionStorage.getItem('nickname'),
+      // nickname: sessionStorage.getItem('nickname'),
+      nickname: JSON.parse(util.getCookie('dzy_wxInfo')).nickname,
       // nickname: '123',
       // 密码
       password: '',
@@ -145,7 +146,9 @@ export default {
         util.error('密码不能少于6位')
       } else {
         let params = {
-          id: sessionStorage.getItem('userId'),
+          // id: sessionStorage.getItem('userId'),
+            id: JSON.parse(util.getCookie('dzy_userInfo')).userId ,
+
           nickname: this.nickname,
           password: this.password,
           avatar: this.portrait

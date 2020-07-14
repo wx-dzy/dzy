@@ -3,17 +3,20 @@
     .head {
         position: relative;
         padding: 0.42rem 0 0.68rem 0.52rem;
+
         .photo {
             width: 1.5rem;
             height: 1.5rem;
             border-radius: 50%;
         }
+
         .name {
             padding-top: 0.14rem;
             line-height: 0.72rem;
             font-size: 0.32rem;
             color: rgba(49, 52, 55, 1);
         }
+
         .status {
             display: inline-block;
             padding: 0 0.18rem;
@@ -23,18 +26,23 @@
             background: #DAF6F4;
             border-radius: 0.08rem;
         }
+
         .status0 {
             background: #F8D57E;
         }
+
         .status1 {
             background: #DAF6F4;
         }
+
         .status2 {
             background: #EAE2FE;
         }
+
         .status3 {
             background: #FEE1DD;
         }
+
         .btnWrap {
             position: absolute;
             right: 0;
@@ -44,6 +52,7 @@
             justify-content: flex-end;
             align-items: center;
         }
+
         .getBtn {
             padding: 0 0.3rem;
             // margin-top: 0.44rem;
@@ -53,9 +62,14 @@
         }
     }
 
+    .logo {
+        width: 1.8rem;
+        height: 1.8rem;
+        border-radius: 0.04rem;
+
+    }
+
 }
 
 // 企业产品目录-产品详情
-.products_details {
-
-}
+.products_details {}

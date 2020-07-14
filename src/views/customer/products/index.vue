@@ -1,28 +1,7 @@
 // 企业产品目录-列表页    
 <template>
   <div class="products">
-    <van-row class="head">
-      <van-col span="7">
-        <img :src="details || nullPhoto" alt class="photo" />
-      </van-col>
-      <van-col span="8">
-        <h3 class="name">{{details || '1111'}}</h3>
-        <!-- 关注状态, 0未关注, 1已关注, 2对方已关注, 3双方互关 -->
-        <span
-          class="status"
-          :class="`${ 'status' + details || '11111' }`"
-        >{{details == 1 ? '已关注' : details == 2 ? '对方已关注' : details == 3 ? '双方互关' : '未关注'}}</span>
-      </van-col>
-      <van-col span="9" class="text-right btnWrap">
-        <van-button
-          color="#F8D57E"
-          type="default"
-          size="small"
-          class="getBtn"
-          @click=""
-        >索取联系方式</van-button>
-      </van-col>
-    </van-row>
+   
     <!-- 下拉刷新 -->
     <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
       <van-search
@@ -51,7 +30,7 @@
           >
             <van-row>
               <van-col span="7">
-                <img :src="item.logo" alt class="logo" />
+                <img :src="item.goodsLogo" alt class="logo" />
               </van-col>
               <van-col span="17">
                 <h3 class="title">{{ item.name }}</h3>

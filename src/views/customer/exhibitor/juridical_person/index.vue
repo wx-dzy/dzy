@@ -23,7 +23,6 @@
           </div>
         </div>
         <button class="add_follow" @click="favor">
-          <!-- <van-icon name="plus" /> -->
           <div class="type_name">{{content}}</div>
         </button>
       </div>
@@ -138,7 +137,7 @@ export default {
   data() {
     return {
       current: 0,// 名片当前的索引
-      content: "+关注",
+      content: "",
       enterpriseShowPeopleId: this.$route.query.enterpriseShowPeopleId,
       personInfo: {}, // 获取到的总信息
       userCardList: [], //我的名片列表
@@ -184,6 +183,11 @@ export default {
           this.recommendGoods = data.recommendGoods
           this.user = data.user
           this.followStatus = data.followStatus
+          if (this.followStatus == 1) {
+            this.content = "取消关注";
+          } else if(this.followStatus == 0) {
+            this.content = "+关注";
+      }
         }
       })
     },
@@ -193,27 +197,27 @@ export default {
         followId:this.user.userId,
         followType: 2,
         followStatus: care,
-        openId: 0
+        openId: sessionStorage.getItem('openId')
       }
       Api.getFollow(params)
       .then( res => {
         console.log('关注成功',res);
+        if( res.code == 200){
+          this.getPeopleDel()
+
+        }
       })
       .catch (err => {
         console.log('err');
         
       })
 
-      if (this.followStatus == 0){
-        this.followStatus == 1
-      }else if (this.followStatus == 1){
-          this.followStatus == 0
-      }
-      if (this.followStatus == 1) {
-        this.content = "已关注";
-      } else if(this.followStatus == 0) {
-        this.content = "+关注";
-      }
+      // if (this.followStatus == 0){
+      //   this.followStatus == 1
+      // }else if (this.followStatus == 1){
+      //     this.followStatus == 0
+      // }
+      
     }
   }
 };

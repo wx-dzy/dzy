@@ -34,7 +34,10 @@ export const getPeopleDetails = params => axios.get('/c/enterprise-people/exhibi
 export const getGoods = data => axios.post('/c/enterprise-goods/goods-search', data);
 
 // 关注/取消关注企业（人物）
-export const getFollow = params => axios.post('/c/user-follow/follow' + params);
+export const getFollow = params => axios.post('/c/user-follow/follow',params);
 
 // 参展商目录-索取资料
 export const getInfomation = params => axios.get('/c/enterprise-show-exhibitors/request-enterprise-pdf/' + params);
+
+// 参展商目录-预约日历-预约/取消预约
+export const interview = params => axios.post('/c/show-people-interview/pre-interview/' + params);

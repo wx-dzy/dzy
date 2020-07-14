@@ -3,33 +3,24 @@
     <!-- <img src="@/assets/images/login/logo.png" alt="" class="logoImg"> -->
     <h1 class="title">大招云</h1>
 
-    <p class="logoTitle">随时随地看展 时时刻刻参展</p>
+    <p class="logoTitle">
+      随时随地看展 时时刻刻参展
+    </p>
     <p class="logoTitle"></p>
 
     <div class="loginForm">
       <div class="loginMiddle">
-        <!-- <div>
-          <van-uploader
-            class="upLoader"
-            :max-count="1"
-            accept="image/*"
-            v-model="userImage"
-            :deletable="deletable"
-            :after-read="afterRead"
-          >
-          </van-uploader>
-        </div>-->
+        
+        
         <div
           class="text-avatar"
           style="text-align:left"
-          @click="chooseImg_women"
-          v-show="avatarShow"
         >
-          <img :src="portrait_women" alt class="userImg" />
-          <p class="userName">{{nickname}}</p>
+          <img :src="avatar?avatar:portrait" alt class="userImg" />
+          <p class="userName">{{nickname?nickname:''}}</p>
         </div>
       </div>
-
+<!-- headimgurl?headimgurl: -->
       <!-- <van-field
         v-model="username"
         ref="username"
@@ -40,11 +31,15 @@
       />-->
       <!-- 注册 -->
       <van-form @submit="hanldSubClick">
-        <van-field v-model="password" ref="password" v-if="true" clearable placeholder="请输入您的密码" />
-        <div class="mobile" @click="toCodeLogin">
-          手机登录
-          <van-icon name="arrow" size="14" />
-        </div>
+        
+        <van-field
+          v-model="password"
+          ref="password"
+          v-if="true"
+          clearable
+          placeholder="请输入您的密码"
+        />
+        <div class="mobile" @click="toCodeLogin">手机登录<van-icon name="arrow" size="14"  /></div>
         <!-- <van-checkbox
         v-model="KeepPassword"
         shape="square"
@@ -65,8 +60,9 @@
 </template>
 
 <script>
-import * as Api from '@/api/customer/login'
-import { util } from '@/utils'
+import * as Api from "@/api/customer/login";
+import * as Api_1 from "@/api/customer/personal";
+import { util } from "@/utils";
 import {
   Field,
   Button,
@@ -75,13 +71,13 @@ import {
   CheckboxGroup,
   Form,
   Uploader
-} from 'vant'
-import { mapActions, mapGetters } from 'vuex'
-import { setTimeout } from 'timers'
-import codeLoginVue from './codeLogin.vue'
+} from "vant";
+import { mapActions, mapGetters } from "vuex";
+import { setTimeout } from "timers";
+import codeLoginVue from './codeLogin.vue';
 
 export default {
-  name: 'login',
+  name: "login",
   components: {
     Field,
     Button,
@@ -93,122 +89,140 @@ export default {
   },
   data() {
     return {
-      portrait_man: require('@/assets/images/login/man.png'),
-      portrait_women: require('@/assets/images/login/women.png'),
-      avatarShow: true, // 是否显示左右两侧头像
-      portrait: require('@/assets/images/login/portrait.png'), // 空头像
-
-      // 昵称
-      // nickname: sessionStorage.getItem('nickname'),
-      nickname: JSON.parse(util.getCookie('dzy_wxInfo')).nickname,
-      // nickname: '123',
+      portrait:require('@/assets/images/login/portrait.png'), // 空头像
+      // portrait:require('@/assets/images/login/portrait.png'), // 空头像
       // 密码
-      password: '',
+      password: "",
       avatar: '',
       userImage: [], //上传的头像
-      deletable: false //是否显示删除按钮
-    }
+      deletable: false, //是否显示删除按钮
+      detail: {},  // 用户信息
+      nickname:'',
+      avatar: '',
+    };
   },
-  created() {},
+  created() {
+    this.handleDetail()
+  
+  },
   methods: {
     //   手机号登陆
-    toCodeLogin() {
-      this.$router.push({
-        name: 'codeLogin'
-      })
+    toCodeLogin () {
+        this.$router.push({
+            path: '/codeLogin'
+        })
+    },
+    // 获取用户信息
+    handleDetail() {
+      let token = util.getCookie('dzy_token')
+      if( token) {
+        Api_1.getUserMyIndex()
+        .then(res => {
+          let { code, msg, data, total } = res;
+          if (code == 200) {
+            this.detail = data;
+            console.log('detail',this.detail);
+            this.nickname = data.userInfo.nickname
+            this.avatar = data.userInfo.avatar
+          }
+        })
+        .catch(err => {
+          this.detail = {};
+        });
+      }
+      
     },
     //   上传头像
-    afterRead(file) {
-      console.log('上传头像', file.file.path)
-      this.avatarShow = false
-      this.portrait = file.file.path
-    },
+    // afterRead (file) {
+    //     console.log('上传头像',file.file.path);
+    //     this.avatarShow = false
+    //     this.portrait = file.file.path
+    // },
     //   选择头像
-    chooseImg_man() {
-      this.portrait = this.portrait_man
-      this.avatarShow = false
-    },
-    chooseImg_women() {
-      this.portrait = this.portrait_women
-      this.avatarShow = false
-    },
+    // chooseImg_man () {
+    //     this.portrait = this.portrait_man
+    //     this.avatarShow = false
+    // },
+    // chooseImg_women () {
+    //     this.portrait = this.portrait_women
+    //     this.avatarShow = false
+
+    // },
 
     // 查看密码
-    handleLook() {
-      this.lookPassword = !this.lookPassword
-    },
+    // handleLook() {
+    //   this.lookPassword = !this.lookPassword;
+    // },
 
     // 点击登录登录
     hanldSubClick() {
-      if (this.password == '') {
-        util.error('请输入您的密码')
+      if (this.username == "") {
+        util.error("请输入您的账号");
+      } else if (this.password == "") {
+        util.error("请输入您的密码");
       } else if (this.password.length < 6) {
-        util.error('密码不能少于6位')
+        util.error("密码不能少于6位");
       } else {
         let params = {
-          // id: sessionStorage.getItem('userId'),
-            id: JSON.parse(util.getCookie('dzy_userInfo')).userId ,
-
-          nickname: this.nickname,
           password: this.password,
-          avatar: this.portrait
+          openId: util.getCookie("dzy_openId")
+        };
+          // 请求登录
+          this.onSubmt(params);
         }
-        // 请求登录
-        this.onSubmt(params)
-      }
     },
     // 请求登录
     onSubmt(params) {
-      console.log(params)
-      util.showLoading()
-      Api.register(params)
+      console.log(params);
+      util.showLoading();
+      Api.loginInit(params)
         .then(res => {
-          console.log('res', res)
+          console.log("res", res);
           if (res.code == 200) {
-            let { access_token, username } = res.data
+            let { access_token, username } = res.data;
             this.$router.push({
-              name: 'home'
-            })
-          } else {
-            //   }else if (res.code == 417) {
-            this_.$message.error(res.message)
-          }
-          util.hideLoading()
+              name: "home"
+            });
+          }else {
+            this_.$message.error(res.message);
+          } 
+          util.hideLoading();
         })
         .catch(err => {
-          console.log(err)
-          util.hideLoading()
-        })
+          console.log(err);
+          util.hideLoading();
+        });
     }
   },
 
   computed: {},
 
-  mounted() {}
-}
+  mounted() {
+  }
+};
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/base/calc_vm.scss';
-@import './login.scss';
+@import "@/assets/styles/base/calc_vm.scss";
+@import "./login.scss";
 </style>
- 
+
 <style lang="scss">
-@import '@/assets/styles/base/calc_vm.scss';
+@import "@/assets/styles/base/calc_vm.scss";
 // 登录页图标样式
 .login {
-  .title {
-    text-align: center;
-  }
-  .logoTitle {
-    text-align: center;
-    margin-top: 0 !important;
-    line-height: 2;
-  }
+    .title{
+        text-align: center;
+    }
+    .logoTitle{
+        text-align: center;
+        margin-top: 0!important;
+        line-height: 2;
+    }
   .loginMiddle {
     display: flex;
     div {
-      margin: 1.3rem auto 0;
+        margin: 1.3rem auto 0;
       .userImg {
         width: 1.7rem !important;
         height: 1.7rem !important;
@@ -220,23 +234,23 @@ export default {
       }
     }
   }
-  .mobile {
-    color: #9da1a6ff;
-    text-align: right;
-    padding: 10px 0;
-    margin: 0 15px;
-    .van-icon {
-      vertical-align: middle;
-    }
+  .mobile{
+      color: #9DA1A6FF;
+      text-align: right;
+      padding: 10px 0;
+      margin: 0 15px;
+      .van-icon {
+          vertical-align: middle;
+      }
   }
   .upLoader {
     width: 3rem;
     margin: 0 auto;
     display: block;
     .van-uploader__preview-image {
-      width: 1.7rem;
-      height: 1.7rem;
-      border-radius: 50%;
+        width: 1.7rem;
+        height: 1.7rem;
+        border-radius: 50%;
     }
     .userName {
       margin-top: 0.1rem;

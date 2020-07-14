@@ -314,8 +314,7 @@ export default {
                 nickname: res.data.nickname
             }
             util.setCookie('dzy_wxInfo',JSON.stringify(wxInfo),7)
-
-
+            location.reload();
           }
         });
       }
@@ -422,7 +421,7 @@ export default {
     onSubmt(params) {
       console.log(params)
       util.showLoading()
-      Api.loginInit(params)
+      Api.codeInit(params)
         .then(res => {
           console.log("res", res);
           let {code, data, msg, total} = res

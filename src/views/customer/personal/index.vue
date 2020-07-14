@@ -8,7 +8,7 @@
           <van-image round width="0.96rem" height="0.96rem" :src="detail.userInfo.avatar" />
         </van-col>
         <van-col span="14">
-          <h3 class="name">{{detail.userInfo.username}}</h3>
+          <h3 class="name">{{detail.userInfo.nickname}}</h3>
           <span
             v-show="detail.userInfo.authStatus ==0 || detail.userInfo.authStatus==1"
             class="status"
@@ -182,6 +182,7 @@ export default {
           let { code, msg, data, total } = res;
           if (code == 200) {
             this.detail = data;
+            
           }
         })
         .catch(err => {

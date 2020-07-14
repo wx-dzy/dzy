@@ -2,7 +2,16 @@
 <template>
   <div class="personal_editCard">
     <router-view />
-      编辑名片
+      <div class="box">
+        <van-field name="upPhoto" label="上传LOGO">
+              <template #input>
+                <img src="http://www.mfqqx.com/d/file/2011/07/65e6653c443b38b3c01515314bd296f9.jpg" alt="">
+                <van-icon name="arrow" />
+                <!-- <van-uploader v-model="uploader" />
+                <van-icon class="photo" name="arrow" /> -->
+              </template>
+            </van-field>
+      </div>
   </div>
 </template>
 
@@ -92,6 +101,30 @@ export default {
 .nullImg {
   width: 4rem;
   margin: 0.4rem 1.47rem;
+}
+.personal_editCard{
+  .box{
+    .van-field{
+        width: 7.5rem;
+        height: 1.12rem;
+        // line-height: 1.12rem;
+        font-size: 0.32rem;
+        color: #313437;
+        img{
+          margin: auto 0;
+          width: 0.96rem;
+          height: 0.96rem;
+          border-radius: 50%;
+          margin-left: 3rem;
+          margin-right: 0.3rem;
+        }
+      }
+  }
+}
+/deep/ .van-cell{
+  height: 1.12rem;
+  line-height: 1.12rem;
+  padding: 0px 0.34rem;
 }
 </style>
 

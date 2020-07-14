@@ -67,7 +67,7 @@
           placeholder="请输入您的密码"
         />
         <van-field
-          v-model="password"
+          v-model="passwordConfirm"
           ref="password"
           v-if="true"
           clearable
@@ -130,6 +130,7 @@ export default {
       nickname: "",
       // 密码
       password: "",
+      passwordConfirm:'', //确认密码
       avatar: '',
       userImage: [], //上传的头像
       deletable: false, //是否显示删除按钮
@@ -168,6 +169,8 @@ export default {
         util.error("请输入您的密码");
       } else if (this.password.length < 6) {
         util.error("密码不能少于6位");
+      } else if(this.passwordConfirm != this.password){
+        util.error("确认密码错误");
       } else {
         let params = {
             id: sessionStorage.getItem('userId'),
@@ -186,14 +189,14 @@ export default {
       Api.register(params)
         .then(res => {
           console.log("res", res);
-        //   if (res.code == 417) {
-        //     this_.$message.error(res.message);
-        //   } else if (res.code == 200) {
-        //     let { access_token, username } = res.data;
-        //     this.$router.push({
-        //       name: "home"
-        //     });
-        //   }
+          if (res.code == 417) {
+            this_.$message.error(res.message);
+          } else if (res.code == 200) {
+            let { access_token, username } = res.data;
+            this.$router.push({
+              name: "home"
+            });
+          }
           util.hideLoading();
         })
         .catch(err => {

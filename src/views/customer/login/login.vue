@@ -106,7 +106,8 @@ export default {
         portrait:require('@/assets/images/login/portrait.png'), // 空头像
       
       // 昵称
-      nickname: "",
+      nickname: sessionStorage.getItem('nickname'),
+      // nickname: '123',
       // 密码
       password: "",
       avatar: '',
@@ -120,7 +121,7 @@ export default {
     //   手机号登陆
     toCodeLogin () {
         this.$router.push({
-            path: '/codeLogin'
+            name: 'codeLogin'
         })
     },
     //   上传头像
@@ -147,9 +148,7 @@ export default {
 
     // 点击登录登录
     hanldSubClick() {
-      if (this.username == "") {
-        util.error("请输入您的账号");
-      } else if (this.password == "") {
+      if (this.password == "") {
         util.error("请输入您的密码");
       } else if (this.password.length < 6) {
         util.error("密码不能少于6位");
@@ -223,6 +222,7 @@ export default {
       .userName {
         color: #9da1a6;
         margin-top: 0.15rem;
+        text-align: center;
       }
     }
   }

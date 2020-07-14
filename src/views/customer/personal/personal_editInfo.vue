@@ -307,11 +307,11 @@ export default {
       border-radius: 0.08rem;
     }
   }  
-/deep/ .van-cell{
-  height: 1.12rem;
-  line-height: 1.12rem;
-  padding: 0px 0.34rem;
-}
+  /deep/ .van-cell{
+    height: 1.12rem;
+    line-height: 1.12rem;
+    padding: 0px 0.34rem;
+  }
 }
 </style>
 

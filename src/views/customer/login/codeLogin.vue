@@ -3,24 +3,27 @@
     <!-- <img src="@/assets/images/login/logo.png" alt="" class="logoImg"> -->
     <h1 class="title">大招云</h1>
     <!-- <p class="logoTitle">随时随地看展 时时刻刻参展</p> -->
-    <p class="logoTitle">
-      随时随地看展，时时刻刻参展。
-    </p>
+    <p class="logoTitle">随时随地看展，时时刻刻参展。</p>
     <!-- <p class="logoTitle">
       首次登陆请完成您的主体咖个人信息,
       <br />我们将为您提供更好的服务,快来完善吧!
-    </p> -->
+    </p>-->
     <p class="logoTitle"></p>
- 
+
     <div class="loginForm">
-      <van-uploader class="upLoader" :max-count="1" accept="image/*" v-model="userImage" :deletable=deletable>
+      <van-uploader
+        class="upLoader"
+        :max-count="1"
+        accept="image/*"
+        v-model="userImage"
+        :deletable="deletable"
+      >
         <div class="text-center">
           <img :src="headimgurl" alt class="userImg" />
           <p class="userName">{{nickname}}</p>
           <!-- <p class="userName">{{username}}</p> -->
         </div>
       </van-uploader>
-      
 
       <!-- <van-field
         v-model="username"
@@ -81,7 +84,14 @@
 
       <!-- 验证码登录 -->
       <van-form @submit="hanldSubClick" v-if="!pwd">
-        <van-field v-model="mobile" name="mobile" ref="mobile" v-if="true" type="tel" placeholder="请输入手机号" />
+        <van-field
+          v-model="mobile"
+          name="mobile"
+          ref="mobile"
+          v-if="true"
+          type="tel"
+          placeholder="请输入手机号"
+        />
         <van-field
           v-model="verification"
           name="verification"
@@ -92,14 +102,14 @@
         >
           <template #button>
             <van-button
-            v-show="!isBtn"
+              v-show="!isBtn"
               size="small"
               type="primary"
               native-type="button"
               @click="getVerification"
             >获取验证码</van-button>
             <van-button
-            v-show="isBtn"
+              v-show="isBtn"
               size="small"
               type="primary"
               disabled
@@ -117,7 +127,7 @@
         >记住密码</van-checkbox>-->
 
         <van-button
-        class="submitBtn"
+          class="submitBtn"
           type="info"
           loading-type="spinner"
           loading-text="登 录 中..."
@@ -131,7 +141,15 @@
 <script>
 import * as Api from "@/api/customer/login";
 import { util } from "@/utils";
-import { Field, Button, Toast, Checkbox, CheckboxGroup, Form, Uploader } from "vant";
+import {
+  Field,
+  Button,
+  Toast,
+  Checkbox,
+  CheckboxGroup,
+  Form,
+  Uploader
+} from "vant";
 import { mapActions, mapGetters } from "vuex";
 import { setTimeout } from "timers";
 import img3 from "@/assets/images/login/portrait.png";
@@ -151,9 +169,9 @@ export default {
   data() {
     return {
       pwd: false, //是否是首次
-      mobile: '',// 手机号
+      mobile: "", // 手机号
       userImg: img3,
-      verification: '', // 验证码
+      verification: "", // 验证码
       // 记住密码
       KeepPassword: true,
       // 查看密码
@@ -162,16 +180,19 @@ export default {
       username: "",
       // 密码
       password: "",
-      code:'',
-      appId: '',
+      code: "",
+      appId: "",
       userImage: [], //上传的头像
       deletable: false, //是否显示删除按钮
-      openId: sessionStorage.getItem('openId'),
-      headimgurl: sessionStorage.getItem('headimgurl'),  // 用户头像
-      nickname: sessionStorage.getItem('nickname'), // 用户昵称
-      isBtn: false,  // 是否显示禁用状态按钮
-      count:60, // 获取验证码倒计时
-      timer:null,
+      // openId: sessionStorage.getItem('openId'),
+      openId: util.getCookie("dzy_openId"),
+      // headimgurl: sessionStorage.getItem("headimgurl"), // 用户头像
+      // nickname: sessionStorage.getItem("nickname"), // 用户昵称
+      headimgurl: JSON.parse(util.getCookie('dzy_wxInfo')).headimgurl, // 用户头像
+      nickname: JSON.parse(util.getCookie('dzy_wxInfo')).nickname, // 用户昵称
+      isBtn: false, // 是否显示禁用状态按钮
+      count: 60, // 获取验证码倒计时
+      timer: null
       // userInfo:{
       // access_token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiaGx3bC1wbGF0Zm9ybS1yZXNvdXJjZS1pZCJdLCJ1c2VyX25hbWUiOiJhZG1pbiIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdLCJwYXJlbnRVc2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNTY5NDYxNzQ0LCJ1c2VySWQiOjEwMDksImF1dGhvcml0aWVzIjpbIjQ2NjNkMTkyLWI4N2ItNDhkMi04MzMwLWFkNTBhYWFiMjg1YiIsIi91c2VyL3N5cy91c2VyL3BhZ2UiLCJiNzVkNzA3ZS1hNDAxLTRiZDEtYWMzNC1jMTNiYWMwMjNlODEiLCIzZDE2YmU5Yy1mOGVlLTQ2MDQtOTk5Ny0yOGE5ZWQ2OGM5OWYiLCJST0xFX1VTRVIiLCIvdXNlci9zeXMvcm9sZS9wYWdlIiwicmZxOnF1b3RhdGlvbjptYW5hZ2U6cGFnZSIsIi9yZnEvcXVvdGF0aW9uL21hbmFnZS9wYWdlIiwic3lzOnVzZXI6YWxsIiwic3lzOnJvbGU6cGFnZSIsIjQyZjQ4MDNkLTkzMDEtNDAxMy05YTk2LTIxYTdjZmFlNDUzNSJdLCJqdGkiOiIzNTZlYTdmNy1hOGJjLTQyMzQtOTlhMS1mMjljY2ZhOGEyMWUiLCJwYXJlbnRJZCI6MTAwOSwiY2xpZW50X2lkIjoiaGx3bC1wbGF0Zm9ybS1yZXNvdXJjZSIsInVzZXJuYW1lIjoiYWRtaW4ifQ.2XH6gHkIvEqUMVitrIfCUP277nFw1VdMMUWusZjVWEo",
       // expires_in:2591998,
@@ -186,11 +207,9 @@ export default {
       // },
     };
   },
-    created() {
-      console.log('进入手机号登陆');
-      
-    this.getPJ()
-    console.log('openId',this.openId);
+  created() {
+    this.getPJ();
+    console.log("openId", this.openId);
     // this.getInfo()
     // this.getUrlParam()
     // 获取本地登录信息
@@ -207,47 +226,14 @@ export default {
     }
   },
   methods: {
-    // 获取用户信息
-      getInfo () {
-        if(!this.headimgurl || !this.nickname){
-          Api.getUserInfo(this.openId).then( res => {
-          console.log('获取用户信息',res);
-          if (res.code == 200) {
-            this.headimgurl = res.data.headimgurl
-            this.nickname = res.data.nickname
-            sessionStorage.setItem('headimgurl',res.data.headimgurl)
-            sessionStorage.setItem('nickname',res.data.nickname)
-          }
-        })
-        }
-        
-      },
-    // 获取openid
-    getopenid_data(data) {
-      console.log('data',data);
-      
-      if(this.openId == '' || this.openId == undefined || this.openId == null) {
-        console.log('code_1',this.code);
-      Api.getOpenId(this.code).then( res => {
-        console.log('获取openid',res );
-        if (res.code == 200) {
-          sessionStorage.setItem('openId',res.data.openId)
-          this.openId = sessionStorage.getItem('openId')
-          this.getInfo()
-        }
-        
-        
-      })
-      }
-    },
     // 获取code
     // getUrlParam () {
     //           var reg = new RegExp('(^|&)' + 'code' + '=([^&]*)(&|$)')
     //           console.log('reg',reg);
-              
+
     //           let url = window.location.href.split('#')[0]
     //           console.log('url',url);7
-              
+
     //           let search = url.split('?')[1]
     //           if (search) {
     //               var r = search.substr(0).match(reg)
@@ -258,92 +244,136 @@ export default {
     //           }
     //       },
     // 获取js配置
-    getPJ () {
+    getPJ() {
       Api.getAppId()
-      .then(res => {
-        console.log('获取appid',res)
-        this.appId = res.data.appId
-        console.log('appid',this.appId)
-        // 获取code
-        this.getCode()
-      })
-      .catch( err => {
-        console.log('err',err);
-        
-      })
+        .then(res => {
+          console.log("获取appid", res);
+          this.appId = res.data.appId;
+          console.log("appid", this.appId);
+          // 获取code
+          this.getCode();
+        })
+        .catch(err => {
+          console.log("err", err);
+        });
     },
-    getCode () {
-      const _this = this
-            var code = _this.getUrlParam('code')
-            // var local = 'http://192.168.31.221:9000/'
 
-            if (code == null || code == '') {
-                window.location.href = 'http://121.196.122.19/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://127.0.0.1:9000/codeLogin&response_type=code'
+    getCode() {
+      const _this = this;
+      var code = _this.getUrlParam("code");
+      // var local = 'http://192.168.31.221:9000/'
 
-            } else {
-              _this.code = code
-              console.log('code',_this.code);
-              var data = {
-                code: _this.code
-              }
-              _this.getopenid_data(data)
-            }
-        },
-    getUrlParam (name) {
-              var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
-              let url = window.location.href.split('#')[0]
-              let search = url.split('?')[1]
-              if (search) {
-                  var r = search.substr(0).match(reg)
-                  if (r !== null) return unescape(r[2])
-                  return null
-              } else {
-                  return null
-              }
-          },
-    // 获取验证码
-    getVerification () {
-      let _this = this
-      console.log('获取验证码',this.mobile);
-      if(!(/^1[3456789]\d{9}$/.test(this.mobile))){
-        this.$toast('请输入正确手机号')
-      }else{
-        Api.getMobile(_this.mobile)
-        // Api.getMobile(this.code,this.mobile)
-      .then( res=> {
-        console.log('验证码',res);
-        if (res.code == 200){
-          this.isBtn = true
-          this.showTimer()
-          this.$toast(res.msg)
-        }
-      })
+      if (code == null || code == "") {
+        window.location.href =
+          "http://121.196.122.19/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://127.0.0.1:9000/codeLogin&response_type=code";
+      } else {
+        _this.code = code;
+        console.log("code", _this.code);
+        var data = {
+          code: _this.code
+        };
+        _this.getopenid_data(data);
       }
-      
+    },
+
+    // 获取openid
+    getopenid_data(data) {
+      console.log("data", data);
+
+      if ( this.openId == "" || this.openId == undefined || this.openId == null) {
+        console.log("code_1", this.code);
+        Api.getOpenId(this.code).then(res => {
+          console.log("获取openid", res);
+          if (res.code == 200) {
+            // "moduleId":1,
+            util.setCookie("dzy_openId", res.data.openId, 7);
+            // this.openId = util.getCookie('dzy_openId')
+            this.openId = res.data.openId;
+
+            // sessionStorage.setItem('openId',res.data.openId)
+            // this.openId = sessionStorage.getItem('openId')
+            this.getInfo();
+          }
+        });
+      }
+    },
+    // 获取用户信息
+    getInfo() {
+      if (!this.headimgurl || !this.nickname) {
+        Api.getUserInfo(this.openId).then(res => {
+          console.log("获取用户信息", res);
+          if (res.code == 200) {
+            this.headimgurl = res.data.headimgurl;
+            this.nickname = res.data.nickname;
+            // sessionStorage.setItem("headimgurl", res.data.headimgurl);
+            // sessionStorage.setItem("nickname", res.data.nickname);
+            let wxInfo = {
+                headimgurl: res.data.headimgurl,
+                nickname: res.data.nickname
+            }
+            util.setCookie('dzy_wxInfo',JSON.stringify(wxInfo),7)
+
+
+          }
+        });
+      }
+    },
+
+    getUrlParam(name) {
+      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+      let url = window.location.href.split("#")[0];
+      let search = url.split("?")[1];
+      if (search) {
+        var r = search.substr(0).match(reg);
+        if (r !== null) return unescape(r[2]);
+        return null;
+      } else {
+        return null;
+      }
+    },
+    // 获取验证码
+    getVerification() {
+      let _this = this;
+      console.log("获取验证码", this.mobile);
+      if (!/^1[3456789]\d{9}$/.test(this.mobile)) {
+        this.$toast("请输入正确手机号");
+      } else {
+        Api.getMobile(_this.mobile)
+          // Api.getMobile(this.code,this.mobile)
+          .then(res => {
+            console.log("验证码", res);
+            if (res.code == 200) {
+              this.isBtn = true;
+              this.showTimer();
+              // this.$toast(res.msg)
+              this.$toast("验证吗发送成功！");
+            }
+          });
+      }
     },
     // 获取验证码倒计时
     showTimer() {
-      const TIME_COUNT = 5;
+      const TIME_COUNT = 59;
       if (!this.timer) {
-       this.count = TIME_COUNT;
-      //  this.show = false;
-       this.timer = setInterval(() => {
-       if (this.count > 0 && this.count <= TIME_COUNT) {
-         this.count--;
-        } else {
-         this.isBtn = false;
-         clearInterval(this.timer);
-         this.timer = null;
-        }
-       }, 1000)
+        this.count = TIME_COUNT;
+        //  this.show = false;
+        this.timer = setInterval(() => {
+          if (this.count > 0 && this.count <= TIME_COUNT) {
+            this.count--;
+          } else {
+            this.isBtn = false;
+            clearInterval(this.timer);
+            this.timer = null;
+          }
+        }, 1000);
       }
     },
-    
+
     // 查看密码
     handleLook() {
       this.lookPassword = !this.lookPassword;
     },
-  
+
     // 点击登录登录
     hanldSubClick() {
       // if (this.username == "") {
@@ -364,27 +394,26 @@ export default {
         util.error("请输入您的手机号");
       } else if (this.verification == "") {
         util.error("请输入您的验证码");
-      }else {
+      } else {
         if (this.pwd == true) {
           let params = {
-          username: this.username,
-          password: this.password,
-          moduleId: 4,
-          code: this.$route.query.code ? this.$route.query.code : ""
-          // "moduleId":1,
-        };
-        }else{
+            username: this.username,
+            password: this.password,
+            moduleId: 4,
+            code: this.$route.query.code ? this.$route.query.code : ""
+            // "moduleId":1,
+          };
+        } else {
           let params = {
             verifyCode: this.verification,
             mobile: this.mobile,
             openId: this.openId
-          }
-          console.log('params',params);
-        
-        // 请求登录
-        this.onSubmt(params);
+          };
+          console.log("params", params);
+
+          // 请求登录
+          this.onSubmt(params);
         }
-        
       }
     },
     // 请求登录
@@ -393,23 +422,27 @@ export default {
       util.showLoading();
       Api.loginInit(params)
         .then(res => {
-          console.log('res',res)
+          console.log("res", res);
+          let {code, data, msg, total} = res
           if (res.code == 417) {
             this_.$message.error(res.message);
           } else if (res.code == 200) {
-            sessionStorage.setItem('userId',res.data.userId)
+            // sessionStorage.setItem("userId", res.data.userId);
+            util.setCookie('dzy_userInfo',JSON.stringify(data),7)
+            util.setCookie('dzy_token',data.accessToken,7)
+
 
             // let { access_token, username } = res.data;
-            if (res.data.firstLogin == 0){
+            if (res.data.firstLogin == 0) {
               this.$router.push({
                 path: "/home"
               });
-            }else if (res.data.firstLogin == 1) {
+            } else if (res.data.firstLogin == 1) {
               this.$router.push({
                 path: "/firstLogin"
               });
             }
-            
+
             //  console.log(
             //     util.getCookie("dzy_token"),
             //     util.getCookie("username"),
@@ -433,9 +466,7 @@ export default {
     } else if (this.verification == "") {
       this.$refs.verification.focus();
     }
-  },
-
-
+  }
 };
 </script>
 
@@ -452,7 +483,7 @@ export default {
     width: 3rem;
     margin: 0 auto;
     display: block;
-    .userName{
+    .userName {
       margin-top: 0.1rem;
     }
     .van-uploader__input-wrapper {

@@ -197,7 +197,9 @@ export default {
         followId:this.user.userId,
         followType: 2,
         followStatus: care,
-        openId: sessionStorage.getItem('openId')
+        // openId: sessionStorage.getItem('openId')
+        openId: util.getCookie('dzy_openId')
+        
       }
       Api.getFollow(params)
       .then( res => {

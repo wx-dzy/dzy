@@ -17,23 +17,23 @@
         <!-- <van-button round size="small"></van-button>
         <van-button round size="small" color="#ffd36f">预约面谈</van-button>-->
       </div>
-      <div class="more"  @click="goCompany_details">
+      <div class="more" @click="goCompany_details">
         公司更多信息
         <van-icon name="arrow" />
       </div>
       <!-- <div class="type" v-show="details.followStatus == 1">
         <van-icon class="icon iconfont yz-yiguanzhu" />
         <div class="type_name">已关注</div>
-      </div> -->
+      </div>-->
       <!-- <div class="type" v-show="details.followStatus == 0">
         <van-icon name="star-o" />
         <div class="type_name">未关注</div>
-      </div> -->
+      </div>-->
     </div>
     <div class="exhibitor" v-if="person.length > 0">
       <div class="top-title">
         <span>企业人物</span>
-        <van-icon name="arrow" @click="goToPerson"/>
+        <van-icon name="arrow" @click="goToPerson" />
       </div>
       <div class="item">
         <div class="person" v-for="(item,index) in person" :key="index">
@@ -63,28 +63,33 @@
           <!-- <video :src="item.videoUrl" controls></video> -->
           <div class="video">
             <Video-Demo
-                :_id="item.id"
-                :src="item.videoUrl"
-                :bannerIMG="item.mediaUrl"
-                :playVideoId.sync="playVideoId"
-                style="width: 100%;"
-                class="zoom"
-              />
+              :_id="item.id"
+              :src="item.videoUrl"
+              :bannerIMG="item.mediaUrl"
+              :playVideoId.sync="playVideoId"
+              style="width: 100%;"
+              class="zoom"
+            />
           </div>
-              
+
           <div class="name">{{item.mediaTitle}}</div>
         </div>
       </div>
     </div>
 
     <!-- 企业产品目录 -->
-    <!-- <div class="product_catalog">
-      <div class="top-title">
+    <div class="product_catalog">
+      <div class="top-title" @click="handleLookList">
         <span>企业产品目录</span>
         <van-icon name="arrow" />
       </div>
       <div class="item">
-        <div class="itemList" v-for="(item,index) in productList" :key="index">
+        <div
+          class="itemList"
+          v-for="(item,index) in productList"
+          :key="index"
+          @click="handleLookItem(item)"
+        >
           <img :src="item.imgSrc" alt />
           <div class="right">
             <div class="title">{{item.title}}</div>
@@ -95,9 +100,9 @@
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
 
-    <!-- <van-divider dashed>我是有底线的</van-divider> -->
+    <van-divider dashed>我是有底线的</van-divider>
   </div>
 </template>
 <script>
@@ -108,7 +113,7 @@ import * as Api from "@/api/customer/exhibitor";
 export default {
   name: "exhibitor_details",
   components: {
-    VideoDemo, // 播放
+    VideoDemo // 播放
   },
   data() {
     return {
@@ -119,13 +124,11 @@ export default {
       person: [],
       videoList: [],
       productList: [],
-      details:''
+      details: "",
     };
   },
   created() {
     this.handelGetExhibitor_details();
-    
-    
   },
   watch: {
     playVideoId(newVal, oldVal) {
@@ -133,51 +136,70 @@ export default {
     }
   },
   methods: {
-    // 获取公司资料
-    toInfomation () {
-      const enterpriseExhibitorsId = this.details.exhibitors.id
-      console.log('enterpriseExhibitorsId',enterpriseExhibitorsId);
-      
+    // 跳转去产品详情
+    handleLookItem(row) {
+      // 接口地址  http://rap2.taobao.org/repository/editor?id=258218&mod=389957&itf=1631624
       this.$router.push({
-        path: '/exact_information',
+        name: "products_details",
         query: {
-        enterpriseExhibitorsId: enterpriseExhibitorsId
+          // 商品id
+          goodsId: row.id
         }
-      })
+      });
+    },
+    
+    handleLookList() {
+      this.$router.push({
+        name: "products",
+        query: {
+          // 参展商id
+          enterpriseExhibitorsId: this.enterpriseExhibitorsId
+        }
+      });
+    },
+    
+    // 获取公司资料
+    toInfomation() {
+      const enterpriseExhibitorsId = this.details.exhibitors.id;
+      console.log("enterpriseExhibitorsId", enterpriseExhibitorsId);
+
+      this.$router.push({
+        path: "/exact_information",
+        query: {
+          enterpriseExhibitorsId: enterpriseExhibitorsId
+        }
+      });
     },
     // 获取企业产品
-    getGoods(){
-
-      Api.getGoods()
+    getGoods() {
+      Api.getGoods();
     },
     // 预约日历
-    toaCalendar () {
+    toaCalendar() {
       this.$router.push({
-        path: '/person',
-        query: {
-
-        }
-      })
+        path: "/person",
+        query: {}
+      });
     },
     // 跳转至法人详情
-    goToPerson () {
-      this.$router.push({ 
+    goToPerson() {
+      this.$router.push({
         path: "/juridical_person",
         query: {
-          enterpriseExhibitorsId:this.enterpriseExhibitorsId
+          enterpriseExhibitorsId: this.enterpriseExhibitorsId
         }
-        });
+      });
     },
     // 跳转至企业人物
-    goToPerson () {
-      this.$router.push({ 
+    goToPerson() {
+      this.$router.push({
         path: "/person",
         query: {
-          enterpriseExhibitorsId:this.enterpriseExhibitorsId,
+          enterpriseExhibitorsId: this.enterpriseExhibitorsId,
           name: this.details.exhibitors.name, //企业名称
-          followStatus: this.details.followStatus  //是否关注
+          followStatus: this.details.followStatus //是否关注
         }
-        });
+      });
     },
     // 获取参展商详情
     handelGetExhibitor_details() {
@@ -185,25 +207,24 @@ export default {
       Api.getExhibitor_details(this.enterpriseExhibitorsId)
         .then(res => {
           let { code, msg, data, total } = res;
-          console.log('参展商详情',res);
+          console.log("参展商详情", res);
 
           if (code == 200) {
             this.details = data;
             this.person = data.peopleList;
             this.videoList = data.videoList;
-            
           }
         })
         .catch(err => {});
     },
     // 跳转至参展公司详情
     goCompany_details() {
-      this.$router.push({ 
+      this.$router.push({
         path: "/company_details",
         query: {
-          enterpriseExhibitorsId:this.enterpriseExhibitorsId
+          enterpriseExhibitorsId: this.enterpriseExhibitorsId
         }
-        });
+      });
     },
     goTo() {
       // 跳转至企业相关视频页

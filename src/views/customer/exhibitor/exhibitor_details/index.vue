@@ -176,7 +176,9 @@
 				console.log('details', this.details)
 				let params = {
 					// enterpriseId: '1272913711522246658',
-					enterpriseId: this.details.exhibitors.id,
+					// enterpriseId: this.details.exhibitors.id,
+					enterpriseExhibitorsId: this.details.exhibitors.id, // 参展商i
+				  enterpriseId: this.details.exhibitors.enterpriseId, //  企业id
 					pageNum: 1,
 					pageSize: 10,
 					isAsc: 1,

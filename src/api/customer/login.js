@@ -7,7 +7,7 @@ import { axios } from '@/utils';
 // export const test = params => axios.get('/', params);
 
 /*登录*/
-export const loginInit = params => axios.post('/c/login/mobile', params);
+export const loginInit = params => axios.post('/c/login/wx', params);
 
 //  验证码
 export const getMobile = params => axios.get('/c/sms/send-verify-code/login'+'/'+params);
@@ -25,3 +25,5 @@ export const getUserInfo = params => axios.get('/c/wx/get-user-info-by-open-id?o
 // 首次登录-设置头像密码等
 export const register = params => axios.post('/c/login/update-user-info-when-register',params);
 
+// 手机号验证码登陆  
+export const codeInit = params => axios.post('/c/login/mobile',params);

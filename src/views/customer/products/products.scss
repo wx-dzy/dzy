@@ -1,8 +1,17 @@
 // 企业产品目录-列表页
 .products {
-    .inline {display: inline-block;}
-    .w70 {width: 6.1rem;}
-    .w30 {width: 1.3rem;}
+    .inline {
+        display: inline-block;
+    }
+
+    .w70 {
+        width: 6.1rem;
+    }
+
+    .w30 {
+        width: 1.3rem;
+    }
+
     .head {
         position: relative;
         padding: 0.42rem 0 0.42rem 0.52rem;
@@ -91,7 +100,90 @@
 
     }
 
+    .contentList {
+        padding: 0.2rem 0.26rem;
+
+        .van-cell {
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0rem 0.1rem 0.26rem 0rem rgba(223, 227, 233, 0.51);
+            border-radius: 0.16rem;
+            margin-bottom: 0.4rem;
+        }
+    }
+
+    .contentList.pbot100 {
+        padding-bottom: 1rem;
+    }
+
+    .gobtn {
+        position: fixed;
+        bottom: 0rem;
+        width: 7rem;
+        margin: 0 0.28rem;
+        font-size: 0.32rem;
+        color: rgba(49, 52, 55, 1) !important;
+        line-height: 0.8rem;
+        background: rgba(248, 213, 126, 1);
+        border-radius: 0.16rem;
+    }
+
+
 }
 
 // 企业产品目录-产品详情
-.products_details {}
+.products_details {
+    background: #fff;
+
+    .my-swipe {
+        background: rgba(255, 255, 255, 1);
+        width: 100%;
+        min-height: 4rem;
+
+        .van-swipe-item {
+            img {
+                width: 100%;
+                height: 4rem;
+                background: rgba(255, 255, 255, 1);
+            }
+        }
+    }
+
+    .contwrap {
+        padding: 0.2rem 0.27rem;
+
+        .pad22 {
+            padding: 0 0.22rem;
+        }
+
+        .border {
+            border-bottom: 0.02rem solid #E9E9E9;
+            padding-bottom: 0.46rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .title {
+            font-size: 0.32rem;
+            color: rgba(0, 0, 0, 1);
+            line-height: 0.44rem;
+            padding-bottom: 0.1rem;
+        }
+
+        .head {
+            position: relative;
+
+            .title {
+                letter-spacing: 1px;
+            }
+
+            .text {
+                font-size: 0.28rem;
+                color: rgba(157, 161, 166, 1);
+                line-height: 0.4rem;
+            }
+        }
+
+
+    }
+
+
+}

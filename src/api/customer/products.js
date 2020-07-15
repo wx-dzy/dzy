@@ -8,7 +8,8 @@ export const getExhibitorsPeopleInfo = params => axios.get('/c/enterprise-people
 export const getGoodSearch= params => axios.post('/c/enterprise-goods/goods-search', params);
 
 // 产品详情 /c/goods/goods-detail-by-id/{goodsId}
-export const getGoodDetailById = params => axios.get('c/user/my-index', {params});
+export const getGoodDetailById = params => axios.get('/c/goods/goods-detail-by-id/' + params);
+// export const getGoodDetailById = params => axios.get('c/user/my-index', {params});
 
 
 // 参展商-企业基本信息  /c/enterprise-show-exhibitors/exhibitors-base-info/{enterpriseExhibitorsId}

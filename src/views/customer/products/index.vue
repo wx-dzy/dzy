@@ -1,33 +1,36 @@
-// 企业产品目录-列表页    query 带参数 参展商id: enterpriseExhibitorsId
+// 企业产品目录-列表页
 <template>
   <div class="products">
-    <van-row class="head">
-      <van-col span="7">
-        <img :src="details.logo" alt class="photo" />
-      </van-col>
-      <van-col span="16">
-        <h3 class="name">{{details.name}}</h3>
-        <div class="middle">
-          <p v-show="!details.goodsQuantity" class="text">共{{details.goodsQuantity}}个产品</p>
-          <p class="huiyuan">
-            <van-icon class="icon iconfont yz-huiyuan" />
-            <span v-show="details.memberStatus == 1">会员</span>
-            <span v-show="details.memberStatus == 0">非会员</span>
-          </p>
-        </div>
-      </van-col>
-      <van-col v-if="type==2" span="6" class="text-right btnWrap">
-        <van-button
-          color="#F8D57E"
-          type="default"
-          size="small"
-          class="getBtn"
-          @click="handleOrder"
-        >预约面谈</van-button>
-      </van-col>
-    </van-row>
     <!-- 下拉刷新 -->
     <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+      <van-row class="head">
+        <van-col span="7">
+          <img :src="details.logo" alt class="photo" />
+        </van-col>
+        <van-col span="16">
+          <h3 class="name">{{details.name}}</h3>
+          <div class="middle">
+            <p v-show="!details.goodsQuantity" class="text">共{{details.goodsQuantity}}个产品</p>
+            <p class="huiyuan">
+              <van-icon class="icon iconfont yz-huiyuan" />
+              <span v-show="details.memberStatus == 1">会员</span>
+              <span v-show="details.memberStatus == 0">非会员</span>
+            </p>
+          </div>
+        </van-col>
+
+        <van-col v-if="type==2" span="6" class="text-right btnWrap">
+          <van-button
+            color="#F8D57E"
+            type="default"
+            size="small"
+            class="getBtn"
+            @click="handleOrder"
+          >预约面谈</van-button>
+        </van-col>
+      </van-row>
+
+      <!-- 搜索 -->
       <van-search
         v-model="form.searchVal"
         placeholder="请输入企业名称/法人姓名/品牌姓名"
@@ -50,20 +53,26 @@
           error-text="请求失败，点击重新加载"
           @load="onLoad"
           class="contentList"
+          :class="type ==2 ? 'pbot100' : ''"
         >
-          <van-checkbox-group v-model="checkActive">{{checkActive}}
-            <van-cell v-for="(item, index)  in listData" :key="index" class="contentItem" :class="type==2 ? 'padL10' : ''">
+          <van-checkbox-group v-model="checkActive">
+            <!-- {{checkActive}} -->
+            <van-cell
+              v-for="(item, index)  in listData"
+              :key="index"
+              class="contentItem"
+              :class="type==2 ? 'padL10' : ''"
+            >
               <van-row>
-                <van-col span="7">
-                <van-checkbox v-show="type==2" :name="item.id">
-                  <img :src="item.goodsLogo" alt class="logo" />
-                </van-checkbox>
+                <van-col :span="type == 2 ? 8 : 7">
+                  <van-checkbox v-show="type==2" :name="item.id" checked-color="#F8D57E">
+                    <img :src="item.goodsLogo" alt class="logo" />
+                  </van-checkbox>
                   <img v-show="type==1" :src="item.goodsLogo" alt class="logo" />
-
                 </van-col>
-                <van-col span="17" @click="handleLook(item)">
+                <!-- {{type}} -->
+                <van-col :span="type == 2 ? 16 : 17" @click="handleLook(item)">
                   <h3 class="title">{{ item.goodsName }}</h3>
-                  <!-- <van-col span="12">品牌：{{ '22' }}</van-col> -->
                   <van-col span="24" class="color999">订货号：{{ item.orderNo }}</van-col>
                   <van-col span="24" class="color999">起订量：{{ item.minOrderQuantity }}</van-col>
                 </van-col>
@@ -81,8 +90,7 @@
         alt
       />
     </van-pull-refresh>
-    <van-button v-if="type==2" type="primary" block>去&nbsp;下&nbsp;单</van-button>
-    <p></p>
+    <van-button v-if="type==2" color="#F8D57E" class="gobtn" @click="handleGoshop">去&nbsp;下&nbsp;单</van-button>
   </div>
 </template>
 
@@ -100,7 +108,7 @@ export default {
   },
   data() {
     return {
-      // type = 1 为参展商目录  2 为企业目录
+      // type = 1 为企业目录  2 为参展商目录
       type: "",
       // 参展商id
       enterpriseExhibitorsId: "",
@@ -108,8 +116,6 @@ export default {
       enterpriseId: "",
 
       form: {
-        // // 企业id
-        // enterpriseId: "",
         searchVal: "",
         // 排序，1：正序，2：倒序
         isAsc: 1,
@@ -190,18 +196,28 @@ export default {
       this.listData = [];
       // console.log(val);
       this.form.pageNum = 1;
-      let param = Object.assign({}, this.form, {
-        enterpriseId: this.details.enterpriseId || this.details.id
-      });
+      let param = Object.assign(
+        {},
+        this.form,
+        // 参展商id
+        { enterpriseExhibitorsId: this.enterpriseExhibitorsId || "" },
+        // 企业id
+        { enterpriseId: this.details.enterpriseId || this.details.id }
+      );
       this.onsubmt(param);
     },
 
     // 懒加载请求加载列表
     onLoad() {
       this.form.pageNum++;
-      let param = Object.assign({}, this.form, {
-        enterpriseId: this.details.enterpriseId || this.details.id
-      });
+      let param = Object.assign(
+        {},
+        this.form,
+        // 参展商id
+        { enterpriseExhibitorsId: this.enterpriseExhibitorsId || "" },
+        // 企业id
+        { enterpriseId: this.details.enterpriseId || this.details.id }
+      );
       this.onsubmt(param);
     },
 
@@ -210,9 +226,14 @@ export default {
       this.finished = false;
       this.form.pageNum = 1;
       this.form.searchVal = "";
-      let param = Object.assign({}, this.form, {
-        enterpriseId: this.details.enterpriseId || this.details.id
-      });
+      let param = Object.assign(
+        {},
+        this.form,
+        // 参展商id
+        { enterpriseExhibitorsId: this.enterpriseExhibitorsId || "" },
+        // 企业id
+        { enterpriseId: this.details.enterpriseId || this.details.id }
+      );
       this.onsubmt(param, 1);
     },
 
@@ -253,13 +274,22 @@ export default {
     handleLook(row) {
       this.$router.push({
         name: "products_details",
-        // name: "exhibitor_details",
         query: {
-          // 企业id
-          // id: row.enterpriseId
-          // title: row.enterpriseName
+          // 商品id
+          goodsId: row.id
         }
       });
+    },
+
+    // 去下单
+    handleGoshop() {
+      console.log(this.checkActive, "下单ID");
+      if (!this.checkActive.length) {
+        return util.error("请选择商品！！");
+      }
+      // 临时跳转
+      window.location.href =
+        "http://121.196.122.19/hlwl_wexin/uploadInquiry/order/tobeQuoted.html";
     },
 
     // 预约面谈
@@ -299,6 +329,9 @@ export default {
   }
   .van-cell.padL10 {
     padding-left: 0.1rem;
+  }
+  .van-checkbox__label {
+    margin-left: 0;
   }
 }
 </style>

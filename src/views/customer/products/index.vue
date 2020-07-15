@@ -90,6 +90,7 @@ export default {
     this.handleDetails();
     // 默认刷新列表
     this.onSearch();
+    console.log(this.listData);
   },
   watch: {},
   methods: {

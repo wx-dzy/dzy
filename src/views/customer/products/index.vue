@@ -1,7 +1,33 @@
 // 企业产品目录-列表页    
 <template>
   <div class="products">
-   
+    <van-row class="head">
+      <van-col span="7">
+        <img :src="details || nullPhoto" alt class="photo" />
+      </van-col>
+      <van-col span="8">
+        <h3 class="name">{{details || '1111'}}</h3>
+        <!-- <div class="middle">
+          <span
+            v-show="details.enterprise.enterpriseShowPlaceName"
+            class="name_type"
+          >{{details.enterprise.enterpriseShowPlaceName}}</span>
+          <i class="huiyuan">
+            <van-icon class="icon iconfont yz-huiyuan" />
+            <span v-show="details.enterprise.memberStatus == 1">会员</span>
+            <span v-show="details.enterprise.memberStatus == 0">非会员</span>
+          </i>
+        </div>-->
+        <!-- // 关注状态, 0未关注, 1已关注, 2对方已关注, 3双方互关 -->
+        <span
+          class="status"
+          :class="`${ 'status' + details || '11111' }`"
+        >{{details == 1 ? '已关注' : details == 2 ? '对方已关注' : details == 3 ? '双方互关' : '未关注'}}</span>
+      </van-col>
+      <van-col span="9" class="text-right btnWrap">
+        <van-button color="#F8D57E" type="default" size="small" class="getBtn" @click>预约面谈</van-button>
+      </van-col>
+    </van-row>
     <!-- 下拉刷新 -->
     <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
       <van-search
@@ -33,14 +59,15 @@
                 <img :src="item.goodsLogo" alt class="logo" />
               </van-col>
               <van-col span="17">
-                <h3 class="title">{{ item.name }}</h3>
+                <h3 class="title">{{ item.goodsName }}</h3>
                 <!-- <van-col span="12">品牌：{{ '22' }}</van-col> -->
-                <van-col span="12" class="color999">法人：{{ item.legalPerson }}</van-col>
-                <van-col span="24" class="color999">成立日期：{{ item.registerDate }}</van-col>
+                <van-col span="24" class="color999">订货号：{{ item.orderNo }}</van-col>
+                <van-col span="24" class="color999">起订量：{{ item.minOrderQuantity }}</van-col>
               </van-col>
             </van-row>
           </van-cell>
         </van-list>
+
       </div>
       <!-- 占位图 -->
       <img
@@ -51,6 +78,8 @@
         alt
       />
     </van-pull-refresh>
+    <van-button type="primary" block>去&nbsp;下&nbsp;单</van-button>
+    <p></p>
   </div>
 </template>
 
@@ -68,7 +97,15 @@ export default {
   },
   data() {
     return {
+      // type = 1 为参展商目录  2 为企业目录
+      type: "",
+      // 参展商id
+      enterpriseExhibitorsId: "",
+      // 企业id
+      enterpriseId: "",
+
       form: {
+        // 企业id
         enterpriseId: "",
         searchVal: "",
         // 排序，1：正序，2：倒序
@@ -87,40 +124,52 @@ export default {
   },
 
   created() {
-    this.form.enterpriseId = this.$route.query.enterpriseId;
-    this.handleDetails()
-    // 默认刷新列表
-    this.onSearch();
+    this.init();
   },
   watch: {},
   methods: {
+    init() {
+      // 为企业目录
+      if (this.$route.query.enterpriseId) {
+        this.type = 1;
+        this.form.enterpriseId = this.$route.query.enterpriseId;
+      }
+      // 为参展商目录
+      if (this.$route.query.enterpriseExhibitorsId) {
+        this.type = 2;
+        this.form.enterpriseExhibitorsId = this.$route.query.enterpriseExhibitorsId;
+      }
+      console.log(this.type, 'type')
+      // this.handleDetails()
+      // 默认刷新列表
+      this.onSearch();
+    },
     handleDetails() {
       // let params = 'enterpriseShowPeopleId'
-      let params =  this.form.enterpriseId 
+      let params = this.form.enterpriseId;
       Api.getExhibitorsPeopleInfo(params)
         .then(res => {
           let { code, msg, data, total } = res;
           // 加载状态结束
           if (code == 200) {
-          this.details = data
+            this.details = data;
           }
         })
-        .catch(err => {
-        });
+        .catch(err => {});
     },
     // 搜索
     onSearch(val) {
       this.listData = [];
       // console.log(val);
       this.form.pageNum = 1;
-      let param = Object.assign({},this.form)
+      let param = Object.assign({}, this.form);
       this.onsubmt(param);
     },
 
     // 懒加载请求加载列表
     onLoad() {
       this.form.pageNum++;
-      let param = Object.assign({},this.form)
+      let param = Object.assign({}, this.form);
       this.onsubmt(param);
     },
 
@@ -129,7 +178,7 @@ export default {
       this.finished = false;
       this.form.pageNum = 1;
       this.form.searchVal = "";
-      let param = Object.assign({},this.form)
+      let param = Object.assign({}, this.form);
       this.onsubmt(param, 1);
     },
 

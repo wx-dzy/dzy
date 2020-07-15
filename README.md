@@ -142,7 +142,7 @@ https://juejin.im/post/5cbff700e51d456e361ed904
 
 ### 公用方法 
     1. 获取openId:  util.getCookie('dzy_openId')
-    2. 获取token:   util.getCookie('dzy_token') 
+    2. 获取token:   util.getCookie('dzy_token')  || util.getToken()
     2. 获取userInfo:   JSON.parse(util.getCookie('dzy_userInfo')) 
     4. 获取微信信息:  JSON.parse(util.getCookie('dzy_wxInfo'))
  

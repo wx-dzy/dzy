@@ -1,8 +1,12 @@
 // 企业产品目录-列表页
 .products {
+    .inline {display: inline-block;}
+    .w70 {width: 6.1rem;}
+    .w30 {width: 1.3rem;}
     .head {
         position: relative;
-        padding: 0.42rem 0 0.68rem 0.52rem;
+        padding: 0.42rem 0 0.42rem 0.52rem;
+        // min-height: 3rem;
 
         .photo {
             width: 1.5rem;
@@ -17,31 +21,49 @@
             color: rgba(49, 52, 55, 1);
         }
 
-        .status {
-            display: inline-block;
-            padding: 0 0.18rem;
-            font-size: 0.2rem;
-            line-height: 0.36rem;
-            color: rgba(49, 52, 55, 1);
-            background: #DAF6F4;
-            border-radius: 0.08rem;
+        .middle {
+            font-size: 0.24rem;
+            // margin-top: 0.18rem;
+            // margin-bottom: 0.71rem;
+            color: rgba(157, 161, 166, 1);
+
+            .text {
+                padding-bottom: 0.1rem;
+                font-size: 0.28rem;
+                line-height: 0.4rem;
+            }
+
+            .icon {
+                display: inline;
+                color: #e5cc9d;
+            }
         }
 
-        .status0 {
-            background: #F8D57E;
-        }
+        // .status {
+        //     display: inline-block;
+        //     padding: 0 0.18rem;
+        //     font-size: 0.2rem;
+        //     line-height: 0.36rem;
+        //     color: rgba(49, 52, 55, 1);
+        //     background: #DAF6F4;
+        //     border-radius: 0.08rem;
+        // }
 
-        .status1 {
-            background: #DAF6F4;
-        }
+        // .status0 {
+        //     background: #F8D57E;
+        // }
 
-        .status2 {
-            background: #EAE2FE;
-        }
+        // .status1 {
+        //     background: #DAF6F4;
+        // }
 
-        .status3 {
-            background: #FEE1DD;
-        }
+        // .status2 {
+        //     background: #EAE2FE;
+        // }
+
+        // .status3 {
+        //     background: #FEE1DD;
+        // }
 
         .btnWrap {
             position: absolute;

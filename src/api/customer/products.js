@@ -12,7 +12,7 @@ export const getGoodDetailById = params => axios.get('c/user/my-index', {params}
 
 
 // 参展商-企业基本信息  /c/enterprise-show-exhibitors/exhibitors-base-info/{enterpriseExhibitorsId}
-export const getExhibitorsBaseInfo = params => axios.get('/c/enterprise-show-exhibitors/exhibitors-base-info', {params});
+export const getExhibitorsBaseInfo = params => axios.get('/c/enterprise-show-exhibitors/exhibitors-base-info/' + params);
 
-// 企业基本信息  
-export const get = params => axios.get('', {params});
+// 公司基本信息获取  /c/enterprise/get-enterprise-view-by-id/{enterpriseId}
+export const getEnterpriseById = params => axios.get('/c/enterprise/get-enterprise-view-by-id/' + params);

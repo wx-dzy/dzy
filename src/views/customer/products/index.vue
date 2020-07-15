@@ -1,31 +1,29 @@
-// 企业产品目录-列表页    
+// 企业产品目录-列表页    query 带参数 参展商id: enterpriseExhibitorsId
 <template>
   <div class="products">
     <van-row class="head">
       <van-col span="7">
-        <img :src="details || nullPhoto" alt class="photo" />
+        <img :src="details.logo" alt class="photo" />
       </van-col>
-      <van-col span="8">
-        <h3 class="name">{{details || '1111'}}</h3>
-        <!-- <div class="middle">
-          <span
-            v-show="details.enterprise.enterpriseShowPlaceName"
-            class="name_type"
-          >{{details.enterprise.enterpriseShowPlaceName}}</span>
-          <i class="huiyuan">
+      <van-col span="16">
+        <h3 class="name">{{details.name}}</h3>
+        <div class="middle">
+          <p v-show="!details.goodsQuantity" class="text">共{{details.goodsQuantity}}个产品</p>
+          <p class="huiyuan">
             <van-icon class="icon iconfont yz-huiyuan" />
-            <span v-show="details.enterprise.memberStatus == 1">会员</span>
-            <span v-show="details.enterprise.memberStatus == 0">非会员</span>
-          </i>
-        </div>-->
-        <!-- // 关注状态, 0未关注, 1已关注, 2对方已关注, 3双方互关 -->
-        <span
-          class="status"
-          :class="`${ 'status' + details || '11111' }`"
-        >{{details == 1 ? '已关注' : details == 2 ? '对方已关注' : details == 3 ? '双方互关' : '未关注'}}</span>
+            <span v-show="details.memberStatus == 1">会员</span>
+            <span v-show="details.memberStatus == 0">非会员</span>
+          </p>
+        </div>
       </van-col>
-      <van-col span="9" class="text-right btnWrap">
-        <van-button color="#F8D57E" type="default" size="small" class="getBtn" @click>预约面谈</van-button>
+      <van-col v-if="type==2" span="6" class="text-right btnWrap">
+        <van-button
+          color="#F8D57E"
+          type="default"
+          size="small"
+          class="getBtn"
+          @click="handleOrder"
+        >预约面谈</van-button>
       </van-col>
     </van-row>
     <!-- 下拉刷新 -->
@@ -35,7 +33,12 @@
         placeholder="请输入企业名称/法人姓名/品牌姓名"
         @search="onSearch"
         @input="onSearch"
+        class="inline w70"
       />
+
+      <van-dropdown-menu class="inline w30" active-color="#ee0a24">
+        <van-dropdown-item v-model="form.isAsc" :options="isAscOption" @change="onSearch" />
+      </van-dropdown-menu>
 
       <!-- 列表内容 -->
       <div class="content" v-if="listData.length">
@@ -48,26 +51,26 @@
           @load="onLoad"
           class="contentList"
         >
-          <van-cell
-            v-for="(item, index)  in listData"
-            :key="index"
-            class="contentItem"
-            @click="handleLook(item)"
-          >
-            <van-row>
-              <van-col span="7">
-                <img :src="item.goodsLogo" alt class="logo" />
-              </van-col>
-              <van-col span="17">
-                <h3 class="title">{{ item.goodsName }}</h3>
-                <!-- <van-col span="12">品牌：{{ '22' }}</van-col> -->
-                <van-col span="24" class="color999">订货号：{{ item.orderNo }}</van-col>
-                <van-col span="24" class="color999">起订量：{{ item.minOrderQuantity }}</van-col>
-              </van-col>
-            </van-row>
-          </van-cell>
-        </van-list>
+          <van-checkbox-group v-model="checkActive">{{checkActive}}
+            <van-cell v-for="(item, index)  in listData" :key="index" class="contentItem" :class="type==2 ? 'padL10' : ''">
+              <van-row>
+                <van-col span="7">
+                <van-checkbox v-show="type==2" :name="item.id">
+                  <img :src="item.goodsLogo" alt class="logo" />
+                </van-checkbox>
+                  <img v-show="type==1" :src="item.goodsLogo" alt class="logo" />
 
+                </van-col>
+                <van-col span="17" @click="handleLook(item)">
+                  <h3 class="title">{{ item.goodsName }}</h3>
+                  <!-- <van-col span="12">品牌：{{ '22' }}</van-col> -->
+                  <van-col span="24" class="color999">订货号：{{ item.orderNo }}</van-col>
+                  <van-col span="24" class="color999">起订量：{{ item.minOrderQuantity }}</van-col>
+                </van-col>
+              </van-row>
+            </van-cell>
+          </van-checkbox-group>
+        </van-list>
       </div>
       <!-- 占位图 -->
       <img
@@ -78,7 +81,7 @@
         alt
       />
     </van-pull-refresh>
-    <van-button type="primary" block>去&nbsp;下&nbsp;单</van-button>
+    <van-button v-if="type==2" type="primary" block>去&nbsp;下&nbsp;单</van-button>
     <p></p>
   </div>
 </template>
@@ -105,8 +108,8 @@ export default {
       enterpriseId: "",
 
       form: {
-        // 企业id
-        enterpriseId: "",
+        // // 企业id
+        // enterpriseId: "",
         searchVal: "",
         // 排序，1：正序，2：倒序
         isAsc: 1,
@@ -117,7 +120,12 @@ export default {
       listData: [],
       loading: false,
       finished: false,
-      refreshing: false
+      refreshing: false,
+      isAscOption: [
+        { text: "正序", value: 1 },
+        { text: "倒叙", value: 2 }
+      ],
+      checkActive: []
 
       // active: "resources",
     };
@@ -132,44 +140,68 @@ export default {
       // 为企业目录
       if (this.$route.query.enterpriseId) {
         this.type = 1;
-        this.form.enterpriseId = this.$route.query.enterpriseId;
+        this.enterpriseId = this.$route.query.enterpriseId;
       }
+
       // 为参展商目录
       if (this.$route.query.enterpriseExhibitorsId) {
         this.type = 2;
-        this.form.enterpriseExhibitorsId = this.$route.query.enterpriseExhibitorsId;
+        this.enterpriseExhibitorsId = this.$route.query.enterpriseExhibitorsId;
       }
-      console.log(this.type, 'type')
-      // this.handleDetails()
-      // 默认刷新列表
-      this.onSearch();
+      // 获取头部信息
+      this.handleDetails();
     },
+
+    // 获取头部信息
     handleDetails() {
-      // let params = 'enterpriseShowPeopleId'
-      let params = this.form.enterpriseId;
-      Api.getExhibitorsPeopleInfo(params)
+      let params = "";
+      let ajaxUrl = "";
+
+      // 为企业目录
+      if (this.type == 1) {
+        params = this.enterpriseId;
+        // 公司基本信息获取
+        ajaxUrl = "getEnterpriseById";
+      }
+
+      // 为参展商目录
+      if (this.type == 2) {
+        // http://localhost:9000/products?enterpriseExhibitorsId=1272913711522246658
+        params = this.enterpriseExhibitorsId;
+        // 参展商-企业基本信息
+        ajaxUrl = "getExhibitorsBaseInfo";
+      }
+
+      Api[`${ajaxUrl}`](params)
         .then(res => {
           let { code, msg, data, total } = res;
           // 加载状态结束
           if (code == 200) {
             this.details = data;
+            // 默认刷新列表
+            this.onSearch();
           }
         })
         .catch(err => {});
     },
+
     // 搜索
     onSearch(val) {
       this.listData = [];
       // console.log(val);
       this.form.pageNum = 1;
-      let param = Object.assign({}, this.form);
+      let param = Object.assign({}, this.form, {
+        enterpriseId: this.details.enterpriseId || this.details.id
+      });
       this.onsubmt(param);
     },
 
     // 懒加载请求加载列表
     onLoad() {
       this.form.pageNum++;
-      let param = Object.assign({}, this.form);
+      let param = Object.assign({}, this.form, {
+        enterpriseId: this.details.enterpriseId || this.details.id
+      });
       this.onsubmt(param);
     },
 
@@ -178,7 +210,9 @@ export default {
       this.finished = false;
       this.form.pageNum = 1;
       this.form.searchVal = "";
-      let param = Object.assign({}, this.form);
+      let param = Object.assign({}, this.form, {
+        enterpriseId: this.details.enterpriseId || this.details.id
+      });
       this.onsubmt(param, 1);
     },
 
@@ -222,10 +256,15 @@ export default {
         // name: "exhibitor_details",
         query: {
           // 企业id
-          id: row.enterpriseId
+          // id: row.enterpriseId
           // title: row.enterpriseName
         }
       });
+    },
+
+    // 预约面谈
+    handleOrder() {
+      console.log("预约面谈");
     }
   },
 
@@ -250,6 +289,16 @@ export default {
   .van-field__control,
   .van-cell {
     color: #9da1a6;
+  }
+  .van-dropdown-menu__bar {
+    box-shadow: none;
+  }
+  .van-search {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .van-cell.padL10 {
+    padding-left: 0.1rem;
   }
 }
 </style>

@@ -21,10 +21,17 @@
             <van-icon class="icon iconfont yz-dizhi" />
             <span class="addressText">{{user.companyAddress}}</span>
           </div>
+          <!-- 关注组件 -->
+            <follow
+              :followType="2"
+              :followId="user.userId"
+              :followStatus.sync="personInfo.followStatus"
+              :showIndex="1"
+              @successCBK="handleFollow"
+              class="add_follow"
+            />
         </div>
-        <button class="add_follow" @click="favor">
-          <div class="type_name">{{content}}</div>
-        </button>
+        
       </div>
       <img :src="user.avatar" alt />
     </div>
@@ -70,7 +77,7 @@
     <div class="text"></div>
     <!-- <div class="text">2/4</div> -->
     <div class="btn">
-      <button class="share">分享名片</button>
+      <button class="share" @click="showShare = true">分享名片</button>
       <button v-if="personInfo.exchangeStatus == 1">已交换名片</button>
       <button v-if="personInfo.exchangeStatus == 0">未交换名片</button>
     </div>
@@ -83,15 +90,16 @@
     <div class="myCompany">
       <div class="title">我的企业</div>
       <div class="item_text">
-        <div class="name" v-for="(item,index) in myEnterpriseList" :key="index">{{item.enterpriseName}}</div>
-      </div>
-      <div class="type" v-if="personInfo.followStatus==1">
-        <van-icon class="icon iconfont yz-yiguanzhu" />
-        <span>已关注</span>
-      </div>
-      <div class="type" v-if="personInfo.followStatus==0">
-        <van-icon class="icon iconfont yz-yiguanzhu" />
-        <span>未关注</span>
+        <div class="name" v-for="(item,index) in myEnterpriseList" :key="index">{{item.enterpriseName}}
+          <follow
+              :followType="1"
+              :followId="item.enterpriseId"
+              :followStatus.sync="item.followStatus"
+              :showIndex="1"
+              @successCBK="handleFollow"
+              class="enterprise_follow"
+            />
+        </div>
       </div>
       <!-- <div style="text-align: center;">收起</div> -->
     </div>
@@ -115,27 +123,46 @@
         </div>
       </div>
     </div> 
-
- 
     <button class="time" @click="toCalender">距离预约面谈还剩12小时</button>
     <!-- <button class="time" @click="toCalender" v-show="personInfo.myInterviewDesc.myInterviewDesc != '' ">{{personInfo.myInterviewDesc.myInterviewDesc}}</button> -->
+    <van-overlay :show="showShare" @click="showShare = false">
+            <visitingCard
+              :dataList.sync="userCardList"
+              :disabled="false"
+              @successCBK="handleActive"
+              class="shareCard"
+            ></visitingCard>
+    </van-overlay>
+    <van-share-sheet
+      v-model="showShare"
+      title="立即分享给好友"
+      :options="option"
+      @select="onSelect"
+      :overlay="overlay"
+    />
   </div>
 </template>
 <script>
+import img1 from "@/assets/images/home/1.png";
+import img2 from "@/assets/images/home/2.png";
+import img3 from "@/assets/images/home/3.png";
 import { util } from "@/utils";
 import { mapGetters } from "vuex";
 import * as Api from "@/api/customer/exhibitor";
 import nullImg from "@/assets/images/null.png";
 import visitingCard from "@/components/customer/visitingCard.vue";
+import follow from "@/components/customer/follow.vue";
 
 export default {
   name: "",
   components: {
     //名片
-    visitingCard
+    visitingCard,
+    follow
   },
   data() {
     return {
+      overlay: false, //不显示遮罩层
       current: 0,// 名片当前的索引
       content: "",
       enterpriseShowPeopleId: this.$route.query.enterpriseShowPeopleId,
@@ -145,13 +172,29 @@ export default {
       user: {}, //企业人物信息
       recommendGoods: [], //推荐商品,
       followStatus: '', //是否关注人物  1是0否
-      peopleId: this.$route.query.peopleId
+      peopleId: this.$route.query.peopleId,
+      showShare: false, //是否展示分享面板
+      option: [
+        { name: "生成图片", icon: img1 },
+        { name: "微信", icon: img2 },
+        { name: "朋友圈", icon: img3 }
+      ],
     };
   },
   created() {
     this.getPeopleDel()
   },
   methods: {
+    // 分享
+    onSelect(option) {
+      this.$toast(option.name);
+      this.showShare = false;
+    },
+    // 关注组件回调
+    handleFollow(status) {
+      // console.log(status, "关注组件回调");
+      this.getPeopleDel();
+    },
     //  预约面谈
     toCalender () {
       this.$router.push({
@@ -163,8 +206,6 @@ export default {
         }
       })
     },
-    // 关注
-    
      // 名片组件的 回调函数 返回名片的当前选中索引
     handleActive(index) {
       this.current = index;
@@ -312,16 +353,11 @@ export default {
         position: absolute;
         right: 0;
         top: 3.56rem;
-        background-color: rgba(248, 213, 126, 1);
+        // background-color: rgba(248, 213, 126, 1);
         border: none;
         border-radius: 0.5rem 0 0 0.5rem;
         height: 0.5rem;
-        width: 1.3rem;
-        .van-icon,
-        .type_name {
-          font-size: 0.24rem;
-          display: inline-block;
-        }
+        width: 2rem;
       }
     }
   }
@@ -462,6 +498,23 @@ export default {
     .item_text {
       font-size: 0.28rem;
       margin-top: 0.1rem;
+      position: relative;
+      height: 44px;
+      line-height: 44px;
+      .enterprise_follow{
+        position: absolute;
+        right: 0.1rem;
+        top: 0;
+        bottom: 0;
+        display: inline-block;
+        .van-button::before{
+          position: normal;
+          height: auto;
+        }
+        .van-button{
+          height: auto;
+        }
+      }
     }
     .type {
       height: 0.4rem;
@@ -548,6 +601,11 @@ export default {
     border: none;
     background: rgba(248, 213, 126, 1);
     border-radius: 0.16rem;
+  }
+  .shareCard{
+    width: 96%;
+    height: 3.65rem;
+    margin: 4rem auto 0;
   }
 }
 </style>

@@ -12,14 +12,14 @@
         </i>
       </div>
       <div class="address">{{details.enterprise.addressDetail}}</div>
-      <div class="type" v-show="details.followStatus == 1">
-        <van-icon class="icon iconfont yz-guanzhu" />
-        <div class="type_name">关注</div>
-      </div>
-	  <div class="type" v-show="details.followStatus == 0">
-        <van-icon name="star-o" />
-        <div class="type_name">未关注</div>
-      </div>
+      <follow
+      :followType="1"
+      :followId="details.enterprise.id"
+      :followStatus.sync="details.followStatus"
+      :showIndex="1"
+      @successCBK="handleFollow"
+      class="type"
+    />
     </div>
     <div class="details">
       <van-tabs v-model="active" class="tab" swipe-threshold="4" title-active-color="#000">
@@ -32,30 +32,29 @@
           </div>
         </van-tab>
         <van-tab title="服务承诺" class="vant_tabs">
-			<div class="item">
-				<p>服务承诺: {{ details.servicePromise }}</p>
-			</div>
-		</van-tab>
+          <div class="item">
+            <p>服务承诺: {{ details.servicePromise }}</p>
+          </div>
+        </van-tab>
         <van-tab title="资质信息" class="vant_tabs_2">
-			<div class="item" v-for="item in details.qualifications" :key="item.index">
-				<div>资质名称: {{ item.qualificationName }}</div>
-				<div>有效日期: {{ item.qualificationEndDate }}</div>
-				<div>发放单位: {{ item.qualificationUnit }}</div>
-        <div class="images">
-          <img :src="item.qualification" alt="">
-        </div>
-        
-			</div>
-		</van-tab>
+          <div class="item" v-for="item in details.qualifications" :key="item.index">
+            <div>资质名称: {{ item.qualificationName }}</div>
+            <div>有效日期: {{ item.qualificationEndDate }}</div>
+            <div>发放单位: {{ item.qualificationUnit }}</div>
+            <div class="images">
+              <img :src="item.qualification" alt />
+            </div>
+          </div>
+        </van-tab>
         <van-tab title="荣誉信息" class="vant_tabs_2">
-			<div class="item" v-for="item in details.honours" :key="item.index">
-				<div>证书名称: {{ item.qualificationName }}</div>
-				<div>颁发机构: {{ item.qualificationUnit }}</div>
-				<div class="images">
-					<img :src="item.qualification" alt="">
-				</div>
-			</div>
-		</van-tab>
+          <div class="item" v-for="item in details.honours" :key="item.index">
+            <div>证书名称: {{ item.qualificationName }}</div>
+            <div>颁发机构: {{ item.qualificationUnit }}</div>
+            <div class="images">
+              <img :src="item.qualification" alt />
+            </div>
+          </div>
+        </van-tab>
       </van-tabs>
     </div>
     <div class="synopsis">
@@ -69,7 +68,7 @@
         快最安全的vooC闪充技术、配备500万高清画质拍
         照技术的5.5英寸2K屏幕手机Find7，不断引领中
         国智能手机市场的新潮流。
-      </div> -->
+      </div>-->
       <div class="imgs">
         <img :src="details.enterprise.introduction" alt />
       </div>
@@ -82,7 +81,7 @@
         快最安全的vooC闪充技术、配备500万高清画质拍
         照技术的5.5英寸2K屏幕手机Find7，不断引领中
         国智能手机市场的新潮流。
-      </div> -->
+      </div>-->
     </div>
 
     <a class="button" href="tel:15810355372">拨打客服电话</a>
@@ -94,36 +93,42 @@ import VideoDemo from "@/components/customer/videoPlay";
 import { util } from "@/utils";
 import { mapGetters } from "vuex";
 import * as Api from "@/api/customer/exhibitor";
+import follow from "@/components/customer/follow.vue";
+
 export default {
   name: "company_details",
-  components: {},
+  components: {
+    follow
+  },
   data() {
     return {
-	  active: 0,
-	  details: {}
+      active: 0,
+      details: {}
     };
   },
   created() {
-    this.handleGetCompnyDetail()
+    this.handleGetCompnyDetail();
   },
   methods: {
-    handleGetCompnyDetail () {
-		console.log('enterpriseExhibitorsId:',this.enterpriseExhibitorsId);
-		
-      
-      Api.getCompany_details(this.$route.query.enterpriseExhibitorsId)
-      .then( (res) => {
-		  let { code, msg, data, total } = res;
-		  console.log('参展公司详情',res);
-		  if ( code == 200 ) {
-			  this.details = data
-		  }
+    // 关注组件回调
+    handleFollow(status) {
+      // console.log(status, "关注组件回调");
+      this.handleGetCompnyDetail();
+    },
+    handleGetCompnyDetail() {
+      console.log("enterpriseExhibitorsId:", this.enterpriseExhibitorsId);
 
-	  })
-	  .catch( (err) => {
-		  console.log('err:',err);
-		  
-	  })
+      Api.getCompany_details(this.$route.query.enterpriseExhibitorsId)
+        .then(res => {
+          let { code, msg, data, total } = res;
+          console.log("参展公司详情", res);
+          if (code == 200) {
+            this.details = data;
+          }
+        })
+        .catch(err => {
+          console.log("err:", err);
+        });
     }
   }
 };
@@ -187,43 +192,41 @@ export default {
   .details {
     margin-top: 0.92rem;
     .tab {
-        .vant_tabs {
-          .item {
-            height: 2.98rem;
-            width: 6.96rem;
-            margin-top: 0.35rem;
-            padding: 0.46rem;
-            box-sizing: border-box;
-            font-size: 0.28rem;
-            background-color: #f7f8fa;
+      .vant_tabs {
+        .item {
+          height: 2.98rem;
+          width: 6.96rem;
+          margin-top: 0.35rem;
+          padding: 0.46rem;
+          box-sizing: border-box;
+          font-size: 0.28rem;
+          background-color: #f7f8fa;
+        }
+      }
+      .vant_tabs_2 {
+        .item {
+          // height: 5.98rem;
+          width: 6.96rem;
+          margin-top: 0.35rem;
+          padding: 0.46rem;
+          box-sizing: border-box;
+          font-size: 0.28rem;
+          background-color: #f7f8fa;
+          .images {
+            // width: 5rem;
+            height: auto;
+            // margin: 0.1rem auto;
+            margin-top: 0.3rem;
+            img {
+              width: 100%;
+              height: 100%;
+            }
           }
         }
-        .vant_tabs_2{
-			.item{
-				// height: 5.98rem;
-				width: 6.96rem;
-				margin-top: 0.35rem;
-				padding: 0.46rem;
-				box-sizing: border-box;
-				font-size: 0.28rem;
-				background-color: #f7f8fa;
-					.images {
-					// width: 5rem;
-					height: auto;
-					// margin: 0.1rem auto;
-					margin-top: 0.3rem;
-					img {
-						width: 100%;
-						height: 100%;
-					}
-					}
-			}
-          
-    }  
-    
-  }
+      }
     }
-  
+  }
+
   .synopsis {
     margin-left: 0.2rem;
     margin-top: 0.62rem;
@@ -239,8 +242,8 @@ export default {
     }
     .imgs {
       width: 7.5rem;
-    //   height: 3.8rem;
-	  margin: 0.5rem 0 0.5rem -0.5rem;
+      //   height: 3.8rem;
+      margin: 0.5rem 0 0.5rem -0.5rem;
       img {
         width: 100%;
         height: 100%;
@@ -252,13 +255,13 @@ export default {
     display: block;
     width: 6.84rem;
     height: 0.8rem;
-	line-height: 0.8rem;
-	text-align: center;
+    line-height: 0.8rem;
+    text-align: center;
     border: none;
     margin-bottom: 0.48rem;
     background-color: #f8d57e;
-	border-radius: 0.08rem;
-	color: #000;
+    border-radius: 0.08rem;
+    color: #000;
   }
 }
 /deep/ .van-tabs__line {

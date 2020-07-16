@@ -42,11 +42,11 @@ import {
   Loading,
   DropdownMenu,
   DropdownItem,
-  popup,
-  Popup,
+  Popup ,
   Skeleton,
   Image as VanImage,
   Collapse, CollapseItem
+  
 
 } from 'vant';
  

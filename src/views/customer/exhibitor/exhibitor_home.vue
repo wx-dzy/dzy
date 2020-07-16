@@ -10,7 +10,7 @@
         </div>
       </div>
       <div class="right">
-        <!-- <van-button class="left_btn" round size="small">咨询客服</van-button> -->
+        <van-button class="left_btn" round size="small">咨询客服</van-button>
         <van-button class="right_btn" round size="small" color="#ffd36f" @click="toHomeOrder">参观预约</van-button>
       </div>
     </div>

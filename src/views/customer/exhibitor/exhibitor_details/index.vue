@@ -36,7 +36,7 @@
         <van-icon name="arrow" @click="goToPerson"/>
       </div>
       <div class="item">
-        <div class="person" v-for="(item,index) in person" :key="index">
+        <div class="person" v-for="(item,index) in person" :key="index" @click="toPersonDetail(item.id,$event)">
           <img :src="item.avatar" alt />
           <div class="name">{{item.realName}}</div>
           <div class="type">{{item.postName}}</div>
@@ -133,6 +133,19 @@ export default {
     }
   },
   methods: {
+    // 跳转人物详情
+    toPersonDetail(id){
+      console.log('if',id);
+      let peopleId = id
+      console.log('peopleId:',peopleId);
+      
+      this.$router.push({
+        path: '/juridical_person',
+        query: {
+          enterpriseShowPeopleId: id
+        }
+      })
+    },
     // 获取公司资料
     toInfomation () {
       const enterpriseExhibitorsId = this.details.exhibitors.id

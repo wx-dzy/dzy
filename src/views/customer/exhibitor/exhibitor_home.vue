@@ -9,7 +9,7 @@
           <span>{{totalExhibitors}}</span>家参展商
         </div>
       </div>
-      <div class="right">
+      <div class="right" style="display:flex;">
         <van-button class="left_btn" round size="small">咨询客服</van-button>
         <van-button class="right_btn" round size="small" color="#ffd36f" @click="toHomeOrder">参观预约</van-button>
       </div>
@@ -108,6 +108,7 @@ export default {
       };
       Api.getExhibitorList(param)
         .then(res => {
+          console.log(res);
           let { code, msg, data, total } = res;
           console.log("res");
           console.log('获取列表',res);
@@ -214,6 +215,7 @@ export default {
     .right {
       position: absolute;
       bottom: 0;
+      right: 0.3rem;
       display: inline-block;
       margin-left: 0.79rem;
       font-size: 0.26rem;

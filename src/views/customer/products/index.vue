@@ -1,7 +1,6 @@
 // 企业产品目录-列表页    
 <template>
   <div class="products">
-   
     <!-- 下拉刷新 -->
     <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
       <van-search
@@ -88,39 +87,39 @@ export default {
 
   created() {
     this.form.enterpriseId = this.$route.query.enterpriseId;
-    this.handleDetails()
+    this.handleDetails();
     // 默认刷新列表
     this.onSearch();
+    console.log(this.listData);
   },
   watch: {},
   methods: {
     handleDetails() {
       // let params = 'enterpriseShowPeopleId'
-      let params =  this.form.enterpriseId 
+      let params = this.form.enterpriseId;
       Api.getExhibitorsPeopleInfo(params)
         .then(res => {
           let { code, msg, data, total } = res;
           // 加载状态结束
           if (code == 200) {
-          this.details = data
+            this.details = data;
           }
         })
-        .catch(err => {
-        });
+        .catch(err => {});
     },
     // 搜索
     onSearch(val) {
       this.listData = [];
       // console.log(val);
       this.form.pageNum = 1;
-      let param = Object.assign({},this.form)
+      let param = Object.assign({}, this.form);
       this.onsubmt(param);
     },
 
     // 懒加载请求加载列表
     onLoad() {
       this.form.pageNum++;
-      let param = Object.assign({},this.form)
+      let param = Object.assign({}, this.form);
       this.onsubmt(param);
     },
 
@@ -129,7 +128,7 @@ export default {
       this.finished = false;
       this.form.pageNum = 1;
       this.form.searchVal = "";
-      let param = Object.assign({},this.form)
+      let param = Object.assign({}, this.form);
       this.onsubmt(param, 1);
     },
 

@@ -316,6 +316,15 @@ export default [
         name: 'products_details',
         component: () => import('@/views/customer/products/products_details.vue'),
     },
+    {
+        path: '/products_uploadInquiry',
+        meta: {
+            requiresAuth: false,
+            title: '上传询价单',
+        },
+        name: 'products_uploadInquiry',
+        component: () => import('@/views/customer/products/products_uploadInquiry.vue'),
+    },
     // ------------------   企业产品目录   end ------------------
 
 

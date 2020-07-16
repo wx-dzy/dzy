@@ -2,65 +2,91 @@
 <template>
   <div class="products_details">
     <!-- 下拉刷新 -->
-    <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-      <!-- 轮播 -->
-      <van-swipe
-        v-if="detail.goodsImagesList.length"
-        class="my-swipe"
-        :autoplay="3000"
-        indicator-color="white"
-      >
-        <van-swipe-item v-for="(image, index)  in detail.goodsImagesList" :key="index">
-          <!-- <router-link :to="{'path':'personal'}"> -->
-          <img :src="image.mediaUrl" alt />
-          <!-- </router-link> -->
-        </van-swipe-item>
-      </van-swipe>
+    <van-pull-refresh v-model="refreshing" @refresh="handleGetDetail">
+      <div v-if="detail.goodsBaseInfo">
+        <!-- 轮播 -->
+        <van-swipe
+          v-if="detail.goodsImagesList.length"
+          class="my-swipe"
+          :autoplay="3000"
+          indicator-color="white"
+        >
+          <van-swipe-item v-for="(image, index)  in detail.goodsImagesList" :key="index">
+            <!-- <router-link :to="{'path':'personal'}"> -->
+            <img :src="image.mediaUrl" alt />
+            <!-- </router-link> -->
+          </van-swipe-item>
+        </van-swipe>
 
-      <div class="contwrap">
-        <van-row class="head border pad22">
-          <h2 class="title">{{ detail.goodsBaseInfo.goodsName}}</h2>
+        <div class="contwrap">
+          <van-row class="head border pad22">
+            <h2 class="title">{{ detail.goodsBaseInfo.goodsName}}</h2>
 
-          <van-col span="19">
-            <p>品 牌：{{ detail.goodsBaseInfo.brandName }}</p>
-            <p>订货号：{{ detail.goodsBaseInfo.orderNo }}</p>
-          </van-col>
-          <van-col span="5" class="shareBtn text-right">
-            <van-button round size="small" color="#F8D57E">
-              分享1</van-button>
-          </van-col>
-        </van-row>
-
-        <van-row v-if="detail.goodsSpecificationList.length" class="border pad22">
-          <h2 class="title">参数</h2>
-          <van-row v-for="(item,index) in detail.goodsSpecificationList" :key="index">
-            <van-col span="6">{{ item.name}}</van-col>
-            <van-col span="18">{{ item.values}}</van-col>
+            <van-col span="19">
+              <p>品 牌：{{ detail.goodsBaseInfo.brandName }}</p>
+              <p>订货号：{{ detail.goodsBaseInfo.orderNo }}</p>
+            </van-col>
+            <van-col span="5" class="shareBtn text-right">
+              <van-button round size="small" color="#F8D57E" @click="handeGetData">
+                <span class="icon iconfont yz-fenxiang1"></span>
+                分享
+              </van-button>
+            </van-col>
           </van-row>
-        </van-row>
 
-        <van-row class="border pad22" v-if="detail.goodsIntroductionList.length">
-          <h2 class="title">产品详情</h2>
-          <van-col v-for="(item,index) in detail.goodsIntroductionList" :key="index">
-            <Video-Demo
-              v-if="item.videoUrl"
-              :_id="item.id"
-              :src="item.videoUrl"
-              :playVideoId.sync="playVideoId"
-              style="width: 100%;"
-              class="zoom"
+          <van-row v-if="detail.goodsSpecificationList.length" class="border pad22">
+            <h2 class="title">参数</h2>
+            <van-row v-for="(item,index) in detail.goodsSpecificationList" :key="index">
+              <van-col span="6">{{ item.name}}</van-col>
+              <van-col span="18">{{ item.values}}</van-col>
+            </van-row>
+          </van-row>
+
+          <van-row class="border" v-if="detail.goodsIntroductionList.length">
+            <h2 class="title">产品详情</h2>
+            <van-col v-for="(item,index) in detail.goodsIntroductionList" :key="index">
+              <Video-Demo
+                v-if="item.videoUrl"
+                :_id="item.id"
+                :src="item.videoUrl"
+                :playVideoId.sync="playVideoId"
+                style="width: 100%;"
+                class="zoom"
+              />
+              <img v-if="item.mediaUrl" :src="item.mediaUrl" alt class="itemImg" />
+            </van-col>
+          </van-row>
+
+          <van-goods-action class="footer">
+            <!-- <van-goods-action-icon icon="icon iconfont yz-shangjia" text="商家" /> -->
+            <van-goods-action-icon
+              icon="icon iconfont yz-suoquyangpin"
+              text="索取样品"
+              @click="handleBtnDetail"
             />
-            <img v-if="item.mediaUrl" :src="item.mediaUrl" alt class="itemImg" />
-          </van-col>
-        </van-row>
-
-        <van-goods-action>
-          <van-goods-action-icon icon="shop-o" text="商家" />
-          <van-goods-action-icon icon="chat-o" text="索取样品" />
-          <van-goods-action-button color="#F8D57E" type="warning" text="去下单" />
-          <van-goods-action-button color="#F8D57E" type="danger" text="索取产品资料" />
-        </van-goods-action>
+            <van-goods-action-button
+              color="#F8D57E"
+              type="warning"
+              text="去下单"
+              @click="handleGoshop"
+            />
+            <van-goods-action-button
+              color="#F8D57E"
+              type="danger"
+              text="索取产品资料"
+              @click="handeGetData"
+            />
+          </van-goods-action>
+        </div>
       </div>
+      <!-- 占位图 -->
+      <img
+        v-else
+        src="@/assets/images/nullImgText.png"
+        style="width: 2.6rem; margin: 1.4rem 2rem;"
+        class="nullImg"
+        alt
+      />
     </van-pull-refresh>
   </div>
 </template>
@@ -91,8 +117,7 @@ export default {
         // 产品详情图片列表
         goodsIntroductionList: []
       },
-      pageSize: 10,
-      pageNum: 1,
+
       refreshing: false
     };
   },
@@ -111,12 +136,16 @@ export default {
       Api.getGoodDetailById(params)
         .then(res => {
           let { code, msg, data, total } = res;
+          // 上拉刷新  完成
+          this.refreshing = false;
           util.hideLoading();
           if (code == 200) {
             this.detail = data;
           }
         })
         .catch(err => {
+          // 上拉刷新  完成
+          this.refreshing = false;
           util.hideLoading();
           console.log(err, "err");
         });
@@ -124,27 +153,44 @@ export default {
 
     // 上拉刷新
     onRefresh() {
-      this.finished = false;
-      this.pageNum = 1;
-      let params = {
-        pageNum: this.pageNum, // 页数
-        pageSize: this.pageSize // 每页几条数据
-      };
-
-      // 上拉刷新  完成
-      this.refreshing = false;
+      this.handleGetDetail();
     },
 
-    // 查看详情
-    handleLook(row) {
+    // 索取样品
+    handleBtnDetail() {
       this.$router.push({
-        name: "personal_details",
+        name: "exact_information",
         query: {
-          // 企业id
-          id: row.enterpriseId
-          // title: row.enterpriseName
+          // 展会参展商id
+          enterpriseExhibitorsId: this.detail.goodsBaseInfo.enterpriseId
         }
       });
+    },
+
+    // 去下单
+    handleGoshop() {
+      // 临时跳转
+      window.location.href =
+        "http://121.196.122.19/hlwl_wexin/uploadInquiry/order/tobeQuoted.html";
+
+      return;
+      let param = [];
+      param.push(this.detail.goodsBaseInfo.id);
+
+      // 正常跳转
+      this.$router.push({
+        name: "products_uploadInquiry",
+        query: {
+          // 商品id数组
+          goodsIds: JSON.stringify(param)
+        }
+      });
+    },
+    // 索取产品资料
+    handeGetData() {
+      let param = [];
+      param.push(this.detail.goodsBaseInfo.id);
+      util.info("敬请期待！！");
     }
   },
 
@@ -163,9 +209,6 @@ export default {
 <style lang="scss" scoped>
 @import "@/assets/styles/base/calc_vm.scss";
 @import "./products.scss";
-.nullImg {
-  width: 4rem;
-  margin: 0.4rem 1.47rem;
-}
+
 </style>
 

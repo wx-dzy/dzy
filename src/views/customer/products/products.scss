@@ -3,51 +3,51 @@
     .inline {
         display: inline-block;
     }
-  
+
     .w70 {
         width: 6.1rem;
     }
-  
+
     .w30 {
         width: 1.3rem;
     }
-  
+
     .head {
         position: relative;
         padding: 0.42rem 0 0.42rem 0.52rem;
         // min-height: 3rem;
-  
+
         .photo {
             width: 1.5rem;
             height: 1.5rem;
             border-radius: 50%;
         }
-  
+
         .name {
             padding-top: 0.14rem;
             line-height: 0.72rem;
             font-size: 0.32rem;
             color: rgba(49, 52, 55, 1);
         }
-  
+
         .middle {
             font-size: 0.24rem;
             // margin-top: 0.18rem;
             // margin-bottom: 0.71rem;
             color: rgba(157, 161, 166, 1);
-  
+
             .text {
                 padding-bottom: 0.1rem;
                 font-size: 0.28rem;
                 line-height: 0.4rem;
             }
-  
+
             .icon {
                 display: inline;
                 color: #e5cc9d;
             }
         }
-  
+
         // .status {
         //     display: inline-block;
         //     padding: 0 0.18rem;
@@ -57,23 +57,23 @@
         //     background: #DAF6F4;
         //     border-radius: 0.08rem;
         // }
-  
+
         // .status0 {
         //     background: #F8D57E;
         // }
-  
+
         // .status1 {
         //     background: #DAF6F4;
         // }
-  
+
         // .status2 {
         //     background: #EAE2FE;
         // }
-  
+
         // .status3 {
         //     background: #FEE1DD;
         // }
-  
+
         .btnWrap {
             position: absolute;
             right: 0;
@@ -83,7 +83,7 @@
             justify-content: flex-end;
             align-items: center;
         }
-  
+
         .getBtn {
             padding: 0 0.3rem;
             // margin-top: 0.44rem;
@@ -92,17 +92,17 @@
             font-weight: 800;
         }
     }
-  
+
     .logo {
         width: 1.8rem;
         height: 1.8rem;
         border-radius: 0.04rem;
-  
+
     }
-  
+
     .contentList {
         padding: 0.2rem 0.26rem;
-  
+
         .van-cell {
             background: rgba(255, 255, 255, 1);
             box-shadow: 0rem 0.1rem 0.26rem 0rem rgba(223, 227, 233, 0.51);
@@ -110,11 +110,11 @@
             margin-bottom: 0.4rem;
         }
     }
-  
+
     .contentList.pbot100 {
         padding-bottom: 1rem;
     }
-  
+
     .gobtn {
         position: fixed;
         bottom: 0rem;
@@ -126,19 +126,19 @@
         background: rgba(248, 213, 126, 1);
         border-radius: 0.16rem;
     }
-  
-  
-  }
-  
-  // 企业产品目录-产品详情
-  .products_details {
+
+
+}
+
+// 企业产品目录-产品详情
+.products_details {
     background: #fff;
-  
+
     .my-swipe {
         background: rgba(255, 255, 255, 1);
         width: 100%;
         min-height: 4rem;
-  
+
         .van-swipe-item {
             img {
                 width: 100%;
@@ -147,58 +147,84 @@
             }
         }
     }
-  
+
     .shareBtn {
         position: absolute;
         right: -0.27rem;
         z-index: 99;
-  
-        .van-button  {
-            color: #000 !important;
-            border-radius:0.3rem 0rem 0rem 0.3rem;
+
+        .van-button {
+            font-size: 0.28rem;
+            line-height: 0.8rem;
+            color: #313437 !important;
+            border-radius: 0.3rem 0rem 0rem 0.3rem;
         }
+
+        .yz-fenxiang1 {
+            position: relative;
+            top: -0.05rem;
+        }
+
         // text-align: right;
     }
-  
+
     .contwrap {
         padding: 0.2rem 0.27rem;
-  
+
         .pad22 {
             padding: 0 0.22rem;
         }
-  
+
         .border {
             border-bottom: 0.02rem solid #E9E9E9;
             padding-bottom: 0.46rem;
             margin-bottom: 0.6rem;
         }
-  
+
         .title {
             font-size: 0.32rem;
             color: rgba(0, 0, 0, 1);
             line-height: 0.44rem;
             padding-bottom: 0.1rem;
         }
-  
+
         .head {
             position: relative;
-  
+
             .title {
                 letter-spacing: 1px;
             }
-  
+
             .text {
                 font-size: 0.28rem;
                 color: rgba(157, 161, 166, 1);
                 line-height: 0.4rem;
             }
         }
+
         .itemImg {
             width: 100%;
         }
-  
-  
+
+
     }
-  
-  
-  }
+
+    .footer {
+        padding: 0 0.2rem;
+        .van-goods-action-button {
+            color: #313437 !important;
+        }
+        .van-goods-action-icon {
+           font-size:0.24rem;
+           color: #313437;
+line-height:0.34rem;
+
+        }
+    }
+
+}
+
+// 上传询价单
+.products_uploadInquiry {
+
+}

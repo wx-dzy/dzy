@@ -290,6 +290,15 @@ export default {
       // 临时跳转
       window.location.href =
         "http://121.196.122.19/hlwl_wexin/uploadInquiry/order/tobeQuoted.html";
+      return
+      // 正常跳转
+      this.$router.push({
+        name: "products_uploadInquiry",
+        query: {
+          // 商品id数组
+          goodsIds: JSON.stringify(this.checkActive)
+        }
+      });
     },
 
     // 预约面谈

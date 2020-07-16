@@ -5,13 +5,75 @@
     <!-- 下拉刷新 -->
     <van-pull-refresh v-model="refreshing" @refresh="handleGetDetail">
       <div v-if="detail.id">
-        {{detail}}
-        资源-工作经历 只查看 不编辑 (开发区域)
+        <!-- <h4 class="title">公司/单位</h4> -->
+        <van-row class="item">
+          <van-col span="6" class="logowrap">
+            <img :src="detail.companyLogo" alt class="logo" />
+          </van-col>
+          <van-col span="18" offset="6">
+            <van-row>
+              <van-col span="8">公司名称</van-col>
+              <van-col span="16">{{ detail.enterpriseName }}</van-col>
+            </van-row>
+            <van-row>
+              <van-col span="8">公司名称EN</van-col>
+              <van-col span="16">{{ detail.enterpriseNameEn }}</van-col>
+            </van-row>
+          </van-col>
+        </van-row>
 
+        <h4 class="title">姓名</h4>
+        <van-row class="item">
+          <van-row>
+            <van-col span="6">姓名</van-col>
+            <van-col span="18">{{ detail.userRealName }}</van-col>
+          </van-row>
+          <van-row>
+            <van-col span="6">姓名EN</van-col>
+            <van-col span="18">{{ detail.userRealNameEn }}</van-col>
+          </van-row>
+        </van-row>
 
+        <h4 class="title">职位/岗位</h4>
+        <van-row class="item">
+          <van-row>
+            <van-col span="6">职位</van-col>
+            <van-col span="18">{{ detail.postName }}</van-col>
+          </van-row>
+          <van-row>
+            <van-col span="6">职位EN</van-col>
+            <van-col span="18">{{ detail.postNameEn }}</van-col>
+          </van-row>
+        </van-row>
 
+        <h4 class="title">在职时间</h4>
+        <van-row class="item">
+          <van-row>
+            <van-col span="6">开始时间</van-col>
+            <van-col span="18">{{ detail.startDate }}</van-col>
+          </van-row>
+          <van-row>
+            <van-col span="6">结束时间</van-col>
+            <van-col span="18">{{ detail.endDate }}</van-col>
+          </van-row>
+        </van-row>
 
+        <h4 class="title">公司所属行业</h4>
+        <van-row class="item">
+          <van-row>
+            <van-col span="6">行业</van-col>
+            <van-col span="18">{{ detail.industry }}</van-col>
+          </van-row>
+          <van-row>
+            <van-col span="6">行业EN</van-col>
+            <van-col span="18">{{ detail.industryEn }}</van-col>
+          </van-row>
+        </van-row>
 
+        <h4 class="title">工作描述</h4>
+        <van-row class="item">
+          <van-col span="24">{{ detail.workDesc }}</van-col>
+        </van-row>
       </div>
       <!-- 占位图 -->
       <img
@@ -22,8 +84,6 @@
         alt
       />
     </van-pull-refresh>
-    
-      
   </div>
 </template>
 
@@ -42,22 +102,19 @@ export default {
   data() {
     return {
       // {userCardId} 工作经历id
-      userCardId: '',
+      userCardId: "",
       detail: {},
       refreshing: false
-      
-      
     };
   },
 
   created() {
-     this.userCardId = JSON.parse(this.$route.query.id);
+    this.userCardId = JSON.parse(this.$route.query.id);
     // 获取详情
     this.handleGetDetail();
   },
   watch: {},
   methods: {
-
     // 获取详情
     handleGetDetail() {
       let params = this.userCardId;
@@ -79,7 +136,6 @@ export default {
           console.log(err, "err");
         });
     },
-    
 
     handleSetInfo(row) {
       this.$router.push({
@@ -104,8 +160,6 @@ export default {
   },
 
   computed: {},
-
-  
 
   mounted() {
     this.$nextTick().then(() => {

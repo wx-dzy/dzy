@@ -144,8 +144,9 @@ https://juejin.im/post/5cbff700e51d456e361ed904
 ### 待开发：
     1.企业产品目录-上传询价单：  
         http://localhost:9000/products_uploadInquiry?goodsIds=%5B%221275702956557078530%22%5D
-    2.资源-工作经历  
-        http://localhost:9000/resources_info?id=1277948079760257025
+
     3.我的
     4.整体跑一遍 看那个功能没有完善
+
+    html2canvas 生成分享图片 npm isntall html2canvas
     

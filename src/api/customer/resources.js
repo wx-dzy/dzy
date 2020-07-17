@@ -17,7 +17,8 @@ export const getGoodsSearch = params => axios.post('/c/enterprise-goods/goods-se
 // 资源-人物详情页  people-detail-by-id/{userId}
 export const getPeopleDetailById = params => axios.get('/c/user-follow/people-detail-by-id/' + params);
 
-
+// 编辑名片信息-获取 /c/user/get-user-card-by-id/{userCardId}
+export const getUserCardById = params => axios.get('/c/user/get-user-card-by-id/' + params);
 
 
 

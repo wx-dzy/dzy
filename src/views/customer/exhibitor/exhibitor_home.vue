@@ -114,6 +114,7 @@ export default {
           console.log('获取列表',res);
           if (code == 200) {
             this.list = data;
+            console.log(this.item[0].logo);
           }
         })
         .catch(err => {

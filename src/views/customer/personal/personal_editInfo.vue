@@ -16,7 +16,7 @@
             <van-field label="真实姓名" placeholder="请输入您的姓名" />
             <van-field name="radio" label="性别">
               <template #input>
-                <van-radio-group direction="horizontal">
+                <van-radio-group v-model="radio" direction="horizontal">
                   <van-radio name="1">男</van-radio>
                   <van-radio name="2">女</van-radio>
                 </van-radio-group>
@@ -312,6 +312,10 @@ export default {
     line-height: 1.12rem;
     padding: 0px 0.34rem;
   }
+  /deep/ .van-radio-group--horizontal {
+    // margin: auto 0;
+    margin-top: 0.35rem;
+}
 }
 </style>
 

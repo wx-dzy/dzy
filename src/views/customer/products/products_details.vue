@@ -1,99 +1,196 @@
-// 企业产品目录-产品详情  getGoodDetailById
+// 企业产品目录-产品详情  http://localhost:9000/products_details?goodsId=1275702956557078530
 <template>
   <div class="products_details">
-    <div class="top">
-      <van-swipe class="my-swipe" :autoplay="3000" indicator-color="#333333">
-        <van-swipe-item>
-          <img src="../../../assets/images/product1.png" />
-        </van-swipe-item>
-        <van-swipe-item>
-          <img src="../../../assets/images/product1.png" />
-        </van-swipe-item>
-        <van-swipe-item>
-          <img src="../../../assets/images/product1.png" />
-        </van-swipe-item>
-      </van-swipe>
-      <div class="Itemtext">
-        <div class="title">宝矿力水特粉末15g/袋冲剂电解质粉剂固体健身运动饮料整箱多规格可选 5盒</div>
-        <div class="brand">
-          <span>品牌</span>:
-          <span>宝矿力水特</span>
+    <!-- 下拉刷新 -->
+    <van-pull-refresh v-model="refreshing" @refresh="handleGetDetail">
+      <div v-if="detail.goodsBaseInfo">
+        <!-- 轮播 -->
+        <van-swipe
+          v-if="detail.goodsImagesList.length"
+          class="my-swipe"
+          :autoplay="3000"
+          indicator-color="white"
+        >
+          <van-swipe-item v-for="(image, index)  in detail.goodsImagesList" :key="index">
+            <!-- <router-link :to="{'path':'personal'}"> -->
+            <img :src="image.mediaUrl" alt />
+            <!-- </router-link> -->
+          </van-swipe-item>
+        </van-swipe>
+
+        <div class="contwrap">
+          <van-row class="head border pad22">
+            <h2 class="title">{{ detail.goodsBaseInfo.goodsName}}</h2>
+
+            <van-col span="19">
+              <p>品 牌：{{ detail.goodsBaseInfo.brandName }}</p>
+              <p>订货号：{{ detail.goodsBaseInfo.orderNo }}</p>
+            </van-col>
+            <van-col span="5" class="shareBtn text-right">
+              <van-button round size="small" color="#F8D57E" @click="handeGetData">
+                <span class="icon iconfont yz-fenxiang1"></span>
+                分享
+              </van-button>
+            </van-col>
+          </van-row>
+
+          <van-row v-if="detail.goodsSpecificationList.length" class="border pad22">
+            <h2 class="title">参数</h2>
+            <van-row v-for="(item,index) in detail.goodsSpecificationList" :key="index">
+              <van-col span="6">{{ item.name}}</van-col>
+              <van-col span="18">{{ item.values}}</van-col>
+            </van-row>
+          </van-row>
+
+          <van-row class="border" v-if="detail.goodsIntroductionList.length">
+            <h2 class="title">产品详情</h2>
+            <van-col v-for="(item,index) in detail.goodsIntroductionList" :key="index">
+              <Video-Demo
+                v-if="item.videoUrl"
+                :_id="item.id"
+                :src="item.videoUrl"
+                :playVideoId.sync="playVideoId"
+                style="width: 100%;"
+                class="zoom"
+              />
+              <img v-if="item.mediaUrl" :src="item.mediaUrl" alt class="itemImg" />
+            </van-col>
+          </van-row>
+
+          <van-goods-action class="footer">
+            <!-- <van-goods-action-icon icon="icon iconfont yz-shangjia" text="商家" /> -->
+            <van-goods-action-icon
+              icon="icon iconfont yz-suoquyangpin"
+              text="索取样品"
+              @click="handleBtnDetail"
+            />
+            <van-goods-action-button
+              color="#F8D57E"
+              type="warning"
+              text="去下单"
+              @click="handleGoshop"
+            />
+            <van-goods-action-button
+              color="#F8D57E"
+              type="danger"
+              text="索取产品资料"
+              @click="handeGetData"
+            />
+          </van-goods-action>
         </div>
-        <div class="number">
-          <span>订货号</span>:
-          <span>A2323</span>
-        </div>
-        <span class="shure">
-          <i class="iconfont">&#xe66f;</i>分享
-        </span>
       </div>
-    </div>
+      <!-- 占位图 -->
+      <img
+        v-else
+        src="@/assets/images/nullImgText.png"
+        style="width: 2.6rem; margin: 1.4rem 2rem;"
+        class="nullImg"
+        alt
+      />
+    </van-pull-refresh>
   </div>
 </template>
 
 <script>
 import { util } from "@/utils";
 import { mapGetters } from "vuex";
-import * as Api from "@/api/customer/personal";
-import visitingCard from "@/components/customer/visitingCard.vue";
+import * as Api from "@/api/customer/products";
+import VideoDemo from "@/components/customer/videoPlay/index.vue";
+// import visitingCard from "@/components/customer/visitingCard.vue";
 
 export default {
   name: "products_details",
   components: {
-    // 名片
-    visitingCard
+    VideoDemo
   },
   data() {
     return {
+      //
+      playVideoId: "",
+      // 商品di
+      goodsId: "",
       detail: {
-        infoImg: "https://img.yzcdn.cn/vant/cat.jpeg",
-        name: "xiaogang0-0",
-        status: 1,
-        activeInfo: "参观方"
+        // 轮播
+        goodsImagesList: [],
+        // 参数
+        goodsSpecificationList: [],
+        // 产品详情图片列表
+        goodsIntroductionList: []
       },
-      pageSize: 10,
-      pageNum: 1
+
+      refreshing: false
     };
   },
 
   created() {
-    this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    this.goodsId = this.$route.query.goodsId;
+    // 获取详情
+    this.handleGetDetail();
   },
   watch: {},
   methods: {
-    onsubmt() {
-      Api.getHomePage(params)
+    // 获取详情
+    handleGetDetail() {
+      let params = this.goodsId;
+      util.showLoading();
+      Api.getGoodDetailById(params)
         .then(res => {
           let { code, msg, data, total } = res;
-          // 加载状态结束
-          this.loading = false;
+          // 上拉刷新  完成
+          this.refreshing = false;
+          util.hideLoading();
           if (code == 200) {
+            this.detail = data;
           }
         })
         .catch(err => {
+          // 上拉刷新  完成
+          this.refreshing = false;
+          util.hideLoading();
           console.log(err, "err");
         });
     },
 
-    handleSetInfo(row) {
+    // 上拉刷新
+    onRefresh() {
+      this.handleGetDetail();
+    },
+
+    // 索取样品
+    handleBtnDetail() {
       this.$router.push({
-        name: "personal_details",
+        name: "exact_information",
         query: {
-          id: row.enterpriseId
+          // 展会参展商id
+          enterpriseExhibitorsId: this.detail.goodsBaseInfo.enterpriseId
         }
       });
     },
 
-    // 查看详情
-    handleLook(row) {
+    // 去下单
+    handleGoshop() {
+      // 临时跳转
+      window.location.href =
+        "http://121.196.122.19/hlwl_wexin/uploadInquiry/order/tobeQuoted.html";
+
+      return;
+      let param = [];
+      param.push(this.detail.goodsBaseInfo.id);
+
+      // 正常跳转
       this.$router.push({
-        name: "personal_details",
+        name: "products_uploadInquiry",
         query: {
-          // 企业id
-          id: row.enterpriseId
-          // title: row.enterpriseName
+          // 商品id数组
+          goodsIds: JSON.stringify(param)
         }
       });
+    },
+    // 索取产品资料
+    handeGetData() {
+      let param = [];
+      param.push(this.detail.goodsBaseInfo.id);
+      util.info("敬请期待！！");
     }
   },
 
@@ -112,70 +209,5 @@ export default {
 <style lang="scss" scoped>
 @import "@/assets/styles/base/calc_vm.scss";
 @import "./products.scss";
-.nullImg {
-  width: 4rem;
-  margin: 0.4rem 1.47rem;
-}
-.products_details {
-  .top {
-    position: relative;
-    .my-swipe .van-swipe-item {
-      width: 7.5rem;
-      height: 4rem;
-      img {
-        width: 100%;
-        height: 100%;
-      }
-    }
-    .Itemtext {
-      width: 6.52rem;
-      margin-left: 0.5rem;
-      margin-top: 0.2rem;
-      padding-bottom: 0.6rem;
-        border-bottom: 0.02rem solid #e9e9e9;
-      .title {
-        width: 6.52rem;
-        font-size: 0.32rem;
-        font-family: AlibabaPuHuiTiM;
-        color: rgba(0, 0, 0, 1);
-        line-height: 0.44rem;
-        letter-spacing: 1px;
-        margin-bottom: 0.2rem;
-        font-weight: bold;
-      }
-      .brand,
-      .number {
-        font-size: 0.28rem;
-        color: #9da1a6;
-        span:nth-child(1) {
-          letter-spacing: 2px;
-          display: inline-block;
-          width: 1rem;
-          text-align-last: justify !important; /*自适应文本宽度*/
-        }
-      }
-      .shure {
-        position: absolute;
-        // float: right;
-        right: 0;
-        top: 5.52rem;
-        display: inline-block;
-        width: 1.34rem;
-        height: 0.52rem;
-        background: rgba(248, 213, 126, 1);
-        border-radius: 0.3rem 0rem 0rem 0.3rem;
-        font-size: 0.28rem;
-        text-align: center;
-        line-height: 0.52rem;
-        i{
-          font-size: 0.28rem;
-        }
-      }
-    }
-    /deep/ .van-swipe__indicator {
-      background-color: #fff;
-    }
-  }
-}
 </style>
 

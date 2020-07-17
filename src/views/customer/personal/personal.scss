@@ -59,7 +59,8 @@
     }
 
     .myOrder {
-        padding: 0.3rem 0.28rem 0.74rem;
+        // padding: 0.3rem 0.28rem 0.74rem;
+        padding: 0.3rem 0.28rem 0rem;
 
         .title {
             font-size: 0.32rem;
@@ -145,10 +146,48 @@
 
                 .van-button {
                     padding: 0 0.88rem;
-                    margin:0.2rem 0;
+                    margin: 0.2rem 0;
                 }
 
 
+            }
+        }
+    }
+
+    .btnWrap {
+        padding: 0 0.27rem;
+
+        .item {
+            position: relative;
+            width: 3.36rem;
+            height: 1.38rem;
+            background: rgba(243, 237, 232, 1);
+            box-shadow: 0rem 0.1rem 0.26rem 0rem rgba(223, 227, 233, 0.51);
+            border-radius: 0.08rem;
+            user-select:none;
+
+            .text {
+                width: 1.6rem;
+                font-size: 0.28rem;
+                color: rgba(163, 118, 87, 1);
+                line-height: 0.4rem;
+                letter-spacing: 1px;
+                padding-left: 0.4rem;
+            }
+            .pad30 {
+                padding-top: 0.3rem;
+            }
+            .pad48 {
+                padding-top: 0.48rem;
+
+            }
+
+            img {
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                width: 0.94rem;
+                height: 0.94rem;
             }
         }
     }

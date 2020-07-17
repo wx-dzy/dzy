@@ -46,7 +46,8 @@ import {
   Popup,
   Skeleton,
   Image as VanImage,
-  Collapse, CollapseItem
+  Collapse, CollapseItem,
+  GoodsAction, GoodsActionIcon, GoodsActionButton,
 
 } from 'vant';
  
@@ -86,6 +87,10 @@ Vue.use(Skeleton);
 Vue.use(VanImage);
 Vue.use(Collapse);
 Vue.use(CollapseItem);
+Vue.use(GoodsAction);
+Vue.use(GoodsActionButton);
+Vue.use(GoodsActionIcon);
+
 
 
 

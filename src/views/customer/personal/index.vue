@@ -1,6 +1,6 @@
 // 我的
 <template>
-  <div class="personal" v-if="1">
+  <div class="personal footerPad" v-if="1">
     <!-- 下拉刷新 -->
     <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
       <van-row class="info">
@@ -91,11 +91,19 @@
       <!-- <footer-nav :active="active" /> -->
     </van-pull-refresh>
 
-    <van-overlay
-      :show="changeIdentity"
-      
-      class="changeIdentityWrap"
-    >
+    <ul class="btnWrap clearfix">
+      <li class="item pull-left" @click="hanleLook(1)">
+        <p class="text pad30">我索取的企业资料</p>
+        <img src="@/assets/images/myOrderBg1.png" alt />
+      </li>
+      <li class="item pull-right" @click="hanleLook(2)">
+        <p class="text pad48">我的询价</p>
+        <img src="@/assets/images/myOrderBg2.png" alt />
+      </li>
+    </ul>
+    <footer-nav :active="active" />
+
+    <van-overlay :show="changeIdentity" class="changeIdentityWrap">
       <div class="wrapper" @click.stop @click="changeIdentity = false">
         <div class="block">
           <img src="@/assets/images/changeIdentity.png" alt class="topImg" />
@@ -161,8 +169,8 @@ export default {
       finished: false,
       refreshing: false,
       pageSize: 10,
-      pageNum: 1
-      // active: "personal",
+      pageNum: 1,
+      active: "personal"
     };
   },
 
@@ -182,7 +190,6 @@ export default {
           let { code, msg, data, total } = res;
           if (code == 200) {
             this.detail = data;
-            
           }
         })
         .catch(err => {
@@ -194,7 +201,7 @@ export default {
     handleChangeIdentity(satus) {
       // console.log(satus, "-- 1参展方,2参观方");
       let params = {};
-      return alert(satus+ "暂无接口-- 1参展方,2参观方")
+      return alert(satus + "暂无接口-- 1参展方,2参观方");
       Api.setChangeIdentity(params)
         .then(res => {
           this.changeIdentity = false;
@@ -328,6 +335,16 @@ export default {
         return true;
       } else {
         return false;
+      }
+    },
+
+    hanleLook(type) {
+      if (type == 1) {
+        util.success("跳转我的企业资料路由");
+      }
+
+      if (type == 2) {
+        util.success("跳转我的询价路由");
       }
     }
   },

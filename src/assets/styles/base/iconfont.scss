@@ -77,6 +77,51 @@ $iconfont-path: "./assets/fonts" !default;
 }
 
 // 阿里云
+
+.yz-suoquyangpin:before {
+  content: "\e670";
+}
+
+.yz-shangjia:before {
+  content: "\e673";
+}
+
+.yz-paixu1:before {
+  content: "\e60d";
+}
+
+.yz-paixu2:before {
+  content: "\e64e";
+}
+
+.yz-renyuan:before {
+  content: "\e66e";
+}
+
+.yz-fenxiang1:before {
+  content: "\e66f";
+}
+
+.yz-shezhi:before {
+  content: "\e671";
+}
+
+.yz-zuzhijiagou:before {
+  content: "\e672";
+}
+
+.yz-tongxunlu:before {
+  content: "\e66a";
+}
+
+.yz-shoudongtianjia:before {
+  content: "\e66c";
+}
+
+.yz-jiaohumingpian:before {
+  content: "\e66b";
+}
+
 .yz-canguanyuyue:before {
   content: "\e667";
 }
@@ -87,6 +132,10 @@ $iconfont-path: "./assets/fonts" !default;
 
 .yz-zhanhuiricheng:before {
   content: "\e669";
+}
+
+.yz-weixin-copy:before {
+  content: "\e66d";
 }
 
 .yz-weixin:before {
@@ -156,5 +205,4 @@ $iconfont-path: "./assets/fonts" !default;
 .yz-qiye:before {
   content: "\e659";
 }
-
 

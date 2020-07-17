@@ -189,7 +189,7 @@ export default {
         name: "resources_info",
         query: {
           // 工作经历id
-          id: row.id
+          id: JSON.stringify(row.id)
         }
       });
     },

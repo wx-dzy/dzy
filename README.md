@@ -108,12 +108,6 @@ https://juejin.im/post/5cbff700e51d456e361ed904
     播放组件 当前播放 其他暂停功能  暂停显示封面功能
     资源tabs切换 加默认选中
     Object.keys(this.listObj).every(item => this.listObj[item].hasSuccess)
-
-
-    蓝湖的修改
-    资源-工作经历
-    资源 企业产品目录列表 及详情 
-    我的
     
     ```
 
@@ -142,7 +136,17 @@ https://juejin.im/post/5cbff700e51d456e361ed904
 
 ### 公用方法 
     1. 获取openId:  util.getCookie('dzy_openId')
-    2. 获取token:   util.getCookie('dzy_token') 
+    2. 获取token:   util.getCookie('dzy_token')  || util.getToken()
     2. 获取userInfo:   JSON.parse(util.getCookie('dzy_userInfo')) 
     4. 获取微信信息:  JSON.parse(util.getCookie('dzy_wxInfo'))
- 
+
+
+### 待开发：
+    1.企业产品目录-上传询价单：  
+        http://localhost:9000/products_uploadInquiry?goodsIds=%5B%221275702956557078530%22%5D
+
+    3.我的
+    4.整体跑一遍 看那个功能没有完善
+
+    html2canvas 生成分享图片 npm isntall html2canvas
+    

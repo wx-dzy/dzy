@@ -76,7 +76,6 @@
 				<van-icon name="arrow" />
 			</div>
 
-
 			<div class="item">
 				<div class="itemList" v-for="(item,index) in productList" :key="index" @click="handleLookItem(item.id,$event)">
 					<img :src="item.goodsLogo" alt />

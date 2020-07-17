@@ -67,7 +67,7 @@
             <van-goods-action-button
               color="#F8D57E"
               type="warning"
-              text="去下单"
+              text="去询价/下单"
               @click="handleGoshop"
             />
             <van-goods-action-button

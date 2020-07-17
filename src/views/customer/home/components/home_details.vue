@@ -104,7 +104,7 @@
     <van-overlay :show="showShare" @click="showShare = false">
       <div class="wrapper" @click.stop>
         <!-- 名片 -->
-        <div class="wrapper_cont" v-if="details.enterprise && details.enterprise.id">
+        <div class="wrapper_cont" v-if="details.enterprise && details.enterprise.id" ref="screen">
           <!-- <img src="@/assets/images/home/detail.png" class="bgImg" alt /> -->
           <img :src="details.enterpriseShow.shareImageUrl" class="bgImg" alt />
 
@@ -152,6 +152,7 @@ import img2 from "@/assets/images/home/2.png";
 import img3 from "@/assets/images/home/3.png";
 import nullImg from "@/assets/images/null.png";
 import follow from "@/components/customer/follow.vue";
+import html2canvas from "html2canvas";
 
 // import footerNav from "@/components/customer/footerNav/index.vue";
 
@@ -232,12 +233,12 @@ export default {
       // console.log(status, "关注组件回调");
       this.handleGetDetail();
     },
-    
+
     // 分享
     handleShare() {
       this.showShare = true;
     },
-
+    
     // 取消分享图片
     handleCancel() {
       this.showShare = false;
@@ -247,10 +248,67 @@ export default {
     // 选择分享
     onSelect(option) {
       // Toast(option.name);
+      if (option.name == "生成图片") {
+        // 生成图片
+        this.handleCanvas();
+      }else{
+      this.showShare = false;
+      // util.success(option.name);
       util.success(option.name);
 
+
+      }
+
+    },
+    // 动态生成图片
+    handleCanvas() {
+      html2canvas(this.$refs.screen, {
+        backgroundColor: "#FFFFFF",
+        useCORS: true,
+        // allowTaint: true
+      }).then(canvas => {
+        if (navigator.msSaveBlob) {
+          // IE10+
+          const blob = canvas.msToBlob();
+          return navigator.msSaveBlob(blob, name);
+        } else {
+          const imageurl = canvas.toDataURL("image/png");
+          console.log(imageurl);
+          // 这里需要自己选择命名规则
+          
+          const imagename = this.handleIndexName(this.details.enterpriseShow.showName);
+          this.fileDownload(imageurl, imagename);
+        }
+      });
+    },
+    // 下载截屏图片
+    fileDownload(downloadUrl, downloadName) {
+      const aLink = document.createElement("a");
+      aLink.style.display = "none";
+      aLink.href = downloadUrl;
+      aLink.download = `${downloadName}.jpg`;
+      // 触发点击-然后移除
+      document.body.appendChild(aLink);
+      aLink.click();
+      document.body.removeChild(aLink);
       this.showShare = false;
     },
+
+    // 命名规则
+    handleIndexName(name) {
+      let date = new Date();
+      let srt = name +
+        date.toLocaleDateString() +
+        "/" +
+        date.getHours() +
+        "/" +
+        date.getMinutes() +
+        "/" +
+        date.getSeconds();
+
+      return srt;
+    },
+
 
     // 查看公司简介
     handleToIntroduce(type) {

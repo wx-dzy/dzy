@@ -90,7 +90,7 @@
         alt
       />
     </van-pull-refresh>
-    <van-button v-if="type==2" color="#F8D57E" class="gobtn" @click="handleGoshop">去&nbsp;下&nbsp;单</van-button>
+    <van-button v-if="type==2" color="#F8D57E" class="gobtn" @click="handleGoshop">去询价/下单</van-button>
   </div>
 </template>
 

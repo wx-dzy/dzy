@@ -61,7 +61,7 @@ export default [
         path: '/home_details',
         meta: {
             requiresAuth: false,
-            title: '会展详情',
+            title: '招采详情',
         },
         name: 'home_details',
         component: () => import('@/views/customer/home/components/home_details.vue')
@@ -82,7 +82,7 @@ export default [
         path: '/home_calendar',
         meta: {
             requiresAuth: false,
-            title: '展会日历',
+            title: '招采日历',
         },
         name: 'home_calendar',
         component: () => import('@/views/customer/home/components/home_calendar.vue')
@@ -93,7 +93,7 @@ export default [
         path: '/home_arrange',
         meta: {
             requiresAuth: false,
-            title: '展会日程',
+            title: '招采日程',
         },
         name: 'home_arrange',
         component: () => import('@/views/customer/home/components/home_arrange.vue')
@@ -115,7 +115,7 @@ export default [
         path: '/home_trailer',
         meta: {
             requiresAuth: false,
-            title: '展会宣传片',
+            title: '招采宣传片',
         },
         name: 'home_trailer',
         component: () => import('@/views/customer/home/components/home_trailer.vue')

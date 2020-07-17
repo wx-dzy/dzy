@@ -101,6 +101,8 @@ https://juejin.im/post/5cbff700e51d456e361ed904
     if( !util.getQueryString('code')){
         window.location.href="http://121.196.122.19/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://127.0.0.1:9000&response_type=code&scope=snsapi_base&state=123"
     } 
+
+    html2canvas 生成分享图片 npm isntall html2canvas
     ```
 
 ### 待完善
@@ -148,5 +150,3 @@ https://juejin.im/post/5cbff700e51d456e361ed904
     3.我的
     4.整体跑一遍 看那个功能没有完善
 
-    html2canvas 生成分享图片 npm isntall html2canvas
-    

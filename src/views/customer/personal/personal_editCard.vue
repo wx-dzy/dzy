@@ -1,16 +1,23 @@
 // 编辑名片
 <template>
   <div class="personal_editCard">
-    <router-view />
+    <!-- <router-view /> -->
       <div class="box">
         <van-field name="upPhoto" label="上传LOGO">
-              <template #input>
-                <img src="http://www.mfqqx.com/d/file/2011/07/65e6653c443b38b3c01515314bd296f9.jpg" alt="">
-                <van-icon name="arrow" />
-                <!-- <van-uploader v-model="uploader" />
-                <van-icon class="photo" name="arrow" /> -->
-              </template>
-            </van-field>
+          <template #input>
+            <img src="http://www.mfqqx.com/d/file/2011/07/65e6653c443b38b3c01515314bd296f9.jpg" alt="">
+            <van-icon name="arrow" />
+            <!-- <van-uploader v-model="uploader" />
+            <van-icon class="photo" name="arrow" /> -->
+          </template>
+        </van-field>
+        <van-field
+          v-model="username"
+          name="用户名"
+          label="用户名"
+          placeholder="用户名"
+          :rules="[{ required: true, message: '请填写用户名' }]"
+        />
       </div>
   </div>
 </template>
@@ -29,6 +36,7 @@ export default {
   },
   data() {
     return {
+      username: '',
       detail: {
         infoImg: "https://img.yzcdn.cn/vant/cat.jpeg",
         name: "xiaogang0-0",

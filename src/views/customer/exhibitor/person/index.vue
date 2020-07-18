@@ -24,14 +24,14 @@
             @load="onLoad"
             class="contentList"
           >
-          <div class="ItemContainer" v-for="(item,index) in personList" :key="index">
+          <div class="ItemContainer" v-for="(item,index) in personList" :key="index"  @click="toPersonDetail(item.id,$event)">
             <img :src="item.avatar" alt />
             <div class="center">
               <div class="name">{{item.realName}}</div>
               <div class="type">{{item.postName}}</div>
             </div>
             <!-- <button class="right">预约面试</button> -->
-            <van-icon name="arrow" @click="toPersonDetail(item.id,$event)" />
+            <van-icon name="arrow" />
           </div>
         </van-list>
       <!-- <van-divider dashed>我是有底线的</van-divider> -->

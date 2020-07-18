@@ -209,6 +209,5 @@ export default {
 <style lang="scss" scoped>
 @import "@/assets/styles/base/calc_vm.scss";
 @import "./products.scss";
-
 </style>
 

@@ -24,7 +24,8 @@ export default {
         {
           ico: "home-o",
           name: "home",
-          lable: "会展",
+          // lable: "会展",
+          lable: "招采",
           // 路由
           path: "home"
         },

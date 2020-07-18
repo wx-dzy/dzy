@@ -26,10 +26,14 @@
                   class="type"
                 >{{ details.enterpriseShow.showFormat ==1 ? '仅线上' : details.enterpriseShow.showFormat == 2 ? '仅线下' : details.enterpriseShow.showFormat == 3 ? '全包括' : ''}}</span>
               </van-col>
+              <!-- <van-col
+                span="24"
+                class="timer"
+              >预计开展日期：{{ details.enterpriseShow.planStartDate + ' - ' + details.enterpriseShow.planEndDate }}</van-col> -->
               <van-col
                 span="24"
                 class="timer"
-              >预计开展日期：{{ details.enterpriseShow.planStartDate + ' - ' + details.enterpriseShow.planEndDate }}</van-col>
+              >预计开招日期：{{ details.enterpriseShow.planStartDate + ' - ' + details.enterpriseShow.planEndDate }}</van-col>
             </van-row>
           </van-col>
           <van-col span="24" class="text-right">
@@ -54,7 +58,8 @@
                 type="default"
                 class="btnNone1"
                 @click="handleToIntroduce(1)"
-              >{{year}}年会展日历</van-button>
+              >{{year}}年招采日历</van-button>
+              <!-- >{{year}}年会展日历</van-button> -->
             </van-col>
             <van-col span="12">
               <van-button type="default" class="btnNone1" @click="handleToIntroduce(2)">公司简介</van-button>
@@ -69,14 +74,16 @@
             <svg class="icon svg-icon" aria-hidden="true">
               <use xlink:href="#yz-canzhanshangmulu" />
             </svg>
-            参展商目录
+            <!-- 参展商目录 -->
+            供应商目录
           </van-grid-item>
 
           <van-grid-item @click="handleToIntroduce(4)">
             <svg class="icon svg-icon" aria-hidden="true">
               <use xlink:href="#yz-zhanhuiricheng" />
             </svg>
-            展会日程
+            <!-- 展会日程 -->
+            招采日程
           </van-grid-item>
 
           <van-grid-item @click="handleToIntroduce(5)">
@@ -119,7 +126,8 @@
                 </van-col>
                 <van-col span="24" class="timer">
                   <div>
-                    预计开展日期：
+                    <!-- 预计开展日期： -->
+                    预计开招日期：
                     <p>{{ details.enterpriseShow.planStartDate + ' - ' + details.enterpriseShow.planEndDate }}</p>
                   </div>
                 </van-col>

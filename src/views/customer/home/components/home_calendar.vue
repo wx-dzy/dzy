@@ -12,7 +12,8 @@
           <span
             v-if="item.enterpriseShowCalendarList && item.enterpriseShowCalendarList.length"
             class="sta"
-          >有展</span>
+          >有招</span>
+          <!-- >有展</span> -->
           {{ item.monthDesc }}
         </template>
       </van-tab>
@@ -78,7 +79,8 @@
       dashed
       v-show="itemList.enterpriseShowCalendarList && itemList.enterpriseShowCalendarList.length"
     >
-      <span class="bot_text">这里展会信息真的很多</span>
+      <!-- <span class="bot_text">这里展会信息真的很多</span> -->
+      <span class="bot_text">这里信息真的很多</span>
     </van-divider>
 
     <!-- 占位图 -->
@@ -121,7 +123,8 @@ export default {
 
   methods: {
     init() {
-      this.title = this.$route.query.name + this.doHandleYear() + "展会日历";
+      this.title = this.$route.query.name + this.doHandleYear() + "招采日历";
+      // this.title = this.$route.query.name + this.doHandleYear() + "展会日历";
       this.id = this.$route.query.id;
       document.title = this.title;
       // 获取默认数据

@@ -2,7 +2,8 @@
 <template>
   <div class="home_arrange">
     
-    <img v-if="_src" :src="_src" class="arrangeImg" alt="展会日程" />
+    <!-- <img v-if="_src" :src="_src" class="arrangeImg" alt="展会日程" /> -->
+    <img v-if="_src" :src="_src" class="arrangeImg" alt="招采日程" />
     <!-- 占位图 -->
     <van-empty v-else image="search" description="暂无内容" />
   </div>

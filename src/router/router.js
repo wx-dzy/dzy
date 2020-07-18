@@ -104,7 +104,8 @@ export default [
         path: '/home_order',
         meta: {
             requiresAuth: false,
-            title: '参观预约',
+            // title: '参观预约',
+            title: '参加预约',
         },
         name: 'home_order',
         component: () => import('@/views/customer/home/components/home_order.vue')

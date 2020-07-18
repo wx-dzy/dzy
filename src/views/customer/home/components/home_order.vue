@@ -57,7 +57,7 @@
         clickable
         :value="formData.orderDate"
         name="calendar"
-        label="预计参观日期"
+        label="预计参加日期"
         placeholder="点击选择日期"
         :rules="[{ required: true, message: '请选择日期' }]"
         @click="showCalendar = true"

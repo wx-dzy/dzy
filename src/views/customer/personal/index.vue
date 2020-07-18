@@ -109,12 +109,18 @@
           <img src="@/assets/images/changeIdentity.png" alt class="topImg" />
           <div class="fot">
             <p>
+              <!-- <van-button
+                round
+                size="small"
+                :color="detail.userInfo.identity == 1 ? '#F8D57E' : '#E9E9E9'"
+                @click="handleChangeIdentity(1)"
+              >参展方</van-button> -->
               <van-button
                 round
                 size="small"
                 :color="detail.userInfo.identity == 1 ? '#F8D57E' : '#E9E9E9'"
                 @click="handleChangeIdentity(1)"
-              >参展方</van-button>
+              >参招方</van-button>
             </p>
             <p>
               <van-button
@@ -201,7 +207,8 @@ export default {
     handleChangeIdentity(satus) {
       // console.log(satus, "-- 1参展方,2参观方");
       let params = {};
-      return alert(satus + "暂无接口-- 1参展方,2参观方");
+      // return alert(satus + "暂无接口-- 1参展方,2参观方");
+      return alert(satus + "暂无接口-- 1参招方,2参观方");
       Api.setChangeIdentity(params)
         .then(res => {
           this.changeIdentity = false;

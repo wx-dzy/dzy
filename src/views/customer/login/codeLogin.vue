@@ -2,8 +2,8 @@
   <div class="login">
     <!-- <img src="@/assets/images/login/logo.png" alt="" class="logoImg"> -->
     <h1 class="title">大招云</h1>
-    <!-- <p class="logoTitle">随时随地看展 时时刻刻参展</p> -->
-    <p class="logoTitle">随时随地看展，时时刻刻参展。</p>
+    <!-- <p class="logoTitle">随时随地看展，时时刻刻参展。</p> -->
+    <p class="logoTitle">随时随地选品，轻轻松松采购。</p>
     <!-- <p class="logoTitle">
       首次登陆请完成您的主体咖个人信息,
       <br />我们将为您提供更好的服务,快来完善吧!

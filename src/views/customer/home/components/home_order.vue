@@ -160,7 +160,7 @@ export default {
   created() {
     // 活动id（展会id）
     this.formData.enterpriseShowId = this.$route.query.enterpriseShowId;
-    console.log(this.formData.enterpriseShowId, "活动id（展会id）");
+    // console.log(this.formData.enterpriseShowId, "活动id（展会id）");
   },
   methods: {
     // 日期转化

@@ -130,7 +130,8 @@ export default [
         path: '/exhibitor_home',
         meta: {
             requiresAuth: false,
-            title: '参展商目录-首页',
+            // title: '参展商目录-首页',
+            title: '供应商目录-首页',
         },
         name: 'exhibitor_home',
         component: () => import('@/views/customer/exhibitor/exhibitor_home.vue')
@@ -139,7 +140,8 @@ export default [
         path: '/exhibitor_details',
         meta: {
             requiresAuth: false,
-            title: '参展商目录-参展商详情',
+            // title: '参展商目录-参展商详情',
+            title: '供应商目录-供应商详情',
         },
         name: 'exhibitor_details',
         component: () => import('@/views/customer/exhibitor/exhibitor_details')
@@ -158,7 +160,8 @@ export default [
         path: '/appointment_calendar',
         meta: {
             requiresAuth: false,
-            title: '参展商目录-预约日历',
+            // title: '参展商目录-预约日历',
+            title: '供应商目录-预约日历',
         },
         name: 'appointment_calendar',
         component: () => import('@/views/customer/exhibitor/appointment_calendar')

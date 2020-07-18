@@ -67,7 +67,8 @@
 
       <!-- 全部展会 列表内容 -->
       <div class="content" v-if="listData.length">
-        <h3 class="title">全部展会</h3>
+        <!-- <h3 class="title">全部展会</h3> -->
+        <h3 class="title">全部招采</h3>
         <!-- List 列表 -->
         <van-list
           v-model="loading"

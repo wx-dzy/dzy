@@ -142,6 +142,13 @@ https://juejin.im/post/5cbff700e51d456e361ed904
     2. 获取userInfo:   JSON.parse(util.getCookie('dzy_userInfo')) 
     4. 获取微信信息:  JSON.parse(util.getCookie('dzy_wxInfo'))
 
+### 关键词替换
+展会、会展  ==> 招采
+参展商  ==> 供应商
+开展日期：  ==> 开招日期：
+有展  ==> 有招
+参展方 ==> 参招方
+
 
 ### 待开发：
     1.企业产品目录-上传询价单：  

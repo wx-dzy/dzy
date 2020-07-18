@@ -114,7 +114,7 @@ export default {
       Api.getCompany_details(this.$route.query.enterpriseExhibitorsId)
       .then( (res) => {
 		  let { code, msg, data, total } = res;
-		  console.log('参展公司详情',res);
+		  // console.log('参展公司详情',res);
 		  if ( code == 200 ) {
 			  this.details = data
 		  }

@@ -6,7 +6,9 @@
         <div class="title">{{showName}}</div>
         <div class="item">
           共
-          <span>{{totalExhibitors}}</span>家参展商
+          <!-- <span>{{totalExhibitors}}</span>家参展商 -->
+          <span>{{totalExhibitors}}</span>家供应商
+
         </div>
       </div>
       <div class="right" style="display:flex;">

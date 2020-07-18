@@ -5,7 +5,8 @@
     <div v-if="details.enterpriseShow && details.enterpriseShow.id">
       <div class="head">
         <h2 class="tit">{{ details.enterpriseShow.showName }}</h2>
-        <p class="timer">开展日期：
+        <!-- <p class="timer">开展日期： -->
+        <p class="timer">开招日期：
           {{ details.enterpriseShow.startDate }}
           {{details.enterpriseShow.startDate ? '-' + details.enterpriseShow.startDate : ''}}
         </p>

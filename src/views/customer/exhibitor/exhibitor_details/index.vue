@@ -412,8 +412,10 @@
 					}
 
 					.type {
-						width: 1rem;
-						height: 0.32rem;
+						display: inline-block;
+						// width: 1rem;
+						// height: 0.32rem;
+						padding: 0 0.2rem;
 						line-height: 0.32rem;
 						background: rgba(157, 161, 166, 1);
 						border-radius: 0.08rem;

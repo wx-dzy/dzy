@@ -383,7 +383,7 @@
 			.item {
 				height: 2.26rem;
 				margin-top: 0.6rem;
-				justify-content: space-between;
+				// justify-content: space-between;
 				overflow-x: scroll;
 				overflow-y: hidden;
 				white-space: nowrap;
@@ -435,7 +435,7 @@
 			.item {
 				margin-top: 0.4rem;
 				// height: 3.36rem;
-				justify-content: space-between;
+				// justify-content: space-between;
 				overflow-x: scroll;
 				overflow-y: hidden;
 				white-space: nowrap;

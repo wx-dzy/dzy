@@ -2,7 +2,19 @@
 <template>
   <div class="personal_attestation">
     <router-view />
-      职业身份认证
+    <div class="top">
+      <div class="">请上传名片证明您的职业经历，<span>待人工审核</span></div>
+      <div class="push">
+        <div class="image">
+          <img :src="imgUrl_before" alt="">
+        </div>
+        <van-field name="uploader" label="文件上传">
+          <template #input>
+            <van-uploader v-model="uploader" />
+          </template>
+        </van-field>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -20,6 +32,7 @@ export default {
   },
   data() {
     return {
+      uploader: [{ url: 'https://img.yzcdn.cn/vant/leaf.jpg' }],
       detail: {
         infoImg: "https://img.yzcdn.cn/vant/cat.jpeg",
         name: "xiaogang0-0",

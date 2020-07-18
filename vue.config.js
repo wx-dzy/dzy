@@ -4,7 +4,7 @@ const env = process.env.NODE_ENV === 'production' && process.env.VUE_APP_MODE ==
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
 const productionGzipExtensions = ['js', 'css'];
 
-
+const Timestamp = new Date().getTime();  //当前时间为了防止打包缓存不刷新，所以给每个js文件都加一个时间戳
 module.exports = {
     // 基本路径
     // publicPath: env === 'production' ? 'http://static.aitifen.cn/jiaoshi/' : '/',
@@ -14,6 +14,13 @@ module.exports = {
     assetsDir: 'static',
     // 生产环境是否生成 sourceMap 文件
     productionSourceMap: false,
+
+    configureWebpack: {
+        output: { // 输出重构  打包编译后的 文件名称  【模块名称.版本号.时间戳】
+            filename: `[name].${process.env.VUE_APP_Version}.${Timestamp}.js`,
+            chunkFilename: `[name].${process.env.VUE_APP_Version}.${Timestamp}.js`
+        },
+    },
     // css 配置
     css: {
         // 是否使用css分离插件 ExtractTextPlugin

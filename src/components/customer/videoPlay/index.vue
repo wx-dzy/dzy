@@ -116,6 +116,7 @@ export default {
 
   // 小尺寸适配
 }
+.videoPlayerContainer.zoom5,
 .videoPlayerContainer.zoom {
   .video-js .vjs-control-bar {
     zoom: 0.6;
@@ -134,6 +135,15 @@ export default {
     .vjs-play-progress:before {
       top: -0.3em;
     }
+  }
+}
+
+.videoPlayerContainer.zoom5 {
+  .video-js .vjs-control-bar {
+    zoom: 0.4;
+  }
+  .video-js .vjs-big-play-button {
+    zoom: 0.6;
   }
 }
 </style>

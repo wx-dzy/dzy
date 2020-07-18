@@ -37,7 +37,7 @@
 			</div>
 			<div class="item">
 				<div class="person" v-for="(item,index) in person" :key="index">
-					<img :src="item.avatar" alt />
+					<img :src="item.avatar || photo1" alt />
 					<div class="name">{{item.realName}}</div>
 					<div class="type">{{item.postName}}</div>
 				</div>
@@ -63,7 +63,7 @@
 					<!-- <video :src="item.videoUrl" controls></video> -->
 					<div class="video">
 						<Video-Demo :_id="item.id" :src="item.videoUrl" :bannerIMG="item.mediaUrl" :playVideoId.sync="playVideoId" style="width: 100%;"
-						 class="zoom" />
+						 class="zoom5" />
 					</div>
 
 					<div class="name">{{item.mediaTitle}}</div>
@@ -100,6 +100,8 @@
 </template>
 <script>
 	import VideoDemo from "@/components/customer/videoPlay/index.vue";
+	import photo1 from "@/assets/images/man.png";
+	import photo2 from "@/assets/images/girl.png";
 	import {
 		util
 	} from "@/utils";
@@ -114,6 +116,8 @@
 		},
 		data() {
 			return {
+				photo1: photo1,
+				photo2: photo2,
 				enterpriseExhibitorsId: this.$route.query.enterpriseExhibitorsId,
 				playVideoId: "0",
 				active: "home",

@@ -37,7 +37,11 @@
 			</div>
 			<div class="item">
 				<div class="person" v-for="(item,index) in person" :key="index">
-					<img :src="item.avatar || photo1" alt />
+					<!-- <img :src="item.avatar || photo1" alt /> -->
+					<img :src="!item.avatar ? item.avatar : 
+										 item.sex == '男' ? photo1 : 
+										 item.sex == '女' ? photo2 : 
+										 photo3" alt />
 					<div class="name">{{item.realName}}</div>
 					<div class="type">{{item.postName}}</div>
 				</div>
@@ -102,6 +106,7 @@
 	import VideoDemo from "@/components/customer/videoPlay/index.vue";
 	import photo1 from "@/assets/images/man.png";
 	import photo2 from "@/assets/images/girl.png";
+	import photo3 from "@/assets/images/center.png";
 	import {
 		util
 	} from "@/utils";
@@ -118,6 +123,7 @@
 			return {
 				photo1: photo1,
 				photo2: photo2,
+				photo3: photo3,
 				enterpriseExhibitorsId: this.$route.query.enterpriseExhibitorsId,
 				playVideoId: "0",
 				active: "home",

@@ -16,7 +16,7 @@
         <van-button class="right_btn" round size="small" color="#ffd36f" @click="toHomeOrder">参观预约</van-button>
       </div>
     </div>
-    <div class="item-box" v-if="totalExhibitors==0 ? true : false">
+    <div class="item-box" v-if="totalExhibitors>0 ? true : false">
       <van-tabs v-model="active" class="tab" swipe-threshold="5" title-active-color="#000"  @click="changeTab">
         <van-tab title="全部">
           <div class="list" v-for="item in list" :key="item.index" @click="goTo(item.id,$event)" name="0">

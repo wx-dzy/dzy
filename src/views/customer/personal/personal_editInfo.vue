@@ -30,7 +30,7 @@
           <div class="history">
             <div class="title">
               <div class="text">工作经历</div>
-              <div class="add">
+              <div class="add" @click="gotoEditCard">
                 <van-icon name="plus" />
                 新增
               </div>
@@ -128,6 +128,11 @@ export default {
   },
   watch: {},
   methods: {
+    gotoEditCard(){
+      this.$router.push({
+        name: "personal_editCard",
+      });
+    },
     onsubmt() {
       Api.getHomePage(params)
         .then(res => {

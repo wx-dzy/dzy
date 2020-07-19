@@ -1,23 +1,119 @@
-// 编辑名片
 <template>
+<!-- 编辑名片 -->
   <div class="personal_editCard">
-    <!-- <router-view /> -->
+    <router-view />
       <div class="box">
         <van-field name="upPhoto" label="上传LOGO">
           <template #input>
             <img src="http://www.mfqqx.com/d/file/2011/07/65e6653c443b38b3c01515314bd296f9.jpg" alt="">
             <van-icon name="arrow" />
-            <!-- <van-uploader v-model="uploader" />
-            <van-icon class="photo" name="arrow" /> -->
           </template>
         </van-field>
-        <van-field
-          v-model="username"
-          name="用户名"
-          label="用户名"
-          placeholder="用户名"
-          :rules="[{ required: true, message: '请填写用户名' }]"
-        />
+        <!-- 公司/单位 -->
+        <div class="Company">
+          <div class="title">
+            <span>公司/单位</span>
+            <span class="authentication">去认证</span>
+          </div>
+          <van-field
+            v-model="username"
+            name="公司名称"
+            label="公司名称"
+            required
+            placeholder="请输入中文公司/单位名称"
+            :rules="[{ required: true, message: '请输入中文公司/单位名称' }]"
+          />
+          <van-field
+            v-model="username"
+            name="公司名称EN"
+            label="公司名称EN"
+            placeholder="请输入英文公司/单位名称"
+            :rules="[{ required: true, message: '请输入英文公司/单位名称' }]"
+          />
+        </div>
+        <!-- 姓名 -->
+        <div class="name">
+          <div class="title">
+            <span>姓名</span>
+          </div>
+          <van-field
+            v-model="username"
+            name="姓名"
+            label="姓名"
+            required
+            placeholder="请输入中文名（必填）"
+            :rules="[{ required: true, message: '请输入中文名（必填）' }]"
+          />
+          <van-field
+            v-model="value1"
+            name="姓名EN"
+            label="姓名EN"
+            placeholder="Patter"
+          />
+        </div>
+        <!-- 职位/岗位 -->
+        <div class="position">
+          <div class="title">
+            <span>职位/岗位</span>
+          </div>
+          <van-field
+            v-model="username"
+            name="职位"
+            label="职位"
+            required
+            placeholder="请输入中文公司/单位名称"
+            :rules="[{ required: true, message: '请输入中文公司/单位名称' }]"
+          />
+          <van-field
+            v-model="username"
+            name="职位EN"
+            label="职位EN"
+            placeholder="请输入英文公司/单位名称"
+            :rules="[{ required: true, message: '请输入英文文公司/单位名称' }]"
+          />
+        </div>
+        <!-- 在职时间 -->
+        <div class="time">
+          <div class="title">
+            <span>在职时间</span>
+            <span class="notes">（注：结束时间如果选择“至今”）</span>
+          </div>
+          <van-field
+            v-model="username"
+            name="开始时间"
+            label="开始时间"
+            placeholder="请输入开始时间"
+            :rules="[{ required: true, message: '请输入开始时间' }]"
+          />
+          <van-field
+            v-model="username"
+            name="结束时间"
+            label="结束时间"
+            placeholder="请输入结束时间"
+            :rules="[{ required: true, message: '请输入结束时间' }]"
+          />
+        </div>
+        <!-- 联系方式 -->
+        <div class="position">
+          <div class="title">
+            <span>联系方式</span>
+          </div>
+          <van-field
+            v-model="phone"
+            required
+            label="电话号码"
+            placeholder="请输入电话号码"
+            :rules="[{ required: true, message: '电话号码格式错误' }]"
+          />
+          <van-field
+            v-model="username"
+            name="邮箱地址"
+            required
+            label="邮箱地址"
+            placeholder="请输入邮箱地址"
+            :rules="[{ required: true, message: '请输入邮箱地址' }]"
+          />
+        </div>        
       </div>
   </div>
 </template>
@@ -36,6 +132,8 @@ export default {
   },
   data() {
     return {
+      value1:"Patter",
+      // uploader: [{ url: 'https://img.yzcdn.cn/vant/leaf.jpg' }],
       username: '',
       detail: {
         infoImg: "https://img.yzcdn.cn/vant/cat.jpeg",
@@ -134,5 +232,9 @@ export default {
   line-height: 1.12rem;
   padding: 0px 0.34rem;
 }
+// 必选项位置
+// /deep/ .van-cell--required::before {
+    
+// }
 </style>
 

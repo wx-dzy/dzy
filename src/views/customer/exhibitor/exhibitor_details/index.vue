@@ -31,14 +31,14 @@
       </div> -->
 		</div>
 		<div class="exhibitor" v-if="person.length > 0">
-			<div class="top-title">
+			<div class="top-title"  @click="goToPerson">
 				<span>企业人物</span>
-				<van-icon name="arrow" @click="goToPerson" />
+				<van-icon name="arrow" />
 			</div>
 			<div class="item">
-				<div class="person" v-for="(item,index) in person" :key="index">
+				<div class="person" v-for="(item,index) in person" :key="index" @click="toPersonDetail(item)">
 					<!-- <img :src="item.avatar || photo1" alt /> -->
-					<img :src="!item.avatar ? item.avatar : 
+					<img :src="item.avatar ? item.avatar : 
 										 item.sex == '男' ? photo1 : 
 										 item.sex == '女' ? photo2 : 
 										 photo3" alt />
@@ -269,7 +269,18 @@
 			goTo() {
 				// 跳转至企业相关视频页
 				// this.$router.push({ path: "" });
-			}
+			},
+
+			// 跳转至企业人物详情
+    toPersonDetail (row) {
+      
+      this.$router.push({
+        path: '/juridical_person',
+        query: {
+          enterpriseShowPeopleId: row.id
+        }
+      })
+    },
 		}
 	};
 </script>
@@ -520,8 +531,8 @@
 						margin-top: 0.14rem;
 						font-size: 0.24rem;
 						color: #babcc0;
-						width: 2.3rem;
-						height: 0.72rem;
+						// width: 2.3rem;
+						// height: 0.72rem;
 						line-height: 0.36rem;
 					}
 				}

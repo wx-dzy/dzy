@@ -74,10 +74,11 @@
       <!-- <div class="text">2/4</div> -->
       
     </div>
-    <div class="text"></div>
+    <!-- <div class="text"></div> -->
     <!-- <div class="text">2/4</div> -->
-    <div class="btn">
-      <button class="share" @click="showShare = true">分享名片</button>
+    <div class="btn text-center">
+      <!-- <button class="share" @click="showShare = true">分享名片</button> -->
+      <button @click="showShare = true">分享名片</button>
       <button v-if="personInfo.exchangeStatus == 1">已交换名片</button>
       <button v-if="personInfo.exchangeStatus == 0">未交换名片</button>
     </div>
@@ -362,7 +363,7 @@ export default {
     }
   }
   .personCard {
-    height: 3.64rem;
+    // height: 3.64rem;
     position: relative;
     .left {
       position: absolute;
@@ -456,23 +457,25 @@ export default {
   }
   .btn {
     button {
-      margin: 0.3rem auto 0;
+      // margin: 0.3rem auto 0;
       width: 1.7rem;
       height: 0.6rem;
+      margin: 0 0.09rem;
       background: rgba(248, 213, 126, 1);
       border-radius: 0.29rem;
       border: none;
       font-size: 0.24rem;
       color: rgba(49, 52, 55, 1);
     }
-    .share {
-      margin-left: 1.96rem;
-      margin-right: 0.18rem;
-    }
+    // .share {
+      // margin-left: 1.96rem;
+      // margin-right: 0.18rem;
+    // }
   }
   .synopsis {
     margin-left: 0.52rem;
-    margin-top: 1.1rem;
+    // margin-top: 1.1rem;
+    margin-top: 0.5rem;
     width: 6.52rem;
     .title {
       font-size: 0.32rem;

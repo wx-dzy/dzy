@@ -8,12 +8,21 @@
         <van-swipe
           v-if="detail.goodsImagesList.length"
           class="my-swipe"
-          :autoplay="3000"
+          :autoplay="10000"
           indicator-color="white"
         >
           <van-swipe-item v-for="(image, index)  in detail.goodsImagesList" :key="index">
             <!-- <router-link :to="{'path':'personal'}"> -->
-            <img :src="image.mediaUrl" alt />
+            <div v-if="image.mediaType" class="itemImg">
+              <Video-Demo
+                :_id="image.id"
+                :src="image.videoUrl"
+                :playVideoId.sync="playVideoId"
+                style="width: 100%;"
+              />
+            </div>
+            <img v-else :src="image.mediaUrl" alt />
+
             <!-- </router-link> -->
           </van-swipe-item>
         </van-swipe>

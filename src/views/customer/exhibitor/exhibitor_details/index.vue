@@ -55,7 +55,7 @@
 			</div>
 
 			<div class="item">
-				<div class="video_box" v-for="(item, index)  in videoList" :key="index">
+				<div class="video_box contentItem" v-for="(item, index)  in videoList" :key="index" :style="{width: 4.5 + 'rem'}">
 					<!-- <Video-Demo
             :_id="item.id"
             :src="item.videoUrl"
@@ -65,9 +65,9 @@
           />-->
 					<!-- <Video-Demo :src="item.videoUrl" style="width: 100%;"/> -->
 					<!-- <video :src="item.videoUrl" controls></video> -->
-					<div class="video">
+					<div class="video itemImg">
 						<Video-Demo :_id="item.id" :src="item.videoUrl" :bannerIMG="item.mediaUrl" :playVideoId.sync="playVideoId" style="width: 100%;"
-						 class="zoom5" />
+						 class="zoom" />
 					</div>
 
 					<div class="name">{{item.mediaTitle}}</div>
@@ -458,13 +458,17 @@
 				overflow-x: scroll;
 				overflow-y: hidden;
 				white-space: nowrap;
-				display: flex;
+				// display: flex;
+				
 
 				.video_box {
+					// border: 1px solid red;
+					margin-right: 0.4rem;
+					display: inline-block;
 					.video {
 						// width: 4.18rem;
 						// height: 2.24rem;
-						margin-right: 0.4rem;
+						
 					}
 
 					/deep/.name {
@@ -559,4 +563,8 @@
 	/deep/ .van-divider {
 		font-size: 0.24rem;
 	}
+	.nullImg {
+		width: 4rem;
+		margin: 0.4rem 1.47rem;
+		}
 </style>

@@ -3,6 +3,8 @@
   <div class="home_calendar">
     <div class="head" @click="handleWith">
       <img src="@/assets/images/home/head.png" alt />
+      <h3 class="tit">招采计划</h3>
+      <van-button round color="#F8D57E" class="btn pull-right">咨询客服</van-button>
     </div>
 
     <van-tabs v-model="active" @click="handleTabClick" :border="false">

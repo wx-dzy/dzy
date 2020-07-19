@@ -207,6 +207,7 @@
 
     .statusWrap {
         padding-top: 0.48rem;
+
         .status {
             display: inline-block;
             margin-right: 0.18rem;
@@ -222,6 +223,7 @@
     }
 
 }
+
 // 展会详情
 .home_details {
     position: relative;
@@ -457,18 +459,36 @@
     .bot_text {}
 
     .head {
+        position: relative;
         width: 100%;
         height: 1.12rem;
-        background: rgba(248, 213, 126, 1);
         border-radius: 0.66rem;
         margin: 0.22rem 0;
+        vertical-align: middle;
+        background: linear-gradient(130deg, rgba(248, 213, 126, 1) 0%, rgba(232, 234, 236, 1) 100%);
 
         img {
-            width: 100%;
-            // display: none;
+            width: 1.68rem;
             float: left;
-            position: relative;
-            top: -0.22rem;
+            position: absolute;
+            bottom: 0.05rem;
+            left: 0.46rem;
+        }
+
+        .tit {
+            display: inline-block;
+            margin-left: 2.38rem;
+            line-height: 1.12rem;
+            font-size: 0.28rem;
+            color: rgba(139, 94, 83, 1);
+        }
+
+        .btn {
+            height: 0.56rem;
+            margin: 0.28rem 0.36rem;
+            font-size: 0.24rem;
+            color: rgba(49, 52, 55, 1) !important;
+            background: rgba(248, 213, 126, 1);
         }
     }
 }

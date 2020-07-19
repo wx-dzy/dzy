@@ -117,7 +117,7 @@
 
           <van-row class="wrapper_text">
             <van-col span="24">
-              <img :src="details.enterprise.logo" alt="logo" class="logo" />
+              <!-- <img :src="details.enterprise.logo" alt="logo" class="logo" /> -->
             </van-col>
             <van-col span="18">
               <van-row>
@@ -133,7 +133,7 @@
                 </van-col>
               </van-row>
             </van-col>
-            <van-col span="4">
+            <van-col span="6">
               <img src="@/assets/images/home/ma.png" class="ma" alt="二维码" />
             </van-col>
           </van-row>
@@ -172,6 +172,8 @@ export default {
   },
   data() {
     return {
+      // 分享图片地址
+      imageurl: '',
       // 企业id
       id: "",
       // 当前年
@@ -281,6 +283,8 @@ export default {
           return navigator.msSaveBlob(blob, name);
         } else {
           const imageurl = canvas.toDataURL("image/png");
+          this.imageurl = imageurl
+
           console.log(imageurl);
           // 这里需要自己选择命名规则
           

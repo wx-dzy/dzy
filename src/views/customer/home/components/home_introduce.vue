@@ -3,11 +3,14 @@
   <div class="home_introduce">
     <div v-if="details.enterprise && details.enterprise.id">
       <Video-Demo
-        v-if="details.enterpriseDetail.videoUrl"
+        v-if="details.enterpriseDetail.mediaType"
         :src="details.enterpriseDetail.videoUrl"
         :bannerIMG="details.enterpriseDetail.mediaUrl"
         style="width: 100%;"
+        :_id="details.enterpriseDetail.id"
+        :playVideoId.sync="playVideoId"
       />
+
       <img v-else :src="details.enterpriseDetail.mediaUrl" alt class="banner" />
 
       <van-row class="cont">
@@ -16,22 +19,14 @@
         </van-col>
 
         <van-col span="16">
-          <van-button
-            v-show="!details.followStatus"
-            icon="icon iconfont yz-guanzhu"
-            type="default"
-            size="small"
-            class="btnNone"
-            @click="handleIsFollow(1)"
-          >关注</van-button>
-          <van-button
-            v-show="details.followStatus"
-            icon="icon iconfont yz-yiguanzhu"
-            type="default"
-            size="small"
-            class="btnNone"
-            @click="handleIsFollow(0)"
-          >已关注</van-button>
+          <!-- 关注组件 -->
+          <follow
+            :followType="1"
+            :followId="details.enterprise.id"
+            :followStatus.sync="details.followStatus"
+            :showIndex="1"
+            @successCBK="handleFollow"
+          />
         </van-col>
 
         <van-col span="8" class="text-right">
@@ -70,17 +65,20 @@ import { util } from "@/utils";
 import { mapGetters } from "vuex";
 import * as Api from "@/api/customer/home";
 import VideoDemo from "@/components/customer/videoPlay/index.vue";
+import follow from "@/components/customer/follow.vue";
 
 // import footerNav from "@/components/customer/footerNav/index.vue";
 
 export default {
   name: "home_introduce",
   components: {
+    follow,
     VideoDemo // 播放
     // footerNav
   },
   data() {
     return {
+      playVideoId: "",
       showVideo: false,
 
       showShare: false,
@@ -97,8 +95,8 @@ export default {
     handleGetDetail() {
       Api.getEnterpriseBaseInfoById(this.$route.query.id)
         .then(res => {
-          console.log(this.$route.query);
-          
+          // console.log(this.$route.query);
+
           let { data, code, msg, total } = res;
           if (code == 200) {
             this.details = data;
@@ -111,31 +109,12 @@ export default {
     handleWith() {
       util.warning("敬请期待！");
     },
-
-    // 关注/取消关注  followStatus 1表示关注，0表示取消关注
-    handleIsFollow(followStatus) {
-      let param = {
-        // followStatus 1表示关注，0表示取消关注
-        followStatus: followStatus || "",
-        // 要关注的企业id或人物id
-        followId: this.details.enterprise.id,
-        // 1：关注企业，2：关注人物
-        followType: "1",
-        // 用户openId
-        openId: "open"
-      };
-      Api.setIsFollow(param)
-        .then(res => {
-          let { code, msg, data, total } = res;
-          if (code == 200) {
-            util.success(msg);
-            // 默认刷新列表
-            this.handleGetDetail();
-          }
-        })
-        .catch(err => {});
+    // 关注组件回调
+    handleFollow(status) {
+      // console.log(status, "关注组件回调");
+      // 默认刷新列表
+      this.handleGetDetail();
     }
-
   },
 
   computed: {},

@@ -55,7 +55,7 @@
 			</div>
 
 			<div class="item">
-				<div class="video_box contentItem" v-for="(item, index)  in videoList" :key="index" :style="{width: 4.5 + 'rem'}">
+				<div class="video_box contentItem" v-for="(item, index)  in videoList" :key="index" :style="{width: 4.18 + 'rem'}">
 					<!-- <Video-Demo
             :_id="item.id"
             :src="item.videoUrl"

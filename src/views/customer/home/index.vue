@@ -30,8 +30,8 @@
               :class="index+1 == specifyList.length ? 'margin0' : ''"
               @click="handleLook(item)"
             >
-              <!-- <img :src="item.videoUrl" alt class="itemImg" /> -->
-              <div class="itemImg">
+              <img v-if="!item.videoUrl" :src="item.mediaUrl" alt class="itemImg" />
+              <div v-else class="itemImg">
                 <Video-Demo
                   :_id="item.id"
                   :src="item.videoUrl"
@@ -85,8 +85,8 @@
             :class="index+1 == listData.length ? 'margin0' : ''"
             @click="handleLook(item)"
           >
-            <!-- <img :src="item.videoUrl" alt class="itemImg" /> -->
-            <div class="itemImg">
+            <img v-if="!item.videoUrl" :src="item.mediaUrl" alt class="itemImg" />
+            <div v-else class="itemImg">
               <Video-Demo
                 :_id="item.id"
                 :src="item.videoUrl"

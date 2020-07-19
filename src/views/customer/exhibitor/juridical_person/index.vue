@@ -35,7 +35,7 @@
       </div>
       <img :src="user.avatar" alt />
     </div>
-    <div class="personCard">
+    <div class="personCard" v-if="userCardList.length>0 ? true : false">
 
       <div class="visitingCard" v-if="userCardList.length">
         <visitingCard
@@ -76,7 +76,7 @@
     </div>
     <!-- <div class="text"></div> -->
     <!-- <div class="text">2/4</div> -->
-    <div class="btn text-center">
+    <div class="btn text-center" v-if="userCardList.length>0 ? true : false">
       <!-- <button class="share" @click="showShare = true">分享名片</button> -->
       <button @click="showShare = true">分享名片</button>
       <button v-if="personInfo.exchangeStatus == 1">已交换名片</button>
@@ -320,6 +320,7 @@ export default {
         margin-top: 0.34rem;
         margin-left: 0.56rem;
         margin-bottom: 0.38rem;
+        box-sizing: border-box;
         div {
           margin-bottom: 0.16rem;
           font-size: 0.22rem;
@@ -358,7 +359,8 @@ export default {
         border: none;
         border-radius: 0.5rem 0 0 0.5rem;
         height: 0.5rem;
-        width: 2rem;
+        // width: 2rem;
+        padding: 0 0.2rem;
       }
     }
   }
@@ -475,7 +477,7 @@ export default {
   .synopsis {
     margin-left: 0.52rem;
     // margin-top: 1.1rem;
-    margin-top: 0.5rem;
+    margin-top: 0.3rem;
     width: 6.52rem;
     .title {
       font-size: 0.32rem;

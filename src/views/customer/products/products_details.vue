@@ -179,8 +179,10 @@ export default {
     // 去下单
     handleGoshop() {
       // 临时跳转
-      window.location.href =
-        "http://121.196.122.19/hlwl_wexin/uploadInquiry/order/tobeQuoted.html";
+      // window.location.href =
+      //   "http://121.196.122.19/hlwl_wexin/uploadInquiry/order/tobeQuoted.html";
+
+      window.location.href = `http://121.196.122.19/hlwl_wexin/uploadInquiry/order/details.html?inquiryId=1243&status=2&goodsName=${this.detail.goodsBaseInfo.brandName}`
 
       return;
       let param = [];

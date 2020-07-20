@@ -19,7 +19,7 @@ export default {
 
   data() {
     return {
-      _active: '',
+      _active: "",
       navList: [
         {
           ico: "home-o",
@@ -35,6 +35,13 @@ export default {
           lable: "资源",
           // 路由
           path: "resources"
+        },
+        {
+          ico: "icon iconfont yz-zuzhijiagou",
+          name: "list",
+          lable: "列表",
+          // 路由
+          path: ""
         },
         {
           ico: "icon iconfont yz-wode",
@@ -59,14 +66,18 @@ export default {
     // }
   },
   created() {
-    this._active = this.active
+    this._active = this.active;
   },
   methods: {
     handleClick(url) {
+      if (!url) {
+        return (window.location.href =
+          "http://121.196.122.19/hlwl_wexin/userManager.html?username=huangzb&telephone=17601001098");
+      }
       this.$router.push({
         name: url
       });
-    },
+    }
   },
   computed: {}
 };

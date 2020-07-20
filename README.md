@@ -155,7 +155,7 @@ https://juejin.im/post/5cbff700e51d456e361ed904
 
 
 ### 待开发：
-    0. 分享没写完 名片下载 没有真机测试
+    0. 分享没写完 名片下载 真机测试不行 
     1.企业产品目录-上传询价单：  
         http://localhost:9000/products_uploadInquiry?goodsIds=%5B%221275702956557078530%22%5D
 

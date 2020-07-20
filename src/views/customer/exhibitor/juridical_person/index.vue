@@ -88,10 +88,14 @@
         {{personInfo.workDesc}}
       </div>
     </div>
+    <!-- 我的企业 -->
     <div class="myCompany">
       <div class="title">我的企业</div>
       <div class="item_text">
         <div class="name" v-for="(item,index) in myEnterpriseList" :key="index">{{item.enterpriseName}}
+          <div class="img">
+            <img :src="item.logo" alt="">
+          </div>
           <follow
               :followType="1"
               :followId="item.enterpriseId"

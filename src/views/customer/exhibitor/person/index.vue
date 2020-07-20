@@ -217,8 +217,9 @@ export default {
       font-size: 0.2rem;
       background-color: #fff;
       background-color: #9da1a6;
-      width: 0.8rem;
+      // width: 0.8rem;
       height: 0.32rem;
+      padding: 0 8px;
       line-height: 0.32rem;
       border-radius:0.08rem;
       text-align: center;

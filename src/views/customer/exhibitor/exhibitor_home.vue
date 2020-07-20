@@ -271,7 +271,7 @@ export default {
           span {
             font-size: 0.18rem;
             background-color: #fed26e;
-            padding: 0 5px;
+            padding: 2px 5px;
             border-radius: 2px;
           }
         }

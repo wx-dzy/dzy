@@ -149,7 +149,9 @@ export default {
       .name_type {
         display: inline-block;
         width: 1.4rem;
-        height: 0.36rem;
+        // height: 0.38rem;
+        // line-height: 0.38rem;
+        padding: 2px 0;
         text-align: center;
         margin: auto 0;
         background: #e5cc9d;
@@ -194,7 +196,8 @@ export default {
     .tab {
       .vant_tabs {
         .item {
-          height: 2.98rem;
+          // height: 2.98rem;
+          line-height: 2;
           width: 6.96rem;
           margin-top: 0.35rem;
           padding: 0.46rem;

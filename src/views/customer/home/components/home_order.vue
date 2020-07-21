@@ -1,7 +1,7 @@
 // 参观预约 介绍 id=1272919606905835521
 <template>
   <div class="home_order">
-    <van-form :validate-first="true" label-width="2.32rem" @failed="onFailed">
+    <van-form :validate-first="true" label-width="2.32rem" @submit="onSubmit" @failed="onFailed">
       <p class="redWrap">
         <i class="red">*</i>必填项：
       </p>
@@ -107,7 +107,8 @@
       />
 
       <div style="margin: 16px;">
-        <van-button block type="info" color="#F8D57E" native-type="submit" @click="onSubmit">提 交</van-button>
+        <!-- <van-button block type="info" color="#F8D57E" native-type="submit" @click="onSubmit">提 交</van-button> -->
+        <van-button block type="info" color="#F8D57E" native-type="submit">提 交</van-button>
       </div>
     </van-form>
 
@@ -144,7 +145,7 @@ export default {
         mobile: "", // 手机号
         verifyCode: "", // 验证码
         orderDate: "", // 预计参观日期，格式yyyy-MM-dd
-        card: '', // 名称地址url
+        card: "", // 名称地址url
         businessName: "", // 企业名称
         businessPost: "", // 职位
         businessEmail: "", // 邮箱
@@ -165,8 +166,11 @@ export default {
   methods: {
     // 日期转化
     onConfirm(date) {
-      this.formData.orderDate = `${date.getFullYear()}/${date.getMonth() +
-        1}/${date.getDate()}`;
+      let mm = date.getMonth() + 1;
+      let dd = date.getDate();
+      this.formData.orderDate = `${date.getFullYear()}-${
+        mm < 10 ? "0" + mm : mm
+      }-${dd < 10 ? "0" + dd : dd}`;
       this.showCalendar = false;
     },
 
@@ -178,11 +182,13 @@ export default {
 
     // 请求参数 params
     onSubmit(params) {
+      // if(!this.formData.verifyCode) {
+      //   return
+      // }
       this.loading = true;
       let param = Object.assign({}, this.formData);
       param.card = this.imgSrc.length ? this.imgSrc[0].url : "";
       this.loading = true;
-
       Api.setShowOrderAdd(param)
         .then(res => {
           this.loading = false;
@@ -194,7 +200,9 @@ export default {
             }, 1500);
           }
         })
-        .catch(err => {});
+        .catch(err => {
+          this.handleLook();
+        });
     },
 
     // 倒计时
@@ -202,6 +210,7 @@ export default {
       if (!this.pattern.test(this.formData.mobile)) {
         util.error("手机号码有误，请重填");
       } else {
+        this.formData.verifyCode = ''
         this.isSend = true;
         // 获取验证码
         this.handleSedMa();
@@ -238,7 +247,7 @@ export default {
       this.$router.push({
         name: "home_details",
         query: {
-          id: this.$route.query.id
+          id: this.$route.query.enterpriseShowId
         }
       });
     }

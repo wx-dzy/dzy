@@ -142,6 +142,16 @@ https://juejin.im/post/5cbff700e51d456e361ed904
     2. 获取userInfo:   JSON.parse(util.getCookie('dzy_userInfo')) 
     4. 获取微信信息:  JSON.parse(util.getCookie('dzy_wxInfo'))
 
+### 空占位 
+    1. <!-- 占位图 -->
+      <img
+        v-else
+        src="@/assets/images/nullImgText.png"
+        style="width: 2.6rem; margin: 1.4rem 2rem;"
+        class="nullImg"
+        alt
+      />
+
 ### 关键词替换
 展会、会展  ==> 招采
 参展商  ==> 供应商
@@ -155,8 +165,9 @@ https://juejin.im/post/5cbff700e51d456e361ed904
 
 
 ### 待开发：
-    0. 分享没写完 名片下载 真机测试不行 
-    1.企业产品目录-上传询价单：  
+    0. 分享没写完 名片下载 真机测试不行  
+    1.产品详情 轮播里面视频点击时停止轮播
+    2.企业产品目录-上传询价单：  
         http://localhost:9000/products_uploadInquiry?goodsIds=%5B%221275702956557078530%22%5D
 
     3.我的

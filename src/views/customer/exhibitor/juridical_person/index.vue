@@ -83,7 +83,7 @@
       <button v-if="personInfo.exchangeStatus == 0">未交换名片</button>
     </div>
     <div class="synopsis">
-      <div class="title">简介</div>
+      <div class="title">个人简介</div>
       <div class="item_text">
         {{personInfo.workDesc}}
       </div>
@@ -125,11 +125,12 @@
               <div class="num">起订量：{{item.minOrderQuantity}}</div>
             </div>
           </div>
+          
         </div>
       </div>
     </div> 
-    <button class="time" @click="toCalender">距离预约面谈还剩12小时</button>
-    <!-- <button class="time" @click="toCalender" v-show="personInfo.myInterviewDesc.myInterviewDesc != '' ">{{personInfo.myInterviewDesc.myInterviewDesc}}</button> -->
+    <button class="time" @click="toCalender">预约</button>
+    <!-- <button class="time" @click="toCalender" v-show="this.myInterviewDesc.myInterviewDesc != '' ">{{this.myInterviewDesc.myInterviewDesc}}</button> -->
     <van-overlay :show="showShare" @click="showShare = false">
             <visitingCard
               :dataList.sync="userCardList"
@@ -167,6 +168,7 @@ export default {
   },
   data() {
     return {
+      myInterviewDesc:"",
       overlay: false, //不显示遮罩层
       current: 0,// 名片当前的索引
       content: "",
@@ -229,6 +231,7 @@ export default {
           this.recommendGoods = data.recommendGoods
           this.user = data.user
           this.followStatus = data.followStatus
+          this.myInterviewDesc = data.myInterviewDesc
           if (this.followStatus == 1) {
             this.content = "取消关注";
           } else if(this.followStatus == 0) {

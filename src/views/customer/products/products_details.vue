@@ -53,16 +53,16 @@
 
           <van-row class="border" v-if="detail.goodsIntroductionList.length">
             <h2 class="title">产品详情</h2>
-            <van-col v-for="(item,index) in detail.goodsIntroductionList" :key="index">
-              <Video-Demo
-                v-if="item.videoUrl"
-                :_id="item.id"
-                :src="item.videoUrl"
-                :playVideoId.sync="playVideoId"
-                style="width: 100%;"
-                class="zoom"
-              />
-              <img v-if="item.mediaUrl" :src="item.mediaUrl" alt class="itemImg" />
+            <van-col span="24" v-for="(item,index) in detail.goodsIntroductionList" :key="index">
+              <div v-if="item.mediaType" class="itemImg">
+                <Video-Demo
+                  :_id="item.id"
+                  :src="item.videoUrl"
+                  :playVideoId.sync="playVideoId"
+                  style="width: 100%;"
+                />
+              </div>
+              <img v-else :src="item.mediaUrl" alt class="itemImg" />
             </van-col>
           </van-row>
 
@@ -182,7 +182,7 @@ export default {
       // window.location.href =
       //   "http://121.196.122.19/hlwl_wexin/uploadInquiry/order/tobeQuoted.html";
 
-      window.location.href = `http://121.196.122.19/hlwl_wexin/uploadInquiry/order/details.html?inquiryId=1243&status=2&goodsName=${this.detail.goodsBaseInfo.brandName}`
+      window.location.href = `http://121.196.122.19/hlwl_wexin/uploadInquiry/order/details.html?inquiryId=1243&status=2&goodsName=${this.detail.goodsBaseInfo.brandName}`;
 
       return;
       let param = [];

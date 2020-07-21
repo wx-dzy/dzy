@@ -51,7 +51,8 @@ export default [
         meta: {
             requiresAuth: false,
             // title: '参观者-首页',
-            title: '参观观众',
+            // title: '参观观众',
+            title: '采购方',
         },
         name: 'home',
         component: () => import('@/views/customer/home/index.vue')

@@ -5,7 +5,7 @@
     <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
       <div class="bgFFF">
         <h2 class="head">
-          大招云
+          大招·采
           <i>帮你放大招！</i>
         </h2>
 

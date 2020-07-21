@@ -179,7 +179,7 @@ export default {
       right: 0.56rem;
       .van-icon {
         width: 0.74rem;
-        height: 0.34rem;
+        line-height: 0.34rem;
         text-align: center;
         color: #c8ccd3;
         text-align: center;

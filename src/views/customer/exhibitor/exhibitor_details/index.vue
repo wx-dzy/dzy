@@ -363,16 +363,18 @@
 
 			.more {
 				// width: 1.48rem;
-				height: 0.34rem;
-				// line-height: 0.34rem;
+				// height: 0.34rem;
+				line-height: 0.34rem;
 				position: absolute;
 				left: 0.38rem;
 				bottom: 0.26rem;
 				font-size: 0.24rem;
+				display: flex;
+				align-items: center;
 
 				.van-icon {
-					height: 0.34rem;
-					// line-height: 0.34rem;
+					// height: 0.34rem;
+					line-height: 0.34rem;
 					margin-left: 0.1rem;
 					margin-top: 0.08rem;
 				}
@@ -385,7 +387,7 @@
 
 				.van-icon {
 					width: 0.74rem;
-					height: 0.34rem;
+					line-height: 0.34rem;
 					text-align: center;
 					color: #f8d57e;
 				}

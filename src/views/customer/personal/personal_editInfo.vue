@@ -3,28 +3,28 @@
   <div class="personal_editInfo">
     <router-view />
       <div class="fromList">
-        <van-form>
+        <van-form @submit="saveInfo">
           <div class="top">
             <van-field name="upPhoto" label="头像">
               <template #input>
-                <img src="http://www.mfqqx.com/d/file/2011/07/65e6653c443b38b3c01515314bd296f9.jpg" alt="">
+                <img :src="userInfo.avatar">
                 <van-icon name="arrow" />
                 <!-- <van-uploader v-model="uploader" />
                 <van-icon class="photo" name="arrow" /> -->
               </template>
             </van-field>
-            <van-field label="真实姓名" placeholder="请输入您的姓名" />
+            <van-field label="真实姓名" placeholder="请输入您的姓名" v-model="userInfo.realName" />
             <van-field name="radio" label="性别">
               <template #input>
-                <van-radio-group v-model="radio" direction="horizontal">
+                <van-radio-group v-model="userInfo.sex" direction="horizontal">
                   <van-radio name="1">男</van-radio>
                   <van-radio name="2">女</van-radio>
                 </van-radio-group>
               </template>
             </van-field>
-            <van-field label="出生日期" placeholder="请输入您的出生日期" />
-            <van-field type="tel" label="联系电话"  placeholder="请输入电话号码" />
-            <van-field type="model_tel" label="绑定电话"  placeholder="请输入电话号码" />
+            <van-field label="出生日期" placeholder="请输入您的出生日期" v-model="userInfo.birthday" />
+            <van-field type="tel" label="联系电话"  placeholder="请输入电话号码" v-model="userInfo.mobile" />
+            <van-field type="model_tel" label="绑定电话"  placeholder="请输入电话号码" v-model="userInfo.contactPhone" />
           </div>
           <!-- 工作经历 -->
           <div class="history">
@@ -58,7 +58,7 @@
             </div>
           </div>
 
-          <div class="submit">保存</div>
+          <van-button class="submit"  native-type="submit">保存</van-button>
         </van-form>
         
       </div>
@@ -119,15 +119,38 @@ export default {
         activeInfo: "参观房"
       },
       pageSize: 10,
-      pageNum: 1
+      pageNum: 1,
+      userInfo: {
+        avatar: '', // 头像
+        mobile: '', // 联系电话
+      }
+      
     };
   },
 
   created() {
     this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    this.getInfo()
   },
   watch: {},
   methods: {
+    // 保存
+    saveInfo(){
+      Api.saveUserInfo().then(res => {
+        console.log('保存',res);
+      })
+    },
+    // 获取个人信息
+    getInfo(){
+      Api.getUserInfo().then( res => {
+        console.log('获取个人信息',res);
+        let { code, msg, data, total } = res;
+        if (code == 200){
+          this.userInfo = data
+          // this.workingList = data.workList
+        }
+      })
+    },
     gotoEditCard(){
       this.$router.push({
         name: "personal_editCard",

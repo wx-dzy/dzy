@@ -15,3 +15,10 @@ export const setCancelInterview = params => axios.post('/c/show-people-interview
 
 // 切换身份
 export const setChangeIdentity = params => axios.post('url'+ params,);
+
+// 编辑个人信息-获取信息
+export const getUserInfo = params => axios.get('/c/user/get-user-base-info', params,);
+
+// 编辑个人信息-保存
+export const saveUserInfo = params => axios.post('/c/user/update-user-base-info', params,);
+

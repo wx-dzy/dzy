@@ -230,7 +230,8 @@ export default {
           let { code, msg, data, total } = res;
           if (code == 200) {
             this.details = data;
-            document.title = this.details.enterprise.name;
+            // document.title = this.details.enterprise.name;
+            document.title = this.details.enterpriseShow.showName;
           }
         })
         .catch(err => {

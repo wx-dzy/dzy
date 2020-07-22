@@ -47,6 +47,7 @@ import {
   Image as VanImage,
   Collapse, CollapseItem,
   GoodsAction, GoodsActionIcon, GoodsActionButton,
+  Area,
 
 } from 'vant';
  
@@ -89,6 +90,7 @@ Vue.use(CollapseItem);
 Vue.use(GoodsAction);
 Vue.use(GoodsActionButton);
 Vue.use(GoodsActionIcon);
+Vue.use(Area);
 
 
 

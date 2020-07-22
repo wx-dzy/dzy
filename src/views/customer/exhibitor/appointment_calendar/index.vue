@@ -33,16 +33,17 @@
           <li>五</li>
             <li class="weekends">六</li>-->
           </ul>
-          <li @click="pick(day,index)" v-for="(day, index) in days" :key="index">
+          <li @click="pick(day,index,$event)" v-for="(day, index) in days" :key="index">
             <!--本月-->
-            <span v-if="day.getMonth()+1 != currentMonth" class="other-month">{{ day.getDate() }}</span>
-            <span v-else>
+            <!-- <span v-if="day.getMonth()+ 1 != currentMonth" class="other-month">{{ day.getDate() }}</span> -->
+            <span >
+            <!-- <span v-else> -->
               <!--今天-->
               <!-- <span
                 v-if="day.getFullYear() == new Date().getFullYear() && day.getMonth() == new Date().getMonth() && day.getDate() == new Date().getDate()"
                 class="active"
               >{{ day.getDate() }}</span> -->
-              <span :class="{'active':index==current}">{{ day.getDate() }}</span>
+              <span :class="{'active':index==current}" @click=getDayInfo(item.userPreInterviewId)>{{ day }}</span>
               <!-- <span v-else>{{ day.getDate() }}</span> -->
             </span>
             <!-- <p class="full" v-if="isFull">约满</p> -->
@@ -59,8 +60,8 @@
         <van-icon name="replay" class="replay_icon" />下拉刷新
       </p>
     </van-pull-refresh>
-    <van-button class="bottom_button" v-if="status == 1" @click="toOrder">预 约</van-button>
-    <van-button class="bottom_button" v-if="status == 2" @click="cancleOrder">取 消 预 约</van-button>
+    <van-button class="bottom_button" v-show="status == 1" @click="toOrder">预 约</van-button>
+    <van-button class="bottom_button" v-show="status == 2" @click="cancleOrder">取 消 预 约</van-button>
     <i v-if="status == 0"></i>
     <van-popup v-model="showPicker" position="bottom">
       <van-picker
@@ -136,6 +137,10 @@ export default {
         todayData: [], // 获取到的日数据
         status: 0, // 是否可以预约
         userPreInterviewDetailId:'', // 当前选中的预约明细id
+        userPreInterviewId: '', //当前选中天的id
+        monthLength: 0, // 当月有多少天
+        startDate: 0, //周数据开始
+        endDate:0, // 周数据结束
     };
   },
   computed: {
@@ -144,25 +149,14 @@ export default {
       return 1;
     }
   },
+  
   created() {
     this.enterpriseShowPeopleId = this.$route.query.enterpriseShowPeopleId
     this.userHeadUrl = this.$route.query.avatar
     console.log('enterpriseShowPeopleId',this.enterpriseShowPeopleId);
-    // 获取人物信息
-    Api.getUserInfo(this.enterpriseShowPeopleId).then(res => {
-      
-      const {code, msg, data, total} = res 
-      console.log("人物信息",data);
-      if (res.code == 200) {
-        this.userInfo = res.data;
-        this.getWeekInfo() //获取周数据
-        this.initData(null);
-        console.log('meiyueyouduoshaotian',this.days);
-        this.weekList = this.weekList.splice(0,this.days.length)
-        console.log('weekList',this.weekList);
-      }
-      
-    });
+    this.getUserInfo()
+    this.initData()
+    this.getDaysofMonth()
     // //日数据-貌似是本人当前天
     // Api.getTodayData(1).then(res=>{
     //   console.log('日信息'+res);
@@ -171,39 +165,58 @@ export default {
     //   }
     // })
     
-    
   },
   methods: {
+    getUserInfo(){
+      // 获取人物信息
+    Api.getUserInfo(this.enterpriseShowPeopleId).then(res => {
+      
+      const {code, msg, data, total} = res 
+      console.log("人物信息",data);
+      if (res.code == 200) {
+        this.userInfo = res.data;
+        this.getWeekInfo() //获取周数据
+        // this.initData(null);
+        
+      }
+      
+    });
+    },
     // 取消预约
     cancleOrder() {
-      let params = {
-        userPreInterviewDetailId: this.userPreInterviewDetailId,
-        type: 0
-      }
-      Api.interview(params).then(res => {
+      console.log('45613');
+      Api.interview(this.userPreInterviewDetailId,0).then(res => {
         console.log('预约',res);
       })
     },
     // 
     // 预约
     toOrder() {
+      console.log('12321');
       let params = {
         userPreInterviewDetailId: this.userPreInterviewDetailId,
         type: 1
       }
-      Api.interview(params).then(res => {
+      let type = 1
+      console.log('userPreInterviewDetailId',this.userPreInterviewDetailId);
+      Api.interview(this.userPreInterviewDetailId,type).then(res => {
         console.log('预约',res);
+        if (res.code == 200){
+          this.getUserInfo()
+          this.$toast('预约成功')
+        }
       })
     },
     //  选择时间
     check(index) {
       console.log('时间index',index);
       this.status = this.todayData[index].interviewStatus;
+      console.log('status',this.status);
       this.userPreInterviewDetailId = this.todayData[index].userPreInterviewDetailId;
     },
     // 获取日数据
-    getDayInfo () {
-      let userPreInterviewId = this.weekData[this.weekIndex].userPreInterviewId
+    getDayInfo (userPreInterviewId) {
+            userPreInterviewId?this.userPreInterviewId = userPreInterviewId:this.userPreInterviewId = this.weekList[0].userPreInterviewId
       console.log('userPreInterviewId',userPreInterviewId);
       
       Api.getTodayData(userPreInterviewId)
@@ -228,12 +241,14 @@ export default {
     },
     // 获取周数据
     getWeekInfo () {
-      console.log('enterpriseShowPeopleId11111111111',this.enterpriseShowPeopleId);
+      console.log('enterpriseShowPeopleId',this.enterpriseShowPeopleId);
       
       const params = {
         enterpriseShowPeopleId: this.enterpriseShowPeopleId,
-        startDate: '2020-07-05',
-        endDate: '2020-07-11'
+        // startDate: this.startDate,
+        // endDate: this.endDate
+        startDate: '2020-07-21',
+        endDate: '2020-07-31'
       }
       Api.getWeekData(params)
       .then( res => {
@@ -251,6 +266,23 @@ export default {
         
       })
     },
+
+    // 获取当月有多少天
+    getDaysofMonth(){
+      var date =new Date()
+      var year=date.getFullYear();
+      var month=date.getMonth()+1;
+      var week = date.getDay()
+      console.log('week',week);
+      var lastDay=new Date(year,month,0).getDate()//获得是标准时间,需要getDate()获得天数
+      this.weekList = this.weekList.splice((week),(lastDay-this.currentDay+1))
+      console.log('weekList',this.weekList);
+      let currentData = this.currentDay
+      for (var i = currentData;i <= lastDay;i ++){
+        this.days.push(i)
+      }
+      console.log('这个月有多少天2',this.days);
+    },
     formatDate(year, month, day) {
       const y = year;
       let m = month;
@@ -259,6 +291,7 @@ export default {
       if (d < 10) d = `0${d}`;
       return `${y}-${m}-${d}`;
     },
+    // 初始化
     initData(cur) {
       let date = "";
       if (cur) {
@@ -269,7 +302,13 @@ export default {
       this.currentDay = date.getDate(); // 今日日期 几号
       this.currentYear = date.getFullYear(); // 当前年份
       this.currentMonth = date.getMonth() + 1; // 当前月份
+      this.startDate = `${this.currentYear}-${this.currentMonth}-${this.currentDay}`
+      this.endDate = `${this.currentYear}-${this.currentMonth}-${this.currentDay+6}`
+      console.log('startDate',this.startDate);
+      console.log('endDate',this.endDate);
+      // console.log('currentMonth',this.currentMonth);
       this.currentWeek = date.getDay(); // 1...6,0  // 星期几
+      // console.log('currentWeek',this.currentWeek);
       if (this.currentWeek === 0) {
         this.currentWeek = 7;
       }
@@ -278,23 +317,26 @@ export default {
         this.currentMonth,
         this.currentDay
       ); // 今日日期 年-月-日
+      // console.log('今日日期',str);
+
+
       this.days.length = 0;
       // 今天是周日，放在第一行第7个位置，前面6个 这里默认显示一周，如果需要显示一个月，则第二个循环为 i<= 35- this.currentWeek
       /* eslint-disabled */
-      for (let i = this.currentWeek - 1; i >= 0; i -= 1) {
-        const d = new Date(str);
-        d.setDate(d.getDate() - i - 1);
-        // console.log(y:" + d.getDate())
-        this.days.push(d);
-        // console.log(i, d);
-      }
-      for (let i = 1; i <= 32 - this.currentWeek; i += 1) {
-        const d = new Date(str);
-        d.setDate(d.getDate() + i - 1);
-        this.days.push(d);
+      // for (let i = this.currentWeek - 1; i >= 0; i --) {
+      //   const d = new Date(str);
+      //   d.setDate(d.getDate() - i - 1);
+      //   this.days.push(d);
+      // }
+      // console.log('这个月有多少天1',this.days);
+      // for (let i = 1; i <= 33 - this.currentWeek; i += 1) {
+      //   const d = new Date(str);
+      //   d.setDate(d.getDate() + i - 1);
+      //   this.days.push(d);
 
-        // console.log(i, d);
-      }
+      //   // console.log(i, d);
+      // }
+      
     },
 
     // 上个星期
@@ -335,25 +377,12 @@ export default {
 
     // 当前选择日期
     pick(date,index) {
-      console.log('picker',index);index
+      // console.log('picker',index);
+      console.log('picker',date);date
       this.current= index
-      // console.log(
-      //   this.formatDate(date.getFullYear(), date.getMonth() + 1, date.getDate())
-      // );
-      const checkData = this.formatDate(date.getFullYear(), date.getMonth() + 1, date.getDate())
-      // console.log('week',this.weekData);
-      
-      for (var i = 0; i < this.weekData.length; i ++) {
-        // console.log('333',this.weekData[i].dateOfMonth);
-        
-        if (checkData == this.weekData[i].dateOfMonth) {
-          this.weekIndex = i;
-          break
-        }
-          
-        
-      }
-      console.log('weekIndex',this.weekIndex);
+      let checkData = this.currentYear + '-' + this.currentMonth + '-' + date
+      console.log('checkData',checkData);date
+      this.userPreInterviewId = this.days(index).userPreInterviewId
       this.getDayInfo()
     },
     onConfirm(value) {

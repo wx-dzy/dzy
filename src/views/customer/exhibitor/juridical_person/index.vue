@@ -83,7 +83,7 @@
       <button v-if="personInfo.exchangeStatus == 0">未交换名片</button>
     </div>
     <div class="synopsis">
-      <div class="title">简介</div>
+      <div class="title">个人简介</div>
       <div class="item_text">
         {{personInfo.workDesc}}
       </div>
@@ -125,10 +125,11 @@
               <div class="num">起订量：{{item.minOrderQuantity}}</div>
             </div>
           </div>
+          
         </div>
       </div>
     </div> 
-    <button class="time" @click="toCalender">距离预约面谈还剩12小时</button>
+    <button class="time" @click="toCalender">预约</button>
     <!-- <button class="time" @click="toCalender" v-show="personInfo.myInterviewDesc.myInterviewDesc != '' ">{{personInfo.myInterviewDesc.myInterviewDesc}}</button> -->
     <van-overlay :show="showShare" @click="showShare = false">
             <visitingCard
@@ -203,10 +204,9 @@ export default {
     //  预约面谈
     toCalender () {
       this.$router.push({
-        path: '/appointment_calendar',
+        path: '/appointment_calendar',//avatar: this.user.avatar,
         query: {
           enterpriseShowPeopleId:this.enterpriseShowPeopleId,
-          avatar: this.user.avatar,
           peopleId: this.peopleId
         }
       })

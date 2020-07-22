@@ -40,7 +40,7 @@ export const getFollow = params => axios.post('/c/user-follow/follow',params);
 export const getInfomation = params => axios.get('/c/enterprise-show-exhibitors/request-enterprise-pdf/' + params);
 
 // 参展商目录-预约日历-预约/取消预约
-export const interview = params => axios.post('/c/show-people-interview/pre-interview/' + params);
+export const interview = (userPreInterviewDetailId,type) => axios.post('/c/show-people-interview/pre-interview/' + userPreInterviewDetailId + '/' + type);
 
 // 参展商详情-展品列表 /c/enterprise-goods/goods-search
 export const getGoodSearch= params => axios.post('/c/enterprise-goods/goods-search', params);

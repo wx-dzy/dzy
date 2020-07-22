@@ -39,7 +39,7 @@
               <p>起订量：{{ detail.goodsBaseInfo.minOrderQuantity  }}</p>
             </van-col>
             <van-col span="12" v-show="detail.goodsBaseInfo.manufacturerModel">
-              <p>制造商编：{{ detail.goodsBaseInfo.manufacturerModel  }}</p>
+              <p>制造商编号：{{ detail.goodsBaseInfo.manufacturerModel  }}</p>
             </van-col>
             <van-col span="5" class="shareBtn text-right">
               <van-button round size="small" color="#F8D57E" @click="handeGetData">

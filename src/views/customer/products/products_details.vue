@@ -34,11 +34,12 @@
             <van-col span="19">
               <p>品 牌：{{ detail.goodsBaseInfo.brandName }}</p>
               <p>订货号：{{ detail.goodsBaseInfo.orderNo }}</p>
+              <p v-if="detail.goodsBaseInfo.goodsPrice.toString().length">商品价格：{{ detail.goodsBaseInfo.goodsPrice + '元' || ''  }}</p>
             </van-col>
-            <van-col span="12" v-show="detail.goodsBaseInfo.minOrderQuantity">
+            <van-col span="10" v-show="detail.goodsBaseInfo.minOrderQuantity">
               <p>起订量：{{ detail.goodsBaseInfo.minOrderQuantity  }}</p>
             </van-col>
-            <van-col span="12" v-show="detail.goodsBaseInfo.manufacturerModel">
+            <van-col span="14" v-show="detail.goodsBaseInfo.manufacturerModel">
               <p>制造商编号：{{ detail.goodsBaseInfo.manufacturerModel  }}</p>
             </van-col>
             <van-col span="5" class="shareBtn text-right">
@@ -156,6 +157,7 @@ export default {
           util.hideLoading();
           if (code == 200) {
             this.detail = data;
+            // this.detail.goodsBaseInfo.goodsPrice = ''
           }
         })
         .catch(err => {

@@ -99,7 +99,7 @@ https://juejin.im/post/5cbff700e51d456e361ed904
     ```
     // 开发的时候调用  开发完注销调
     if( !util.getQueryString('code')){
-        window.location.href="http://121.196.122.19/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://127.0.0.1:9000&response_type=code&scope=snsapi_base&state=123"
+        window.location.href="http://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://127.0.0.1:9000&response_type=code&scope=snsapi_base&state=123"
     } 
 
     html2canvas 生成分享图片 npm isntall html2canvas
@@ -117,23 +117,23 @@ https://juejin.im/post/5cbff700e51d456e361ed904
     ```
     1，用户首页
 
-    http://121.196.122.19/hlwl_wexin/userManager.html?username=huangzb&telephone=17601001098
+    http://www.dzy315.com/hlwl_wexin/userManager.html?username=huangzb&telephone=17601001098
 
     2，询价单列表
 
-    http://121.196.122.19/hlwl_wexin/uploadInquiry/order/tobeQuoted.html
+    http://www.dzy315.com/hlwl_wexin/uploadInquiry/order/tobeQuoted.html
 
     3，上传询价单
 
-    http://121.196.122.19/hlwl_wexin/uploadInquiry/submit-inquiry.html
+    http://www.dzy315.com/hlwl_wexin/uploadInquiry/submit-inquiry.html
 
     4，合同待签署列表
 
-    http://121.196.122.19/hlwl_wexin/manager/purchaseContract/awaitContract.html
+    http://www.dzy315.com/hlwl_wexin/manager/purchaseContract/awaitContract.html
 
     5，订单待发货列表
 
-    http://121.196.122.19/hlwl_wexin/orderRemake/orderList.html?orderStatus=2
+    http://www.dzy315.com/hlwl_wexin/orderRemake/orderList.html?orderStatus=2
     ```
 
 ### 公用方法 
@@ -141,6 +141,16 @@ https://juejin.im/post/5cbff700e51d456e361ed904
     2. 获取token:   util.getCookie('dzy_token')  || util.getToken()
     2. 获取userInfo:   JSON.parse(util.getCookie('dzy_userInfo')) 
     4. 获取微信信息:  JSON.parse(util.getCookie('dzy_wxInfo'))
+
+### 空占位 
+    1. <!-- 占位图 -->
+      <img
+        v-else
+        src="@/assets/images/nullImgText.png"
+        style="width: 2.6rem; margin: 1.4rem 2rem;"
+        class="nullImg"
+        alt
+      />
 
 ### 关键词替换
 展会、会展  ==> 招采
@@ -155,8 +165,9 @@ https://juejin.im/post/5cbff700e51d456e361ed904
 
 
 ### 待开发：
-    0. 分享没写完 名片下载 真机测试不行 
-    1.企业产品目录-上传询价单：  
+    0. 分享没写完 名片下载 真机测试不行  
+    1.产品详情 轮播里面视频点击时停止轮播
+    2.企业产品目录-上传询价单：  
         http://localhost:9000/products_uploadInquiry?goodsIds=%5B%221275702956557078530%22%5D
 
     3.我的

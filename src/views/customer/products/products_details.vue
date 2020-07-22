@@ -34,6 +34,13 @@
             <van-col span="19">
               <p>品 牌：{{ detail.goodsBaseInfo.brandName }}</p>
               <p>订货号：{{ detail.goodsBaseInfo.orderNo }}</p>
+              <p v-if="detail.goodsBaseInfo.goodsPrice.toString().length">商品价格：{{ detail.goodsBaseInfo.goodsPrice + '元' || ''  }}</p>
+            </van-col>
+            <van-col span="10" v-show="detail.goodsBaseInfo.minOrderQuantity">
+              <p>起订量：{{ detail.goodsBaseInfo.minOrderQuantity  }}</p>
+            </van-col>
+            <van-col span="14" v-show="detail.goodsBaseInfo.manufacturerModel">
+              <p>制造商编号：{{ detail.goodsBaseInfo.manufacturerModel  }}</p>
             </van-col>
             <van-col span="5" class="shareBtn text-right">
               <van-button round size="small" color="#F8D57E" @click="handeGetData">
@@ -53,16 +60,16 @@
 
           <van-row class="border" v-if="detail.goodsIntroductionList.length">
             <h2 class="title">产品详情</h2>
-            <van-col v-for="(item,index) in detail.goodsIntroductionList" :key="index">
-              <Video-Demo
-                v-if="item.videoUrl"
-                :_id="item.id"
-                :src="item.videoUrl"
-                :playVideoId.sync="playVideoId"
-                style="width: 100%;"
-                class="zoom"
-              />
-              <img v-if="item.mediaUrl" :src="item.mediaUrl" alt class="itemImg" />
+            <van-col span="24" v-for="(item,index) in detail.goodsIntroductionList" :key="index">
+              <div v-if="item.mediaType" class="itemImg">
+                <Video-Demo
+                  :_id="item.id"
+                  :src="item.videoUrl"
+                  :playVideoId.sync="playVideoId"
+                  style="width: 100%;"
+                />
+              </div>
+              <img v-else :src="item.mediaUrl" alt class="itemImg" />
             </van-col>
           </van-row>
 
@@ -150,6 +157,7 @@ export default {
           util.hideLoading();
           if (code == 200) {
             this.detail = data;
+            // this.detail.goodsBaseInfo.goodsPrice = ''
           }
         })
         .catch(err => {
@@ -179,10 +187,8 @@ export default {
     // 去下单
     handleGoshop() {
       // 临时跳转
-      // window.location.href =
-      //   "http://121.196.122.19/hlwl_wexin/uploadInquiry/order/tobeQuoted.html";
+      window.location.href = `http://www.dzy315.com/hlwl_wexin/uploadInquiry/order/details.html?inquiryId=1243&status=2&goodsName=${this.detail.goodsBaseInfo.goodsName}`;
 
-      window.location.href = `http://121.196.122.19/hlwl_wexin/uploadInquiry/order/details.html?inquiryId=1243&status=2&goodsName=${this.detail.goodsBaseInfo.brandName}`
 
       return;
       let param = [];

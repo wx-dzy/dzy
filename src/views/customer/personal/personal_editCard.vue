@@ -331,5 +331,14 @@ export default {
 // /deep/ .van-cell--required::before {
 
 // }
+/deep/ .van-button--round {
+    width: 6.84rem;
+    margin: 0.8rem 0;
+}
+/deep/ .van-button--info {
+    color: #313437;
+    background-color: #f8d57e;
+    border: 1px solid #f8d57e;
+}
 </style>
 

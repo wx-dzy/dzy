@@ -72,7 +72,7 @@ export default {
     handleClick(url) {
       if (!url) {
         return (window.location.href =
-          "http://121.196.122.19/hlwl_wexin/userManager.html?username=huangzb&telephone=17601001098");
+          "http://www.dzy315.com/hlwl_wexin/userManager.html?username=huangzb&telephone=17601001098");
       }
       this.$router.push({
         name: url

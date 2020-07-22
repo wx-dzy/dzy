@@ -2,54 +2,56 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router/index'
 import store from './store/index'
-import {directives} from './utils';
+import { directives } from './utils';
 import wx from 'weixin-js-sdk';
 import VueJsonp from 'vue-jsonp'
 Vue.use(VueJsonp)
 
-import {   
-  Button,   
-  Field,
-  RadioGroup,
-  Radio,
-  Checkbox,
-  CheckboxGroup,
-  Tab,
-  Tabs,
-  List,
-  Search,
-  cell,
-  PullRefresh,
-  Dialog,
-  Row, 
-  Col,
-  Picker,
-  Swipe,
-  SwipeItem,
-  Icon,
-  Tabbar,
-  TabbarItem,
-  Grid,
-  GridItem,
-  Overlay,
-  ShareSheet,
-  Toast,
-  Divider,
-  Empty,
-  Form,
-  Uploader,
-  Calendar,
-  Loading,
-  DropdownMenu,
-  DropdownItem,
-  Popup ,
-  Skeleton,
-  Image as VanImage,
-  Collapse, CollapseItem,
-  GoodsAction, GoodsActionIcon, GoodsActionButton,
+import {
+    Button,
+    Field,
+    RadioGroup,
+    Radio,
+    Checkbox,
+    CheckboxGroup,
+    Tab,
+    Tabs,
+    List,
+    Search,
+    cell,
+    PullRefresh,
+    Dialog,
+    Row,
+    Col,
+    Picker,
+    Swipe,
+    SwipeItem,
+    Icon,
+    Tabbar,
+    TabbarItem,
+    Grid,
+    GridItem,
+    Overlay,
+    ShareSheet,
+    Toast,
+    Divider,
+    Empty,
+    Form,
+    Uploader,
+    Calendar,
+    Loading,
+    DropdownMenu,
+    DropdownItem,
+    Popup,
+    Skeleton,
+    Image as VanImage,
+    Collapse, CollapseItem,
+    GoodsAction, GoodsActionIcon, GoodsActionButton,
+    Area,
+    ActionSheet
 
 } from 'vant';
- 
+
 Vue.use(Button);
 Vue.use(Field);
 Vue.use(RadioGroup);
@@ -58,8 +60,8 @@ Vue.use(Checkbox).use(CheckboxGroup);
 Vue.use(Tab).use(Tabs);
 Vue.use(List);
 Vue.use(Search);
-Vue.use(cell); 
-Vue.use(PullRefresh); 
+Vue.use(cell);
+Vue.use(PullRefresh);
 Vue.use(Dialog);
 Vue.use(Row).use(Col);
 Vue.use(Picker);
@@ -89,6 +91,8 @@ Vue.use(CollapseItem);
 Vue.use(GoodsAction);
 Vue.use(GoodsActionButton);
 Vue.use(GoodsActionIcon);
+Vue.use(Area);
+Vue.use(ActionSheet);
 
 
 

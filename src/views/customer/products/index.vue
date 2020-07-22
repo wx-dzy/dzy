@@ -288,8 +288,11 @@ export default {
         return util.error("请选择商品！！");
       }
       // 临时跳转
-      window.location.href =
-        "http://121.196.122.19/hlwl_wexin/uploadInquiry/order/tobeQuoted.html";
+      let arr = this.listData.filter(item =>
+          item.id == this.checkActive[0]
+      )
+      window.location.href = `http://www.dzy315.com/hlwl_wexin/uploadInquiry/order/details.html?inquiryId=1243&status=2&goodsName=${arr[0].goodsName}`;
+
       return
       // 正常跳转
       this.$router.push({

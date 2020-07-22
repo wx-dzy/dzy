@@ -267,7 +267,7 @@ export default {
 
       if (code == null || code == "") {
         window.location.href =
-          "http://121.196.122.19/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://121.196.122.19/codeLogin&response_type=code";
+          "http://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://www.dzy315.com/codeLogin&response_type=code";
       } else {
         _this.code = code;
         console.log("code", _this.code);

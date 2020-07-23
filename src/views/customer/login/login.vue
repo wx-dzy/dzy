@@ -51,9 +51,9 @@
                     native-type="submit"
                 >下一步</van-button>
             </van-form>
-            <div class="wechat" @click="wechatLogin">
-                <img :src="wechatImg" alt />
-            </div>
+            <!-- <div class="wechat" @click="wechatLogin">
+                    <img :src="wechatImg" alt />
+            </div>-->
         </div>
     </div>
 </template>

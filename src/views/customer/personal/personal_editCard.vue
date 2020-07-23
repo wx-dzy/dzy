@@ -16,7 +16,7 @@
             <div class="Company">
                 <div class="title">
                     <span>公司/单位</span>
-                    <span class="authentication">去认证</span>
+                    <span class="authentication" @click="gotoAuthentication">去认证</span>
                 </div>
                 <van-field
                     v-model="username"
@@ -221,6 +221,12 @@ export default {
     },
     watch: {},
     methods: {
+        // 去认证
+        gotoAuthentication(){
+            this.$router.push({
+                name: 'personal_attestation',
+            })
+        },
         // 选择省市区点击取消按钮
         cancelAdd() {
             this.chooseAds = false

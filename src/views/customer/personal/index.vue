@@ -21,17 +21,25 @@
           </span>
         </van-col>
 
-        <van-col span="24" class="activeInfo clear">
-          当前身份：
-          {{detail.userInfo.identity == 1 ? '参展方' : detail.userInfo.identity == 2 ? '参观方' : '' }}
-          <van-button
-            round
-            size="mini"
-            color="#F8D57E"
-            class="switchInfo pull-right"
-            @click="changeIdentity = true"
-          >切换身份</van-button>
-        </van-col>
+        <div class="message">
+          <van-col span="24" class="activeInfo clear"  style="font-size:0.24rem;line-height:0.52rem;">
+            当前身份：
+            <span>办展工作人员</span>
+            <!-- {{detail.userInfo.identity == 1 ? '参展方' : detail.userInfo.identity == 2 ? '参观方' : '' }} -->
+            <van-button
+              round
+              size="mini"
+              color="#F8D57E"
+              class="switchInfo pull-right"
+              @click="changeIdentity = true"
+            >切换身份</van-button>
+            <div class="enter" style="display:flex;font-size:0.24rem;line-height:0.52rem;margin-top:0.2rem;margin-bottom:0.2rem;">
+              <div class="title" style="flex:28%;">当前企业：</div>
+              <div style="flex:72%;">宝鸡有一群怀揣着梦想奇迹美好网络科技有限公司</div>
+            </div>
+          </van-col>        
+        </div>
+
       </van-row>
 
       <!-- 名片 -->
@@ -168,6 +176,7 @@ export default {
   },
   data() {
     return {
+      show: false,
       // 选择当前企业
       checkList: [
         { text: "好招数创（北京）科技有限公司" },

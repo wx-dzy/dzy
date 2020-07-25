@@ -114,7 +114,7 @@
                 size="small"
                 :color="detail.userInfo.identity == 1 ? '#F8D57E' : '#E9E9E9'"
                 @click="handleChangeIdentity(1)"
-              >参展方</van-button> -->
+              >参展方</van-button>-->
               <van-button
                 round
                 size="small"
@@ -157,7 +157,7 @@ export default {
   components: {
     footerNav,
     // 名片
-    visitingCard
+    visitingCard,
   },
   data() {
     return {
@@ -165,7 +165,7 @@ export default {
       changeIdentity: false,
       detail: {
         userCardList: [],
-        userInfo: {}
+        userInfo: {},
       },
       // 我的预约列表
       listData: [],
@@ -176,7 +176,7 @@ export default {
       refreshing: false,
       pageSize: 10,
       pageNum: 1,
-      active: "personal"
+      active: "personal",
     };
   },
 
@@ -192,13 +192,13 @@ export default {
     // 获取详情
     handleDetail() {
       Api.getUserMyIndex()
-        .then(res => {
+        .then((res) => {
           let { code, msg, data, total } = res;
           if (code == 200) {
             this.detail = data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.detail = {};
         });
     },
@@ -210,7 +210,7 @@ export default {
       // return alert(satus + "暂无接口-- 1参展方,2参观方");
       return alert(satus + "暂无接口-- 1参招方,2参观方");
       Api.setChangeIdentity(params)
-        .then(res => {
+        .then((res) => {
           this.changeIdentity = false;
           let { code, msg, data, total } = res;
           if (code == 200) {
@@ -218,7 +218,7 @@ export default {
             this.handleDetail();
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.changeIdentity = false;
         });
     },
@@ -228,7 +228,7 @@ export default {
       this.pageNum = 1;
       let params = {
         pageNum: this.pageNum, // 页数
-        pageSize: this.pageSize // 每页几条数据
+        pageSize: this.pageSize, // 每页几条数据
       };
       this.onsubmt(params);
     },
@@ -238,7 +238,7 @@ export default {
       this.pageNum++;
       let params = {
         pageNum: this.pageNum, // 页数
-        pageSize: this.pageSize // 每页几条数据
+        pageSize: this.pageSize, // 每页几条数据
       };
       this.onsubmt(params);
     },
@@ -249,7 +249,7 @@ export default {
       this.pageNum = 1;
       let params = {
         pageNum: this.pageNum, // 页数
-        pageSize: this.pageSize // 每页几条数据
+        pageSize: this.pageSize, // 每页几条数据
       };
       this.onsubmt(params, 1);
       // this.detail.userCardList = [];
@@ -261,7 +261,7 @@ export default {
     onsubmt(params, statu) {
       let status = statu ? statu : 2; // 默认正常请求
       Api.getMyInterviewPage(params)
-        .then(res => {
+        .then((res) => {
           let { code, msg, data, total } = res;
           // 加载状态结束
           this.loading = false;
@@ -274,7 +274,7 @@ export default {
               this.listData = data;
               this.$toast("刷新成功");
             } else {
-              data.forEach(element => {
+              data.forEach((element) => {
                 this.listData.push(element);
               });
             }
@@ -284,7 +284,7 @@ export default {
             }
           }
         })
-        .catch(err => {
+        .catch((err) => {
           // 上拉刷新
           this.refreshing = false;
         });
@@ -301,9 +301,9 @@ export default {
         name: "personal_editInfo",
         query: {
           // 企业id
-          id: row.enterpriseId
+          id: row.enterpriseId,
           // title: row.enterpriseName
-        }
+        },
       });
     },
 
@@ -318,17 +318,17 @@ export default {
         // 预约明细id
         userPreInterviewDetailId: row.id,
         // 预约类型，1预约 0取消预约
-        type: 0
+        type: 0,
       };
       Api.setCancelInterview(param)
-        .then(res => {
+        .then((res) => {
           let { code, msg, data, total } = res;
           if (code == 200) {
             util.success("取消成功");
             this.onRefresh();
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.detail = {};
         });
     },
@@ -347,13 +347,15 @@ export default {
 
     hanleLook(type) {
       if (type == 1) {
-        util.success("跳转我的企业资料路由");
+        this.$router.push({
+          name: "my_askFor_data",
+        });
       }
 
       if (type == 2) {
         util.success("跳转我的询价路由");
       }
-    }
+    },
   },
 
   computed: {},
@@ -373,7 +375,7 @@ export default {
         window.scrollTo(0, 0);
       }, 0);
     });
-  }
+  },
 };
 </script>
 

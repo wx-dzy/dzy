@@ -84,18 +84,34 @@
                     <span class="notes">（注：结束时间如果选择“至今”）</span>
                 </div>
                 <van-field
-                    v-model="cardInfo.startDate"
+                    readonly
+                    v-model="startDate"
                     name="startDate"
                     label="开始时间"
                     placeholder="请输入开始时间"
                     :rules="[{ required: true, message: '请输入开始时间' }]"
+                    @click="showCalendar = true"
+                />
+                <van-calendar
+                    v-model="showCalendar"
+                    @confirm="onConfirm"
+                    :min-date="minDate"
+                    :max-date="maxDate"
                 />
                 <van-field
-                    v-model="cardInfo.endDate"
+                    readonly
+                    v-model="endDate"
                     name="endDate"
                     label="结束时间"
                     placeholder="请输入结束时间"
                     :rules="[{ required: true, message: '请输入结束时间' }]"
+                    @click="showCalendarEnd = true"
+                />
+                <van-calendar
+                    v-model="showCalendarEnd"
+                    @confirm="onConfirmEnd"
+                    :min-date="minDate"
+                    :max-date="maxDate"
                 />
                 <!-- </div> -->
                 <!-- 联系方式 -->
@@ -247,6 +263,12 @@ export default {
             provinceName: '', // 省名称
             cityId: '', // 市id
             cityName: '', // 市名称
+            showCalendar: false, //选择日期日历
+            showCalendarEnd: false, //选择日期日历
+            startDate: '', // 开始日期
+            endDate: '', // 开始日期
+            minDate: new Date(2000, 0, 1), // 可选择的最小日期
+            maxDate: new Date(), // 可选择的最大日期
         }
     },
 
@@ -260,6 +282,37 @@ export default {
     },
     watch: {},
     methods: {
+        // 选择日期
+
+        onConfirmEnd(date) {
+            // 结束日期
+            console.log('data', date)
+            // this.endDate = `${date.getFullYear()}-${
+            //     date.getMonth() + 1
+            // }-${date.getDate()}`
+            this.endDate =
+                date.getFullYear() +
+                '-' +
+                (date.getMonth() + 1) +
+                '-' +
+                date.getDate()
+            this.showCalendarEnd = false
+        },
+        onConfirm(date) {
+            //开始日期
+            console.log('data', date)
+            // this.startDate = `${date.getFullYear()}-${
+            //     date.getMonth() + 1
+            // }-${date.getDate()}`
+            this.startDate =
+                date.getFullYear() +
+                '-' +
+                (date.getMonth() + 1) +
+                '-' +
+                date.getDate()
+            console.log('startDate', this.startDate)
+            this.showCalendar = false
+        },
         // 保存
         saveCard(cardInfo) {
             // cardInfo.companyLogo = 'sfsdf'
@@ -292,6 +345,8 @@ export default {
                     console.log('获取名片信息-编辑', res)
                     if (res.code == 200) {
                         this.cardInfo = res.data
+                        this.startDate = this.cardInfo.startDate
+                        this.endDate = this.cardInfo.endDate
                     }
                 })
             } else {

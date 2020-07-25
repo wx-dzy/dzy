@@ -127,30 +127,70 @@
         }
 
         .block {
-            width: 5.06rem;
-            height: 6.34rem;
-            background: rgba(0, 0, 0, 0);
-
-            .topImg {
-                width: 100%;
-            }
-
-            .fot {
-                width: 5.06rem;
-                height: 3.3rem;
-                padding-top: 0.86rem;
-                background: #fff;
-                border-radius: 0 0 0.16rem 0.16rem;
-                text-align: center;
-
-
-                .van-button {
-                    padding: 0 0.88rem;
-                    margin: 0.2rem 0;
+            margin-top: 3.5rem;
+            width:7.5rem;
+            height:12.2rem;
+            background:rgba(255,255,255,1);
+            .imgBox{
+                width:2.82rem;
+                height:2.18rem;
+                align-items: center;
+                margin: 0 auto;
+                margin-top: -0.48rem;
+                .topImg {
+                    width: 100%;
                 }
-
-
             }
+
+            .fot{
+                .currentlySelectedEnterprise{
+                    margin-bottom: 1rem;
+                }
+                .img-icon {
+                    height: 0.2rem;
+                  }
+                .currentlySelectedEnterprise,
+                .selectCurrentIdentity {
+                    margin-left: 0.28rem;
+                  .title{
+                    font-size:0.32rem;
+                    color:rgba(49,52,55,1);
+                    line-height:0.44rem;
+                    font-weight: bold;
+                    font-family:AlibabaPuHuiTiM;
+                    padding-bottom: 0.2rem;
+                  }
+                  .checkList,.identityList{
+                    display: flex;
+                    border-bottom: 1px solid #EBEDF0;
+                    i{
+                      color: #F8D57E;
+                      line-height:0.8rem;
+                    }
+                  }
+                  .checkList:nth-last-child(1),
+                  .identityList:nth-last-child(1){
+                      border: none;
+                  }
+
+                  /deep/ .van-radio-group{
+                    .van-radio{
+                        border-bottom: 1px solid #EBEDF0;
+                        font-size: 0.24rem;
+                        .van-radio__label {
+                            color: #323233;
+                            line-height: 0.8rem;
+                        }
+                    }
+                    .fieldset, img {
+                        height: 0.5rem;
+                    }
+                  }
+
+                  
+              
+                }  
+              }
         }
     }
 
@@ -167,7 +207,7 @@
             user-select:none;
 
             .text {
-                width: 1.6rem;
+                width: 1.8rem;
                 font-size: 0.28rem;
                 color: rgba(163, 118, 87, 1);
                 line-height: 0.4rem;

@@ -103,33 +103,40 @@
     </ul>
     <footer-nav :active="active" />
 
+    <!-- 当前身份切换 -->
     <van-overlay :show="changeIdentity" class="changeIdentityWrap">
-      <div class="wrapper" @click.stop @click="changeIdentity = false">
+      <div class="wrapper" @click="changeIdentity = false">
         <div class="block">
-          <img src="@/assets/images/changeIdentity.png" alt class="topImg" />
+          <div class="imgBox">
+            <img src="@/assets/images/changeIdentity.png" alt class="topImg" />
+          </div>
+
           <div class="fot">
-            <p>
-              <!-- <van-button
-                round
-                size="small"
-                :color="detail.userInfo.identity == 1 ? '#F8D57E' : '#E9E9E9'"
-                @click="handleChangeIdentity(1)"
-              >参展方</van-button>-->
-              <van-button
-                round
-                size="small"
-                :color="detail.userInfo.identity == 1 ? '#F8D57E' : '#E9E9E9'"
-                @click="handleChangeIdentity(1)"
-              >参招方</van-button>
-            </p>
-            <p>
-              <van-button
-                round
-                size="small"
-                :color="detail.userInfo.identity == 1 ? '#E9E9E9' : '#F8D57E'"
-                @click="handleChangeIdentity(2)"
-              >参观方</van-button>
-            </p>
+            <div class="currentlySelectedEnterprise">
+              <div class="title">选择当前企业</div>
+              <van-radio-group v-model="enterpriseIndex">
+                <van-radio :name="enterpriseIndex" v-for="(item,enterpriseIndex) in checkList" :key="enterpriseIndex">
+                  {{item.text}}
+                  <template #icon="props">
+                    <img class="success1" :src="props.checked ? activeIcon : inactiveIcon" />
+                  </template>  
+                  
+                </van-radio>
+              </van-radio-group>
+            </div>
+
+            <div class="currentlySelectedEnterprise">
+              <div class="title">选择当前身份</div>
+              <van-radio-group v-model="identityIndex">
+                <van-radio :name="identityIndex" v-for="(item,identityIndex) in identityList" :key="identityIndex">
+                  {{item.text}}
+                  <template #icon="props">
+                    <img class="success2" :src="props.checked ? activeIcon : inactiveIcon" />
+                  </template>  
+                  
+                </van-radio>
+              </van-radio-group>
+            </div>
           </div>
         </div>
       </div>
@@ -161,8 +168,23 @@ export default {
   },
   data() {
     return {
+      // 选择当前企业
+      checkList: [
+        { text: "好招数创（北京）科技有限公司" },
+        { text: "宝鸡有一群怀揣着梦想奇迹美好网络科技有限公司" },
+        { text: "风风火火有限公司" },
+      ],
+      identityList: [
+        { text: "参观人员" },
+        { text: "企业管理员" },
+        { text: "办展工作人员" },
+      ],
+      enterpriseIndex:0, // 默认选择企业名
+      identityIndex:0, // 默认选择身份
       // 切换身份弹窗
       changeIdentity: false,
+      activeIcon: require('../../../assets/images/ok.png'),
+      inactiveIcon: require('../../../assets/images/no.png'),
       detail: {
         userCardList: [],
         userInfo: {},

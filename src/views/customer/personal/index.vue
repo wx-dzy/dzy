@@ -21,17 +21,8 @@
           </span>
         </van-col>
 
-        <van-col span="24" class="activeInfo clear">
-          当前身份：
-          {{detail.userInfo.identity == 1 ? '参展方' : detail.userInfo.identity == 2 ? '参观方' : '' }}
-          <van-button
-            round
-            size="mini"
-            color="#F8D57E"
-            class="switchInfo pull-right"
-            @click="changeIdentity = true"
-          >切换身份</van-button>
-        </van-col>
+        <checkIdentity></checkIdentity>
+
       </van-row>
 
       <!-- 名片 -->
@@ -42,7 +33,7 @@
           @successCBK="handleActive"
         ></visitingCard>
       </div>
-
+      
       <div class="myOrder">
         <h3 class="title">我的预约</h3>
         <van-list
@@ -102,38 +93,6 @@
       </li>
     </ul>
     <footer-nav :active="active" />
-
-    <van-overlay :show="changeIdentity" class="changeIdentityWrap">
-      <div class="wrapper" @click.stop @click="changeIdentity = false">
-        <div class="block">
-          <img src="@/assets/images/changeIdentity.png" alt class="topImg" />
-          <div class="fot">
-            <p>
-              <!-- <van-button
-                round
-                size="small"
-                :color="detail.userInfo.identity == 1 ? '#F8D57E' : '#E9E9E9'"
-                @click="handleChangeIdentity(1)"
-              >参展方</van-button> -->
-              <van-button
-                round
-                size="small"
-                :color="detail.userInfo.identity == 1 ? '#F8D57E' : '#E9E9E9'"
-                @click="handleChangeIdentity(1)"
-              >参招方</van-button>
-            </p>
-            <p>
-              <van-button
-                round
-                size="small"
-                :color="detail.userInfo.identity == 1 ? '#E9E9E9' : '#F8D57E'"
-                @click="handleChangeIdentity(2)"
-              >参观方</van-button>
-            </p>
-          </div>
-        </div>
-      </div>
-    </van-overlay>
   </div>
   <!-- 占位图 -->
   <img
@@ -151,21 +110,23 @@ import { mapGetters } from "vuex";
 import * as Api from "@/api/customer/personal";
 import footerNav from "@/components/customer/footerNav/index.vue";
 import visitingCard from "@/components/customer/visitingCard.vue";
+import checkIdentity from "@/components/customer/checkIdentity.vue";
 
 export default {
   name: "personal",
   components: {
     footerNav,
     // 名片
-    visitingCard
+    visitingCard,
+    checkIdentity,
   },
   data() {
     return {
-      // 切换身份弹窗
+      show: false,
       changeIdentity: false,
       detail: {
         userCardList: [],
-        userInfo: {}
+        userInfo: {},
       },
       // 我的预约列表
       listData: [],
@@ -176,7 +137,7 @@ export default {
       refreshing: false,
       pageSize: 10,
       pageNum: 1,
-      active: "personal"
+      active: "personal",
     };
   },
 
@@ -192,43 +153,43 @@ export default {
     // 获取详情
     handleDetail() {
       Api.getUserMyIndex()
-        .then(res => {
+        .then((res) => {
           let { code, msg, data, total } = res;
           if (code == 200) {
             this.detail = data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.detail = {};
         });
     },
 
     // 切换身份 satus=1 '参展方'   satus=2 '参观方'
-    handleChangeIdentity(satus) {
-      // console.log(satus, "-- 1参展方,2参观方");
-      let params = {};
-      // return alert(satus + "暂无接口-- 1参展方,2参观方");
-      return alert(satus + "暂无接口-- 1参招方,2参观方");
-      Api.setChangeIdentity(params)
-        .then(res => {
-          this.changeIdentity = false;
-          let { code, msg, data, total } = res;
-          if (code == 200) {
-            util.success(msg);
-            this.handleDetail();
-          }
-        })
-        .catch(err => {
-          this.changeIdentity = false;
-        });
-    },
+    // handleChangeIdentity(satus) {
+    //   // console.log(satus, "-- 1参展方,2参观方");
+    //   let params = {};
+    //   // return alert(satus + "暂无接口-- 1参展方,2参观方");
+    //   return alert(satus + "暂无接口-- 1参招方,2参观方");
+    //   Api.setChangeIdentity(params)
+    //     .then((res) => {
+    //       this.changeIdentity = false;
+    //       let { code, msg, data, total } = res;
+    //       if (code == 200) {
+    //         util.success(msg);
+    //         this.handleDetail();
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       this.changeIdentity = false;
+    //     });
+    // },
 
     // 搜索
     onSearch() {
       this.pageNum = 1;
       let params = {
         pageNum: this.pageNum, // 页数
-        pageSize: this.pageSize // 每页几条数据
+        pageSize: this.pageSize, // 每页几条数据
       };
       this.onsubmt(params);
     },
@@ -238,7 +199,7 @@ export default {
       this.pageNum++;
       let params = {
         pageNum: this.pageNum, // 页数
-        pageSize: this.pageSize // 每页几条数据
+        pageSize: this.pageSize, // 每页几条数据
       };
       this.onsubmt(params);
     },
@@ -249,7 +210,7 @@ export default {
       this.pageNum = 1;
       let params = {
         pageNum: this.pageNum, // 页数
-        pageSize: this.pageSize // 每页几条数据
+        pageSize: this.pageSize, // 每页几条数据
       };
       this.onsubmt(params, 1);
       // this.detail.userCardList = [];
@@ -261,7 +222,7 @@ export default {
     onsubmt(params, statu) {
       let status = statu ? statu : 2; // 默认正常请求
       Api.getMyInterviewPage(params)
-        .then(res => {
+        .then((res) => {
           let { code, msg, data, total } = res;
           // 加载状态结束
           this.loading = false;
@@ -274,7 +235,7 @@ export default {
               this.listData = data;
               this.$toast("刷新成功");
             } else {
-              data.forEach(element => {
+              data.forEach((element) => {
                 this.listData.push(element);
               });
             }
@@ -284,7 +245,7 @@ export default {
             }
           }
         })
-        .catch(err => {
+        .catch((err) => {
           // 上拉刷新
           this.refreshing = false;
         });
@@ -301,9 +262,9 @@ export default {
         name: "personal_editInfo",
         query: {
           // 企业id
-          id: row.enterpriseId
+          id: row.enterpriseId,
           // title: row.enterpriseName
-        }
+        },
       });
     },
 
@@ -318,17 +279,17 @@ export default {
         // 预约明细id
         userPreInterviewDetailId: row.id,
         // 预约类型，1预约 0取消预约
-        type: 0
+        type: 0,
       };
       Api.setCancelInterview(param)
-        .then(res => {
+        .then((res) => {
           let { code, msg, data, total } = res;
           if (code == 200) {
             util.success("取消成功");
             this.onRefresh();
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.detail = {};
         });
     },
@@ -347,13 +308,15 @@ export default {
 
     hanleLook(type) {
       if (type == 1) {
-        util.success("跳转我的企业资料路由");
+        this.$router.push({
+          name: "my_askFor_data",
+        });
       }
 
       if (type == 2) {
         util.success("跳转我的询价路由");
       }
-    }
+    },
   },
 
   computed: {},
@@ -373,7 +336,7 @@ export default {
         window.scrollTo(0, 0);
       }, 0);
     });
-  }
+  },
 };
 </script>
 

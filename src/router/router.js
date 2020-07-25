@@ -250,6 +250,24 @@ export default [
         name: 'personal_attestation',
         component: () => import('@/views/customer/personal/personal_attestation.vue'),
     },
+    {
+        path: 'my_askFor_data',
+        meta: {
+            requiresAuth: false,
+            title: '我索取的企业资料',
+        },
+        name: 'my_askFor_data',
+        component: () => import('@/views/customer/personal/my_askFor_data.vue'),
+    },
+    {
+        path: 'enterprise_admins',
+        meta: {
+            requiresAuth: false,
+            title: '我的-首页-企业管理员',
+        },
+        name: 'enterprise_admins',
+        component: () => import('@/views/customer/personal/enterprise_admins.vue'),
+    },
     // ------------------   我的   end ------------------
 
 

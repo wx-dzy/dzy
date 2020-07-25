@@ -23,7 +23,13 @@ export const getUserInfo = params => axios.get('/c/user/get-user-base-info', par
 export const saveUserInfo = params => axios.post('/c/user/update-user-base-info', params,);
 
 // 编辑名片信息-获取-新增职位
-export const editCardGet = params => axios.get('/c/user/to-new-user-card' + params,);
+export const editCardGet = params => axios.get('/c/user/to-new-user-card' + params);
 
 // 编辑名片信息-保存
 export const editCardSave = params => axios.post('/c/user/save-user-card', params,);
+
+// 编辑名片信息-获取
+export const editCardGetEdit = params => axios.get('/c/user/get-user-card-by-id/' + params);
+
+// 我索取的资料-分页列表
+export const askMessage = params => axios.get('/c/user/user-request-file/page', { params });

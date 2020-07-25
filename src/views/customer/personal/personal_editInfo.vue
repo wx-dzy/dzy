@@ -60,26 +60,31 @@
                 <div class="history">
                     <div class="title">
                         <div class="text">工作经历</div>
-                        <div class="add" @click="gotoEditCard">
+                        <div class="add" @click="gotoEditCardNew">
                             <van-icon name="plus" />新增
                         </div>
                     </div>
                     <div class="itemBox">
-                        <div class="item" v-for="(item,index) in workingList" :key="index">
+                        <div
+                            class="item"
+                            v-for="(item,index) in workingList"
+                            :key="index"
+                            @click="gotoEditCard(item.id,$event)"
+                        >
                             <div class="image">
                                 <img src alt />
                             </div>
                             <div class="middle">
                                 <div class="middleTop">
-                                    <span class="position">{{item.position}}</span>
-                                    <span class="status">{{item.status}}</span>
+                                    <span class="position">{{item.postName}}</span>
+                                    <span class="status">{{item.onJob == '1'?'在职':'离职'}}</span>
                                 </div>
-                                <div class="companyName">{{item.companyName}}</div>
+                                <div class="companyName">{{item.enterpriseName}}</div>
                                 <div class="date">
-                                    <span class="begin">{{item.dateBegin}}</span>-
-                                    <span class="over">{{item.dateOver}}</span>
+                                    <span class="begin">{{item.startDate}}</span>-
+                                    <span class="over">{{item.endDate}}</span>
                                 </div>
-                                <div class="working">{{item.working}}</div>
+                                <div class="working">{{item.workDesc}}</div>
                             </div>
                             <div class="right">
                                 <van-icon name="arrow" />
@@ -109,34 +114,33 @@ export default {
     data() {
         return {
             workingList: [
-                {
-                    // imgUrl:require(""),
-                    position: '销售经理',
-                    status: '在职',
-                    companyName: '好招数创（北京）科技有限公司',
-                    dateBegin: '2018.02',
-                    dateOver: '至今',
-                    working: '负责系统选型，等销售工作…',
-                },
-                {
-                    // imgUrl:require(""),
-                    position: '销售经理',
-                    status: '离职',
-                    companyName: '好招数创（北京）科技有限公司',
-                    dateBegin: '2016.02',
-                    dateOver: '2018.01',
-                    working: '负责系统选型，等销售工作…',
-                },
-
-                {
-                    // imgUrl:require(""),
-                    position: '销售经理',
-                    status: '离职',
-                    companyName: '好招数创（北京）科技有限公司',
-                    dateBegin: '2016.02',
-                    dateOver: '2018.01',
-                    working: '负责系统选型，等销售工作…',
-                },
+                // {
+                //     // imgUrl:require(""),
+                //     position: '销售经理',
+                //     status: '在职',
+                //     companyName: '好招数创（北京）科技有限公司',
+                //     dateBegin: '2018.02',
+                //     dateOver: '至今',
+                //     working: '负责系统选型，等销售工作…',
+                // },
+                // {
+                //     // imgUrl:require(""),
+                //     position: '销售经理',
+                //     status: '离职',
+                //     companyName: '好招数创（北京）科技有限公司',
+                //     dateBegin: '2016.02',
+                //     dateOver: '2018.01',
+                //     working: '负责系统选型，等销售工作…',
+                // },
+                // {
+                //     // imgUrl:require(""),
+                //     position: '销售经理',
+                //     status: '离职',
+                //     companyName: '好招数创（北京）科技有限公司',
+                //     dateBegin: '2016.02',
+                //     dateOver: '2018.01',
+                //     working: '负责系统选型，等销售工作…',
+                // },
             ],
             radio: '1',
             uploader: [
@@ -185,13 +189,26 @@ export default {
                 let { code, msg, data, total } = res
                 if (code == 200) {
                     this.userInfo = data
+                    this.workingList = data.workList
                     // this.workingList = data.workList
                 }
             })
         },
-        gotoEditCard() {
+
+        gotoEditCardNew() {
             this.$router.push({
                 name: 'personal_editCard',
+            })
+        },
+        gotoEditCard(id) {
+            console.log('卡片id', id)
+            let cardId = ''
+            id ? (cardId = id) : (cardId = '')
+            this.$router.push({
+                name: 'personal_editCard',
+                query: {
+                    id: cardId,
+                },
             })
         },
         onsubmt() {

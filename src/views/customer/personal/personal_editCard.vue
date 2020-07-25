@@ -3,141 +3,165 @@
     <div class="personal_editCard">
         <router-view />
         <div class="box">
-            <van-field name="upPhoto" label="上传LOGO">
-                <template #input>
-                    <img
-                        src="http://www.mfqqx.com/d/file/2011/07/65e6653c443b38b3c01515314bd296f9.jpg"
-                        alt
-                    />
-                    <van-icon name="arrow" />
-                </template>
-            </van-field>
-            <!-- 公司/单位 -->
-            <div class="Company">
+            <van-form @submit="saveCard">
+                <van-field label="上传LOGO">
+                    <template #input>
+                        <img
+                            src="http://www.mfqqx.com/d/file/2011/07/65e6653c443b38b3c01515314bd296f9.jpg"
+                            alt
+                        />
+                        <van-icon name="arrow" />
+                    </template>
+                </van-field>
+                <!-- 公司/单位 -->
+                <!-- <div class="Company"> -->
                 <div class="title">
                     <span>公司/单位</span>
                     <span class="authentication" @click="gotoAuthentication">去认证</span>
                 </div>
                 <van-field
-                    v-model="username"
-                    name="公司名称"
+                    v-model="cardInfo.enterpriseName"
+                    name="enterpriseName"
                     label="公司名称"
                     required
                     placeholder="请输入中文公司/单位名称"
                     :rules="[{ required: true, message: '请输入中文公司/单位名称' }]"
                 />
                 <van-field
-                    v-model="username"
-                    name="公司名称EN"
+                    v-model="cardInfo.enterpriseNameEn"
+                    name="enterpriseNameEn"
                     label="公司名称EN"
                     placeholder="请输入英文公司/单位名称"
                     :rules="[{ required: true, message: '请输入英文公司/单位名称' }]"
                 />
-            </div>
-            <!-- 姓名 -->
-            <div class="name">
+                <!-- </div> -->
+                <!-- 姓名 -->
+                <!-- <div class="name"> -->
                 <div class="title">
                     <span>姓名</span>
                 </div>
                 <van-field
-                    v-model="username"
-                    name="姓名"
+                    v-model="cardInfo.userRealName"
+                    name="userRealName"
                     label="姓名"
                     required
                     placeholder="请输入中文名（必填）"
                     :rules="[{ required: true, message: '请输入中文名（必填）' }]"
                 />
-                <van-field v-model="value1" name="姓名EN" label="姓名EN" placeholder="Patter" />
-            </div>
-            <!-- 职位/岗位 -->
-            <div class="position">
+                <van-field
+                    required
+                    v-model="cardInfo.userRealNameEn"
+                    name="userRealNameEn"
+                    label="姓名EN"
+                    placeholder="Patter"
+                />
+                <!-- </div> -->
+                <!-- 职位/岗位 -->
+                <!-- <div class="position"> -->
                 <div class="title">
                     <span>职位/岗位</span>
                 </div>
                 <van-field
-                    v-model="username"
-                    name="职位"
+                    v-model="cardInfo.postName"
+                    name="postName"
                     label="职位"
                     required
                     placeholder="请输入中文公司/单位名称"
                     :rules="[{ required: true, message: '请输入中文公司/单位名称' }]"
                 />
                 <van-field
-                    v-model="username"
-                    name="职位EN"
+                    v-model="cardInfo.postNameEn"
+                    name="postNameEn"
                     label="职位EN"
                     placeholder="请输入英文公司/单位名称"
                     :rules="[{ required: true, message: '请输入英文文公司/单位名称' }]"
                 />
-            </div>
-            <!-- 在职时间 -->
-            <div class="time">
+                <!-- </div> -->
+                <!-- 在职时间 -->
+                <!-- <div class="time"> -->
                 <div class="title">
                     <span>在职时间</span>
                     <span class="notes">（注：结束时间如果选择“至今”）</span>
                 </div>
                 <van-field
-                    v-model="username"
-                    name="开始时间"
+                    v-model="cardInfo.startDate"
+                    name="startDate"
                     label="开始时间"
                     placeholder="请输入开始时间"
                     :rules="[{ required: true, message: '请输入开始时间' }]"
                 />
                 <van-field
-                    v-model="username"
-                    name="结束时间"
+                    v-model="cardInfo.endDate"
+                    name="endDate"
                     label="结束时间"
                     placeholder="请输入结束时间"
                     :rules="[{ required: true, message: '请输入结束时间' }]"
                 />
-            </div>
-            <!-- 联系方式 -->
-            <div class="position">
+                <!-- </div> -->
+                <!-- 联系方式 -->
+                <!-- <div class="position"> -->
                 <div class="title">
                     <span>联系方式</span>
                 </div>
                 <van-field
-                    v-model="phone"
+                    name="phone"
+                    v-model="cardInfo.phone"
                     required
                     label="电话号码"
                     placeholder="请输入电话号码"
                     :rules="[{ required: true, message: '电话号码格式错误' }]"
                 />
                 <van-field
-                    v-model="username"
-                    name="邮箱地址"
+                    v-model="cardInfo.email"
+                    name="email"
                     required
                     label="邮箱地址"
                     placeholder="请输入邮箱地址"
                     :rules="[{ required: true, message: '请输入邮箱地址' }]"
                 />
-            </div>
-            <!-- 公司所属行业 -->
-            <div class="industry">
-                <div class="title">
-                    <span>公司所属行业</span>
-                </div>
-                <van-field v-model="industry" label="行业" placeholder="请输入中文名(必填)" />
-                <van-field v-model="industry_en" name="行业EN" label="行业EN" placeholder="请输入英文名" />
-            </div>
-            <!-- 公司地址 -->
-            <div class="industry">
+                <!-- </div> -->
+                <!-- 公司所属行业 -->
+                <!-- <div class="industry"> -->
                 <div class="title">
                     <span>公司所属行业</span>
                 </div>
                 <van-field
+                    v-model="cardInfo.industry"
+                    label="行业"
+                    placeholder="请输入中文名(必填)"
+                    name="industry"
+                />
+                <van-field
+                    v-model="cardInfo.industryEn"
+                    name="industryEn"
+                    label="行业EN"
+                    placeholder="请输入英文名"
+                />
+                <!-- </div> -->
+                <!-- 公司地址 -->
+                <!-- <div class="industry"> -->
+                <div class="title">
+                    <span>公司地址</span>
+                </div>
+                <van-field
+                    name="address"
                     v-model="address"
                     label="省市区"
                     placeholder="请选择省市区"
                     @click="chooseAdd"
                     readonly
                 />
-                <van-field v-model="addressDetail" name="详细地址" label="详细地址" placeholder="请输入详细地址" />
                 <van-field
-                    v-model="addressDetail_en"
-                    name="地址"
+                    v-model="cardInfo.companyAddress"
+                    label="详细地址"
+                    placeholder="请输入详细地址"
+                    name="companyAddress"
+                />
+                <van-field
+                    v-model="cardInfo.companyAddressEn"
                     label="地址EN"
                     placeholder="请输入英文版地址"
+                    name="companyAddressEn"
                 />
                 <van-action-sheet v-model="chooseAds" title>
                     <div class="content">
@@ -150,33 +174,36 @@
                         />
                     </div>
                 </van-action-sheet>
-            </div>
-            <!-- 工作描述1 -->
-            <div class="describe_1">
+                <!-- </div> -->
+                <!-- 工作描述1 -->
+                <!-- <div class="describe_1"> -->
                 <div class="title">
                     <span>工作描述1</span>
                 </div>
-                <van-field v-model="describe_1" name="describe_1" placeholder>
+                <van-field v-model="cardInfo.workDesc" placeholder name="workDesc">
                     <template #button>
                         <i size="small" type="default">...</i>
                     </template>
                 </van-field>
-            </div>
-            <!-- 工作描述2 -->
-            <div class="describe_1">
-                <div class="title">
+                <!-- </div> -->
+                <!-- 工作描述2 -->
+                <!-- <div class="describe_1"> -->
+                <!-- <div class="title">
                     <span>工作描述2</span>
                 </div>
                 <van-field v-model="describe_2" name="describe_2" placeholder>
                     <template #button>
                         <i size="small" type="default">...</i>
                     </template>
-                </van-field>
-            </div>
+                </van-field>-->
+                <!-- </div> -->
+                <van-button type="info" native-type="submit" class="submit">保存</van-button>
+            </van-form>
         </div>
     </div>
 </template>
-
+<script src="http://res.wx.qq.com/open/js/jweixin-1.6.0.js">
+</script>
     <script>
 import { util } from '@/utils'
 import { mapGetters } from 'vuex'
@@ -201,28 +228,66 @@ export default {
                 status: 1,
                 activeInfo: '参观房',
             },
+            cardInfo: {},
             phone: '',
             pageSize: 10,
             pageNum: 1,
-            industry: '', // 公司所属行业
-            industry_en: '', // 公司所属行业英文
+            // enterpriseName: '', // 公司名称
+            // industry: '', // 公司所属行业
+            // industry_en: '', // 公司所属行业英文
             chooseAds: false, // 是否显示选择地址
             addressList: AddressList, // 地址列表
             address: '', //地址
             addressDetail: '', //详细地址
             addressDetail_en: '', // 英文详细地址
-            describe_1: '负责系统维护工作…', // 工作描述1
-            describe_2: '负责系统维护工作…', // 工作描述2
+            // describe_1: '负责系统维护工作…', // 工作描述1
+            // describe_2: '负责系统维护工作…', // 工作描述2
+            id: '', // 卡片id
+            provinceId: '', // 省id
+            provinceName: '', // 省名称
+            cityId: '', // 市id
+            cityName: '', // 市名称
         }
     },
 
     created() {
         this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
+        // this.getCard()
     },
     watch: {},
     methods: {
+        // 保存
+        saveCard(cardInfo) {
+            // cardInfo.companyLogo = 'sfsdf'
+            cardInfo.id = this.id
+            // cardInfo.cardUrl = 'sdafs'
+
+            cardInfo.provinceId = this.provinceId
+            cardInfo.provinceName = this.provinceName
+            cardInfo.cityId = this.cityId
+            cardInfo.cityName = this.cityName
+            delete cardInfo.address
+
+            console.log('保存名片', cardInfo)
+
+            Api.editCardSave(cardInfo).then((res) => {
+                console.log('保存', res)
+                if (res.code == 200) {
+                    this.$router.push({
+                        name: 'personal_editInfo',
+                    })
+                }
+            })
+        },
+        // 获取名片信息
+        getCard() {
+            let params = '工作经历id'
+            Api.editCardGet(params).then((res) => {
+                console.log('获取名片信息', res)
+            })
+        },
         // 去认证
-        gotoAuthentication(){
+        gotoAuthentication() {
             this.$router.push({
                 name: 'personal_attestation',
             })
@@ -233,8 +298,12 @@ export default {
         },
         // 选择省市区点击确认按钮
         confirmAdd(e) {
+            console.log('confirmAdd', e)
             this.address = e[0].name + ' ' + e[1].name + ' ' + e[2].name
-            console.log('name', this.address)
+            this.provinceId = e[0].code
+            this.provinceName = e[0].name
+            this.cityId = e[1].code
+            this.cityName = e[1].name
             this.chooseAds = false
         },
         // 选择省市区
@@ -325,6 +394,20 @@ export default {
         .title {
             padding: 0.2rem;
             color: #888888ff;
+            .authentication {
+                float: right;
+                background: #f8d57e;
+            }
+        }
+        .submit {
+            height: 0.8rem;
+            width: 6.84rem;
+            line-height: 0.8rem;
+            text-align: center;
+            margin: 0.52rem 0.34rem;
+            background: rgba(248, 213, 126, 1);
+            letter-spacing: 0.2rem;
+            border-radius: 0.08rem;
         }
     }
 }

@@ -29,12 +29,12 @@ export default [
             requiresAuth: false,
             title: '登录',
         },
-        name: 'login',
-        component: () => import('@/views/customer/login/login.vue')
+        name: 'codeLogin',
+        component: () => import('@/views/customer/login/codeLogin.vue')
     },
-    
+
     // 注册
-     {
+    {
         path: '/firstLogin',
         meta: {
             requiresAuth: false,
@@ -223,7 +223,7 @@ export default [
     },
 
     {
-        path: 'personal_editCard',
+        path: '/personal_editCard',
         meta: {
             requiresAuth: false,
             title: '编辑名片',
@@ -232,7 +232,7 @@ export default [
         component: () => import('@/views/customer/personal/personal_editCard.vue'),
     },
     {
-        path: 'personal_editInfo',
+        path: '/personal_editInfo',
         meta: {
             requiresAuth: false,
             title: '编辑个人信息',
@@ -242,7 +242,7 @@ export default [
     },
 
     {
-        path: 'personal_attestation',
+        path: '/personal_attestation',
         meta: {
             requiresAuth: false,
             title: '职业身份认证',

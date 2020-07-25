@@ -1,11 +1,11 @@
 <template>
     <div id="app">
-        <router-view/>
+        <router-view />
     </div>
 </template>
 
 <script>
-import { mapActions, mapGetters  } from 'vuex';
+import { mapActions, mapGetters } from 'vuex'
 import '@/assets/fonts/iconfont.js'
 
 export default {
@@ -24,5 +24,5 @@ export default {
 </script>
 
 <style lang="scss">
-    @import '@/assets/styles/app.scss';
+@import '@/assets/styles/app.scss';
 </style>

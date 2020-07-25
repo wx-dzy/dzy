@@ -21,24 +21,7 @@
           </span>
         </van-col>
 
-        <div class="message">
-          <van-col span="24" class="activeInfo clear"  style="font-size:0.24rem;line-height:0.52rem;">
-            当前身份：
-            <span>办展工作人员</span>
-            <!-- {{detail.userInfo.identity == 1 ? '参展方' : detail.userInfo.identity == 2 ? '参观方' : '' }} -->
-            <van-button
-              round
-              size="mini"
-              color="#F8D57E"
-              class="switchInfo pull-right"
-              @click="changeIdentity = true"
-            >切换身份</van-button>
-            <div class="enter" style="display:flex;font-size:0.24rem;line-height:0.52rem;margin-top:0.2rem;margin-bottom:0.2rem;">
-              <div class="title" style="flex:28%;">当前企业：</div>
-              <div style="flex:72%;">宝鸡有一群怀揣着梦想奇迹美好网络科技有限公司</div>
-            </div>
-          </van-col>        
-        </div>
+        <checkIdentity></checkIdentity>
 
       </van-row>
 
@@ -50,7 +33,7 @@
           @successCBK="handleActive"
         ></visitingCard>
       </div>
-
+      
       <div class="myOrder">
         <h3 class="title">我的预约</h3>
         <van-list
@@ -110,45 +93,6 @@
       </li>
     </ul>
     <footer-nav :active="active" />
-
-    <!-- 当前身份切换 -->
-    <van-overlay :show="changeIdentity" class="changeIdentityWrap">
-      <div class="wrapper" @click="changeIdentity = false">
-        <div class="block">
-          <div class="imgBox">
-            <img src="@/assets/images/changeIdentity.png" alt class="topImg" />
-          </div>
-
-          <div class="fot">
-            <div class="currentlySelectedEnterprise">
-              <div class="title">选择当前企业</div>
-              <van-radio-group v-model="enterpriseIndex">
-                <van-radio :name="enterpriseIndex" v-for="(item,enterpriseIndex) in checkList" :key="enterpriseIndex">
-                  {{item.text}}
-                  <template #icon="props">
-                    <img class="success1" :src="props.checked ? activeIcon : inactiveIcon" />
-                  </template>  
-                  
-                </van-radio>
-              </van-radio-group>
-            </div>
-
-            <div class="currentlySelectedEnterprise">
-              <div class="title">选择当前身份</div>
-              <van-radio-group v-model="identityIndex">
-                <van-radio :name="identityIndex" v-for="(item,identityIndex) in identityList" :key="identityIndex">
-                  {{item.text}}
-                  <template #icon="props">
-                    <img class="success2" :src="props.checked ? activeIcon : inactiveIcon" />
-                  </template>  
-                  
-                </van-radio>
-              </van-radio-group>
-            </div>
-          </div>
-        </div>
-      </div>
-    </van-overlay>
   </div>
   <!-- 占位图 -->
   <img
@@ -166,6 +110,7 @@ import { mapGetters } from "vuex";
 import * as Api from "@/api/customer/personal";
 import footerNav from "@/components/customer/footerNav/index.vue";
 import visitingCard from "@/components/customer/visitingCard.vue";
+import checkIdentity from "@/components/customer/checkIdentity.vue";
 
 export default {
   name: "personal",
@@ -173,27 +118,12 @@ export default {
     footerNav,
     // 名片
     visitingCard,
+    checkIdentity,
   },
   data() {
     return {
       show: false,
-      // 选择当前企业
-      checkList: [
-        { text: "好招数创（北京）科技有限公司" },
-        { text: "宝鸡有一群怀揣着梦想奇迹美好网络科技有限公司" },
-        { text: "风风火火有限公司" },
-      ],
-      identityList: [
-        { text: "参观人员" },
-        { text: "企业管理员" },
-        { text: "办展工作人员" },
-      ],
-      enterpriseIndex:0, // 默认选择企业名
-      identityIndex:0, // 默认选择身份
-      // 切换身份弹窗
       changeIdentity: false,
-      activeIcon: require('../../../assets/images/ok.png'),
-      inactiveIcon: require('../../../assets/images/no.png'),
       detail: {
         userCardList: [],
         userInfo: {},
@@ -235,24 +165,24 @@ export default {
     },
 
     // 切换身份 satus=1 '参展方'   satus=2 '参观方'
-    handleChangeIdentity(satus) {
-      // console.log(satus, "-- 1参展方,2参观方");
-      let params = {};
-      // return alert(satus + "暂无接口-- 1参展方,2参观方");
-      return alert(satus + "暂无接口-- 1参招方,2参观方");
-      Api.setChangeIdentity(params)
-        .then((res) => {
-          this.changeIdentity = false;
-          let { code, msg, data, total } = res;
-          if (code == 200) {
-            util.success(msg);
-            this.handleDetail();
-          }
-        })
-        .catch((err) => {
-          this.changeIdentity = false;
-        });
-    },
+    // handleChangeIdentity(satus) {
+    //   // console.log(satus, "-- 1参展方,2参观方");
+    //   let params = {};
+    //   // return alert(satus + "暂无接口-- 1参展方,2参观方");
+    //   return alert(satus + "暂无接口-- 1参招方,2参观方");
+    //   Api.setChangeIdentity(params)
+    //     .then((res) => {
+    //       this.changeIdentity = false;
+    //       let { code, msg, data, total } = res;
+    //       if (code == 200) {
+    //         util.success(msg);
+    //         this.handleDetail();
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       this.changeIdentity = false;
+    //     });
+    // },
 
     // 搜索
     onSearch() {

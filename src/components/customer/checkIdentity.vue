@@ -3,7 +3,13 @@
   <div class="checkIdentity">
     <!-- 下拉刷新 -->
     <div class="message">
-      <van-col span="24" class="activeInfo clear" style="font-size:0.24rem;line-height:0.52rem;">
+      <van-col
+        span="24"
+        class="activeInfo clear"
+        style="font-size:0.24rem;line-height:0.52rem;padding: 0 0.42rem;margin: 0.4rem 0 0.32rem;
+      line-height: 0.8rem;background: linear-gradient(270deg,rgba(248, 213, 126, 0.32) 0%,rgba(229, 204, 157, 1) 100%
+      );border-radius: 0.12rem;padding-top: 0.2rem;"
+      >
         当前身份：{{this.identityIndex == 0 ? "参观人员" : this.identityIndex == 1 ? "企业管理员" : this.identityIndex == 2 ? "办展工作人员" : ""}}
         <van-button
           round
@@ -52,7 +58,8 @@
                 <van-radio
                   :name="identityIndex"
                   v-for="(item,identityIndex) in identityList"
-                  :key="identityIndex" @click="goto(identityIndex)"
+                  :key="identityIndex"
+                  @click="goto(identityIndex)"
                 >
                   {{item.text}}
                   <template #icon="props">
@@ -93,21 +100,18 @@ export default {
       inactiveIcon: require("@/assets/images/no.png"),
     };
   },
-  created() {
-  },
+  created() {},
   methods: {
-    goto(){
+    goto() {
       if (this.identityIndex == 0) {
         this.$router.push({
           name: "personal",
         });
-      }
-      else if(this.identityIndex == 1){
+      } else if (this.identityIndex == 1) {
         this.$router.push({
           name: "enterprise_admins",
         });
-      }
-      else if (this.identityIndex == 2) {
+      } else if (this.identityIndex == 2) {
         this.$router.push({
           name: "personal",
         });
@@ -136,178 +140,167 @@ export default {
 };
 </script>
 <style lang='scss' scoped>
-.personal {
-  position: relative;
-  min-height: 100vh;
-  overflow: auto;
-  padding: 0.5rem 0;
+.info {
+  padding: 0 0.27rem;
 
-  .van-button {
-    color: #000 !important;
+  .name {
+    font-size: 0.36rem;
+    color: rgba(49, 52, 55, 1);
+    line-height: 0.5rem;
   }
 
-  .info {
-    padding: 0 0.27rem;
-
-    .name {
-      font-size: 0.36rem;
-      color: rgba(49, 52, 55, 1);
-      line-height: 0.5rem;
-    }
-
-    .status {
-      display: inline-block;
-      padding: 0 0.18rem;
-      font-size: 0.2rem;
-      color: rgba(49, 52, 55, 1);
-      line-height: 0.36rem;
-      border-radius: 0.08rem;
-      border: 0.02rem solid rgba(255, 165, 165, 1);
-    }
-
-    .van-icon,
-    .inffAll {
-      display: inline-block;
-      padding: 0;
-      font-size: 0.24rem;
-      color: rgba(49, 52, 55, 1);
-      line-height: 0.84rem;
-    }
-
-    .van-icon {
-      position: relative;
-      top: 0.03rem;
-    }
-
-    .activeInfo {
-      padding: 0 0.42rem;
-      margin: 0.4rem 0 0.32rem;
-      line-height: 0.8rem;
-      background: linear-gradient(
-        270deg,
-        rgba(248, 213, 126, 0.32) 0%,
-        rgba(229, 204, 157, 1) 100%
-      );
-
-      border-radius: 0.12rem;
-      padding-top: 0.2rem;
-      .van-button {
-        color: #313437 !important;
-        // margin-top: 0.2rem;
-        padding: 0 0.32rem;
-      }
-    }
+  .status {
+    display: inline-block;
+    padding: 0 0.18rem;
+    font-size: 0.2rem;
+    color: rgba(49, 52, 55, 1);
+    line-height: 0.36rem;
+    border-radius: 0.08rem;
+    border: 0.02rem solid rgba(255, 165, 165, 1);
   }
 
-  .changeIdentityWrap {
-    .wrapper {
-      display: flex;
+  .van-icon,
+  .inffAll {
+    display: inline-block;
+    padding: 0;
+    font-size: 0.24rem;
+    color: rgba(49, 52, 55, 1);
+    line-height: 0.84rem;
+  }
+
+  .van-icon {
+    position: relative;
+    top: 0.03rem;
+  }
+
+  /deep/ .activeInfo {
+    padding: 0 0.42rem;
+    margin: 0.4rem 0 0.32rem;
+    line-height: 0.8rem;
+    background: linear-gradient(
+      270deg,
+      rgba(248, 213, 126, 0.32) 0%,
+      rgba(229, 204, 157, 1) 100%
+    );
+
+    border-radius: 0.12rem;
+    padding-top: 0.2rem;
+    .van-button {
+      color: #313437 !important;
+      // margin-top: 0.2rem;
+      padding: 0 0.32rem;
+    }
+  }
+}
+
+.changeIdentityWrap {
+  .wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+
+  .block {
+    margin-top: 3.5rem;
+    width: 7.5rem;
+    height: 12.2rem;
+    background: rgba(255, 255, 255, 1);
+    .imgBox {
+      width: 2.82rem;
+      height: 2.18rem;
       align-items: center;
-      justify-content: center;
-      height: 100%;
+      margin: 0 auto;
+      margin-top: -0.48rem;
+      .topImg {
+        width: 100%;
+      }
     }
 
-    .block {
-      margin-top: 3.5rem;
-      width: 7.5rem;
-      height: 12.2rem;
-      background: rgba(255, 255, 255, 1);
-      .imgBox {
-        width: 2.82rem;
-        height: 2.18rem;
-        align-items: center;
-        margin: 0 auto;
-        margin-top: -0.48rem;
-        .topImg {
-          width: 100%;
-        }
+    .fot {
+      .currentlySelectedEnterprise {
+        margin-bottom: 1rem;
       }
-
-      .fot {
-        .currentlySelectedEnterprise {
-          margin-bottom: 1rem;
+      .img-icon {
+        height: 0.2rem;
+      }
+      .currentlySelectedEnterprise,
+      .selectCurrentIdentity {
+        margin-left: 0.28rem;
+        .title {
+          font-size: 0.32rem;
+          color: rgba(49, 52, 55, 1);
+          line-height: 0.44rem;
+          font-weight: bold;
+          font-family: AlibabaPuHuiTiM;
+          padding-bottom: 0.2rem;
         }
-        .img-icon {
-          height: 0.2rem;
-        }
-        .currentlySelectedEnterprise,
-        .selectCurrentIdentity {
-          margin-left: 0.28rem;
-          .title {
-            font-size: 0.32rem;
-            color: rgba(49, 52, 55, 1);
-            line-height: 0.44rem;
-            font-weight: bold;
-            font-family: AlibabaPuHuiTiM;
-            padding-bottom: 0.2rem;
+        .checkList,
+        .identityList {
+          display: flex;
+          border-bottom: 1px solid #ebedf0;
+          i {
+            color: #f8d57e;
+            line-height: 0.8rem;
           }
-          .checkList,
-          .identityList {
-            display: flex;
+        }
+        .checkList:nth-last-child(1),
+        .identityList:nth-last-child(1) {
+          border: none;
+        }
+
+        /deep/ .van-radio-group {
+          .van-radio {
             border-bottom: 1px solid #ebedf0;
-            i {
-              color: #f8d57e;
+            font-size: 0.24rem;
+            .van-radio__label {
+              color: #323233;
               line-height: 0.8rem;
             }
           }
-          .checkList:nth-last-child(1),
-          .identityList:nth-last-child(1) {
-            border: none;
-          }
-
-          /deep/ .van-radio-group {
-            .van-radio {
-              border-bottom: 1px solid #ebedf0;
-              font-size: 0.24rem;
-              .van-radio__label {
-                color: #323233;
-                line-height: 0.8rem;
-              }
-            }
-            .fieldset,
-            img {
-              height: 0.5rem;
-            }
+          .fieldset,
+          img {
+            height: 0.5rem;
           }
         }
       }
     }
   }
+}
 
-  .btnWrap {
-    padding: 0 0.27rem;
+.btnWrap {
+  padding: 0 0.27rem;
 
-    .item {
-      position: relative;
-      width: 3.36rem;
-      height: 1.38rem;
-      background: rgba(243, 237, 232, 1);
-      box-shadow: 0rem 0.1rem 0.26rem 0rem rgba(223, 227, 233, 0.51);
-      border-radius: 0.08rem;
-      user-select: none;
+  .item {
+    position: relative;
+    width: 3.36rem;
+    height: 1.38rem;
+    background: rgba(243, 237, 232, 1);
+    box-shadow: 0rem 0.1rem 0.26rem 0rem rgba(223, 227, 233, 0.51);
+    border-radius: 0.08rem;
+    user-select: none;
 
-      .text {
-        width: 1.8rem;
-        font-size: 0.24rem;
-        color: rgba(163, 118, 87, 1);
-        line-height: 0.4rem;
-        letter-spacing: 1px;
-        padding-left: 0.4rem;
-      }
-      .pad30 {
-        padding-top: 0.3rem;
-      }
-      .pad48 {
-        padding-top: 0.48rem;
-      }
+    .text {
+      width: 1.8rem;
+      font-size: 0.24rem;
+      color: rgba(163, 118, 87, 1);
+      line-height: 0.4rem;
+      letter-spacing: 1px;
+      padding-left: 0.4rem;
+    }
+    .pad30 {
+      padding-top: 0.3rem;
+    }
+    .pad48 {
+      padding-top: 0.48rem;
+    }
 
-      img {
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        width: 0.94rem;
-        height: 0.94rem;
-      }
+    img {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 0.94rem;
+      height: 0.94rem;
     }
   }
 }

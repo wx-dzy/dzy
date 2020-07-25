@@ -251,7 +251,7 @@ export default [
         component: () => import('@/views/customer/personal/personal_attestation.vue'),
     },
     {
-        path: 'my_askFor_data',
+        path: '/my_askFor_data',
         meta: {
             requiresAuth: false,
             title: '我索取的企业资料',

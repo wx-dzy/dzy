@@ -252,7 +252,11 @@ export default {
 
     created() {
         this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
-        // this.getCard()
+        this.id = this.$route.query.id
+        // console.log('this.id', this.id)
+        if (this.id) {
+            this.getCard()
+        }
     },
     watch: {},
     methods: {
@@ -281,10 +285,23 @@ export default {
         },
         // 获取名片信息
         getCard() {
-            let params = '工作经历id'
-            Api.editCardGet(params).then((res) => {
-                console.log('获取名片信息', res)
-            })
+            let params = this.id
+            console.log('cardid', this.id)
+            if (this.id) {
+                Api.editCardGetEdit(params).then((res) => {
+                    console.log('获取名片信息-编辑', res)
+                    if (res.code == 200) {
+                        this.cardInfo = res.data
+                    }
+                })
+            } else {
+                Api.editCardGet().then((res) => {
+                    console.log('获取名片信息-新增', res)
+                    if (res.code == 200) {
+                        this.cardInfo = res.data
+                    }
+                })
+            }
         },
         // 去认证
         gotoAuthentication() {

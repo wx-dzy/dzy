@@ -291,7 +291,15 @@ export default {
             Api.getAppId()
                 .then((res) => {
                     console.log('获取appid', res)
-                    this.appId = res.data.appId
+                    const { code, data, msg, total } = res
+                    this.appId = data.appId
+
+                    sessionStorage.setItem('jsapi_ticket', data.jsapi_ticket)
+                    sessionStorage.setItem('nonceStr', data.nonceStr)
+                    sessionStorage.setItem('signature', data.signature)
+                    sessionStorage.setItem('timestamp', data.timestamp)
+
+                    sessionStorage.setItem('appId', this.appId)
                     console.log('appid', this.appId)
                     // 获取code
                     this.getCode()
@@ -481,7 +489,6 @@ export default {
                         // sessionStorage.setItem("userId", res.data.userId);
                         util.setCookie('dzy_userInfo', JSON.stringify(data), 7)
                         util.setCookie('dzy_token', data.accessToken, 7)
-
                         // let { access_token, username } = res.data;
                         if (res.data.firstLogin == 0) {
                             this.$router.push({

@@ -33,3 +33,6 @@ export const editCardGetEdit = params => axios.get('/c/user/get-user-card-by-id/
 
 // 我索取的资料-分页列表
 export const askMessage = params => axios.get('/c/user/user-request-file/page', { params });
+
+// 我-首页-系统管理员
+export const indexAdmin = () => axios.get('/c/user/my-index-as-admin');

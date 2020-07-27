@@ -268,6 +268,24 @@ export default [
         name: 'enterprise_admins',
         component: () => import('@/views/customer/personal/enterprise_admins.vue'),
     },
+    {
+        path: '/addMember',
+        meta: {
+            requiresAuth: false,
+            title: '添加成员',
+        },
+        name: 'addMember',
+        component: () => import('@/views/customer/personal/addMember.vue'),
+    },
+    {
+        path: '/MTaddMember',
+        meta: {
+            requiresAuth: false,
+            title: '手动输入添加成员',
+        },
+        name: 'MTaddMember',
+        component: () => import('@/views/customer/personal/MTaddMember.vue'),
+    },
     // ------------------   我的   end ------------------
 
 

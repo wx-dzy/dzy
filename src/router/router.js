@@ -286,6 +286,16 @@ export default [
         name: 'MTaddMember',
         component: () => import('@/views/customer/personal/MTaddMember.vue'),
     },
+    
+    {
+        path: '/setDepartments',
+        meta: {
+            requiresAuth: false,
+            title: '设置部门',
+        },
+        name: 'setDepartments',
+        component: () => import('@/views/customer/personal/setDepartments.vue'),
+    },
     // ------------------   我的   end ------------------
 
 

@@ -14,7 +14,7 @@ export const getMyInterviewPage = params => axios.get('/c/user-interview/my-inte
 export const setCancelInterview = params => axios.post('/c/show-people-interview/pre-interview/' + params.userPreInterviewDetailId + '/' + params.type,);
 
 // 切换身份
-export const setChangeIdentity = params => axios.post('url' + params,);
+export const setChangeIdentity = () => axios.get('/c/user/list-enterprise-by-login-user');
 
 // 编辑个人信息-获取信息
 export const getUserInfo = params => axios.get('/c/user/get-user-base-info', params,);
@@ -36,3 +36,6 @@ export const askMessage = params => axios.get('/c/user/user-request-file/page', 
 
 // 我-首页-系统管理员
 export const indexAdmin = () => axios.get('/c/user/my-index-as-admin');
+
+// 成员加入待确认-通过（不通过）  
+export const applyUsertoEnterprise = params => axios.post('/c/user/apply-user-to-enterprise', params);

@@ -260,7 +260,7 @@ export default [
         component: () => import('@/views/customer/personal/my_askFor_data.vue'),
     },
     {
-        path: 'enterprise_admins',
+        path: '/enterprise_admins',
         meta: {
             requiresAuth: false,
             title: '我的-首页-企业管理员',

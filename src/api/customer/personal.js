@@ -39,3 +39,6 @@ export const indexAdmin = () => axios.get('/c/user/my-index-as-admin');
 
 // 成员加入待确认-通过（不通过）  
 export const applyUsertoEnterprise = params => axios.post('/c/user/apply-user-to-enterprise', params);
+
+// 我-身份-切换身份操作-提示
+export const changeIdentity = params => axios.post('/c/user/change-identity', params);

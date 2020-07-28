@@ -60,7 +60,7 @@
                         :key="index"
                     >{{peopleItem.realName}}</span>
                 </div>
-                <div class="appointRight">添加人员</div>
+                <div class="appointRight" @click="addMember">添加人员</div>
             </div>
         </div>
     </div>
@@ -130,6 +130,9 @@ export default {
             }
             Api.applyUsertoEnterprise(params).then((res) => {
                 console.log('不通过', res)
+                if (res.code == 200) {
+                    this.getInfo()
+                }
             })
         },
         // 通过
@@ -142,6 +145,9 @@ export default {
             }
             Api.applyUsertoEnterprise(params).then((res) => {
                 console.log('通过', res)
+                if (res.code == 200) {
+                    this.getInfo()
+                }
             })
         },
         // 获取信息

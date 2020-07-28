@@ -43,8 +43,9 @@
                                     :name="enterpriseIndex"
                                     v-for="(item,enterpriseIndex) in checkList"
                                     :key="enterpriseIndex"
+                                    @click="checkEnterprise(enterpriseIndex)"
                                 >
-                                    {{item.text}}
+                                    {{item.enterpriseName}}
                                     <template #icon="props">
                                         <img
                                             class="success1"
@@ -114,7 +115,19 @@ export default {
     },
     created() {},
     methods: {
-        goto() {
+        // 选择企业
+        checkEnterprise(enterpriseIndex) {
+            this.enterpriseIndex = enterpriseIndex
+        },
+        goto(identityIndex) {
+            console.log('identityIndex', identityIndex)
+            let params = {
+                enterpriseId: this.checkList[this.enterpriseIndex].enterpriseId,
+                identity: this.identityList[this.identityIndex].identity,
+            }
+            Api.changeIdentity(params).then((res) => {
+                console.log('切换身份成功', res)
+            })
             if (this.identityIndex == 0) {
                 this.$router.push({
                     name: 'personal',
@@ -140,10 +153,14 @@ export default {
                 .then((res) => {
                     console.log('切换身份', res)
                     // this.changeIdentity = false
-                    let { code, msg, data, total } = res
+                    let { code, data, msg, total } = res
                     if (code == 200) {
+                        this.checkList = data
+                        this.identityList = this.checkList[
+                            enterpriseIndex
+                        ].identityList
+                        // this.handleDetail()
                         util.success(msg)
-                        this.handleDetail()
                     }
                 })
                 .catch((err) => {

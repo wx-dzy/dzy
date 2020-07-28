@@ -10,20 +10,20 @@
       line-height: 0.8rem;background: linear-gradient(270deg,rgba(248, 213, 126, 0.32) 0%,rgba(229, 204, 157, 1) 100%
       );border-radius: 0.12rem;padding-top: 0.2rem;"
             >
-                当前身份：{{this.identityIndex == 0 ? "参观人员" : this.identityIndex == 1 ? "企业管理员" : this.identityIndex == 2 ? "办展工作人员" : ""}}
+                当前身份：{{identity == 1 ? "参观方" : identity == 2 ? "参展方" :''}}
                 <van-button
                     round
                     size="mini"
                     color="#F8D57E"
                     class="switchInfo pull-right"
-                    @click="changeIdentity = true"
+                    @click="handleChangeIdentity"
                 >切换身份</van-button>
                 <div
                     class="enter"
                     style="display:flex;font-size:0.24rem;line-height:0.52rem;margin-top:0.2rem;margin-bottom:0.2rem;"
                 >
                     <div class="title" style="flex:20%;">当前企业：</div>
-                    <div style="flex:80%;">宝鸡有一群怀揣着梦想奇迹美好网络科技有限公司</div>
+                    <div style="flex:80%;">{{enterpriseName}}</div>
                 </div>
             </van-col>
         </div>
@@ -81,7 +81,13 @@
     </div>
 </template>
 <script>
+import * as Api from '@/api/customer/personal'
+
 export default {
+    props: {
+        identity: Number,
+        enterpriseName: String,
+    },
     name: '',
     components: {},
     data() {
@@ -125,13 +131,15 @@ export default {
         },
         // 切换身份 satus=1 '参展方'   satus=2 '参观方'
         handleChangeIdentity(satus) {
+            this.changeIdentity = true
             // console.log(satus, "-- 1参展方,2参观方");
             let params = {}
             // return alert(satus + "暂无接口-- 1参展方,2参观方");
-            return alert(satus + '暂无接口-- 1参招方,2参观方')
+            // return alert(satus + '暂无接口-- 1参招方,2参观方')
             Api.setChangeIdentity(params)
                 .then((res) => {
-                    this.changeIdentity = false
+                    console.log('切换身份', res)
+                    // this.changeIdentity = false
                     let { code, msg, data, total } = res
                     if (code == 200) {
                         util.success(msg)
@@ -139,7 +147,7 @@ export default {
                     }
                 })
                 .catch((err) => {
-                    this.changeIdentity = false
+                    // this.changeIdentity = false
                 })
         },
     },

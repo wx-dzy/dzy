@@ -26,7 +26,7 @@
                     </span>
                 </van-col>
 
-                <checkIdentity></checkIdentity>
+                <checkIdentity :identity="detail.userInfo.identity"></checkIdentity>
             </van-row>
 
             <!-- 名片 -->

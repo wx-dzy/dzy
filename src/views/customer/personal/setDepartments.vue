@@ -53,6 +53,7 @@ export default {
           company: "王晓红",
         },
       ],
+      value:""
     };
   },
   created() {},

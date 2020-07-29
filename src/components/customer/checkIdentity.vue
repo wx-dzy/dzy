@@ -7,10 +7,10 @@
                 span="24"
                 class="activeInfo clear"
                 style="font-size:0.24rem;line-height:0.52rem;padding: 0 0.42rem;margin: 0.4rem 0 0.32rem;
-      line-height: 0.8rem;background: linear-gradient(270deg,rgba(248, 213, 126, 0.32) 0%,rgba(229, 204, 157, 1) 100%
-      );border-radius: 0.12rem;padding-top: 0.2rem;"
+        line-height: 0.8rem;background: linear-gradient(270deg,rgba(248, 213, 126, 0.32) 0%,rgba(229, 204, 157, 1) 100%
+        );border-radius: 0.12rem;padding-top: 0.2rem;"
             >
-                当前身份：{{identity == 1 ? "参观方" : identity == 2 ? "参展方" :''}}
+                当前身份：{{identityList[identityIndex].identityName}}
                 <van-button
                     round
                     size="mini"
@@ -23,7 +23,7 @@
                     style="display:flex;font-size:0.24rem;line-height:0.52rem;margin-top:0.2rem;margin-bottom:0.2rem;"
                 >
                     <div class="title" style="flex:20%;">当前企业：</div>
-                    <div style="flex:80%;">{{enterpriseName}}</div>
+                    <div style="flex:80%;">{{checkList[enterpriseIndex].enterpriseName}}</div>
                 </div>
             </van-col>
         </div>
@@ -65,7 +65,7 @@
                                     :key="identityIndex"
                                     @click="goto(identityIndex)"
                                 >
-                                    {{item.text}}
+                                    {{item.identityName}}
                                     <template #icon="props">
                                         <img
                                             class="success2"
@@ -85,10 +85,6 @@
 import * as Api from '@/api/customer/personal'
 
 export default {
-    props: {
-        identity: Number,
-        enterpriseName: String,
-    },
     name: '',
     components: {},
     data() {
@@ -113,7 +109,9 @@ export default {
             inactiveIcon: require('@/assets/images/no.png'),
         }
     },
-    created() {},
+    created() {
+        this.getInfo()
+    },
     methods: {
         // 选择企业
         checkEnterprise(enterpriseIndex) {
@@ -127,25 +125,27 @@ export default {
             }
             Api.changeIdentity(params).then((res) => {
                 console.log('切换身份成功', res)
+                if (this.identityIndex == 0) {
+                    this.$router.push({
+                        name: 'personal',
+                    })
+                } else if (this.identityIndex == 1) {
+                    this.$router.push({
+                        name: 'enterprise_admins',
+                    })
+                } else if (this.identityIndex == 2) {
+                    this.$router.push({
+                        name: 'personal',
+                    })
+                }
             })
-            if (this.identityIndex == 0) {
-                this.$router.push({
-                    name: 'personal',
-                })
-            } else if (this.identityIndex == 1) {
-                this.$router.push({
-                    name: 'enterprise_admins',
-                })
-            } else if (this.identityIndex == 2) {
-                this.$router.push({
-                    name: 'personal',
-                })
-            }
         },
         // 切换身份 satus=1 '参展方'   satus=2 '参观方'
         handleChangeIdentity(satus) {
             this.changeIdentity = true
             // console.log(satus, "-- 1参展方,2参观方");
+        },
+        getInfo() {
             let params = {}
             // return alert(satus + "暂无接口-- 1参展方,2参观方");
             // return alert(satus + '暂无接口-- 1参招方,2参观方')
@@ -157,7 +157,7 @@ export default {
                     if (code == 200) {
                         this.checkList = data
                         this.identityList = this.checkList[
-                            enterpriseIndex
+                            this.enterpriseIndex
                         ].identityList
                         // this.handleDetail()
                         util.success(msg)

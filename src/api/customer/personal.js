@@ -42,3 +42,6 @@ export const applyUsertoEnterprise = params => axios.post('/c/user/apply-user-to
 
 // 我-身份-切换身份操作-提示
 export const changeIdentity = params => axios.post('/c/user/change-identity', params);
+
+// 添加人员
+export const MTAddMember = params => axios.get('/c/user/add-enterprise-people' + params);

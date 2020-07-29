@@ -2,10 +2,7 @@
     <!-- 企业管理员 -->
     <div class="enterprise_admins">
         <div class="top">
-            <checkIdentity
-                :identity="userIdentity.identity"
-                :enterpriseName="userIdentity.enterpriseName"
-            ></checkIdentity>
+            <checkIdentity></checkIdentity>
         </div>
         <van-search v-model="value" shape="round" placeholder="当前企业的人名" />
         <div class="organizationStructure">

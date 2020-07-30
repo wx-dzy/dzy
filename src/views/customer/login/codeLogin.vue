@@ -293,13 +293,6 @@ export default {
                     console.log('获取appid', res)
                     const { code, data, msg, total } = res
                     this.appId = data.appId
-
-                    sessionStorage.setItem('jsapi_ticket', data.jsapi_ticket)
-                    sessionStorage.setItem('nonceStr', data.nonceStr)
-                    sessionStorage.setItem('signature', data.signature)
-                    sessionStorage.setItem('timestamp', data.timestamp)
-
-                    sessionStorage.setItem('appId', this.appId)
                     console.log('appid', this.appId)
                     // 获取code
                     this.getCode()

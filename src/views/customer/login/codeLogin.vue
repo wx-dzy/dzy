@@ -308,11 +308,11 @@ export default {
             // var local = 'http://192.168.31.221:9000/'
 
             if (code == null || code == '') {
-                // window.location.href =
-                //     'http://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://192.168.1.117:9000/&response_type=code'
-
                 window.location.href =
-                    'http://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://www.dzy315.com/codeLogin&response_type=code'
+                    'http://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://192.168.0.101:9000/&response_type=code'
+
+                // window.location.href =
+                //     'http://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://www.dzy315.com/codeLogin&response_type=code'
             } else {
                 _this.code = code
                 console.log('code', _this.code)

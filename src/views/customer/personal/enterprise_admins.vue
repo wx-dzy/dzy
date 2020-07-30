@@ -10,10 +10,15 @@
                 <span>组织结构</span>
                 <div class="fit">
                     <i class="iconfont">&#xe671;</i>
-                    <span>设置</span>
+                    <span @click="toSetDepartments">设置</span>
                 </div>
             </div>
-            <div class="itemBox" v-for="(item,index) in companyList" :key="index">
+            <div
+                class="itemBox"
+                v-for="(item,index) in companyList"
+                :key="index"
+                @click="toSetDepartments"
+            >
                 <div class="left">
                     <img :src="item.imgUrl" alt />
                 </div>
@@ -117,6 +122,12 @@ export default {
         this.getInfo()
     },
     methods: {
+        // 设置部门
+        toSetDepartments() {
+            this.$router.push({
+                name: 'setDepartments',
+            })
+        },
         // 不通过
         nopass(id) {
             console.log('userId', id)

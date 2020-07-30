@@ -17,6 +17,7 @@
 
 <script>
 import { videoPlayer } from "vue-video-player";
+import { util } from "@/utils";
 export default {
   // playVideoId 当前播放的 id
   props: ["_id", "playVideoId", "src", "bannerIMG"],
@@ -36,8 +37,8 @@ export default {
           {
             type: "video/mp4", // 这里的种类支持很多种：基本视频格式、直播、流媒体等，具体可以参看git网址项目
             // src: require("@/assets/images/video1.mp4") // url地址
-            src: ""
-          }
+            src: "",
+          },
         ],
         //你的封面地址
         poster: "",
@@ -49,24 +50,24 @@ export default {
           timeDivider: true,
           durationDisplay: true,
           remainingTimeDisplay: false,
-          fullscreenToggle: true //全屏按钮
-        }
-      }
+          fullscreenToggle: true, //全屏按钮
+        },
+      },
     };
   },
   components: {
-    videoPlayer
+    videoPlayer,
   },
 
   watch: {
-    // playVideoId(newVal, oldVal) {
-    //   console.log(newVal, "watch");
-    //   if (newVal != this._id) {
-    //     this.$refs.videoPlayer.player.pause(); // 暂停
-    //   } else {
-    //     // this.$refs.videoPlayer.player.play(); // 播放
-    //   }
-    // }
+    playVideoId(newVal, oldVal) {
+      console.log(newVal, "watch");
+      if (newVal != this._id) {
+        this.$refs.videoPlayer.player.pause(); // 暂停
+      } else {
+        this.$refs.videoPlayer.player.play(); // 播放
+      }
+    },
   },
   created() {
     // 赋值地址 海报
@@ -76,9 +77,9 @@ export default {
   methods: {
     // 播放
     onPlayerPlay(player) {
+      //   sessionStorage.setItem("onPlayerPlayId")
       // console.log(this._id, "play");
-      this.$emit("update:playVideo-id", this._id);
-      // this.$emit("update:", this._id);
+      this.$emit("update:playVideoId", this._id);
       // this.$refs.videoPlayer.player.play(); // 播放
     },
     // 暂停
@@ -87,16 +88,16 @@ export default {
     },
     // 当前播放位置发生变化时触发。
     onPlayerTimeupdate(player) {
-      // console.log(player);
+      // console.log(player,'22');
       // this.$refs.videoPlayer.player.play(); // 播放
       // this.$refs.videoPlayer.player.src(src); // 重置进度条
-    }
+    },
   },
   computed: {
     player() {
       return this.$refs.videoPlayer.player;
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

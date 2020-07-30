@@ -29,12 +29,12 @@ export default [
             requiresAuth: false,
             title: '登录',
         },
-        name: 'login',
-        component: () => import('@/views/customer/login/login.vue')
+        name: 'codeLogin',
+        component: () => import('@/views/customer/login/codeLogin.vue')
     },
-    
+
     // 注册
-     {
+    {
         path: '/firstLogin',
         meta: {
             requiresAuth: false,
@@ -223,7 +223,7 @@ export default [
     },
 
     {
-        path: 'personal_editCard',
+        path: '/personal_editCard',
         meta: {
             requiresAuth: false,
             title: '编辑名片',
@@ -232,7 +232,7 @@ export default [
         component: () => import('@/views/customer/personal/personal_editCard.vue'),
     },
     {
-        path: 'personal_editInfo',
+        path: '/personal_editInfo',
         meta: {
             requiresAuth: false,
             title: '编辑个人信息',
@@ -242,13 +242,59 @@ export default [
     },
 
     {
-        path: 'personal_attestation',
+        path: '/personal_attestation',
         meta: {
             requiresAuth: false,
             title: '职业身份认证',
         },
         name: 'personal_attestation',
         component: () => import('@/views/customer/personal/personal_attestation.vue'),
+    },
+    {
+        path: '/my_askFor_data',
+        meta: {
+            requiresAuth: false,
+            title: '我索取的企业资料',
+        },
+        name: 'my_askFor_data',
+        component: () => import('@/views/customer/personal/my_askFor_data.vue'),
+    },
+    {
+        path: '/enterprise_admins',
+        meta: {
+            requiresAuth: false,
+            title: '我的-首页-企业管理员',
+        },
+        name: 'enterprise_admins',
+        component: () => import('@/views/customer/personal/enterprise_admins.vue'),
+    },
+    {
+        path: '/addMember',
+        meta: {
+            requiresAuth: false,
+            title: '添加成员',
+        },
+        name: 'addMember',
+        component: () => import('@/views/customer/personal/addMember.vue'),
+    },
+    {
+        path: '/MTaddMember',
+        meta: {
+            requiresAuth: false,
+            title: '手动输入添加成员',
+        },
+        name: 'MTaddMember',
+        component: () => import('@/views/customer/personal/MTaddMember.vue'),
+    },
+    
+    {
+        path: '/setDepartments',
+        meta: {
+            requiresAuth: false,
+            title: '设置部门',
+        },
+        name: 'setDepartments',
+        component: () => import('@/views/customer/personal/setDepartments.vue'),
     },
     // ------------------   我的   end ------------------
 

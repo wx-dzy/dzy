@@ -29,6 +29,7 @@
             <div class="departments">
                 <van-field label="部门" v-model="username" placeholder="选填" />
                 <button @click="goToSetDepartments">设置部门</button>
+                
             </div>
             <van-button type="info" class="submit" native-type="submit">保存</van-button>
         </van-form>

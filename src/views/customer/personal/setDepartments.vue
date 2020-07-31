@@ -45,11 +45,11 @@
             </van-overlay>
             <!-- <van-popup v-model="show">
         <div class="mini-member" style="width:6.96rem;height:5.38rem;background:rgba(255,255,255,1);border-radius:0.08rem;margin:auto;">
-          <div class="title">添加子部门</div>
-          <input type="text" placeholder="请输入部门名称" />
-          <div class="remark">注：添加子部门，可以是一个公司形式，也可以是部门形式</div>
-          <button @click="Popup">取消</button>
-          <button @click="Popup">确认</button>
+            <div class="title">添加子部门</div>
+            <input type="text" placeholder="请输入部门名称" />
+            <div class="remark">注：添加子部门，可以是一个公司形式，也可以是部门形式</div>
+            <button @click="Popup">取消</button>
+            <button @click="Popup">确认</button>
         </div>
             </van-popup>-->
         </div>

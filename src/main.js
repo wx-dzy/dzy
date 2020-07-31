@@ -5,6 +5,7 @@ import store from './store/index'
 import { directives } from './utils';
 import wx from 'weixin-js-sdk';
 import VueJsonp from 'vue-jsonp'
+import moment from "moment";
 Vue.use(VueJsonp)
 
 import {
@@ -93,6 +94,7 @@ Vue.use(GoodsActionButton);
 Vue.use(GoodsActionIcon);
 Vue.use(Area);
 Vue.use(ActionSheet);
+Vue.use(moment)
 
 
 

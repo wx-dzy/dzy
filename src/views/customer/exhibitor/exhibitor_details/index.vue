@@ -85,7 +85,7 @@
               :bannerIMG="item.mediaUrl"
               :playVideoId.sync="playVideoId"
               style="width: 100%;"
-              class="zoom"
+              class="zoom5"
             />
           </div>
 

@@ -145,6 +145,7 @@ export default {
   },
   data() {
     return {
+      // 当前播放id 组件回调 做自动暂停使用
       playVideoId: "0",
       active: "home",
       src: require("@/assets/images/video1.mp4"),
@@ -175,8 +176,19 @@ export default {
     this.onSearch();
   },
   watch: {
-    playVideoId(newVal, oldVal) {
-      console.log(newVal, "22222wwww");
+    // playVideoId(newVal, oldVal) {
+    //   console.log(newVal, "22222wwww");
+    // }
+  },
+
+   beforeRouteLeave(to, from, next) {
+    // console.log(to)
+    // return
+    // 主页禁止返回
+    if (to.path == "/login" || to.path == "/codeLogin") {
+      next(false);
+    } else {
+      next();
     }
   },
   methods: {
@@ -277,14 +289,7 @@ export default {
 
   computed: {},
 
-  beforeRouteLeave(to, from, next) {
-    // 主页禁止返回
-    if (to.fullPath == "/login") {
-      next(false);
-    } else {
-      next();
-    }
-  },
+ 
 
   mounted() {
     this.$nextTick().then(() => {

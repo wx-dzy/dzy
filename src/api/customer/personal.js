@@ -39,3 +39,21 @@ export const indexAdmin = () => axios.get('/c/user/my-index-as-admin');
 
 // 成员加入待确认-通过（不通过）  
 export const applyUsertoEnterprise = params => axios.post('/c/user/apply-user-to-enterprise', params);
+
+// 我-身份-切换身份操作-提示
+export const changeIdentity = params => axios.post('/c/user/change-identity', params);
+
+// 添加人员
+export const MTAddMember = params => axios.get('/c/user/add-enterprise-people', { params });
+
+// 添加人员-获取人员详情
+export const getMemberDetail = params => axios.get('/c/user/get-enterprise-people/', { params });
+
+// 获取下级部门
+export const getChildDept = (enterpriseId, sysOrganizationId) => axios.get('/c/sys-organization/list-sub-dept/' + enterpriseId + '/' + sysOrganizationId);
+
+// 添加部门（子部门） 
+export const assChildDept = params => axios.post('/c/sys-organization/add', params);
+
+// 职业身份认证-获取
+export const CardUrl = params => axios.get('/c/user/list-card-url', params);

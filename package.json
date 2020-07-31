@@ -25,6 +25,7 @@
         "vant": "^2.8.5",
         "vue": "^2.6.10",
         "vue-jsonp": "^0.1.8",
+        "vue-pdf": "^4.1.0",
         "vue-router": "^3.0.3",
         "vue-video-player": "^5.0.2",
         "vue-waterfall2": "^1.9.6",

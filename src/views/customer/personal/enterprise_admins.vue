@@ -2,10 +2,7 @@
     <!-- 企业管理员 -->
     <div class="enterprise_admins">
         <div class="top">
-            <checkIdentity
-                :identity="userIdentity.identity"
-                :enterpriseName="userIdentity.enterpriseName"
-            ></checkIdentity>
+            <checkIdentity></checkIdentity>
         </div>
         <van-search v-model="value" shape="round" placeholder="当前企业的人名" />
         <div class="organizationStructure">
@@ -13,10 +10,15 @@
                 <span>组织结构</span>
                 <div class="fit">
                     <i class="iconfont">&#xe671;</i>
-                    <span>设置</span>
+                    <span @click="toSetDepartments">设置</span>
                 </div>
             </div>
-            <div class="itemBox" v-for="(item,index) in companyList" :key="index">
+            <div
+                class="itemBox"
+                v-for="(item,index) in companyList"
+                :key="index"
+                @click="toSetDepartments"
+            >
                 <div class="left">
                     <img :src="item.imgUrl" alt />
                 </div>
@@ -60,7 +62,7 @@
                         :key="index"
                     >{{peopleItem.realName}}</span>
                 </div>
-                <div class="appointRight">添加人员</div>
+                <div class="appointRight" @click="addMember">添加人员</div>
             </div>
         </div>
     </div>
@@ -120,6 +122,12 @@ export default {
         this.getInfo()
     },
     methods: {
+        // 设置部门
+        toSetDepartments() {
+            this.$router.push({
+                name: 'setDepartments',
+            })
+        },
         // 不通过
         nopass(id) {
             console.log('userId', id)
@@ -130,6 +138,9 @@ export default {
             }
             Api.applyUsertoEnterprise(params).then((res) => {
                 console.log('不通过', res)
+                if (res.code == 200) {
+                    this.getInfo()
+                }
             })
         },
         // 通过
@@ -142,6 +153,9 @@ export default {
             }
             Api.applyUsertoEnterprise(params).then((res) => {
                 console.log('通过', res)
+                if (res.code == 200) {
+                    this.getInfo()
+                }
             })
         },
         // 获取信息

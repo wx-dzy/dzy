@@ -116,6 +116,9 @@ export default {
         // 选择企业
         checkEnterprise(enterpriseIndex) {
             this.enterpriseIndex = enterpriseIndex
+            let enterpriseId = this.checkList[this.enterpriseIndex].enterpriseId
+            console.log('enterpriseId:', enterpriseId)
+            sessionStorage.setItem('enterpriseId', enterpriseId)
         },
         goto(identityIndex) {
             console.log('identityIndex', identityIndex)
@@ -156,6 +159,10 @@ export default {
                     let { code, data, msg, total } = res
                     if (code == 200) {
                         this.checkList = data
+                        let enterpriseId = this.checkList[this.enterpriseIndex]
+                            .enterpriseId
+                        console.log('enterpriseId:', enterpriseId)
+                        sessionStorage.setItem('enterpriseId', enterpriseId)
                         this.identityList = this.checkList[
                             this.enterpriseIndex
                         ].identityList

@@ -604,7 +604,7 @@ export default {
     height: 0.8rem;
     margin-left: 0.34rem;
     margin-top: 0.8rem;
-    margin-bottom: 0.5rem;
+    // margin-bottom: 0.5rem;
     border: none;
     background: rgba(248, 213, 126, 1);
     border-radius: 0.16rem;

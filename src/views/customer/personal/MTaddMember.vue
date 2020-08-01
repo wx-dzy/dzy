@@ -226,7 +226,7 @@ export default {
         background: rgba(248, 213, 126, 1);
         letter-spacing: 0.2rem;
         border-radius: 0.08rem;
-        border: none;
+        border: none; 
         color: #313437;
     }
     /deep/ .van-radio__icon--checked .van-icon {

@@ -53,8 +53,8 @@
                 />
                 <button @click="setMem" native-type="button">设置部门</button>
             </div>
-            <van-overlay :show="IsSetMem" class="setMem">
-                <div class="wrapper" @click="IsSetMem = false">
+            <van-overlay :show="IsSetMem" class="setMem" @click="IsSetMem = false">
+                <div class="wrapper">
                     <div class="block">
                         <div class="setBox">
                             <van-search v-model="value" shape="round" placeholder="搜索" />
@@ -115,9 +115,13 @@ export default {
             inactiveIcon: require('@/assets/images/no.png'),
             value: '',
             setDepartments: '',
+            sysOrganizationId: '', //上级部门id
         }
     },
     created() {
+        this.sysOrganizationId = this.$route.query.sysOrganizationId
+            ? this.$route.query.sysOrganizationId
+            : 0
         this.userInfo.sysOrganizationId = this.$route.query.sysOrganizationId
         this.userInfo.name = this.$route.query.name
         // console.log('name:',this.);
@@ -137,15 +141,16 @@ export default {
 
         getChildren() {
             let enterpriseId = sessionStorage.getItem('enterpriseId')
-            let sysOrganizationId = 0
-
-            Api.getChildDept(enterpriseId, sysOrganizationId).then((res) => {
-                console.log('获取子部门:', res)
-                let { code, data, msg, total } = res
-                if (code == 200) {
-                    this.setList = data
+            console.log('sysOrganizationId', this.sysOrganizationId)
+            Api.getChildDept(enterpriseId, this.sysOrganizationId).then(
+                (res) => {
+                    console.log('获取子部门:', res)
+                    let { code, data, msg, total } = res
+                    if (code == 200) {
+                        this.setList = data
+                    }
                 }
-            })
+            )
         },
         // 添加人员-获取人员详情
         getDetails(userId) {

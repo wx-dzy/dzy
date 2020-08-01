@@ -92,6 +92,7 @@ export default {
             value: '',
             show: false,
             name: '', // 子部门名称
+            sysOrganizationId: this.$route.query.sysOrganizationId,
         }
     },
     created() {
@@ -101,10 +102,12 @@ export default {
         // 添加子部门
         addChildDept() {
             this.show = false
+            let parentId = this.sysOrganizationId
+            console.log('parentId', parentId)
             let params = {
                 name: this.name,
                 enterpriseId: sessionStorage.getItem('enterpriseId'),
-                // parentId: 1287372411024470018,
+                parentId: parentId,
             }
             Api.assChildDept(params).then((res) => {
                 console.log('添加子部门:', res)
@@ -116,6 +119,7 @@ export default {
         },
         // 返回添加成员
         toAddMember(id, name) {
+            console.log('sysOrganizationId', id)
             this.$router.push({
                 path: '/MTaddMember',
                 query: {
@@ -127,16 +131,17 @@ export default {
         // 获取子部门
 
         getChildren() {
+            console.log('sysOrganizationId', this.sysOrganizationId)
             let enterpriseId = sessionStorage.getItem('enterpriseId')
-            let sysOrganizationId = 0
-
-            Api.getChildDept(enterpriseId, sysOrganizationId).then((res) => {
-                console.log('获取子部门:', res)
-                let { code, data, msg, total } = res
-                if (code == 200) {
-                    this.itemList = data
+            Api.getChildDept(enterpriseId, this.sysOrganizationId).then(
+                (res) => {
+                    console.log('获取子部门:', res)
+                    let { code, data, msg, total } = res
+                    if (code == 200) {
+                        this.itemList = data
+                    }
                 }
-            })
+            )
         },
         // Popup() {
         //   this.show = false;

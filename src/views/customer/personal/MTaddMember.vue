@@ -10,7 +10,7 @@
                 :rules="[{ required: true, message: '请输入姓名' }]"
             />
             <van-field name="username" v-model="userInfo.username" label="账号" placeholder="选填" />
-            <van-field label="别名" placeholder="选填" v-model="userInfo.anoName" />
+            <van-field label="别名" name="nickname" placeholder="选填" v-model="userInfo.nickname" />
             <van-field name="sex" label="性别">
                 <template #input>
                     <van-radio-group direction="horizontal" v-model="userInfo.radio">
@@ -46,19 +46,19 @@
             <div class="departments">
                 <van-field
                     label="部门"
-                    v-model="setDepartments"
+                    v-model="userInfo.setDepartments"
                     name="setDepartments"
                     placeholder="选填"
                     readonly
                 />
-                <button @click="setMem" native-type="button">设置部门</button>
+                <van-button @click="setMem" native-type="button">设置部门</van-button>
             </div>
             <van-overlay :show="IsSetMem" class="setMem" @click="IsSetMem = false">
                 <div class="wrapper">
                     <div class="block">
                         <div class="setBox">
-                            <van-search v-model="value" shape="round" placeholder="搜索" />
-                            <van-radio-group v-model="setDepartments">
+                            <!-- <van-search v-model="value" shape="round" placeholder="搜索" /> -->
+                            <van-radio-group v-model="userInfo.setDepartments">
                                 <van-radio
                                     :name="item.name"
                                     v-for="(item,setIndex) in setList"
@@ -104,9 +104,8 @@ export default {
                 address: '',
                 sysPostName: '',
                 userId: '',
-                sysOrganizationId: '',
-                name: '',
-                anoName: '', // 别名
+                setDepartments: '',
+                nickname: '', // 别名
             },
             IsSetMem: false,
             setIndex: 0,
@@ -115,16 +114,15 @@ export default {
             inactiveIcon: require('@/assets/images/no.png'),
             value: '',
             setDepartments: '',
-            sysOrganizationId: '', //上级部门id
+            sysOrganizationId: '', //部门id
         }
     },
     created() {
         this.sysOrganizationId = this.$route.query.sysOrganizationId
             ? this.$route.query.sysOrganizationId
             : 0
-        this.userInfo.sysOrganizationId = this.$route.query.sysOrganizationId
-        this.userInfo.name = this.$route.query.name
-        // console.log('name:',this.);
+        // this.userInfo.sysOrganizationId = this.$route.query.sysOrganizationId
+        this.userInfo.setDepartments = this.$route.query.name
         this.userInfo.userId = this.$route.query.userId
         if (this.userId) {
             this.getDetails(this.userId)
@@ -170,7 +168,7 @@ export default {
             e.sysOrganizationId = this.sysOrganizationId
             let params = JSON.stringify(e)
             console.log('添加成员', params)
-            Api.MTAddMember().then((res) => {
+            Api.MTAddMember(params).then((res) => {
                 console.log('添加成员:', res)
             })
         },

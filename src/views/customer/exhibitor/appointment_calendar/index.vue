@@ -7,7 +7,7 @@
             <p class="job_title">{{userInfo.postName}}</p>
         </div>
         <div class="year_month">
-            <span class="left" @click="weekPre"></span>
+            <span class="left" @click="pickPre"></span>
             <p class="month">{{ currentYear }}.{{ currentMonth }}</p>
             <span class="right" @click="pickNext"></span>
             <!-- <van-field
@@ -27,7 +27,7 @@
                     <ul class="weekdays">
                         <li
                             class="weekends"
-                            v-for="(item,index) in weekList"
+                            v-for="(item,index) in weekListShow"
                             :key="index"
                         >{{item.text}}</li>
                         <!-- <li>一</li>
@@ -92,6 +92,13 @@ export default {
         return {
             current: 0, // 选中的日期下标
             weekList: [
+                { text: '日', value: 7 },
+                { text: '一', value: 1 },
+                { text: '二', value: 2 },
+                { text: '三', value: 3 },
+                { text: '四', value: 4 },
+                { text: '五', value: 5 },
+                { text: '六', value: 6 },
                 { text: '日' },
                 { text: '一' },
                 { text: '二' },
@@ -128,6 +135,7 @@ export default {
                 { text: '五' },
                 { text: '六' },
             ],
+            weekListShow: [],
             active: 0,
             isLoading: false,
             showPicker: false,
@@ -178,13 +186,13 @@ export default {
         // 下个月
         let endtime = getDate.getNextMonthDays().endtime
         let starttime = getDate.getNextMonthDays().starttime
-        console.log('获取时间下月时间')
-        console.log(getDate.getNextMonthDays())
-        console.log(starttime)
+        // console.log('获取时间下月时间')
+        // console.log(getDate.getNextMonthDays())
+        // console.log(starttime)
 
         this.enterpriseShowPeopleId = this.$route.query.enterpriseShowPeopleId
         this.userHeadUrl = this.$route.query.avatar
-        console.log('enterpriseShowPeopleId', this.enterpriseShowPeopleId)
+        // console.log('enterpriseShowPeopleId', this.enterpriseShowPeopleId)
         this.getUserInfo()
         this.initData()
         this.getDaysofMonth()
@@ -212,26 +220,24 @@ export default {
         },
         // 取消预约
         cancleOrder() {
-            console.log('45613')
             Api.interview(this.userPreInterviewDetailId, 0).then((res) => {
-                console.log('预约', res)
+                // console.log('预约', res)
             })
         },
         //
         // 预约
         toOrder() {
-            console.log('12321')
             let params = {
                 userPreInterviewDetailId: this.userPreInterviewDetailId,
                 type: 1,
             }
             let type = 1
-            console.log(
-                'userPreInterviewDetailId',
-                this.userPreInterviewDetailId
-            )
+            // console.log(
+            //     'userPreInterviewDetailId',
+            //     this.userPreInterviewDetailId
+            // )
             Api.interview(this.userPreInterviewDetailId, type).then((res) => {
-                console.log('预约', res)
+                // console.log('预约', res)
                 if (res.code == 200) {
                     this.getUserInfo()
                     this.$toast('预约成功')
@@ -240,24 +246,24 @@ export default {
         },
         //  选择时间
         check(index) {
-            console.log('时间index', index)
+            // console.log('时间index', index)
             this.status = this.todayData[index].interviewStatus
-            console.log('status', this.status)
+            // console.log('status', this.status)
             this.userPreInterviewDetailId = this.todayData[
                 index
             ].userPreInterviewDetailId
         },
         // 获取日数据
         getDayInfo() {
-            console.log('userPreInterviewId', this.userPreInterviewId)
+            // console.log('userPreInterviewId', this.userPreInterviewId)
             // console.log('weekData',this.weekData);
 
             Api.getTodayData(this.userPreInterviewId).then((res) => {
                 if (res.code == 200 && res.data != '') {
                     this.todayData = res.data
-                    console.log('todayData', this.todayData)
+                    // console.log('todayData', this.todayData)
                     this.userPreInterviewDetailId = this.todayData[0].userPreInterviewDetailId
-                    console.log('获取日数据', this.todayData)
+                    // console.log('获取日数据', this.todayData)
                     for (var i = 0; i < this.todayData.length; i++) {
                         if (this.todayData[i].interviewStatus == 0) {
                             this.todayData[i].interviewStatus_1 = '不可预约'
@@ -274,14 +280,26 @@ export default {
         },
         // 获取周数据
         getWeekInfo() {
-            console.log('enterpriseShowPeopleId', this.enterpriseShowPeopleId)
+            // console.log('enterpriseShowPeopleId', this.enterpriseShowPeopleId)
+
+            var date = new Date()
+            var year = this.currentYear
+            var month = this.currentMonth
+            var week = this.currentWeek
+            var lastDate = new Date(year, month, 0).getDate() //获得是标准时间,需要getDate()获得天数
+
+            let startDate = `${year}-${month}-${this.currentDay}`
+            let endDate = `${year}-${month}-${lastDate}`
+
+            console.log('endDate', endDate)
+            console.log('startDate', startDate)
 
             const params = {
                 enterpriseShowPeopleId: this.enterpriseShowPeopleId,
                 // startDate: this.startDate,
                 // endDate: this.endDate
-                startDate: '2020-07-21',
-                endDate: '2020-07-31',
+                startDate: startDate,
+                endDate: endDate,
             }
             Api.getWeekData(params)
                 .then((res) => {
@@ -301,22 +319,39 @@ export default {
 
         // 获取当月有多少天
         getDaysofMonth() {
+            // console.log('currentWeek11111111111', this.currentWeek)
             var date = new Date()
-            var year = date.getFullYear()
-            var month = date.getMonth() + 1
-            var week = date.getDay()
+            var year = this.currentYear
+            var month = this.currentMonth
+            var week = this.currentWeek
+
+            this.weekListShow = this.weekList
+            var line = ''
+
+            for (var i = 0; i < this.weekListShow.length; i++) {
+                if (this.weekListShow[i].value == week) {
+                    line = i
+                }
+                // break
+            }
             console.log('week', week)
+            console.log('line', line)
+
             var lastDay = new Date(year, month, 0).getDate() //获得是标准时间,需要getDate()获得天数
-            this.weekList = this.weekList.splice(
-                week,
-                lastDay - this.currentDay + 1
-            )
-            console.log('weekList', this.weekList)
+            console.log('lastDay', lastDay)
+
+            let totalWeek = line + lastDay
+            console.log('totalWeek', totalWeek)
+
+            console.log('weekList111111', this.weekListShow)
+            this.weekListShow = this.weekListShow.slice(line, totalWeek)
+            console.log('weekList22222222', this.weekListShow)
+
             let currentData = this.currentDay
             for (var i = currentData; i <= lastDay; i++) {
                 this.days.push(i)
             }
-            console.log('这个月有多少天2', this.days)
+            // console.log('这个月有多少天2', this.days)
         },
         formatDate(year, month, day) {
             const y = year
@@ -339,10 +374,10 @@ export default {
             this.currentMonth = date.getMonth() + 1 // 当前月份
             this.startDate = `${this.currentYear}-${this.currentMonth}-${this.currentDay}`
             this.endDate = `${this.currentYear}-${this.currentMonth}-${
-                this.currentDay + 6
+                this.currentDay + 31
             }`
-            console.log('startDate', this.startDate)
-            console.log('endDate', this.endDate)
+            // console.log('startDate', this.startDate)
+            // console.log('endDate', this.endDate)
             // console.log('currentMonth',this.currentMonth);
             this.currentWeek = date.getDay() // 1...6,0  // 星期几
             // console.log('currentWeek',this.currentWeek);
@@ -390,9 +425,11 @@ export default {
 
         // 上一個月  传入当前年份和月份
         pickPre(year, month) {
-            const d = new Date(this.formatDate(year, month, 1))
-            d.setDate(0)
-            this.initData(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1))
+            // const d = new Date(this.formatDate(year, month, 1))
+            // d.setDate(0)
+            // this.initData(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1))
+            // this.getDaysofMonth()
+            console.log('上一個月')
         },
 
         // 下一個月  传入当前年份和月份
@@ -408,18 +445,20 @@ export default {
             // console.log(d);
             d.setDate(35)
             this.initData(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1))
+            this.getDaysofMonth()
+            this.getWeekInfo()
         },
 
         // 当前选择日期
         pick(date, index) {
             // console.log('picker',index);
-            console.log('picker', date)
+            // console.log('picker', date)
             date
             this.current = index
             let checkData =
                 this.currentYear + '-' + this.currentMonth + '-' + date
-            console.log('checkData', checkData)
-            console.log('todayData', this.weekData)
+            // console.log('checkData', checkData)
+            // console.log('todayData', this.weekData)
             this.userPreInterviewId = this.weekData[index].userPreInterviewId
             this.getDayInfo()
         },
@@ -431,7 +470,7 @@ export default {
             setTimeout(() => {
                 this.isLoading = false
                 this.getWeekInfo()
-                console.log('刷新')
+                // console.log('刷新')
             }, 1000)
         },
     },

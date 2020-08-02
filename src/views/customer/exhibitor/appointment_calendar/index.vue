@@ -47,7 +47,7 @@
                 v-if="day.getFullYear() == new Date().getFullYear() && day.getMonth() == new Date().getMonth() && day.getDate() == new Date().getDate()"
                 class="active"
                             >{{ day.getDate() }}</span>-->
-                            <span :class="{'active':index==current}" @click="getDayInfo">{{ day }}</span>
+                            <span :class="{'active':index==current}">{{ day }}</span>
                             <!-- <span v-else>{{ day.getDate() }}</span> -->
                         </span>
                         <!-- <p class="full" v-if="isFull">约满</p> -->
@@ -83,6 +83,7 @@
     </div>
 </template>
 <script>
+import { util } from '@/utils'
 import * as Api from '@/api/customer/exhibitor'
 import getDate from '@/store/getDate'
 export default {
@@ -261,8 +262,9 @@ export default {
             Api.getTodayData(this.userPreInterviewId).then((res) => {
                 if (res.code == 200 && res.data != '') {
                     this.todayData = res.data
-                    // console.log('todayData', this.todayData)
+                    console.log('todayData', this.todayData)
                     this.userPreInterviewDetailId = this.todayData[0].userPreInterviewDetailId
+
                     // console.log('获取日数据', this.todayData)
                     for (var i = 0; i < this.todayData.length; i++) {
                         if (this.todayData[i].interviewStatus == 0) {
@@ -285,8 +287,15 @@ export default {
             var date = new Date()
             var year = this.currentYear
             var month = this.currentMonth
+            month < 10 ? (month = '0' + month) : (month = month)
             var week = this.currentWeek
+
             var lastDate = new Date(year, month, 0).getDate() //获得是标准时间,需要getDate()获得天数
+            lastDate < 10 ? (lastDate = '0' + lastDate) : (lastDate = lastDate)
+
+            this.currentDay < 10
+                ? (this.currentDay = '0' + this.currentDay)
+                : (this.currentDay = this.currentDay)
 
             let startDate = `${year}-${month}-${this.currentDay}`
             let endDate = `${year}-${month}-${lastDate}`
@@ -296,10 +305,12 @@ export default {
 
             const params = {
                 enterpriseShowPeopleId: this.enterpriseShowPeopleId,
-                // startDate: this.startDate,
-                // endDate: this.endDate
+
                 startDate: startDate,
                 endDate: endDate,
+
+                // startDate: '2020-07-17',
+                // endDate: '2020-08-10',
             }
             Api.getWeekData(params)
                 .then((res) => {
@@ -451,16 +462,21 @@ export default {
 
         // 当前选择日期
         pick(date, index) {
-            // console.log('picker',index);
-            // console.log('picker', date)
-            date
+            console.log('picker', index)
+            console.log('picker', date)
             this.current = index
             let checkData =
                 this.currentYear + '-' + this.currentMonth + '-' + date
             // console.log('checkData', checkData)
-            // console.log('todayData', this.weekData)
-            this.userPreInterviewId = this.weekData[index].userPreInterviewId
-            this.getDayInfo()
+
+            if (this.weekData[index]) {
+                this.userPreInterviewId = this.weekData[
+                    index
+                ].userPreInterviewId
+                this.getDayInfo()
+            } else {
+                util.error('暂无数据')
+            }
         },
         onConfirm(value) {
             this.value1 = value

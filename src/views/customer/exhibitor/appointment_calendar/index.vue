@@ -54,7 +54,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="date_content">
+            <div class="date_content" v-show="showDate">
                 <div
                     class="item"
                     v-for="(item,index) in todayData"
@@ -160,6 +160,7 @@ export default {
             monthLength: 0, // 当月有多少天
             startDate: 0, //周数据开始
             endDate: 0, // 周数据结束
+            showDate: true, // 是否显示
         }
     },
     computed: {
@@ -335,6 +336,8 @@ export default {
             var year = this.currentYear
             var month = this.currentMonth
             var week = this.currentWeek
+            var date = this.currentDay
+            // console.log('date', date)
 
             this.weekListShow = this.weekList
             var line = ''
@@ -345,18 +348,18 @@ export default {
                 }
                 // break
             }
-            console.log('week', week)
-            console.log('line', line)
+            // console.log('week', week)
+            // console.log('line', line)
 
             var lastDay = new Date(year, month, 0).getDate() //获得是标准时间,需要getDate()获得天数
-            console.log('lastDay', lastDay)
+            // console.log('lastDay', lastDay)
 
-            let totalWeek = line + lastDay
-            console.log('totalWeek', totalWeek)
+            let totalWeek = line + (lastDay - date + 1)
+            // console.log('totalWeek', totalWeek)
 
-            console.log('weekList111111', this.weekListShow)
+            // console.log('weekList111111', this.weekListShow)
             this.weekListShow = this.weekListShow.slice(line, totalWeek)
-            console.log('weekList22222222', this.weekListShow)
+            // console.log('weekList22222222', this.weekListShow)
 
             let currentData = this.currentDay
             for (var i = currentData; i <= lastDay; i++) {
@@ -436,11 +439,14 @@ export default {
 
         // 上一個月  传入当前年份和月份
         pickPre(year, month) {
-            // const d = new Date(this.formatDate(year, month, 1))
-            // d.setDate(0)
-            // this.initData(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1))
-            // this.getDaysofMonth()
-            console.log('上一個月')
+            const d = new Date(
+                this.formatDate(this.currentYear, this.currentMonth, 1)
+            )
+            console.log('d:', d)
+            d.setDate(0)
+            this.initData(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1))
+            this.getDaysofMonth()
+            this.getWeekInfo()
         },
 
         // 下一個月  传入当前年份和月份

@@ -13,7 +13,7 @@
       </div>
       <div class="btn">
         <button class="left_btn" @click="toInfomation">获取公司资料</button>
-        <button class="right_btn" @click="goToPerson">预约面谈</button>
+        <button class="right_btn" @click="goToPerson">预约面谈</button> 
         <!-- <van-button round size="small"></van-button>
         <van-button round size="small" color="#ffd36f">预约面谈</van-button>-->
       </div>

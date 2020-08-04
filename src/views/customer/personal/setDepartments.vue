@@ -45,11 +45,11 @@
             </van-overlay>
             <!-- <van-popup v-model="show">
         <div class="mini-member" style="width:6.96rem;height:5.38rem;background:rgba(255,255,255,1);border-radius:0.08rem;margin:auto;">
-          <div class="title">添加子部门</div>
-          <input type="text" placeholder="请输入部门名称" />
-          <div class="remark">注：添加子部门，可以是一个公司形式，也可以是部门形式</div>
-          <button @click="Popup">取消</button>
-          <button @click="Popup">确认</button>
+            <div class="title">添加子部门</div>
+            <input type="text" placeholder="请输入部门名称" />
+            <div class="remark">注：添加子部门，可以是一个公司形式，也可以是部门形式</div>
+            <button @click="Popup">取消</button>
+            <button @click="Popup">确认</button>
         </div>
             </van-popup>-->
         </div>
@@ -92,6 +92,7 @@ export default {
             value: '',
             show: false,
             name: '', // 子部门名称
+            sysOrganizationId: this.$route.query.sysOrganizationId,
         }
     },
     created() {
@@ -101,10 +102,12 @@ export default {
         // 添加子部门
         addChildDept() {
             this.show = false
+            let parentId = this.sysOrganizationId
+            console.log('parentId', parentId)
             let params = {
                 name: this.name,
                 enterpriseId: sessionStorage.getItem('enterpriseId'),
-                // parentId: 1287372411024470018,
+                parentId: parentId,
             }
             Api.assChildDept(params).then((res) => {
                 console.log('添加子部门:', res)
@@ -116,6 +119,7 @@ export default {
         },
         // 返回添加成员
         toAddMember(id, name) {
+            console.log('sysOrganizationId', id)
             this.$router.push({
                 path: '/MTaddMember',
                 query: {
@@ -127,16 +131,17 @@ export default {
         // 获取子部门
 
         getChildren() {
+            console.log('sysOrganizationId', this.sysOrganizationId)
             let enterpriseId = sessionStorage.getItem('enterpriseId')
-            let sysOrganizationId = 0
-
-            Api.getChildDept(enterpriseId, sysOrganizationId).then((res) => {
-                console.log('获取子部门:', res)
-                let { code, data, msg, total } = res
-                if (code == 200) {
-                    this.itemList = data
+            Api.getChildDept(enterpriseId, this.sysOrganizationId).then(
+                (res) => {
+                    console.log('获取子部门:', res)
+                    let { code, data, msg, total } = res
+                    if (code == 200) {
+                        this.itemList = data
+                    }
                 }
-            })
+            )
         },
         // Popup() {
         //   this.show = false;

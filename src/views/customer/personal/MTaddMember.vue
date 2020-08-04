@@ -10,7 +10,7 @@
                 :rules="[{ required: true, message: '请输入姓名' }]"
             />
             <van-field name="username" v-model="userInfo.username" label="账号" placeholder="选填" />
-            <van-field label="别名" placeholder="选填" />
+            <van-field label="别名" name="nickname" placeholder="选填" v-model="userInfo.nickname" />
             <van-field name="sex" label="性别">
                 <template #input>
                     <van-radio-group direction="horizontal" v-model="userInfo.radio">
@@ -44,9 +44,44 @@
                 placeholder="选填"
             />
             <div class="departments">
-                <van-field label="部门" v-model="userInfo.name" placeholder="选填" />
-                <button @click="goToSetDepartments">设置部门</button>
+                <van-field
+                    label="部门"
+                    v-model="userInfo.setDepartments"
+                    name="setDepartments"
+                    placeholder="选填"
+                    readonly
+                />
+                <van-button @click="setMem" native-type="button">设置部门</van-button>
             </div>
+            <van-overlay :show="IsSetMem" class="setMem" @click="IsSetMem = false">
+                <div class="wrapper">
+                    <div class="block">
+                        <div class="setBox">
+                            <!-- <van-search v-model="value" shape="round" placeholder="搜索" /> -->
+                            <van-radio-group v-model="userInfo.setDepartments">
+                                <van-radio
+                                    :name="item.name"
+                                    v-for="(item,setIndex) in setList"
+                                    :key="setIndex"
+                                    @click="checkIndex(item.id,$event)"
+                                >
+                                    <span class="left_img">
+                                        <i class="iconfont">&#xe672;</i>
+                                    </span>
+                                    <span class="setText">{{item.name}}</span>
+
+                                    <template #icon="props">
+                                        <img
+                                            class="success2"
+                                            :src="props.checked ? activeIcon : inactiveIcon"
+                                        />
+                                    </template>
+                                </van-radio>
+                            </van-radio-group>
+                        </div>
+                    </div>
+                </div>
+            </van-overlay>
             <van-button type="info" class="submit" native-type="submit">保存</van-button>
         </van-form>
     </div>
@@ -69,21 +104,52 @@ export default {
                 address: '',
                 sysPostName: '',
                 userId: '',
-                sysOrganizationId: '',
-                name: '',
+                setDepartments: '',
+                nickname: '', // 别名
             },
+            IsSetMem: false,
+            setIndex: 0,
+            setList: [],
+            activeIcon: require('@/assets/images/ok.png'),
+            inactiveIcon: require('@/assets/images/no.png'),
+            value: '',
+            setDepartments: '',
+            sysOrganizationId: '', //部门id
         }
     },
     created() {
-        this.userInfo.sysOrganizationId = this.$route.query.sysOrganizationId
-        this.userInfo.name = this.$route.query.name
-        // console.log('name:',this.);
+        this.sysOrganizationId = this.$route.query.sysOrganizationId
+            ? this.$route.query.sysOrganizationId
+            : 0
+        // this.userInfo.sysOrganizationId = this.$route.query.sysOrganizationId
+        this.userInfo.setDepartments = this.$route.query.name
         this.userInfo.userId = this.$route.query.userId
         if (this.userId) {
             this.getDetails(this.userId)
         }
+        this.getChildren()
     },
     methods: {
+        // 选择的部门id
+        checkIndex(id) {
+            console.log('选择的部门id', id)
+            this.sysOrganizationId = id
+        },
+        // 获取子部门
+
+        getChildren() {
+            let enterpriseId = sessionStorage.getItem('enterpriseId')
+            console.log('sysOrganizationId', this.sysOrganizationId)
+            Api.getChildDept(enterpriseId, this.sysOrganizationId).then(
+                (res) => {
+                    console.log('获取子部门:', res)
+                    let { code, data, msg, total } = res
+                    if (code == 200) {
+                        this.setList = data
+                    }
+                }
+            )
+        },
         // 添加人员-获取人员详情
         getDetails(userId) {
             Aoi.getMemberDetail(userId).then((res) => {
@@ -97,18 +163,17 @@ export default {
         addMember(e) {
             // console.log('添加成员', e)
             delete e.undefined
+            delete e.setDepartments
             e.userId = 0
             e.sysOrganizationId = this.sysOrganizationId
             let params = JSON.stringify(e)
             console.log('添加成员', params)
-            Api.MTAddMember().then((res) => {
+            Api.MTAddMember(params).then((res) => {
                 console.log('添加成员:', res)
             })
         },
-        goToSetDepartments() {
-            this.$router.push({
-                name: 'setDepartments',
-            })
+        setMem() {
+            this.IsSetMem = true
         },
     },
 }
@@ -126,7 +191,7 @@ export default {
     }
     .departments {
         margin-top: 0.2rem;
-        margin-bottom: 3rem;
+        margin-bottom: 1.6rem;
         display: flex;
         background-color: #fff;
         .van-cell {
@@ -159,12 +224,69 @@ export default {
         background: rgba(248, 213, 126, 1);
         letter-spacing: 0.2rem;
         border-radius: 0.08rem;
-        border: none;
+        border: none; 
         color: #313437;
     }
     /deep/ .van-radio__icon--checked .van-icon {
         background-color: rgba(248, 213, 126, 1);
         border-color: rgba(248, 213, 126, 1);
+    }
+    //   .wrapper{
+    //       position: absolute;
+    //       right: 0;
+    //   }
+    .block {
+        background-color: #fff;
+        width: 7.5rem;
+        // height: 6rem;
+        margin: auto;
+        .setBox {
+            .img-icon {
+                height: 0.2rem;
+            }
+            .fieldset,
+            img {
+                height: 0.4rem;
+            }
+        }
+        /deep/ .van-radio {
+            height: 1.36rem;
+            //   border: 1px solid red;
+            padding-left: 0.28rem;
+            box-sizing: border-box;
+        }
+        /deep/ .van-radio__icon {
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 50%;
+            border: 1px solid #eeeeee;
+            padding-left: 0.05rem;
+            box-sizing: border-box;
+        }
+
+        /deep/ .van-radio__label {
+            display: inline-block;
+            .left_img {
+                //   justify-items: auto;
+                //   justify-content: center;
+                display: inline-block;
+                width: 0.96rem;
+                height: 0.96rem;
+                border-radius: 50%;
+                background: rgba(245, 245, 245, 1);
+                i {
+                    color: rgba(248, 213, 126, 1);
+                    text-align: center;
+                    line-height: 0.96rem;
+                    margin-left: 0.3rem;
+                }
+            }
+            .setText {
+                margin-left: 0.3rem;
+                display: inline-block;
+                line-height: 1.36rem;
+            }
+        }
     }
 }
 </style>

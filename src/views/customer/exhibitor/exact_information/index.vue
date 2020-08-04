@@ -88,7 +88,7 @@ export default {
                 { name: '微信', icon: img2 },
                 { name: '朋友圈', icon: img3 },
             ],
-            overlay: false, //不显示遮罩层
+            overlay: false, //不显示遮罩层 
         }
     },
 

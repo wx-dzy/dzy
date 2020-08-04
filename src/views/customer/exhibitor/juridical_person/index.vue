@@ -22,27 +22,21 @@
             <span class="addressText">{{user.companyAddress}}</span>
           </div>
           <!-- 关注组件 -->
-            <follow
-              :followType="2"
-              :followId="user.userId"
-              :followStatus.sync="personInfo.followStatus"
-              :showIndex="1"
-              @successCBK="handleFollow"
-              class="add_follow"
-            />
+          <follow
+            :followType="2"
+            :followId="user.userId"
+            :followStatus.sync="personInfo.followStatus"
+            :showIndex="1"
+            @successCBK="handleFollow"
+            class="add_follow"
+          />
         </div>
-        
       </div>
       <img :src="user.avatar" alt />
     </div>
     <div class="personCard" v-if="userCardList.length>0 ? true : false">
-
       <div class="visitingCard" v-if="userCardList.length">
-        <visitingCard
-          :dataList.sync="userCardList"
-          :disabled="false"
-          @successCBK="handleActive"
-        ></visitingCard>
+        <visitingCard :dataList.sync="userCardList" :disabled="false" @successCBK="handleActive"></visitingCard>
       </div>
 
       <!-- <div class="left"></div>
@@ -70,9 +64,8 @@
           </div>
         </div>
       </div>
-      <div class="right"></div> -->
+      <div class="right"></div>-->
       <!-- <div class="text">2/4</div> -->
-      
     </div>
     <!-- <div class="text"></div> -->
     <!-- <div class="text">2/4</div> -->
@@ -84,26 +77,25 @@
     </div>
     <div class="synopsis">
       <div class="title">个人简介</div>
-      <div class="item_text">
-        {{personInfo.workDesc}}
-      </div>
+      <div class="item_text">{{personInfo.workDesc}}</div>
     </div>
     <!-- 我的企业 -->
     <div class="myCompany">
       <div class="title">我的企业</div>
       <div class="item_text">
-        <div class="name" v-for="(item,index) in myEnterpriseList" :key="index">{{item.enterpriseName}}
-          <div class="img">
+        <div class="name" v-for="(item,index) in myEnterpriseList" :key="index">
+          {{item.enterpriseName}}
+          <!-- <div class="img">
             <img :src="item.logo" alt="">
-          </div>
+          </div>-->
           <follow
-              :followType="1"
-              :followId="item.enterpriseId"
-              :followStatus.sync="item.followStatus"
-              :showIndex="1"
-              @successCBK="handleFollow"
-              class="enterprise_follow"
-            />
+            :followType="1"
+            :followId="item.enterpriseId"
+            :followStatus.sync="item.followStatus"
+            :showIndex="1"
+            @successCBK="handleFollow"
+            class="enterprise_follow"
+          />
         </div>
       </div>
       <!-- <div style="text-align: center;">收起</div> -->
@@ -125,19 +117,18 @@
               <div class="num">起订量：{{item.minOrderQuantity}}</div>
             </div>
           </div>
-          
         </div>
       </div>
-    </div> 
+    </div>
     <button class="time" @click="toCalender">预约</button>
     <!-- <button class="time" @click="toCalender" v-show="personInfo.myInterviewDesc.myInterviewDesc != '' ">{{personInfo.myInterviewDesc.myInterviewDesc}}</button> -->
     <van-overlay :show="showShare" @click="showShare = false">
-            <visitingCard
-              :dataList.sync="userCardList"
-              :disabled="false"
-              @successCBK="handleActive"
-              class="shareCard"
-            ></visitingCard>
+      <visitingCard
+        :dataList.sync="userCardList"
+        :disabled="false"
+        @successCBK="handleActive"
+        class="shareCard"
+      ></visitingCard>
     </van-overlay>
     <van-share-sheet
       v-model="showShare"
@@ -164,12 +155,12 @@ export default {
   components: {
     //名片
     visitingCard,
-    follow
+    follow,
   },
   data() {
     return {
       overlay: false, //不显示遮罩层
-      current: 0,// 名片当前的索引
+      current: 0, // 名片当前的索引
       content: "",
       enterpriseShowPeopleId: this.$route.query.enterpriseShowPeopleId,
       personInfo: {}, // 获取到的总信息
@@ -177,18 +168,18 @@ export default {
       myEnterpriseList: [], // 我的企业列表
       user: {}, //企业人物信息
       recommendGoods: [], //推荐商品,
-      followStatus: '', //是否关注人物  1是0否
+      followStatus: "", //是否关注人物  1是0否
       peopleId: this.$route.query.peopleId,
       showShare: false, //是否展示分享面板
       option: [
         { name: "生成图片", icon: img1 },
         { name: "微信", icon: img2 },
-        { name: "朋友圈", icon: img3 }
+        { name: "朋友圈", icon: img3 },
       ],
     };
   },
   created() {
-    this.getPeopleDel()
+    this.getPeopleDel();
   },
   methods: {
     // 分享
@@ -202,72 +193,67 @@ export default {
       this.getPeopleDel();
     },
     //  预约面谈
-    toCalender () {
+    toCalender() {
       this.$router.push({
-        path: '/appointment_calendar',//avatar: this.user.avatar,
+        path: "/appointment_calendar", //avatar: this.user.avatar,
         query: {
-          enterpriseShowPeopleId:this.enterpriseShowPeopleId,
-          peopleId: this.peopleId
-        }
-      })
+          enterpriseShowPeopleId: this.enterpriseShowPeopleId,
+          peopleId: this.peopleId,
+        },
+      });
     },
-     // 名片组件的 回调函数 返回名片的当前选中索引
+    // 名片组件的 回调函数 返回名片的当前选中索引
     handleActive(index) {
       this.current = index;
       // console.log(index, this.current);
     },
     // 获取人物详情
-    getPeopleDel () {
-      Api.getPeopleDetails(this.enterpriseShowPeopleId)
-      .then ( (res) => {
-        console.log('获取人物详情',res);
+    getPeopleDel() {
+      Api.getPeopleDetails(this.enterpriseShowPeopleId).then((res) => {
+        console.log("获取人物详情", res);
         let { code, msg, data, total } = res;
-        if ( code == 200) {
+        if (code == 200) {
           this.personInfo = data;
           this.userCardList = data.userCardList;
           this.myEnterpriseList = data.myEnterpriseList;
-          this.recommendGoods = data.recommendGoods
-          this.user = data.user
-          this.followStatus = data.followStatus
+          this.recommendGoods = data.recommendGoods;
+          this.user = data.user;
+          this.followStatus = data.followStatus;
           if (this.followStatus == 1) {
             this.content = "取消关注";
-          } else if(this.followStatus == 0) {
+          } else if (this.followStatus == 0) {
             this.content = "+关注";
-      }
+          }
         }
-      })
+      });
     },
     favor(e) {
-      const care = (this.followStatus == 0)?1:0
+      const care = this.followStatus == 0 ? 1 : 0;
       let params = {
-        followId:this.user.userId,
+        followId: this.user.userId,
         followType: 2,
         followStatus: care,
         // openId: sessionStorage.getItem('openId')
-        openId: util.getCookie('dzy_openId')
-        
-      }
+        openId: util.getCookie("dzy_openId"),
+      };
       Api.getFollow(params)
-      .then( res => {
-        console.log('关注成功',res);
-        if( res.code == 200){
-          this.getPeopleDel()
-
-        }
-      })
-      .catch (err => {
-        console.log('err');
-        
-      })
+        .then((res) => {
+          console.log("关注成功", res);
+          if (res.code == 200) {
+            this.getPeopleDel();
+          }
+        })
+        .catch((err) => {
+          console.log("err");
+        });
 
       // if (this.followStatus == 0){
       //   this.followStatus == 1
       // }else if (this.followStatus == 1){
       //     this.followStatus == 0
       // }
-      
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang='scss' scoped>
@@ -474,8 +460,8 @@ export default {
       color: rgba(49, 52, 55, 1);
     }
     // .share {
-      // margin-left: 1.96rem;
-      // margin-right: 0.18rem;
+    // margin-left: 1.96rem;
+    // margin-right: 0.18rem;
     // }
   }
   .synopsis {
@@ -508,20 +494,31 @@ export default {
       font-size: 0.28rem;
       margin-top: 0.1rem;
       position: relative;
-      height: 44px;
-      line-height: 44px;
-      .enterprise_follow{
+      // height: 44px;
+      height: 2rem;
+      // line-height: 0.44rem;
+      // border: 1px solid red;
+      .name{
+        width: 5rem;
+        // background-color: pink;
+        line-height: 0.52rem;
+      }
+      .enterprise_follow {
         position: absolute;
         right: 0.1rem;
         top: 0;
         bottom: 0;
         display: inline-block;
-        .van-button::before{
+        .van-button::before {
           position: normal;
           height: auto;
         }
-        .van-button{
+        .van-button {
           height: auto;
+        }
+        /deep/ .van-button--normal {
+          padding: 0;
+          font-size: 0.28rem;
         }
       }
     }
@@ -606,12 +603,14 @@ export default {
     width: 6.84rem;
     height: 0.8rem;
     margin-left: 0.34rem;
-    margin-top: 1.12rem;
+    margin-top: 0.8rem;
+    // margin-bottom: 0.5rem;
     border: none;
     background: rgba(248, 213, 126, 1);
     border-radius: 0.16rem;
+    z-index: 9999;
   }
-  .shareCard{
+  .shareCard {
     width: 96%;
     height: 3.65rem;
     margin: 4rem auto 0;

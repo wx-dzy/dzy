@@ -10,14 +10,14 @@
                 <span>组织结构</span>
                 <div class="fit">
                     <i class="iconfont">&#xe671;</i>
-                    <span @click="toSetDepartments">设置</span>
+                    <span @click="toSetDepartments('0',$event)">设置</span>
                 </div>
             </div>
             <div
                 class="itemBox"
                 v-for="(item,index) in companyList"
                 :key="index"
-                @click="toSetDepartments"
+                @click="toSetDepartments(item.id,$event)"
             >
                 <div class="left">
                     <img :src="item.imgUrl" alt />
@@ -123,14 +123,20 @@ export default {
     },
     methods: {
         // 设置部门
-        toSetDepartments() {
+        toSetDepartments(id) {
+            // console.log('sysOrganizationId11111111111111', id)
+
             this.$router.push({
-                name: 'setDepartments',
+                path: '/setDepartments',
+                query: {
+                    sysOrganizationId: id,
+                },
             })
         },
         // 不通过
         nopass(id) {
             console.log('userId', id)
+            id ? (id = id) : 0
             let params = {
                 userId: id,
                 status: 0,
@@ -360,6 +366,7 @@ export default {
                 margin-top: 0.5rem;
                 width: 1.32rem;
                 height: 0.48rem;
+                line-height: 0.48rem;
                 border-radius: 0.24rem;
                 border: 0.02rem solid rgba(248, 213, 126, 1);
                 text-align: center;

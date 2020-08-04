@@ -306,15 +306,15 @@ export default {
             const _this = this
             var code = _this.getUrlParam('code')
             // var local = 'http://192.168.31.221:9000/'
- 
+
             if (code == null || code == '') {
                 // window.location.href =
                 //     'http://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://192.168.0.101:9000/&response_type=code'
-                window.location.href =
-                    'http://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://127.0.0.1:9000/&response_type=code'
-
                 // window.location.href =
-                //     'http://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://www.dzy315.com/codeLogin&response_type=code'
+                //     'http://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://192.168.31.72:9000/&response_type=code'
+
+                window.location.href =
+                    'http://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://www.dzy315.com/codeLogin&response_type=code'
             } else {
                 _this.code = code
                 console.log('code', _this.code)
@@ -328,12 +328,7 @@ export default {
         // 获取openid
         getopenid_data(data) {
             console.log('data', data)
-
-            if (
-                this.openId == '' ||
-                this.openId == undefined ||
-                this.openId == null
-            ) {
+            if (!this.openId) {
                 console.log('code_1', this.code)
                 Api.getOpenId(this.code).then((res) => {
                     console.log('获取openid', res)

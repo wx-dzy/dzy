@@ -118,9 +118,12 @@ export default {
             console.log('numPages', this.numPages)
         },
         getPJ() {
-            let url = location.href
-            console.log('href', url)
-            Api.getAppId(url)
+            let url = encodeURI(location.href)
+            console.log(url)
+            let params = {
+                url: url,
+            }
+            Api.getAppId(params)
                 .then((res) => {
                     console.log('获取appid', res)
                     const { code, data, msg, total } = res

@@ -70,7 +70,7 @@
     </div>
 </template>
 <script>
-import pdf from 'vue-pdf'
+import pdf from 'vue-pdf' 
 import img1 from '@/assets/images/home/1.png'
 import img2 from '@/assets/images/home/2.png'
 import img3 from '@/assets/images/home/3.png'

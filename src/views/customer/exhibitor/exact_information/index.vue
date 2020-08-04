@@ -61,8 +61,7 @@
             <!-- <van-popup v-model="show" style="font-size:18px;background:none;color:#fff">请点击右上角分享</van-popup> -->
             <van-share-sheet
                 v-model="showShare"
-                title="立即分享给好友"
-                :option="option"
+                :options="option"
                 @select="onSelect"
                 :overlay="overlay"
             />
@@ -89,12 +88,8 @@ export default {
             infomation: {},
             checked: 0, //当前选中的index
             showShare: false, // 是否显示弹出层
-            option: [
-                { name: '生成图片', icon: img1 },
-                { name: '微信', icon: img2 },
-                { name: '朋友圈', icon: img3 },
-            ],
-            overlay: false, //不显示遮罩层
+            option: [{ name: '分享到微信或朋友圈', icon: 'wechat' }],
+            overlay: true, //不显示遮罩层
             all: true, //是否显示全部
             numPages: [],
         }
@@ -143,9 +138,9 @@ export default {
                         wx.ready(function () {
                             //需在用户可能点击分享按钮前就先调用
                             wx.updateAppMessageShareData({
-                                title: '', // 分享标题
-                                desc: '', // 分享描述
-                                link: '', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                                title: '企业资料分享', // 分享标题
+                                desc: '企业资料分享', // 分享描述
+                                link: url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
                                 imgUrl: '', // 分享图标
                                 success: function () {
                                     // 设置成功
@@ -165,14 +160,15 @@ export default {
         },
         // 分享
         onSelect(option) {
+            console.log('1111111')
             this.$toast(option.name)
             this.showShare = false
+            this.getPJ()
         },
         showPop() {
-            console.log('显示弹出层')
+            // console.log('显示弹出层')
 
             this.showShare = true
-            this.getPJ()
         },
         // 选择图片
         choose(index) {

@@ -37,7 +37,9 @@
           <li>五</li>
                         <li class="weekends">六</li>-->
                     </ul>
-                    <li @click="pick(day,index,$event)" v-for="(day, index) in days" :key="index">
+                    <li @click="pick(day,index,$event)"
+                        v-for="(day, index) in days" 
+                        :key="index">
                         <!--本月-->
                         <!-- <span v-if="day.getMonth()+ 1 != currentMonth" class="other-month">{{ day.getDate() }}</span> -->
                         <span>
@@ -468,19 +470,31 @@ export default {
 
         // 当前选择日期
         pick(date, index) {
-            console.log('picker', index)
-            console.log('picker', date)
+            console.log('picker-index', index)
+            console.log('picker-date', date)
             this.current = index
             let checkData =
                 this.currentYear + '-' + this.currentMonth + '-' + date
             // console.log('checkData', checkData)
-
-            if (this.weekData[index]) {
+            console.log(this.weekData[index])
+            console.log(this.weekData)
+            const canBooking = []//把可预约的日期放进一个数组，截取日期几号进行判断
+            for ( var value of this.weekData){
+              canBooking.push(value.dateOfMonth.substr(8,10)) 
+            }
+            if (canBooking.map(Number).includes(date)) {
+             
+                var dateindex = canBooking.map(Number).findIndex((val,index)=>{
+                     return  val == date 
+                })
+              
                 this.userPreInterviewId = this.weekData[
-                    index
+                    dateindex
                 ].userPreInterviewId
                 this.getDayInfo()
+                 this.showDate = true
             } else {
+                this.showDate = false
                 util.error('暂无数据')
             }
         },

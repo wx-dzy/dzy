@@ -33,7 +33,7 @@
     <div class="exhibitor" v-if="person.length > 0">
       <div class="top-title" @click="goToPerson">
         <span>企业人物</span>
-        <van-icon name="arrow" />
+        <van-icon name="arrow" /> 
       </div>
       <div class="item">
         <div

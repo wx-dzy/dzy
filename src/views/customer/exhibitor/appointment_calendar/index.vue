@@ -606,10 +606,10 @@ export default {
     .push_box {
         transform: translateY(-0.82rem);
         .date_content {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            align-items: center;
+            // display: flex;
+            // flex-wrap: wrap;
+            // justify-content: space-around;
+            // align-items: center;
             margin: 0.44rem auto 0;
             width: 6.96rem;
             height: 6.02rem;
@@ -617,24 +617,25 @@ export default {
             box-shadow: 0rem 0.1rem 0.26rem 0rem rgba(223, 227, 233, 0.51);
             border-radius: 0.1rem;
             // padding: 0.34rem  0.26rem;
-        }
-        .date_content:nth-child(4) {
-            margin: 0;
-        }
-        .item {
-            float: left;
-            text-align: center;
-            // flex: 25%;
-            width: 1.48rem;
-            height: 0.94rem;
-            border-radius: 0.1rem;
-            border: 0.02rem solid rgba(248, 213, 126, 1);
-            font-size: 0.26rem;
-            .item_top {
-                color: #313437;
+            .item {
+                float: left;
+                text-align: center;
+                // flex: 25%;
+                width: 1.48rem;
+                height: 0.94rem;
+                border-radius: 0.1rem;
+                border: 0.02rem solid rgba(248, 213, 126, 1);
+                font-size: 0.26rem;
+                margin: 0.12rem;
+                .item_top {
+                    color: #313437;
+                }
+                .item_bottom {
+                    color: #9da1a6;
+                }
             }
-            .item_bottom {
-                color: #9da1a6;
+            .date_content:nth-child(4) {
+                margin: 0;
             }
         }
         .refreshTip {

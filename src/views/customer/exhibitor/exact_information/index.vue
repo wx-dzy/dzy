@@ -2,9 +2,6 @@
   <div class="exact_information">
     <!-- <div> -->
     <div class="full">
-      <div>
-        <pdf ref="pdf" :src="url"></pdf>
-      </div>
       <div class="full" v-if="!infomation">
         <!-- <van-swipe class="my-swipe" :autoplay="0" indicator-color="white">
         <van-swipe-item style="width:100%;height: 800px">-->
@@ -13,7 +10,8 @@
         <!-- <object :data="infomation.pdfUrl" type="application/pdf" width="100%" height="100%"> -->
         <!-- <iframe :src="infomation.pdfUrl" width="100%" height="100%"> -->
         <div class="pdf">
-          <pdf ref="pdf" :src="infomation.pdfUrl"></pdf>
+          <!-- <pdf ref="pdf" :src="infomation.pdfUrl"></pdf> -->
+          <pdf ref="pdf" :src="url"></pdf>
         </div>
         <!-- </iframe> -->
         <!-- </object> -->
@@ -82,7 +80,7 @@ export default {
   },
   data() {
     return {
-      url:"http://storage.xuetangx.com/public_assets/xuetangx/PDF/PlayerAPI_v1.0.6.pdf",
+      url:"https://dzy-cloud-files.oss-cn-hangzhou.aliyuncs.com/files/images/Arnott%E5%85%AC%E5%8F%B8%E4%BB%8B%E7%BB%8D.pdf",
       enterpriseExhibitorsId: "", //展会id
       infomation: {},
       checked: 0, //当前选中的index

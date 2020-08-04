@@ -13,7 +13,7 @@ export const getExhibitor_details = params => axios.get('/c/enterprise-show-exhi
 export const getCompany_details = params => axios.get('/c/enterprise-show-exhibitors/enterprise-detail/' + params);
 
 // 参展商目录-企业人物-分页列表
-export const getPerson = (enterpriseExhibitorsId,params) => axios.get('/c/enterprise-show-exhibitors/page-exhibitors-people/' + enterpriseExhibitorsId , {params});
+export const getPerson = (enterpriseExhibitorsId, params) => axios.get('/c/enterprise-show-exhibitors/page-exhibitors-people/' + enterpriseExhibitorsId, { params });
 
 // 参展商-企业基本信息
 export const getExhibitorsInfo = params => axios.get('/c/enterprise-show-exhibitors/exhibitors-base-info/' + params);
@@ -22,7 +22,7 @@ export const getExhibitorsInfo = params => axios.get('/c/enterprise-show-exhibit
 export const getUserInfo = params => axios.get('/c/show-people-interview/exhibitors-user-info/' + params);
 
 // 参展商预约日历-获取周数据
-export const getWeekData = (data) => axios.post('/c/show-people-interview/exhibitors-user-calendar-by-week',data);
+export const getWeekData = (data) => axios.post('/c/show-people-interview/exhibitors-user-calendar-by-week', data);
 
 // 参展商预约日历-获取日数据
 export const getTodayData = params => axios.get('/c/show-people-interview/exhibitors-user-calendar-by-day/' + params);
@@ -34,13 +34,17 @@ export const getPeopleDetails = params => axios.get('/c/enterprise-people/exhibi
 export const getGoods = data => axios.post('/c/enterprise-goods/goods-search', data);
 
 // 关注/取消关注企业（人物）
-export const getFollow = params => axios.post('/c/user-follow/follow',params);
+export const getFollow = params => axios.post('/c/user-follow/follow', params);
 
 // 参展商目录-索取资料
 export const getInfomation = params => axios.get('/c/enterprise-show-exhibitors/request-enterprise-pdf/' + params);
 
 // 参展商目录-预约日历-预约/取消预约
-export const interview = (userPreInterviewDetailId,type) => axios.post('/c/show-people-interview/pre-interview/' + userPreInterviewDetailId + '/' + type);
+export const interview = (userPreInterviewDetailId, type) => axios.post('/c/show-people-interview/pre-interview/' + userPreInterviewDetailId + '/' + type);
 
 // 参展商详情-展品列表 /c/enterprise-goods/goods-search
-export const getGoodSearch= params => axios.post('/c/enterprise-goods/goods-search', params);
+export const getGoodSearch = params => axios.post('/c/enterprise-goods/goods-search', params);
+
+// 获取js配置
+
+export const getAppId = params => axios.get('/c/wx/wx-js-config', { params });

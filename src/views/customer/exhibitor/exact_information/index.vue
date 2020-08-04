@@ -68,6 +68,10 @@
         </div>
     </div>
 </template>
+
+
+<script type="text/JavaScript" src="http://res2.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+
 <script>
 import pdf from 'vue-pdf' 
 import img1 from '@/assets/images/home/1.png'
@@ -88,7 +92,7 @@ export default {
             infomation: {},
             checked: 0, //当前选中的index
             showShare: false, // 是否显示弹出层
-            option: [{ name: '分享到微信或朋友圈', icon: 'wechat' }],
+            option: [{ name: '分享到微信', icon: 'wechat' }],
             overlay: true, //不显示遮罩层
             all: true, //是否显示全部
             numPages: [],
@@ -130,14 +134,15 @@ export default {
                             timestamp: data.timestamp, // 必填，生成签名的时间戳
                             nonceStr: data.nonceStr, // 必填，生成签名的随机串
                             signature: data.signature, // 必填，签名
-                            jsApiList: ['updateAppMessageShareData'], // 必填，需要使用的JS接口列表
+                            jsApiList: ['onMenuShareAppMessage'], // 必填，需要使用的JS接口列表
                         })
                         // wx.ready(function () {
                         //     console.log('config成功') // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中
                         // })
+
                         wx.ready(function () {
                             //需在用户可能点击分享按钮前就先调用
-                            wx.updateAppMessageShareData({
+                            wx.onMenuShareAppMessage({
                                 title: '企业资料分享', // 分享标题
                                 desc: '企业资料分享', // 分享描述
                                 link: url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
@@ -160,7 +165,6 @@ export default {
         },
         // 分享
         onSelect(option) {
-            console.log('1111111')
             this.$toast(option.name)
             this.showShare = false
             this.getPJ()

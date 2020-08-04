@@ -11,7 +11,7 @@
                 <!-- <iframe :src="infomation.pdfUrl" width="100%" height="100%"> -->
                 <div class="pdf" v-show="all">
                     <!-- <pdf ref="pdf" :src="infomation.pdfUrl"></pdf> -->
-                    <pdf ref="pdf" :src="url"></pdf>
+                    <pdf ref="pdf" :src="url" @num-pages="getPagesNum"></pdf>
                 </div>
                 <div v-show="!all" class="pdf">
                     <pdf v-for="i in numPages" :key="i" :src="url" :page="i"></pdf>
@@ -96,33 +96,26 @@ export default {
             ],
             overlay: false, //不显示遮罩层
             all: true, //是否显示全部
-            numPages: 1,
+            numPages: [],
         }
     },
     created() {
         this.enterpriseExhibitorsId = this.$route.query.enterpriseExhibitorsId
         // console.log('enterpriseExhibitorsId1111', this.enterpriseExhibitorsId)
         this.getCompanyInfomation()
-        // this.src = pdf.createLoadingTask(this.src)
     },
     methods: {
         // 查看
         checkAll() {
             this.all = !this.all
-            let url = this.url
-            this.getNumPages(url)
         },
         // 获取pdf页数
-        getNumPages(url) {
-            var loadingTask = pdf.createLoadingTask(url)
-            loadingTask
-                .then((pdf) => {
-                    this.url = loadingTask
-                    this.numPages = pdf.numPages
-                })
-                .catch((err) => {
-                    console.error('pdf加载失败')
-                })
+        getPagesNum(Number) {
+            console.log('Number', Number)
+            for (var i = 1; i <= Number; i++) {
+                this.numPages.push(i)
+            }
+            console.log('numPages', this.numPages)
         },
         getPJ() {
             let url = location.href

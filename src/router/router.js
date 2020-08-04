@@ -376,6 +376,19 @@ export default [
         name: 'products_uploadInquiry',
         component: () => import('@/views/customer/products/products_uploadInquiry.vue'),
     },
+
+    // 一对一视频
+    {
+        path: '/OneOnOneVideo',
+        meta: {
+            requiresAuth: false,
+            // title: '参观者-首页',
+            // title: '参观观众',
+            title: '一对一视频',
+        },
+        name: 'OneOnOneVideo',
+        component: () => import('@/components/customer/OneOnOneVideo/index.vue')
+    },
     // ------------------   企业产品目录   end ------------------
 
 

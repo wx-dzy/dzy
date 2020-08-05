@@ -230,6 +230,10 @@ export default {
         cancleOrder() {
             Api.interview(this.userPreInterviewDetailId, 0).then((res) => {
                 // console.log('预约', res)
+                if ((res.code = 200)) {
+                    util.success('取消预约成功')
+                    this.getUserInfo()
+                }
             })
         },
         //
@@ -241,7 +245,7 @@ export default {
             }
             let type = 1
             Api.interview(this.userPreInterviewDetailId, type).then((res) => {
-                // console.log('预约', res)
+                console.log('预约', res)
                 if (res.code == 200) {
                     this.getUserInfo()
                     this.$toast('预约成功')
@@ -457,8 +461,8 @@ export default {
             let checkData =
                 this.currentYear + '-' + this.currentMonth + '-' + date
             // console.log('checkData', checkData)
-            console.log(this.weekData[index])
-            console.log(this.weekData)
+            // console.log(this.weekData[index])
+            // console.log(this.weekData)
             const canBooking = [] //把可预约的日期放进一个数组，截取日期几号进行判断
             for (var value of this.weekData) {
                 canBooking.push(value.dateOfMonth.substr(8, 10))
@@ -472,7 +476,7 @@ export default {
 
                 this.userPreInterviewId = this.weekData[
                     dateindex
-                ].userPreInterviewId7
+                ].userPreInterviewId
                 this.getDayInfo()
                 this.showDate = true
             } else {

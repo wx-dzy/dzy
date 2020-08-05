@@ -11,12 +11,19 @@
                 <!-- <div class="image">
           <img :src="imgUrl_before" alt />
                 </div>-->
-                <van-field name="uploader">
+                <!-- <van-field name="uploader">
                     <template #input>
                         <van-uploader v-model="uploader" />
-                        <!-- <span class="upload" style="font-size:0.28rem;">上传名片</span> -->
+                        <span class="upload" style="font-size:0.28rem;">上传名片</span>
                     </template>
-                </van-field>
+                </van-field>-->
+                <div class="upedImg" v-show="upedImg">
+                    <img :src="upedImg" alt />
+                </div>
+                <div class="upImg" @click="getPJ">
+                    <div class="add">+</div>
+                    <div class="addName">上传名片</div>
+                </div>
             </div>
         </div>
         <!-- 认证状态 -->
@@ -50,14 +57,14 @@ export default {
         return {
             attestationList: [
                 {
-                    imgUrl: require('@/assets/images/myOrderBg1.png'),
-                    title: '好招数创（北京）科技有限公司',
-                    status: '企业超级管理员已认证',
+                    // imgUrl: require('@/assets/images/myOrderBg1.png'),
+                    // title: '好招数创（北京）科技有限公司',
+                    // status: '企业超级管理员已认证',
                 },
                 {
-                    imgUrl: require('@/assets/images/myOrderBg1.png'),
-                    title: '好招数创（北京）科技有限公司',
-                    status: '企业超级管理员失败',
+                    // imgUrl: require('@/assets/images/myOrderBg1.png'),
+                    // title: '好招数创（北京）科技有限公司',
+                    // status: '企业超级管理员失败',
                 },
             ],
             uploader: [{ url: 'https://img.yzcdn.cn/vant/leaf.jpg' }],
@@ -69,6 +76,8 @@ export default {
             },
             pageSize: 10,
             pageNum: 1,
+            upedImg: '', //上传的名片
+            cardUrl: '',
         }
     },
 
@@ -78,6 +87,74 @@ export default {
     },
     watch: {},
     methods: {
+        getPJ() {
+            let params = {
+                url: location.href,
+            }
+            Api.getAppId(params)
+                .then((res) => {
+                    console.log('获取appid', res)
+                    const { code, data, msg, total } = res
+                    if (code == 200) {
+                        wx.config({
+                            debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                            appId: data.appId, // 必填，公众号的唯一标识
+                            timestamp: data.timestamp, // 必填，生成签名的时间戳
+                            nonceStr: data.nonceStr, // 必填，生成签名的随机串
+                            signature: data.signature, // 必填，签名
+                            jsApiList: [
+                                'chooseImage',
+                                'uploadImage',
+                                'downloadImage',
+                                'getLocalImgData',
+                            ], // 必填，需要使用的JS接口列表
+                        })
+                        wx.ready(function () {
+                            console.log('config成功') // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中
+                            this.uploadImg()
+                        })
+                        wx.error(function (res) {
+                            console.log('config失败', res) // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名
+                        })
+                    } else {
+                        this.$toast('获取签名失败')
+                    }
+                })
+                .catch((err) => {
+                    console.log('err', err)
+                })
+        },
+        // 上传头像
+        uploadImg() {
+            let _this = this
+            wx.chooseImage({
+                count: 1, // 默认9
+                sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+                sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+                success: function (res) {
+                    // console.log('选择图片', res)
+                    var localIds = res.localIds[0] // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                    wx.uploadImage({
+                        localId: localIds, // 需要上传的图片的本地ID，由chooseImage接口获得
+                        isShowProgressTips: 1, // 默认为1，显示进度提示
+                        success: function (res) {
+                            // console.log('上传图片', res)
+                            // var serverId = res.serverId 返回图片的服务器端ID
+                            _this.cardUrl = res.serverId
+                            localStorage.setItem('cardUrl', res.serverId)
+                        },
+                    })
+                    wx.getLocalImgData({
+                        localId: localIds, // 图片的localID
+                        success: function (res) {
+                            console.log('getLocalImgData', res)
+                            var localData = res.localData // localData是图片的base64数据，可以用img标签显示
+                            _this.upedImg = localData
+                        },
+                    })
+                },
+            })
+        },
         // 获取列表
         getDetails() {
             Api.CardUrl().then((res) => {
@@ -156,6 +233,36 @@ export default {
             color: rgba(0, 0, 0, 0.9);
             line-height: 0.4rem;
             box-sizing: border-box;
+        }
+        .push {
+            padding: 0.1rem;
+            .upImg {
+                display: inline-block;
+                width: 1.42rem;
+                height: 1.42rem;
+                border: 1px dashed rgba(0, 0, 0, 0.15);
+                margin-left: 0.4rem;
+                text-align: center;
+                .add {
+                    color: rgba(0, 0, 0, 0.45);
+                    margin-top: 0.2rem;
+                    font-weight: 700;
+                }
+                .addName {
+                    color: rgba(0, 0, 0, 0.45);
+                    line-height: 2;
+                    font-weight: 700;
+                }
+            }
+            .upedImg {
+                display: inline-block;
+                width: 1.42rem;
+                height: 1.42rem;
+                img {
+                    width: 100%;
+                    max-height: 1.42rem;
+                }
+            }
         }
     }
     /deep/ .van-cell {

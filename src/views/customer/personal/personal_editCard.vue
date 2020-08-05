@@ -377,7 +377,7 @@ export default {
         saveCard(cardInfo) {
             // cardInfo.companyLogo = 'sfsdf'
             cardInfo.id = this.id
-            // cardInfo.cardUrl = 'sdafs'
+            cardInfo.cardUrl = localStorage.getItem('cardUrl')
 
             cardInfo.provinceId = this.provinceId
             cardInfo.provinceName = this.provinceName

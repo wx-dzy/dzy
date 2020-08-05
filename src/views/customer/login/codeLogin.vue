@@ -20,7 +20,7 @@
             >-->
             <div class="text-center" v-show="isDisabled">
                 <img :src="headimgurl" alt class="userImg" />
-                <p class="userName">{{nickname}}</p>
+                <p class="userName" style="line-height: 2;">{{nickname}}</p>
                 <!-- <p class="userName">{{username}}</p> -->
             </div>
             <!-- </van-uploader> -->
@@ -192,8 +192,8 @@ export default {
             openId: util.getCookie('dzy_openId'),
             // headimgurl: sessionStorage.getItem("headimgurl"), // 用户头像
             // nickname: sessionStorage.getItem("nickname"), // 用户昵称
-            headimgurl: JSON.parse(util.getCookie('dzy_wxInfo')).headimgurl, // 用户头像
-            nickname: JSON.parse(util.getCookie('dzy_wxInfo')).nickname, // 用户昵称
+            headimgurl: '', // 用户头像
+            nickname: '', // 用户昵称
             isBtn: false, // 是否显示禁用状态按钮
             count: 60, // 获取验证码倒计时
             timer: null,
@@ -245,7 +245,7 @@ export default {
                 }
             },
             // deep属性对对象进行深度监听
-            deep: true,
+            // deep: true,
             // 这样使用watch时有一个特点，就是当值第一次绑定的时候，不会执行监听函数，只有值        发生改变才会执行。
             // 如果我们需要在最初绑定值的时候也执行函数，则就需要用到immediate属性。比如当父组件向子组件动态传值时，子组件props首次获取到父组件传来的默认值时，也需要执行函数，此时就需要将immediate设为true。
             immediate: true,
@@ -334,11 +334,11 @@ export default {
             if (!code) {
                 // window.location.href =
                 //     'http://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://192.168.0.101:9000/&response_type=code'
-                // window.location.href =
-                //     'http://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://192.168.31.72:9000/&response_type=code'
-
                 window.location.href =
-                    'http://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://www.dzy315.com/codeLogin&response_type=code'
+                    'http://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://192.168.31.72:9000/&response_type=code'
+
+                // window.location.href =
+                //     'http://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://www.dzy315.com/codeLogin&response_type=code'
             } else {
                 _this.code = code
                 console.log('code', _this.code)

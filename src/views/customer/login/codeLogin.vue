@@ -11,19 +11,19 @@
         <p class="logoTitle"></p>
 
         <div class="loginForm">
-            <van-uploader
+            <!-- <van-uploader
                 class="upLoader"
                 :max-count="1"
                 accept="image/*"
                 v-model="userImage"
                 :deletable="deletable"
-            >
-                <div class="text-center">
-                    <img :src="headimgurl" alt class="userImg" />
-                    <p class="userName">{{nickname}}</p>
-                    <!-- <p class="userName">{{username}}</p> -->
-                </div>
-            </van-uploader>
+            >-->
+            <div class="text-center" v-show="isDisabled">
+                <img :src="headimgurl" alt class="userImg" />
+                <p class="userName">{{nickname}}</p>
+                <!-- <p class="userName">{{username}}</p> -->
+            </div>
+            <!-- </van-uploader> -->
 
             <!-- <van-field
         v-model="username"
@@ -198,6 +198,7 @@ export default {
             count: 60, // 获取验证码倒计时
             timer: null,
             wechatImg: require('@/assets/images/login/wechat.png'),
+            isDisabled: false,
             // userInfo:{
             // access_token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiaGx3bC1wbGF0Zm9ybS1yZXNvdXJjZS1pZCJdLCJ1c2VyX25hbWUiOiJhZG1pbiIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdLCJwYXJlbnRVc2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNTY5NDYxNzQ0LCJ1c2VySWQiOjEwMDksImF1dGhvcml0aWVzIjpbIjQ2NjNkMTkyLWI4N2ItNDhkMi04MzMwLWFkNTBhYWFiMjg1YiIsIi91c2VyL3N5cy91c2VyL3BhZ2UiLCJiNzVkNzA3ZS1hNDAxLTRiZDEtYWMzNC1jMTNiYWMwMjNlODEiLCIzZDE2YmU5Yy1mOGVlLTQ2MDQtOTk5Ny0yOGE5ZWQ2OGM5OWYiLCJST0xFX1VTRVIiLCIvdXNlci9zeXMvcm9sZS9wYWdlIiwicmZxOnF1b3RhdGlvbjptYW5hZ2U6cGFnZSIsIi9yZnEvcXVvdGF0aW9uL21hbmFnZS9wYWdlIiwic3lzOnVzZXI6YWxsIiwic3lzOnJvbGU6cGFnZSIsIjQyZjQ4MDNkLTkzMDEtNDAxMy05YTk2LTIxYTdjZmFlNDUzNSJdLCJqdGkiOiIzNTZlYTdmNy1hOGJjLTQyMzQtOTlhMS1mMjljY2ZhOGEyMWUiLCJwYXJlbnRJZCI6MTAwOSwiY2xpZW50X2lkIjoiaGx3bC1wbGF0Zm9ybS1yZXNvdXJjZSIsInVzZXJuYW1lIjoiYWRtaW4ifQ.2XH6gHkIvEqUMVitrIfCUP277nFw1VdMMUWusZjVWEo",
             // expires_in:2591998,
@@ -231,6 +232,24 @@ export default {
                 // this.hanldSubClick();
             }, 1000)
         }
+    },
+    watch: {
+        //tel 是data() 里面的数据tel，newVal是tel变化后的值，oldVal是tel变化前的值
+        headimgurl: {
+            handler(newVal, oldVal) {
+                console.log(newVal, oldVal)
+                if (newVal) {
+                    this.isDisabled = true
+                } else {
+                    this.isDisabled = false
+                }
+            },
+            // deep属性对对象进行深度监听
+            deep: true,
+            // 这样使用watch时有一个特点，就是当值第一次绑定的时候，不会执行监听函数，只有值        发生改变才会执行。
+            // 如果我们需要在最初绑定值的时候也执行函数，则就需要用到immediate属性。比如当父组件向子组件动态传值时，子组件props首次获取到父组件传来的默认值时，也需要执行函数，此时就需要将immediate设为true。
+            immediate: true,
+        },
     },
     methods: {
         // 微信登录
@@ -366,7 +385,7 @@ export default {
                             nickname: res.data.nickname,
                         }
                         util.setCookie('dzy_wxInfo', JSON.stringify(wxInfo), 7)
-                        location.reload()
+                        // location.reload()
                     }
                 })
             }

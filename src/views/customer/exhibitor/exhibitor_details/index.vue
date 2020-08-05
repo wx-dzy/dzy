@@ -13,7 +13,7 @@
       </div>
       <div class="btn">
         <button class="left_btn" @click="toInfomation">获取公司资料</button>
-        <button class="right_btn" @click="goToPerson">预约面谈</button>
+        <button class="right_btn" @click="goToPerson">预约面谈</button> 
         <!-- <van-button round size="small"></van-button>
         <van-button round size="small" color="#ffd36f">预约面谈</van-button>-->
       </div>
@@ -33,7 +33,7 @@
     <div class="exhibitor" v-if="person.length > 0">
       <div class="top-title" @click="goToPerson">
         <span>企业人物</span>
-        <van-icon name="arrow" />
+        <van-icon name="arrow" /> 
       </div>
       <div class="item">
         <div

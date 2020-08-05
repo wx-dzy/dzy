@@ -11,19 +11,19 @@
         <p class="logoTitle"></p>
 
         <div class="loginForm">
-            <van-uploader
+            <!-- <van-uploader
                 class="upLoader"
                 :max-count="1"
                 accept="image/*"
                 v-model="userImage"
                 :deletable="deletable"
-            >
-                <div class="text-center">
-                    <img :src="headimgurl" alt class="userImg" />
-                    <p class="userName">{{nickname}}</p>
-                    <!-- <p class="userName">{{username}}</p> -->
-                </div>
-            </van-uploader>
+            >-->
+            <div class="text-center" v-show="isDisabled">
+                <img :src="headimgurl" alt class="userImg" />
+                <p class="userName" style="line-height: 2;">{{nickname}}</p>
+                <!-- <p class="userName">{{username}}</p> -->
+            </div>
+            <!-- </van-uploader> -->
 
             <!-- <van-field
         v-model="username"
@@ -188,16 +188,17 @@ export default {
             appId: '',
             userImage: [], //上传的头像
             deletable: false, //是否显示删除按钮
-            // openId: sessionStorage.getItem('openId'),
-            openId: util.getCookie('dzy_openId'),
-            // headimgurl: sessionStorage.getItem("headimgurl"), // 用户头像
-            // nickname: sessionStorage.getItem("nickname"), // 用户昵称
-            headimgurl: JSON.parse(util.getCookie('dzy_wxInfo')).headimgurl, // 用户头像
-            nickname: JSON.parse(util.getCookie('dzy_wxInfo')).nickname, // 用户昵称
+            // openId: localStorage.getItem('openId'),
+            openId: localStorage.getItem('dzy_openId'),
+            // headimgurl: localStorage.getItem("headimgurl"), // 用户头像
+            // nickname: localStorage.getItem("nickname"), // 用户昵称
+            headimgurl: '', // 用户头像
+            nickname: '', // 用户昵称
             isBtn: false, // 是否显示禁用状态按钮
             count: 60, // 获取验证码倒计时
             timer: null,
             wechatImg: require('@/assets/images/login/wechat.png'),
+            isDisabled: false,
             // userInfo:{
             // access_token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiaGx3bC1wbGF0Zm9ybS1yZXNvdXJjZS1pZCJdLCJ1c2VyX25hbWUiOiJhZG1pbiIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdLCJwYXJlbnRVc2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNTY5NDYxNzQ0LCJ1c2VySWQiOjEwMDksImF1dGhvcml0aWVzIjpbIjQ2NjNkMTkyLWI4N2ItNDhkMi04MzMwLWFkNTBhYWFiMjg1YiIsIi91c2VyL3N5cy91c2VyL3BhZ2UiLCJiNzVkNzA3ZS1hNDAxLTRiZDEtYWMzNC1jMTNiYWMwMjNlODEiLCIzZDE2YmU5Yy1mOGVlLTQ2MDQtOTk5Ny0yOGE5ZWQ2OGM5OWYiLCJST0xFX1VTRVIiLCIvdXNlci9zeXMvcm9sZS9wYWdlIiwicmZxOnF1b3RhdGlvbjptYW5hZ2U6cGFnZSIsIi9yZnEvcXVvdGF0aW9uL21hbmFnZS9wYWdlIiwic3lzOnVzZXI6YWxsIiwic3lzOnJvbGU6cGFnZSIsIjQyZjQ4MDNkLTkzMDEtNDAxMy05YTk2LTIxYTdjZmFlNDUzNSJdLCJqdGkiOiIzNTZlYTdmNy1hOGJjLTQyMzQtOTlhMS1mMjljY2ZhOGEyMWUiLCJwYXJlbnRJZCI6MTAwOSwiY2xpZW50X2lkIjoiaGx3bC1wbGF0Zm9ybS1yZXNvdXJjZSIsInVzZXJuYW1lIjoiYWRtaW4ifQ.2XH6gHkIvEqUMVitrIfCUP277nFw1VdMMUWusZjVWEo",
             // expires_in:2591998,
@@ -220,8 +221,8 @@ export default {
         // this.getInfo()
         // this.getUrlParam()
         // 获取本地登录信息
-        let username = util.getCookie('username')
-        let password = util.getCookie('password')
+        let username = localStorage.getItem('username')
+        let password = localStorage.getItem('password')
         this.username = username
         this.password = password
 
@@ -231,6 +232,24 @@ export default {
                 // this.hanldSubClick();
             }, 1000)
         }
+    },
+    watch: {
+        //tel 是data() 里面的数据tel，newVal是tel变化后的值，oldVal是tel变化前的值
+        headimgurl: {
+            handler(newVal, oldVal) {
+                console.log(newVal, oldVal)
+                if (newVal) {
+                    this.isDisabled = true
+                } else {
+                    this.isDisabled = false
+                }
+            },
+            // deep属性对对象进行深度监听
+            // deep: true,
+            // 这样使用watch时有一个特点，就是当值第一次绑定的时候，不会执行监听函数，只有值        发生改变才会执行。
+            // 如果我们需要在最初绑定值的时候也执行函数，则就需要用到immediate属性。比如当父组件向子组件动态传值时，子组件props首次获取到父组件传来的默认值时，也需要执行函数，此时就需要将immediate设为true。
+            immediate: true,
+        },
     },
     methods: {
         // 微信登录
@@ -249,7 +268,7 @@ export default {
                             userId,
                             username,
                         } = res.data
-                        util.setCookie('dzy_token', accessToken, 7)
+                        localStorage.setItem('dzy_token', accessToken, 7)
                         if (firstLogin == 1) {
                             this.$router.push({
                                 name: 'firstLogin',
@@ -288,30 +307,35 @@ export default {
         //       },
         // 获取js配置
         getPJ() {
-            Api.getAppId()
-                .then((res) => {
-                    console.log('获取appid', res)
-                    const { code, data, msg, total } = res
-                    this.appId = data.appId
-                    console.log('appid', this.appId)
-                    // 获取code
-                    this.getCode()
-                })
-                .catch((err) => {
-                    console.log('err', err)
-                })
+            console.log('appId', this.appId)
+            if (!this.appId) {
+                Api.getAppId()
+                    .then((res) => {
+                        console.log('获取appid', res)
+                        const { code, data, msg, total } = res
+                        this.appId = data.appId
+                        console.log('appid', this.appId)
+                        // 获取code
+                        this.getCode()
+                    })
+                    .catch((err) => {
+                        console.log('err', err)
+                    })
+            } else {
+                this.getCode()
+            }
         },
 
         getCode() {
             const _this = this
             var code = _this.getUrlParam('code')
             // var local = 'http://192.168.31.221:9000/'
- 
-            if (code == null || code == '') {
+
+            if (!code) {
                 // window.location.href =
                 //     'http://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://192.168.0.101:9000/&response_type=code'
                 window.location.href =
-                    'http://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://127.0.0.1:9000/&response_type=code'
+                    'http://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://192.168.31.72:9000/&response_type=code'
 
                 // window.location.href =
                 //     'http://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://www.dzy315.com/codeLogin&response_type=code'
@@ -328,26 +352,24 @@ export default {
         // 获取openid
         getopenid_data(data) {
             console.log('data', data)
-
-            if (
-                this.openId == '' ||
-                this.openId == undefined ||
-                this.openId == null
-            ) {
+            console.log('openId', this.openId)
+            if (!this.openId) {
                 console.log('code_1', this.code)
                 Api.getOpenId(this.code).then((res) => {
                     console.log('获取openid', res)
                     if (res.code == 200) {
                         // "moduleId":1,
-                        util.setCookie('dzy_openId', res.data.openId, 7)
+                        localStorage.setItem('dzy_openId', res.data.openId, 7)
                         // this.openId = util.getCookie('dzy_openId')
                         this.openId = res.data.openId
 
-                        // sessionStorage.setItem('openId',res.data.openId)
-                        // this.openId = sessionStorage.getItem('openId')
+                        // localStorage.setItem('openId',res.data.openId)
+                        // this.openId = localStorage.getItem('openId')
                         this.getInfo()
                     }
                 })
+            } else {
+                this.getInfo()
             }
         },
         // 获取用户信息
@@ -358,14 +380,16 @@ export default {
                     if (res.code == 200) {
                         this.headimgurl = res.data.headimgurl
                         this.nickname = res.data.nickname
-                        // sessionStorage.setItem("headimgurl", res.data.headimgurl);
-                        // sessionStorage.setItem("nickname", res.data.nickname);
                         let wxInfo = {
                             headimgurl: res.data.headimgurl,
                             nickname: res.data.nickname,
                         }
-                        util.setCookie('dzy_wxInfo', JSON.stringify(wxInfo), 7)
-                        location.reload()
+                        localStorage.setItem(
+                            'dzy_wxInfo',
+                            JSON.stringify(wxInfo),
+                            7
+                        )
+                        // location.reload()
                     }
                 })
             }
@@ -481,9 +505,13 @@ export default {
                     if (res.code == 417) {
                         this_.$message.error(res.message)
                     } else if (res.code == 200) {
-                        // sessionStorage.setItem("userId", res.data.userId);
-                        util.setCookie('dzy_userInfo', JSON.stringify(data), 7)
-                        util.setCookie('dzy_token', data.accessToken, 7)
+                        // localStorage.setItem("userId", res.data.userId);
+                        localStorage.setItem(
+                            'dzy_userInfo',
+                            JSON.stringify(data),
+                            7
+                        )
+                        localStorage.setItem('dzy_token', data.accessToken, 7)
                         // let { access_token, username } = res.data;
                         if (res.data.firstLogin == 0) {
                             this.$router.push({

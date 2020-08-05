@@ -37,7 +37,12 @@
           <li>五</li>
                         <li class="weekends">六</li>-->
                     </ul>
-                    <li @click="pick(day,index,$event)" v-for="(day, index) in days" :key="index">
+                    <li
+                        @click="pick(day.name,index,$event)"
+                        v-for="(day, index) in days"
+                        :key="index"
+                        v-show="day.showDate"
+                    >
                         <!--本月-->
                         <!-- <span v-if="day.getMonth()+ 1 != currentMonth" class="other-month">{{ day.getDate() }}</span> -->
                         <span>
@@ -47,14 +52,14 @@
                 v-if="day.getFullYear() == new Date().getFullYear() && day.getMonth() == new Date().getMonth() && day.getDate() == new Date().getDate()"
                 class="active"
                             >{{ day.getDate() }}</span>-->
-                            <span :class="{'active':index==current}">{{ day }}</span>
+                            <span :class="{'active':index==current}">{{ day.name }}</span>
                             <!-- <span v-else>{{ day.getDate() }}</span> -->
                         </span>
                         <!-- <p class="full" v-if="isFull">约满</p> -->
                     </li>
                 </ul>
             </div>
-            <div class="date_content">
+            <div class="date_content" v-show="showDate">
                 <div
                     class="item"
                     v-for="(item,index) in todayData"
@@ -82,6 +87,7 @@
         </van-popup>
     </div>
 </template>
+<script src="https://cdn.jsdelivr.net/npm/jutils-src"></script>
 <script>
 import { util } from '@/utils'
 import * as Api from '@/api/customer/exhibitor'
@@ -160,6 +166,7 @@ export default {
             monthLength: 0, // 当月有多少天
             startDate: 0, //周数据开始
             endDate: 0, // 周数据结束
+            showDate: false, // 是否显示
         }
     },
     computed: {
@@ -223,6 +230,10 @@ export default {
         cancleOrder() {
             Api.interview(this.userPreInterviewDetailId, 0).then((res) => {
                 // console.log('预约', res)
+                if ((res.code = 200)) {
+                    util.success('取消预约成功')
+                    this.getUserInfo()
+                }
             })
         },
         //
@@ -233,12 +244,8 @@ export default {
                 type: 1,
             }
             let type = 1
-            // console.log(
-            //     'userPreInterviewDetailId',
-            //     this.userPreInterviewDetailId
-            // )
             Api.interview(this.userPreInterviewDetailId, type).then((res) => {
-                // console.log('预约', res)
+                console.log('预约', res)
                 if (res.code == 200) {
                     this.getUserInfo()
                     this.$toast('预约成功')
@@ -247,22 +254,21 @@ export default {
         },
         //  选择时间
         check(index) {
-            // console.log('时间index', index)
             this.status = this.todayData[index].interviewStatus
-            // console.log('status', this.status)
             this.userPreInterviewDetailId = this.todayData[
                 index
             ].userPreInterviewDetailId
+            console.log(
+                'userPreInterviewDetailId:',
+                this.userPreInterviewDetailId
+            )
         },
         // 获取日数据
         getDayInfo() {
-            // console.log('userPreInterviewId', this.userPreInterviewId)
-            // console.log('weekData',this.weekData);
-
             Api.getTodayData(this.userPreInterviewId).then((res) => {
                 if (res.code == 200 && res.data != '') {
                     this.todayData = res.data
-                    console.log('todayData', this.todayData)
+                    // console.log('todayData', this.todayData)
                     this.userPreInterviewDetailId = this.todayData[0].userPreInterviewDetailId
 
                     // console.log('获取日数据', this.todayData)
@@ -284,39 +290,38 @@ export default {
         getWeekInfo() {
             // console.log('enterpriseShowPeopleId', this.enterpriseShowPeopleId)
 
-            var date = new Date()
-            var year = this.currentYear
-            var month = this.currentMonth
-            month < 10 ? (month = '0' + month) : (month = month)
-            var week = this.currentWeek
+            // var date = new Date()
+            // var year = this.currentYear
+            // var month = this.currentMonth
+            // month < 10 ? (month = '0' + month) : (month = month)
+            // var week = this.currentWeek
 
-            var lastDate = new Date(year, month, 0).getDate() //获得是标准时间,需要getDate()获得天数
-            lastDate < 10 ? (lastDate = '0' + lastDate) : (lastDate = lastDate)
+            // var lastDate = new Date(year, month, 0).getDate() //获得是标准时间,需要getDate()获得天数
+            // lastDate < 10 ? (lastDate = '0' + lastDate) : (lastDate = lastDate)
 
-            this.currentDay < 10
-                ? (this.currentDay = '0' + this.currentDay)
-                : (this.currentDay = this.currentDay)
+            // this.currentDay < 10
+            //     ? (this.currentDay = '0' + this.currentDay)
+            //     : (this.currentDay = this.currentDay)
 
-            let startDate = `${year}-${month}-${this.currentDay}`
-            let endDate = `${year}-${month}-${lastDate}`
+            // let startDate = `${year}-${month}-${this.currentDay}`
+            // let endDate = `${year}-${month}-${lastDate}`
 
-            console.log('endDate', endDate)
-            console.log('startDate', startDate)
-
+            // console.log('endDate', endDate)
+            // console.log('startDate', startDate)
+            let startDate = this.userInfo.interviewStartDate
+            let endDate = this.userInfo.interviewEndDate
             const params = {
                 enterpriseShowPeopleId: this.enterpriseShowPeopleId,
 
                 startDate: startDate,
                 endDate: endDate,
-
-                // startDate: '2020-07-17',
-                // endDate: '2020-08-10',
             }
             Api.getWeekData(params)
                 .then((res) => {
                     console.log('获取周数据', res)
                     if (res.code == 200 && res.data != '') {
                         this.weekData = res.data
+
                         this.userPreInterviewId = this.weekData[0].userPreInterviewId
                         this.getDayInfo()
                     } else if (res.code == 200 && res.data == '') {
@@ -330,11 +335,12 @@ export default {
 
         // 获取当月有多少天
         getDaysofMonth() {
-            // console.log('currentWeek11111111111', this.currentWeek)
             var date = new Date()
             var year = this.currentYear
             var month = this.currentMonth
             var week = this.currentWeek
+            var date = this.currentDay
+            // console.log('date', date)
 
             this.weekListShow = this.weekList
             var line = ''
@@ -343,26 +349,35 @@ export default {
                 if (this.weekListShow[i].value == week) {
                     line = i
                 }
-                // break
             }
-            console.log('week', week)
-            console.log('line', line)
 
             var lastDay = new Date(year, month, 0).getDate() //获得是标准时间,需要getDate()获得天数
-            console.log('lastDay', lastDay)
 
-            let totalWeek = line + lastDay
-            console.log('totalWeek', totalWeek)
-
-            console.log('weekList111111', this.weekListShow)
+            let totalWeek = line + (lastDay - date + 1)
             this.weekListShow = this.weekListShow.slice(line, totalWeek)
-            console.log('weekList22222222', this.weekListShow)
 
             let currentData = this.currentDay
             for (var i = currentData; i <= lastDay; i++) {
-                this.days.push(i)
+                this.days.push({ name: i, showDate: true })
             }
-            // console.log('这个月有多少天2', this.days)
+            // 判断是否在展会时间段内，在，显示，不在，不显示  charAt
+            // let strWeek = this.weekData[0].dateOfMonth
+            // let strMounth = strWeek.substr(5, 2)
+            // let strDate = strWeek.substr(8, 2)
+            // let endWeek = this.weekData[this.weekData.length - 1].dateOfMonth
+            // let endWeekDateDate = endWeek.substr(8, 2)
+            // console.log('strMounth:', strMounth)
+            // console.log('strDate:', strDate)
+            // console.log('endWeekDateDate:', endWeekDateDate)
+
+            // for (var i = 1; i <= this.days.length; i++) {
+            //     if (
+            //         (month = strMounth && i >= strDate && i <= endWeekDateDate)
+            //     ) {
+            //         this.days[i].showDate = true
+            //     }
+            // }
+            // console.log('this.days:', this.days)
         },
         formatDate(year, month, day) {
             const y = year
@@ -387,9 +402,6 @@ export default {
             this.endDate = `${this.currentYear}-${this.currentMonth}-${
                 this.currentDay + 31
             }`
-            // console.log('startDate', this.startDate)
-            // console.log('endDate', this.endDate)
-            // console.log('currentMonth',this.currentMonth);
             this.currentWeek = date.getDay() // 1...6,0  // 星期几
             // console.log('currentWeek',this.currentWeek);
             if (this.currentWeek === 0) {
@@ -399,25 +411,9 @@ export default {
                 this.currentYear,
                 this.currentMonth,
                 this.currentDay
-            ) // 今日日期 年-月-日
-            // console.log('今日日期',str);
+            )
 
             this.days.length = 0
-            // 今天是周日，放在第一行第7个位置，前面6个 这里默认显示一周，如果需要显示一个月，则第二个循环为 i<= 35- this.currentWeek
-            /* eslint-disabled */
-            // for (let i = this.currentWeek - 1; i >= 0; i --) {
-            //   const d = new Date(str);
-            //   d.setDate(d.getDate() - i - 1);
-            //   this.days.push(d);
-            // }
-            // console.log('这个月有多少天1',this.days);
-            // for (let i = 1; i <= 33 - this.currentWeek; i += 1) {
-            //   const d = new Date(str);
-            //   d.setDate(d.getDate() + i - 1);
-            //   this.days.push(d);
-
-            //   // console.log(i, d);
-            // }
         },
 
         // 上个星期
@@ -436,19 +432,16 @@ export default {
 
         // 上一個月  传入当前年份和月份
         pickPre(year, month) {
-            // const d = new Date(this.formatDate(year, month, 1))
-            // d.setDate(0)
-            // this.initData(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1))
-            // this.getDaysofMonth()
-            console.log('上一個月')
+            const d = new Date(
+                this.formatDate(this.currentYear, this.currentMonth, 1)
+            )
+            console.log('d:', d)
+            d.setDate(0)
+            this.initData(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1))
+            this.getDaysofMonth()
+            this.getWeekInfo()
         },
 
-        // 下一個月  传入当前年份和月份
-        //  pickNext (year, month) {
-        //   const d = new Date(this.formatDate(year, month, 1))
-        //   d.setDate(35)
-        //   this.initData(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1))
-        //  },
         pickNext() {
             const d = new Date(
                 this.formatDate(this.currentYear, this.currentMonth, 1)
@@ -462,19 +455,34 @@ export default {
 
         // 当前选择日期
         pick(date, index) {
-            console.log('picker', index)
-            console.log('picker', date)
+            // console.log('picker-index', index)
+            // console.log('picker-date', date)
             this.current = index
             let checkData =
                 this.currentYear + '-' + this.currentMonth + '-' + date
             // console.log('checkData', checkData)
+            // console.log(this.weekData[index])
+            // console.log(this.weekData)
+            const canBooking = [] //把可预约的日期放进一个数组，截取日期几号进行判断
+            for (var value of this.weekData) {
+                canBooking.push(value.dateOfMonth.substr(8, 10))
+                
+            }
+            console.log(this.canBooking);
+            if (canBooking.map(Number).includes(date)) {
+                var dateindex = canBooking
+                    .map(Number)
+                    .findIndex((val, index) => {
+                        return val == date
+                    })
 
-            if (this.weekData[index]) {
                 this.userPreInterviewId = this.weekData[
-                    index
+                    dateindex
                 ].userPreInterviewId
                 this.getDayInfo()
+                this.showDate = true
             } else {
+                this.showDate = false
                 util.error('暂无数据')
             }
         },
@@ -600,10 +608,10 @@ export default {
     .push_box {
         transform: translateY(-0.82rem);
         .date_content {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            align-items: center;
+            // display: flex;
+            // flex-wrap: wrap;
+            // justify-content: space-around;
+            // align-items: center;
             margin: 0.44rem auto 0;
             width: 6.96rem;
             height: 6.02rem;
@@ -611,24 +619,25 @@ export default {
             box-shadow: 0rem 0.1rem 0.26rem 0rem rgba(223, 227, 233, 0.51);
             border-radius: 0.1rem;
             // padding: 0.34rem  0.26rem;
-        }
-        .date_content:nth-child(4) {
-            margin: 0;
-        }
-        .item {
-            float: left;
-            text-align: center;
-            // flex: 25%;
-            width: 1.48rem;
-            height: 0.94rem;
-            border-radius: 0.1rem;
-            border: 0.02rem solid rgba(248, 213, 126, 1);
-            font-size: 0.26rem;
-            .item_top {
-                color: #313437;
+            .item {
+                float: left;
+                text-align: center;
+                // flex: 25%;
+                width: 1.48rem;
+                height: 0.94rem;
+                border-radius: 0.1rem;
+                border: 0.02rem solid rgba(248, 213, 126, 1);
+                font-size: 0.26rem;
+                margin: 0.12rem;
+                .item_top {
+                    color: #313437;
+                }
+                .item_bottom {
+                    color: #9da1a6;
+                }
             }
-            .item_bottom {
-                color: #9da1a6;
+            .date_content:nth-child(4) {
+                margin: 0;
             }
         }
         .refreshTip {

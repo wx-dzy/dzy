@@ -13,12 +13,12 @@ import {
 const env = process.env.NODE_ENV === 'development' ?
     'development' :
     process.env.VUE_APP_MODE === 'test' ? 'test' :
-    process.env.VUE_APP_MODE === 'demo' ? 'demo' :
-    'production';
+        process.env.VUE_APP_MODE === 'demo' ? 'demo' :
+            'production';
 
-console.log(env,'运行环境env{production:线上;test:测试;development:本地;}')
+console.log(env, '运行环境env{production:线上;test:测试;development:本地;}')
 // 线上测试&线上正式环境   
-const baseURL = env === 'production' ? 'http://121.196.122.19:8899/dzy' : (env === 'test' ? 'http://121.196.122.19:8899/dzy' : 'http://121.196.122.19:8899/dzy'); 
+const baseURL = env === 'production' ? 'http://121.196.122.19:8899/dzy' : (env === 'test' ? 'http://121.196.122.19:8899/dzy' : 'http://121.196.122.19:8899/dzy');
 
 // 创建实例
 const instance = axios.create({
@@ -39,18 +39,18 @@ instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlenco
 instance.interceptors.request.use(config => {
     // 格式化Post数据
     // if (config.method == 'post') {
-        // config.data = qs.stringify(config.data);
+    // config.data = qs.stringify(config.data);
     // }
 
     // 暂时设置临时的token  调取接口用
     // util.setCookie('dzy_token','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1OTU0Mjg3MzMsInVzZXJfbmFtZSI6ImFkbWluIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImp0aSI6IkMzUWxUQW9nTzQxNEJwLUE1SU9CX1ZjNTR6RSIsImNsaWVudF9pZCI6ImR6eS1jbG91ZC1zaG93LWNsaWVudC0xIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.JzRnqIly2A9F--sd8iAAFpBr-7HBIYvTKrY1AusD59U',365) 
     // console.log("token",util.getCookie('dzy_token'));
-    
+
     // 统一携带tooken
-    if(util.getCookie('dzy_token')){
-        config.headers =  {
+    if (localStorage.getItem('dzy_token')) {
+        config.headers = {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + util.getCookie('dzy_token')
+            'Authorization': 'Bearer ' + localStorage.getItem('dzy_token')
         };
     }
     return config
@@ -79,7 +79,7 @@ instance.interceptors.response.use(response => {
         } else {
             window.location.href = `${baseURL}/wechat/weChatAuthorization?name=atfStu`;
         }
-    } else if ( data.code && data.code != 200) { // 非0则提示错误信息
+    } else if (data.code && data.code != 200) { // 非0则提示错误信息
         util.error(data.message ? data.message : data.msg);
         // util.error('获取数据失败，请重新再试！');
     }
@@ -88,7 +88,7 @@ instance.interceptors.response.use(response => {
     // console.log(error.response.data)
     if (error.response.data.status == 401) {
         util.error('登录过期请重新登录');
-        vm.$router.push({name: 'login'})
+        vm.$router.push({ name: 'login' })
         return
     }
     if (error.response.data.status == 417) {
@@ -96,9 +96,9 @@ instance.interceptors.response.use(response => {
         return
     }
     if (error.response.data.status == 500) {
-        if(error.response.data.msg){
+        if (error.response.data.msg) {
             util.error(error.response.data.msg);
-        }else if(error.response.data.message){
+        } else if (error.response.data.message) {
             util.error(error.response.data.message);
         }
         return

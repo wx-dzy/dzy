@@ -50,13 +50,13 @@ export default {
           // 路由
           path: "personal"
         },
-         {
-          ico: "icon iconfont yz-zuzhijiagou",
-          name: "OneOnOneVideo",
-          lable: "一对一视频",
-          // 路由
-          path: "OneOnOneVideo"
-        }
+        //  {
+        //   ico: "icon iconfont yz-zuzhijiagou",
+        //   name: "OneOnOneVideo",
+        //   lable: "一对一视频",
+        //   // 路由
+        //   path: "OneOnOneVideo"
+        // }
       ]
     };
   },

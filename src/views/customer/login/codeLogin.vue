@@ -188,10 +188,10 @@ export default {
             appId: '',
             userImage: [], //上传的头像
             deletable: false, //是否显示删除按钮
-            // openId: sessionStorage.getItem('openId'),
-            openId: util.getCookie('dzy_openId'),
-            // headimgurl: sessionStorage.getItem("headimgurl"), // 用户头像
-            // nickname: sessionStorage.getItem("nickname"), // 用户昵称
+            // openId: localStorage.getItem('openId'),
+            openId: localStorage.getItem('dzy_openId'),
+            // headimgurl: localStorage.getItem("headimgurl"), // 用户头像
+            // nickname: localStorage.getItem("nickname"), // 用户昵称
             headimgurl: '', // 用户头像
             nickname: '', // 用户昵称
             isBtn: false, // 是否显示禁用状态按钮
@@ -221,8 +221,8 @@ export default {
         // this.getInfo()
         // this.getUrlParam()
         // 获取本地登录信息
-        let username = util.getCookie('username')
-        let password = util.getCookie('password')
+        let username = localStorage.getItem('username')
+        let password = localStorage.getItem('password')
         this.username = username
         this.password = password
 
@@ -268,7 +268,7 @@ export default {
                             userId,
                             username,
                         } = res.data
-                        util.setCookie('dzy_token', accessToken, 7)
+                        localStorage.setItem('dzy_token', accessToken, 7)
                         if (firstLogin == 1) {
                             this.$router.push({
                                 name: 'firstLogin',
@@ -359,12 +359,12 @@ export default {
                     console.log('获取openid', res)
                     if (res.code == 200) {
                         // "moduleId":1,
-                        util.setCookie('dzy_openId', res.data.openId, 7)
+                        localStorage.setItem('dzy_openId', res.data.openId, 7)
                         // this.openId = util.getCookie('dzy_openId')
                         this.openId = res.data.openId
 
-                        // sessionStorage.setItem('openId',res.data.openId)
-                        // this.openId = sessionStorage.getItem('openId')
+                        // localStorage.setItem('openId',res.data.openId)
+                        // this.openId = localStorage.getItem('openId')
                         this.getInfo()
                     }
                 })
@@ -384,7 +384,11 @@ export default {
                             headimgurl: res.data.headimgurl,
                             nickname: res.data.nickname,
                         }
-                        util.setCookie('dzy_wxInfo', JSON.stringify(wxInfo), 7)
+                        localStorage.setItem(
+                            'dzy_wxInfo',
+                            JSON.stringify(wxInfo),
+                            7
+                        )
                         // location.reload()
                     }
                 })
@@ -501,9 +505,13 @@ export default {
                     if (res.code == 417) {
                         this_.$message.error(res.message)
                     } else if (res.code == 200) {
-                        // sessionStorage.setItem("userId", res.data.userId);
-                        util.setCookie('dzy_userInfo', JSON.stringify(data), 7)
-                        util.setCookie('dzy_token', data.accessToken, 7)
+                        // localStorage.setItem("userId", res.data.userId);
+                        localStorage.setItem(
+                            'dzy_userInfo',
+                            JSON.stringify(data),
+                            7
+                        )
+                        localStorage.setItem('dzy_token', data.accessToken, 7)
                         // let { access_token, username } = res.data;
                         if (res.data.firstLogin == 0) {
                             this.$router.push({

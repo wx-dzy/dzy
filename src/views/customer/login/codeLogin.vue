@@ -288,18 +288,23 @@ export default {
         //       },
         // 获取js配置
         getPJ() {
-            Api.getAppId()
-                .then((res) => {
-                    console.log('获取appid', res)
-                    const { code, data, msg, total } = res
-                    this.appId = data.appId
-                    console.log('appid', this.appId)
-                    // 获取code
-                    this.getCode()
-                })
-                .catch((err) => {
-                    console.log('err', err)
-                })
+            console.log('appId', this.appId)
+            if (!this.appId) {
+                Api.getAppId()
+                    .then((res) => {
+                        console.log('获取appid', res)
+                        const { code, data, msg, total } = res
+                        this.appId = data.appId
+                        console.log('appid', this.appId)
+                        // 获取code
+                        this.getCode()
+                    })
+                    .catch((err) => {
+                        console.log('err', err)
+                    })
+            } else {
+                this.getCode()
+            }
         },
 
         getCode() {
@@ -307,7 +312,7 @@ export default {
             var code = _this.getUrlParam('code')
             // var local = 'http://192.168.31.221:9000/'
 
-            if (code == null || code == '') {
+            if (!code) {
                 // window.location.href =
                 //     'http://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://192.168.1.111:9000/&response_type=code'
                 // window.location.href =
@@ -328,6 +333,7 @@ export default {
         // 获取openid
         getopenid_data(data) {
             console.log('data', data)
+            console.log('openId', this.openId)
             if (!this.openId) {
                 console.log('code_1', this.code)
                 Api.getOpenId(this.code).then((res) => {
@@ -343,6 +349,8 @@ export default {
                         this.getInfo()
                     }
                 })
+            } else {
+                this.getInfo()
             }
         },
         // 获取用户信息
@@ -353,8 +361,6 @@ export default {
                     if (res.code == 200) {
                         this.headimgurl = res.data.headimgurl
                         this.nickname = res.data.nickname
-                        // sessionStorage.setItem("headimgurl", res.data.headimgurl);
-                        // sessionStorage.setItem("nickname", res.data.nickname);
                         let wxInfo = {
                             headimgurl: res.data.headimgurl,
                             nickname: res.data.nickname,

@@ -9,7 +9,7 @@
             </div>
             <div class="push">
                 <!-- <div class="image">
-          <img :src="imgUrl_before" alt />
+            <img :src="imgUrl_before" alt />
                 </div>-->
                 <!-- <van-field name="uploader">
                     <template #input>
@@ -72,7 +72,7 @@ export default {
                 infoImg: 'https://img.yzcdn.cn/vant/cat.jpeg',
                 name: 'xiaogang0-0',
                 status: 1,
-                activeInfo: '参观房',
+                activeInfo: '参观方',
             },
             pageSize: 10,
             pageNum: 1,
@@ -88,8 +88,9 @@ export default {
     watch: {},
     methods: {
         getPJ() {
+            let url = encodeURI(location.href)
             let params = {
-                url: location.href,
+                url: url,
             }
             Api.getAppId(params)
                 .then((res) => {

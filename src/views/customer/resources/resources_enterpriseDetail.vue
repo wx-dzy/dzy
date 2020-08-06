@@ -119,7 +119,7 @@ export default {
     // // 播放
     VideoDemo,
     // 关注
-    follow
+    follow,
   },
   data() {
     return {
@@ -129,12 +129,12 @@ export default {
         enterprise: {},
         videoList: [],
         followStatus: "",
-        total: ""
+        total: "",
       },
       // 企业产品目录列表
       productList: [],
       // 当前播放器id(预留暂时无用)
-      playVideoId: "0"
+      playVideoId: "0",
     };
   },
   created() {
@@ -147,13 +147,13 @@ export default {
     // 获取参展商详情
     handelGetDetails() {
       Api.getEnterpriseDetailById(this.enterpriseId)
-        .then(res => {
+        .then((res) => {
           let { code, msg, data, total } = res;
           if (code == 200) {
             this.details = data;
           }
         })
-        .catch(err => {});
+        .catch((err) => {});
     },
 
     // 获取企业产品目录
@@ -163,16 +163,16 @@ export default {
         pageNum: "1", // 页码
         pageSize: "5", // 每页记录数
         isAsc: "1", // 排序，1：正序，2：倒序
-        params: "" // 查询条件
+        params: "", // 查询条件
       };
       Api.getGoodsSearch(param)
-        .then(res => {
+        .then((res) => {
           let { code, msg, data, total } = res;
           if (code == 200) {
             this.productList = data;
           }
         })
-        .catch(err => {});
+        .catch((err) => {});
     },
 
     // 获取公司资料
@@ -181,8 +181,10 @@ export default {
       this.$router.push({
         name: "exact_information",
         query: {
-          // enterpriseExhibitorsId: this.enterpriseId
-        }
+          enterpriseExhibitorsId: this.enterpriseId,
+          // type 存在就是索取企业资料 否则就是展商企业资料 
+          type: 1,
+        },
       });
     },
 
@@ -191,8 +193,10 @@ export default {
       this.$router.push({
         name: "company_details",
         query: {
-          enterpriseExhibitorsId: this.enterpriseId
-        }
+          enterpriseExhibitorsId: this.enterpriseId,
+          // type 存在就是索取公司情况 否则就是展商公司情况
+          type: 1,
+        },
       });
     },
     // 查看全部企业产品目录
@@ -201,8 +205,8 @@ export default {
         name: "products",
         query: {
           // 企业id
-          enterpriseId: this.enterpriseId
-        }
+          enterpriseId: this.enterpriseId,
+        },
       });
     },
 
@@ -213,8 +217,8 @@ export default {
         name: "products_details",
         query: {
           // 商品id
-          goodsId: row.id
-        }
+          goodsId: row.id,
+        },
       });
     },
 
@@ -222,8 +226,8 @@ export default {
     handleFollow(status) {
       console.log(status, "关注组件回调");
       this.handelGetDetails();
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -5,7 +5,8 @@
   <div class="OneOnOneVideo">
     <div v-if="!isWx">
       <!-- 本地视频 -->
-      <div id="localplayer" style class="fullscreen-player" @dbclick="switchScreen"></div>
+      <!-- <div id="localplayer" style class="fullscreen-player" @dbclick="switchScreen"></div> -->
+      <div id="localplayer" style class="fullscreen-player"></div>
       <!-- <van-field v-model="roomToken" clearable placeholder="请输入 RoomToken 加入房间开始连麦" /> -->
 
       <!-- 远端视频 -->

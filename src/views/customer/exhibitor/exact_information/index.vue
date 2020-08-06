@@ -93,7 +93,10 @@ export default {
             infomation: {},
             checked: 0, //当前选中的index
             showShare: false, // 是否显示弹出层
-            option: [{ name: '分享到微信', icon: 'wechat' }],
+            option: [
+                { name: '分享到微信', icon: 'wechat' },
+                { name: '分享到朋友圈', icon: 'poster' },
+            ],
             overlay: true, //不显示遮罩层
             all: true, //是否显示全部
             numPages: [],
@@ -110,37 +113,41 @@ export default {
     methods: {
         wxRegCallback() {
             // 用于微信JS-SDK回调
-            this.wxShareTimeline()
-            this.wxShareAppMessage()
+            // this.wxShareTimeline()
+            // this.wxShareAppMessage()
         },
         wxShareTimeline() {
+            console.log('11111111111')
             // 微信自定义分享到朋友圈
             let option = {
-                title: '限时团购周 挑战最低价', // 分享标题, 请自行替换
-                link: window.location.href.split('#')[0], // 分享链接，根据自身项目决定是否需要split
-                imgUrl: 'logo.png', // 分享图标, 请自行替换，需要绝对路径
+                title: '企业资料分享', // 分享标题, 请自行替换
+                // link: window.location.href.split('#')[0], 分享链接，根据自身项目决定是否需要split
+                link: window.location.href,
+                imgUrl: '', // 分享图标, 请自行替换，需要绝对路径
                 success: () => {
-                    alert('分享成功')
+                    util.success('分享成功')
                 },
                 error: () => {
-                    alert('已取消分享')
+                    util.success('已取消分享')
                 },
             }
             // 将配置注入通用方法
             wxapi.ShareTimeline(option)
         },
         wxShareAppMessage() {
+            console.log('22222222222')
             // 微信自定义分享给朋友
             let option = {
-                title: '限时团购周 挑战最低价', // 分享标题, 请自行替换
-                desc: '限时团购周 挑战最低价', // 分享描述, 请自行替换
-                link: window.location.href.split('#')[0], // 分享链接，根据自身项目决定是否需要split
-                imgUrl: 'logo.png', // 分享图标, 请自行替换，需要绝对路径
+                title: '企业资料分享', // 分享标题, 请自行替换
+                desc: '企业资料分享', // 分享描述, 请自行替换
+                // link: window.location.href.split('#')[0], 分享链接，根据自身项目决定是否需要split
+                link: window.location.href,
+                imgUrl: '', // 分享图标, 请自行替换，需要绝对路径
                 success: () => {
-                    alert('分享成功')
+                    util.success('分享成功')
                 },
                 error: () => {
-                    alert('已取消分享')
+                    util.success('已取消分享')
                 },
             }
             // 将配置注入通用方法
@@ -210,7 +217,11 @@ export default {
         onSelect(option) {
             // this.$toast(option.name)
             this.showShare = false
-            // this.wxShareTimeline()
+            if (option.name == '分享到微信') {
+                this.wxShareAppMessage()
+            } else if (option.name == '分享到朋友圈') {
+                this.wxShareTimeline()
+            }
         },
         showPop() {
             // console.log('显示弹出层')

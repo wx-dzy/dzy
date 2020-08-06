@@ -380,7 +380,9 @@ export default {
             // cardInfo.companyLogo = 'sfsdf'
             cardInfo.id = this.id
             cardInfo.cardUrl = localStorage.getItem('cardUrl')
-
+                ? localStorage.getItem('cardUrl')
+                : ''
+            cardInfo.cardUrl = '54564654'
             cardInfo.provinceId = this.provinceId
             cardInfo.provinceName = this.provinceName
             cardInfo.cityId = this.cityId

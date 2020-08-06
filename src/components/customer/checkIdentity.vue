@@ -102,7 +102,9 @@ export default {
                 { text: '办展工作人员' },
             ],
             enterpriseIndex: 0, // 默认选择企业名
-            identityIndex: 0, // 默认选择身份
+            identityIndex: sessionStorage.getItem('identityIndex')
+                ? sessionStorage.getItem('identityIndex')
+                : 0, // 默认选择身份
             // 切换身份弹窗
             changeIdentity: false,
             activeIcon: require('@/assets/images/ok.png'),
@@ -115,13 +117,16 @@ export default {
     methods: {
         // 选择企业
         checkEnterprise(enterpriseIndex) {
+            console.log('enterpriseIndex', enterpriseIndex)
             this.enterpriseIndex = enterpriseIndex
             let enterpriseId = this.checkList[this.enterpriseIndex].enterpriseId
+
             console.log('enterpriseId:', enterpriseId)
             sessionStorage.setItem('enterpriseId', enterpriseId)
         },
         goto(identityIndex) {
             console.log('identityIndex', identityIndex)
+            sessionStorage.setItem('identityIndex', identityIndex)
             let params = {
                 enterpriseId: this.checkList[this.enterpriseIndex].enterpriseId,
                 identity: this.identityList[this.identityIndex].identity,

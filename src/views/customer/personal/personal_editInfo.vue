@@ -174,8 +174,9 @@ export default {
     watch: {},
     methods: {
         getPJ() {
+            let url = encodeURI(location.href)
             let params = {
-                url: location.href,
+                url: url,
             }
             Api.getAppId(params)
                 .then((res) => {

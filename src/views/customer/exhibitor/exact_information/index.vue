@@ -70,9 +70,10 @@
 </template>
 
 
-<script type="text/JavaScript" src="http://res2.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+
 
 <script>
+// import wx from 'weixin-js-sdk'
 import pdf from 'vue-pdf'
 import img1 from '@/assets/images/home/1.png'
 import img2 from '@/assets/images/home/2.png'
@@ -104,6 +105,82 @@ export default {
         this.getCompanyInfomation()
     },
     methods: {
+        /**
+         * [wxRegister 微信Api初始化]
+         * @param  {Function} callback [ready回调函数]
+         */
+        wxRegister(callback) {
+            Api.getAppId({ reqUrl: window.location.href })
+                .then((res) => {
+                    let data = res.data // PS: 这里根据你接口的返回值来使用
+                    wx.config({
+                        debug: true, // 开启调试模式
+                        appId: data.appId, // 必填，公众号的唯一标识
+                        timestamp: data.timestamp, // 必填，生成签名的时间戳
+                        nonceStr: data.noncestr, // 必填，生成签名的随机串
+                        signature: data.signature, // 必填，签名，见附录1
+                        jsApiList: [
+                            'onMenuShareTimeline',
+                            'onMenuShareAppMessage,',
+                        ], // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+                    })
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+            wx.ready((res) => {
+                // 如果需要定制ready回调方法
+                if (callback) {
+                    callback()
+                }
+            })
+        },
+        /**
+         * [ShareTimeline 微信分享到朋友圈]
+         * @param {[type]} option [分享信息]
+         * @param {[type]} success [成功回调]
+         * @param {[type]} error   [失败回调]
+         */
+        ShareTimeline(option) {
+            let url = this.pdfUrl
+            wx.onMenuShareTimeline({
+                title: '企业资料分享', // 分享标题
+                link: url, // 分享链接
+                imgUrl: '', // 分享图标
+                success() {
+                    // 用户成功分享后执行的回调函数
+                    option.success()
+                },
+                cancel() {
+                    // 用户取消分享后执行的回调函数
+                    option.error()
+                },
+            })
+        },
+        /**
+         * [ShareAppMessage 微信分享给朋友]
+         * @param {[type]} option [分享信息]
+         * @param {[type]} success [成功回调]
+         * @param {[type]} error   [失败回调]
+         */
+        ShareAppMessage(option) {
+            let url = this.pdfUrl
+            wx.onMenuShareAppMessage({
+                title: '企业资料分享', // 分享标题
+                desc: '企业资料分享', // 分享描述
+                link: url, // 分享链接
+                imgUrl: '', // 分享图标
+                success() {
+                    // 用户成功分享后执行的回调函数
+                    option.success()
+                },
+                cancel() {
+                    // 用户取消分享后执行的回调函数
+                    option.error()
+                },
+            })
+        },
+
         // 查看
         checkAll() {
             this.all = !this.all
@@ -128,33 +205,32 @@ export default {
                     const { code, data, msg, total } = res
 
                     if (code == 200) {
-                        wx.config({
-                            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-                            appId: data.appId, // 必填，公众号的唯一标识
-                            timestamp: data.timestamp, // 必填，生成签名的时间戳
-                            nonceStr: data.nonceStr, // 必填，生成签名的随机串
-                            signature: data.signature, // 必填，签名
-                            jsApiList: ['updateAppMessageShareData'], // 必填，需要使用的JS接口列表
-                        })
-                        // wx.ready(function () {
-                        //     console.log('config成功') // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中
+                        // wx.config({
+                        //     debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                        //     appId: data.appId, // 必填，公众号的唯一标识
+                        //     timestamp: data.timestamp, // 必填，生成签名的时间戳
+                        //     nonceStr: data.nonceStr, // 必填，生成签名的随机串
+                        //     signature: data.signature, // 必填，签名
+                        //     jsApiList: ['updateAppMessageShareData'], // 必填，需要使用的JS接口列表
                         // })
-
-                        wx.ready(function () {
-                            //需在用户可能点击分享按钮前就先调用
-                            wx.updateAppMessageShareData({
-                                title: '企业资料分享', // 分享标题
-                                desc: '企业资料分享', // 分享描述
-                                link: url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-                                imgUrl: '', // 分享图标
-                                success: function () {
-                                    // 设置成功
-                                },
-                            })
-                        })
-                        wx.error(function (res) {
-                            console.log('config失败', res) // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名
-                        })
+                        // // wx.ready(function () {
+                        // //     console.log('config成功') // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中
+                        // // })
+                        // wx.ready(function () {
+                        //     //需在用户可能点击分享按钮前就先调用
+                        //     wx.updateAppMessageShareData({
+                        //         title: '企业资料分享', // 分享标题
+                        //         desc: '企业资料分享', // 分享描述
+                        //         link: url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                        //         imgUrl: '', // 分享图标
+                        //         success: function () {
+                        //             // 设置成功
+                        //         },
+                        //     })
+                        // })
+                        // wx.error(function (res) {
+                        //     console.log('config失败', res) // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名
+                        // })
                     } else {
                         this.$toast('获取签名失败')
                     }
@@ -167,7 +243,9 @@ export default {
         onSelect(option) {
             this.$toast(option.name)
             this.showShare = false
-            this.getPJ()
+            // this.getPJ()
+            this.wxRegister()
+            this.ShareAppMessage()
         },
         showPop() {
             // console.log('显示弹出层')

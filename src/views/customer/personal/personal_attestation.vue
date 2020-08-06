@@ -89,6 +89,7 @@ export default {
     methods: {
         getPJ() {
             let url = encodeURI(location.href)
+            console.log('url:', url)
             let params = {
                 url: url,
             }

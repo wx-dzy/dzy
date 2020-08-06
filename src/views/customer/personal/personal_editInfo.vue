@@ -225,6 +225,7 @@ export default {
                 success: function (res) {
                     // console.log('选择图片', res)
                     var localIds = res.localIds[0] // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                    this.avatar = localIds
                     wx.uploadImage({
                         localId: localIds, // 需要上传的图片的本地ID，由chooseImage接口获得
                         isShowProgressTips: 1, // 默认为1，显示进度提示
@@ -234,14 +235,14 @@ export default {
                             _this.serverId = res.serverId
                         },
                     })
-                    wx.getLocalImgData({
-                        localId: localIds, // 图片的localID
-                        success: function (res) {
-                            console.log('getLocalImgData', res)
-                            var localData = res.localData // localData是图片的base64数据，可以用img标签显示
-                            _this.avatar = localData
-                        },
-                    })
+                    // wx.getLocalImgData({
+                    //     localId: localIds, // 图片的localID
+                    //     success: function (res) {
+                    //         console.log('getLocalImgData', res)
+                    //         var localData = res.localData // localData是图片的base64数据，可以用img标签显示
+                    //         _this.avatar = localData
+                    //     },
+                    // })
                 },
             })
         },

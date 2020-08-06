@@ -146,6 +146,13 @@ export default {
     },
 
     created() {
+        let dzy_token = localStorage.getItem('dzy_token')
+        console.log('dzy_token:', dzy_token)
+        if (!dzy_token) {
+            this.$router.push({
+                path: '/',
+            })
+        }
         // this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
         // 获取详情
         this.handleDetail()

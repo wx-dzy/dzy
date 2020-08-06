@@ -101,7 +101,6 @@
                     name="endDate"
                     label="结束时间"
                     placeholder="请输入结束时间"
-                    :rules="[{ required: true, message: '请输入结束时间' }]"
                     @click="showCalendarEnd = true"
                 />
                 <van-calendar
@@ -215,7 +214,6 @@
         </div>
     </div>
 </template>
-<script src="http://res.wx.qq.com/open/js/jweixin-1.6.0.js">
 </script>
     <script>
 import { util } from '@/utils'
@@ -223,6 +221,7 @@ import { mapGetters } from 'vuex'
 import * as Api from '@/api/customer/personal'
 import visitingCard from '@/components/customer/visitingCard.vue'
 import AddressList from '@/assets/js/area'
+import wx from 'weixin-js-sdk'
 
 export default {
     name: 'personal_editCard',
@@ -282,8 +281,10 @@ export default {
     watch: {},
     methods: {
         getPJ() {
+            let _this = this
+            let url = encodeURI(window.location.href)
             let params = {
-                url: location.href,
+                url: url,
             }
             Api.getAppId(params)
                 .then((res) => {
@@ -291,7 +292,7 @@ export default {
                     const { code, data, msg, total } = res
                     if (code == 200) {
                         wx.config({
-                            debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
                             appId: data.appId, // 必填，公众号的唯一标识
                             timestamp: data.timestamp, // 必填，生成签名的时间戳
                             nonceStr: data.nonceStr, // 必填，生成签名的随机串
@@ -305,13 +306,13 @@ export default {
                         })
                         wx.ready(function () {
                             console.log('config成功') // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中
-                            this.uploadImg()
+                            _this.uploadImg()
                         })
                         wx.error(function (res) {
                             console.log('config失败', res) // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名
                         })
                     } else {
-                        this.$toast('获取签名失败')
+                        _this.$toast('获取签名失败')
                     }
                 })
                 .catch((err) => {
@@ -320,6 +321,7 @@ export default {
         },
         // 上传图片
         uploadImg() {
+            console.log('111111111111')
             let _this = this
             wx.chooseImage({
                 count: 1, // 默认9
@@ -377,7 +379,7 @@ export default {
         saveCard(cardInfo) {
             // cardInfo.companyLogo = 'sfsdf'
             cardInfo.id = this.id
-            // cardInfo.cardUrl = 'sdafs'
+            cardInfo.cardUrl = localStorage.getItem('cardUrl')
 
             cardInfo.provinceId = this.provinceId
             cardInfo.provinceName = this.provinceName
@@ -518,7 +520,7 @@ export default {
             }
             i {
                 color: #000 !important;
-                padding: 0 0.4rem 0.1rem 0.4rem;
+                padding: 0.1rem 0.4rem 0.1rem 0.4rem;
                 background: #e9e9e9ff;
                 font-weight: 700;
                 border-radius: 10.5px;
@@ -530,6 +532,9 @@ export default {
             .authentication {
                 float: right;
                 background: #f8d57e;
+                padding: 0.05rem 0.1rem;
+                border-radius: 0.05rem;
+                color: #000;
             }
         }
         .submit {

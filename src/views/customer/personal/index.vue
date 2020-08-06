@@ -196,14 +196,19 @@ export default {
       this.onsubmt(params);
     },
 
-    // 懒加载请求加载列表
-    onLoad() {
-      this.pageNum++;
-      let params = {
-        pageNum: this.pageNum, // 页数
-        pageSize: this.pageSize, // 每页几条数据
-      };
-      this.onsubmt(params);
+    created() {
+        let dzy_token = localStorage.getItem('dzy_token')
+        console.log('dzy_token:', dzy_token)
+        if (!dzy_token) {
+            this.$router.push({
+                path: '/',
+            })
+        }
+        // this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
+        // 获取详情
+        this.handleDetail()
+        // 搜索
+        this.onSearch()
     },
 
     // 上拉刷新

@@ -1,7 +1,7 @@
 <template>
     <div class="exact_information">
         <!-- <div> -->
-        <div class="full" v-if="infomation">
+        <div class="full" v-if="url">
             <!-- <van-swipe class="my-swipe" :autoplay="0" indicator-color="white">
             <van-swipe-item style="width:100%;height: 800px">-->
             <!-- <iframe style="width: 100;height: 100" :src="infomation.pdfUrl" alt></iframe> -->
@@ -54,7 +54,7 @@
                 >查看</van-button>
             </div>
         </div>
-        <div class="none" v-if="!infomation">
+        <div class="none" v-if="!url">
             <img src="../../../../assets/images/exhibitor/infomation_none.png" alt />
         </div>
         <!-- <van-popup v-model="show" style="font-size:18px;background:none;color:#fff">请点击右上角分享</van-popup> -->

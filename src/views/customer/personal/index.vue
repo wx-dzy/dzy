@@ -196,6 +196,7 @@ export default {
       this.onsubmt(params);
     },
 
+<<<<<<< HEAD
     // 懒加载请求加载列表
     onLoad() {
       this.pageNum++;
@@ -204,6 +205,21 @@ export default {
         pageSize: this.pageSize, // 每页几条数据
       };
       this.onsubmt(params);
+=======
+    created() {
+        let dzy_token = localStorage.getItem('dzy_token')
+        console.log('dzy_token:', dzy_token)
+        if (!dzy_token) {
+            this.$router.push({
+                path: '/',
+            })
+        }
+        // this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
+        // 获取详情
+        this.handleDetail()
+        // 搜索
+        this.onSearch()
+>>>>>>> 6cf5a154e34f9d1d8bdccdbdcec694e77f8b0b83
     },
 
     // 上拉刷新

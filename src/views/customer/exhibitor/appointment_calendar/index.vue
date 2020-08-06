@@ -268,7 +268,7 @@ export default {
             Api.getTodayData(this.userPreInterviewId).then((res) => {
                 if (res.code == 200 && res.data != '') {
                     this.todayData = res.data
-                    console.log('todayData', this.todayData)
+                    // console.log('todayData', this.todayData)
                     this.userPreInterviewDetailId = this.todayData[0].userPreInterviewDetailId
 
                     // console.log('获取日数据', this.todayData)
@@ -455,8 +455,8 @@ export default {
 
         // 当前选择日期
         pick(date, index) {
-            console.log('picker-index', index)
-            console.log('picker-date', date)
+            // console.log('picker-index', index)
+            // console.log('picker-date', date)
             this.current = index
             let checkData =
                 this.currentYear + '-' + this.currentMonth + '-' + date
@@ -466,7 +466,9 @@ export default {
             const canBooking = [] //把可预约的日期放进一个数组，截取日期几号进行判断
             for (var value of this.weekData) {
                 canBooking.push(value.dateOfMonth.substr(8, 10))
+                
             }
+            console.log(this.canBooking);
             if (canBooking.map(Number).includes(date)) {
                 var dateindex = canBooking
                     .map(Number)

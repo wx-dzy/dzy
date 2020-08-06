@@ -533,6 +533,7 @@ export default {
                 background: #f8d57e;
                 padding: 0.05rem 0.1rem;
                 border-radius: 0.05rem;
+                color: #000;
             }
         }
         .submit {

@@ -46,6 +46,7 @@ import { util } from '@/utils'
 import { mapGetters } from 'vuex'
 import * as Api from '@/api/customer/personal'
 import visitingCard from '@/components/customer/visitingCard.vue'
+import wx from 'weixin-js-sdk'
 
 export default {
     name: 'personal_attestation',
@@ -88,7 +89,7 @@ export default {
     watch: {},
     methods: {
         getPJ() {
-            let url = encodeURI(location.href)
+            let url = encodeURI(window.location.href)
             console.log('url:', url)
             let params = {
                 url: url,

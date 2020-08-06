@@ -215,7 +215,6 @@
         </div>
     </div>
 </template>
-<script src="http://res.wx.qq.com/open/js/jweixin-1.6.0.js">
 </script>
     <script>
 import { util } from '@/utils'
@@ -223,6 +222,7 @@ import { mapGetters } from 'vuex'
 import * as Api from '@/api/customer/personal'
 import visitingCard from '@/components/customer/visitingCard.vue'
 import AddressList from '@/assets/js/area'
+import wx from 'weixin-js-sdk'
 
 export default {
     name: 'personal_editCard',
@@ -282,7 +282,7 @@ export default {
     watch: {},
     methods: {
         getPJ() {
-            let url = encodeURI(location.href)
+            let url = encodeURI(window.location.href)
             let params = {
                 url: url,
             }
@@ -519,7 +519,7 @@ export default {
             }
             i {
                 color: #000 !important;
-                padding: 0 0.4rem 0.1rem 0.4rem;
+                padding: 0.1rem 0.4rem 0.1rem 0.4rem;
                 background: #e9e9e9ff;
                 font-weight: 700;
                 border-radius: 10.5px;
@@ -531,6 +531,8 @@ export default {
             .authentication {
                 float: right;
                 background: #f8d57e;
+                padding: 0.05rem 0.1rem;
+                border-radius: 0.05rem;
             }
         }
         .submit {

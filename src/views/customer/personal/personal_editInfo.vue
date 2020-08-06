@@ -99,12 +99,13 @@
         </div>
     </div>
 </template>
-<script src="http://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+\
 <script>
 import { util } from '@/utils'
 import { mapGetters } from 'vuex'
 import * as Api from '@/api/customer/personal'
 import visitingCard from '@/components/customer/visitingCard.vue'
+import wx from 'weixin-js-sdk'
 
 export default {
     name: 'personal_editInfo',
@@ -174,7 +175,7 @@ export default {
     watch: {},
     methods: {
         getPJ() {
-            let url = encodeURI(location.href)
+            let url = encodeURI(window.location.href)
             let params = {
                 url: url,
             }

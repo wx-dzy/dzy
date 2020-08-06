@@ -1,27 +1,26 @@
 <template>
     <div class="exact_information">
         <!-- <div> -->
-        <div class="full">
-            <div class="full" v-if="infomation">
-                <!-- <van-swipe class="my-swipe" :autoplay="0" indicator-color="white">
-                <van-swipe-item style="width:100%;height: 800px">-->
-                <!-- <iframe style="width: 100;height: 100" :src="infomation.pdfUrl" alt></iframe> -->
+        <div class="full" v-if="infomation">
+            <!-- <van-swipe class="my-swipe" :autoplay="0" indicator-color="white">
+            <van-swipe-item style="width:100%;height: 800px">-->
+            <!-- <iframe style="width: 100;height: 100" :src="infomation.pdfUrl" alt></iframe> -->
 
-                <!-- <object :data="infomation.pdfUrl" type="application/pdf" width="100%" height="100%"> -->
-                <!-- <iframe :src="infomation.pdfUrl" width="100%" height="100%"> -->
-                <div class="pdf" v-show="all">
-                    <!-- <pdf ref="pdf" :src="infomation.pdfUrl"></pdf> -->
-                    <pdf ref="pdf" :src="url" @num-pages="getPagesNum"></pdf>
-                </div>
-                <div v-show="!all" class="pdf">
-                    <pdf v-for="i in numPages" :key="i" :src="url" :page="i"></pdf>
-                </div>
-                <!-- </iframe> -->
-                <!-- </object> -->
-                <!-- </van-swipe-item>
-                </van-swipe>-->
-                <!-- </div> -->
-                <!-- <div style="overflow-x: scroll;width: 100%">
+            <!-- <object :data="infomation.pdfUrl" type="application/pdf" width="100%" height="100%"> -->
+            <!-- <iframe :src="infomation.pdfUrl" width="100%" height="100%"> -->
+            <div class="pdf" v-show="all">
+                <!-- <pdf ref="pdf" :src="infomation.pdfUrl"></pdf> -->
+                <pdf ref="pdf" :src="url" @num-pages="getPagesNum"></pdf>
+            </div>
+            <div v-show="!all" class="pdf">
+                <pdf v-for="i in numPages" :key="i" :src="url" :page="i"></pdf>
+            </div>
+            <!-- </iframe> -->
+            <!-- </object> -->
+            <!-- </van-swipe-item>
+            </van-swipe>-->
+            <!-- </div> -->
+            <!-- <div style="overflow-x: scroll;width: 100%">
                     <ul
                         style="display: flex;justify-content: space-around;margin-top: 5px;width: 120%;height: 60px"
                     >
@@ -37,35 +36,42 @@
                             />
                         </li>
                     </ul>
-                </div>-->
-                <div style="display: flex;justify-content:space-around;margin-top: 10px">
-                    <van-button
-                        type="default"
-                        style="width: 150px;height: 40px;border-radius: 10px;border: 1px solid #000;background-color: #fff;text-align: center;letter-spacing: 10px;"
-                        @click="showPop"
-                    >分享</van-button>
-                    <!-- <van-button
+            </div>-->
+            <div style="display: flex;justify-content:space-around;margin-top: 10px">
+                <van-button
+                    type="default"
+                    style="width: 150px;height: 40px;border-radius: 10px;border: 1px solid #000;background-color: #fff;text-align: center;letter-spacing: 10px;"
+                    @click="showPop"
+                >分享</van-button>
+                <!-- <van-button
                 type="default"
                 style="width: 150px;height: 40px;border-radius: 10px;border: 1px solid #000;background-color: orange;letter-spacing: 10px;"
-                    >下载</van-button>-->
-                    <van-button
-                        type="default"
-                        style="width: 150px;height: 40px;border-radius: 10px;border: 1px solid #000;background-color: orange;letter-spacing: 10px;"
-                        @click="checkAll"
-                    >查看</van-button>
-                </div>
+                >下载</van-button>-->
+                <van-button
+                    type="default"
+                    style="width: 150px;height: 40px;border-radius: 10px;border: 1px solid #000;background-color: orange;letter-spacing: 10px;"
+                    @click="checkAll"
+                >查看</van-button>
             </div>
-            <div class="none" v-if="!infomation">
-                <img src="../../../../assets/images/exhibitor/infomation_none.png" alt />
-            </div>
-            <!-- <van-popup v-model="show" style="font-size:18px;background:none;color:#fff">请点击右上角分享</van-popup> -->
-            <van-share-sheet
+        </div>
+        <div class="none" v-if="!infomation">
+            <img src="../../../../assets/images/exhibitor/infomation_none.png" alt />
+        </div>
+        <!-- <van-popup v-model="show" style="font-size:18px;background:none;color:#fff">请点击右上角分享</van-popup> -->
+        <!-- <van-share-sheet
                 v-model="showShare"
                 :options="option"
                 @select="onSelect"
                 :overlay="overlay"
-            />
-        </div>
+        />-->
+        <van-overlay :show="showShare" @click="showShare = false">
+            <div class="share">
+                <span>请点击右上角分享</span>
+                <div class="img">
+                    <img :src="shareImg" alt />
+                </div>
+            </div>
+        </van-overlay>
     </div>
 </template>
 
@@ -100,6 +106,7 @@ export default {
             overlay: true, //不显示遮罩层
             all: true, //是否显示全部
             numPages: [],
+            shareImg: require('@/assets/images/exhibitor/share.png'),
         }
     },
     created() {
@@ -275,6 +282,25 @@ export default {
     margin-top: 2rem;
     img {
         width: 100%;
+    }
+}
+.share {
+    width: 90%;
+    margin: 0 auto;
+    color: #fff;
+    font-size: 20px;
+    padding-top: 1.5rem;
+    box-sizing: border-box;
+    text-align: center;
+    .img {
+        display: inline-block;
+        width: 1rem;
+        vertical-align: bottom;
+        margin-left: 0.5rem;
+        margin-top: -0.3rem;
+        img {
+            width: 100%;
+        }
     }
 }
 </style>

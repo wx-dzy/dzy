@@ -60,4 +60,4 @@ export const CardUrl = params => axios.get('/c/user/list-card-url', params);
 
 // 获取js配置
 
-export const getAppId = params => axios.get('/c/wx/wx-js-config', params);
+export const getAppId = params => axios.get('/c/wx/wx-js-config', { params });

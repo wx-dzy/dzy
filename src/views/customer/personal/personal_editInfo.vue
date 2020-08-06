@@ -175,9 +175,8 @@ export default {
     watch: {},
     methods: {
         getPJ() {
-            let url = encodeURI(window.location.href)
             let params = {
-                url: url,
+                url: window.location.href,
             }
             Api.getAppId(params)
                 .then((res) => {
@@ -398,6 +397,7 @@ export default {
                     margin: auto 0;
                     width: 1.84rem;
                     height: 0.48rem;
+                    line-height: 0.48rem;
                     background: rgba(248, 213, 126, 1);
                     border-radius: 0.24rem;
                     font-size: 0.24rem;

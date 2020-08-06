@@ -101,7 +101,6 @@
                     name="endDate"
                     label="结束时间"
                     placeholder="请输入结束时间"
-                    :rules="[{ required: true, message: '请输入结束时间' }]"
                     @click="showCalendarEnd = true"
                 />
                 <van-calendar

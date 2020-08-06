@@ -12,6 +12,9 @@ export const getExhibitor_details = params => axios.get('/c/enterprise-show-exhi
 // 参展商目录-公司详情/c/enterprise-show-exhibitors/enterprise-detail/{enterpriseExhibitorsId}
 export const getCompany_details = params => axios.get('/c/enterprise-show-exhibitors/enterprise-detail/' + params);
 
+// 资源-公司详情/c/enterprise-show-exhibitors/enterprise-detail/{enterpriseExhibitorsId}
+export const getEnterprise_details = params => axios.get('/c/enterprise/enterprise-detail/' + params);
+
 // 参展商目录-企业人物-分页列表
 export const getPerson = (enterpriseExhibitorsId, params) => axios.get('/c/enterprise-show-exhibitors/page-exhibitors-people/' + enterpriseExhibitorsId, { params });
 
@@ -38,6 +41,8 @@ export const getFollow = params => axios.post('/c/user-follow/follow', params);
 
 // 参展商目录-索取资料
 export const getInfomation = params => axios.get('/c/enterprise-show-exhibitors/request-enterprise-pdf/' + params);
+// 资源企业-索取资料
+export const getEnterpriseInfo = params => axios.get('/c/enterprise/request-enterprise-pdf/' + params);
 
 // 参展商目录-预约日历-预约/取消预约
 export const interview = (userPreInterviewDetailId, type) => axios.post('/c/show-people-interview/pre-interview/' + userPreInterviewDetailId + '/' + type);

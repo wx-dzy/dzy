@@ -178,6 +178,7 @@ export default {
             let params = {
                 url: window.location.href,
             }
+            console.log('params', params)
             Api.getAppId(params)
                 .then((res) => {
                     console.log('获取appid', res)

@@ -113,8 +113,8 @@ export default {
     methods: {
         wxRegCallback() {
             // 用于微信JS-SDK回调
-            // this.wxShareTimeline()
-            // this.wxShareAppMessage()
+            this.wxShareTimeline()
+            this.wxShareAppMessage()
         },
         wxShareTimeline() {
             console.log('11111111111')

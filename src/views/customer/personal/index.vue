@@ -45,7 +45,6 @@
                     :finished="finished"
                     :finished-text="listData.length ? '----- 我是有底线的 -----' : '暂无预约'"
                     error-text="请求失败，点击重新加载"
-                    @load="onLoad"
                 >
                     <van-cell
                         v-for="(item, index)  in listData"

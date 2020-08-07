@@ -30,10 +30,19 @@
                         </template>
                     </van-field>
                     <van-field
+                        readonly
                         label="出生日期"
                         placeholder="请输入您的出生日期"
                         v-model="userInfo.birthday"
                         name="birthday"
+                        @click="showCalendar = true"
+                    />
+                    <van-calendar
+                        v-model="showCalendar"
+                        @confirm="onConfirm"
+                        :min-date="minDate"
+                        :max-date="maxDate"
+                        color="rgba(248, 213, 126, 1)"
                     />
                     <van-field
                         type="tel"
@@ -41,6 +50,8 @@
                         placeholder="请输入电话号码"
                         v-model="userInfo.mobile"
                         name="contactPhone"
+                        maxlength="11"
+                        :rules="[{ pattern, message: '请输入正确手机号' }]"
                     />
                     <van-field
                         type="model_tel"
@@ -166,6 +177,10 @@ export default {
             },
             avatar: '', // 头像
             serverId: '', // 上传头像id
+            showCalendar: false, //选择出生日期时间控件
+            minDate: new Date(1900, 0, 1), // 可选择的最小日期
+            maxDate: new Date(), // 可选择的最大日期
+            pattern: /^1[3456789]\d{9}$/, // 正则校验手机号
         }
     },
     created() {
@@ -174,6 +189,21 @@ export default {
     },
     watch: {},
     methods: {
+        onConfirm(date) {
+            //出生日期
+            console.log('data', date)
+            // this.startDate = `${date.getFullYear()}-${
+            //     date.getMonth() + 1
+            // }-${date.getDate()}`
+            this.userInfo.birthday =
+                date.getFullYear() +
+                '-' +
+                (date.getMonth() + 1) +
+                '-' +
+                date.getDate()
+            console.log('userInfo.birthday', this.userInfo.birthday)
+            this.showCalendar = false
+        },
         getPJ() {
             let _this = this
             let params = {
@@ -369,6 +399,7 @@ export default {
     background-color: #f7f8fa;
     .fromList {
         .top {
+            margin-top: 0.2rem;
             .van-field {
                 width: 7.5rem;
                 height: 1.12rem;

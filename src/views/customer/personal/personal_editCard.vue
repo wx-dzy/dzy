@@ -21,15 +21,15 @@
                     name="enterpriseName"
                     label="公司名称"
                     required
+                    maxlength="40"
                     placeholder="请输入中文公司/单位名称"
-                    :rules="[{ required: true, message: '请输入中文公司/单位名称' }]"
                 />
                 <van-field
                     v-model="cardInfo.enterpriseNameEn"
                     name="enterpriseNameEn"
                     label="公司名称EN"
+                    maxlength="80"
                     placeholder="请输入英文公司/单位名称"
-                    :rules="[{ required: true, message: '请输入英文公司/单位名称' }]"
                 />
                 <!-- </div> -->
                 <!-- 姓名 -->
@@ -50,6 +50,7 @@
                     v-model="cardInfo.userRealNameEn"
                     name="userRealNameEn"
                     label="姓名EN"
+                    maxlength="40"
                     placeholder="Patter"
                 />
                 <!-- </div> -->
@@ -63,6 +64,7 @@
                     name="postName"
                     label="职位"
                     required
+                    maxlength="20"
                     placeholder="请输入中文公司/单位名称"
                     :rules="[{ required: true, message: '请输入中文公司/单位名称' }]"
                 />
@@ -70,6 +72,7 @@
                     v-model="cardInfo.postNameEn"
                     name="postNameEn"
                     label="职位EN"
+                    required
                     placeholder="请输入英文公司/单位名称"
                     :rules="[{ required: true, message: '请输入英文文公司/单位名称' }]"
                 />
@@ -89,12 +92,23 @@
                     :rules="[{ required: true, message: '请输入开始时间' }]"
                     @click="showCalendar = true"
                 />
-                <van-calendar
+                <!-- <van-calendar
                     v-model="showCalendar"
                     @confirm="onConfirm"
                     :min-date="minDate"
                     :max-date="maxDate"
-                />
+                />-->
+                <van-popup v-model="showCalendar" position="bottom" :style="{ height: '35%' }">
+                    <van-datetime-picker
+                        type="year-month"
+                        title="选择年月"
+                        @confirm="onConfirm"
+                        :min-date="minDate"
+                        :max-date="maxDate"
+                        :formatter="formatter"
+                    />
+                </van-popup>
+
                 <van-field
                     readonly
                     v-model="endDate"
@@ -103,12 +117,23 @@
                     placeholder="请输入结束时间"
                     @click="showCalendarEnd = true"
                 />
-                <van-calendar
+                <!-- <van-calendar
                     v-model="showCalendarEnd"
                     @confirm="onConfirmEnd"
                     :min-date="minDate"
                     :max-date="maxDate"
-                />
+                />-->
+
+                <van-popup v-model="showCalendarEnd" position="bottom" :style="{ height: '35%' }">
+                    <van-datetime-picker
+                        type="date"
+                        title="选择年月日"
+                        @confirm="onConfirmEnd"
+                        :min-date="minDate"
+                        :max-date="maxDate"
+                        :formatter="formatter"
+                    />
+                </van-popup>
                 <!-- </div> -->
                 <!-- 联系方式 -->
                 <!-- <div class="position"> -->
@@ -121,7 +146,8 @@
                     required
                     label="电话号码"
                     placeholder="请输入电话号码"
-                    :rules="[{ required: true, message: '电话号码格式错误' }]"
+                    :rules="[{ pattern, message: '请输入正确手机号' }]"
+                    maxlength="11"
                 />
                 <van-field
                     v-model="cardInfo.email"
@@ -129,7 +155,7 @@
                     required
                     label="邮箱地址"
                     placeholder="请输入邮箱地址"
-                    :rules="[{ required: true, message: '请输入邮箱地址' }]"
+                    :rules="[{ pattern_email, message: '请输入邮箱地址' }]"
                 />
                 <!-- </div> -->
                 <!-- 公司所属行业 -->
@@ -222,6 +248,7 @@ import * as Api from '@/api/customer/personal'
 import visitingCard from '@/components/customer/visitingCard.vue'
 import AddressList from '@/assets/js/area'
 import wx from 'weixin-js-sdk'
+import { log } from 'pili-rtc-web'
 
 export default {
     name: 'personal_editCard',
@@ -267,6 +294,8 @@ export default {
             maxDate: new Date(), // 可选择的最大日期
             companyLogo: '', // 公司logo
             serverId: '', // 上传的logo  ID
+            pattern: /^1[3456789]\d{9}$/, // 正则校验手机号
+            pattern_email: /^([a-zA-Z\d])(\w|\-)+@[a-zA-Z\d]+\.[a-zA-Z]{2,4}$/,
         }
     },
 
@@ -280,6 +309,14 @@ export default {
     },
     watch: {},
     methods: {
+        formatter(type, val) {
+            if (type === 'year') {
+                return `${val}年`
+            } else if (type === 'month') {
+                return `${val}月`
+            }
+            return val
+        },
         getPJ() {
             let _this = this
             let url = encodeURI(window.location.href)
@@ -346,32 +383,29 @@ export default {
         },
         // 选择日期
 
-        onConfirmEnd(date) {
+        onConfirmEnd(picker) {
             // 结束日期
-            console.log('data', date)
+            console.log('picker', picker)
             // this.endDate = `${date.getFullYear()}-${
             //     date.getMonth() + 1
             // }-${date.getDate()}`
-            this.endDate =
-                date.getFullYear() +
-                '-' +
-                (date.getMonth() + 1) +
-                '-' +
-                date.getDate()
+            let month = picker.getMonth() + 1
+            let date = picker.getDate()
+            month < 10 ? (month = '0' + month) : (month = month)
+            date < 10 ? (date = '0' + date) : (date = date)
+            this.endDate = picker.getFullYear() + '-' + month + '-' + month
+            console.log('endDate', this.endDate)
             this.showCalendarEnd = false
         },
-        onConfirm(date) {
+        onConfirm(picker) {
             //开始日期
-            console.log('data', date)
+            console.log('picker', picker)
             // this.startDate = `${date.getFullYear()}-${
             //     date.getMonth() + 1
             // }-${date.getDate()}`
-            this.startDate =
-                date.getFullYear() +
-                '-' +
-                (date.getMonth() + 1) +
-                '-' +
-                date.getDate()
+            let month = picker.getMonth() + 1
+            month < 10 ? (month = '0' + month) : (month = month)
+            this.startDate = picker.getFullYear() + '-' + month
             console.log('startDate', this.startDate)
             this.showCalendar = false
         },
@@ -382,14 +416,17 @@ export default {
             cardInfo.cardUrl = localStorage.getItem('cardUrl')
                 ? localStorage.getItem('cardUrl')
                 : ''
-            cardInfo.cardUrl = '54564654'
+
+            // cardInfo.cardUrl = '222222'
             cardInfo.provinceId = this.provinceId
             cardInfo.provinceName = this.provinceName
             cardInfo.cityId = this.cityId
             cardInfo.cityName = this.cityName
             cardInfo.companyLogo = this.serverId
+            cardInfo.companyLogo = '1111'
             delete cardInfo.address
-
+            delete cardInfo.undefined
+            // cardInfo = JSON.stringify(cardInfo)
             console.log('保存名片', cardInfo)
 
             Api.editCardSave(cardInfo).then((res) => {

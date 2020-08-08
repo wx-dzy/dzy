@@ -133,7 +133,7 @@ export default {
                 sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
                 success: function (res) {
                     // console.log('选择图片', res)
-                    var localIds = res.localIds // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                    var localIds = res.localIds[0] // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
                     _this.upedImg = localIds
                     wx.uploadImage({
                         localId: localIds, // 需要上传的图片的本地ID，由chooseImage接口获得

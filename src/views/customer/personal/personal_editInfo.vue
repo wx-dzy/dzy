@@ -217,7 +217,7 @@ export default {
                     console.log('appid', data.appId)
                     if (code == 200) {
                         wx.config({
-                            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                            debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
                             appId: data.appId, // 必填，公众号的唯一标识
                             timestamp: data.timestamp, // 必填，生成签名的时间戳
                             nonceStr: data.nonceStr, // 必填，生成签名的随机串
@@ -299,33 +299,13 @@ export default {
                     this.userInfo = data
                     this.workingList = data.workList
                     this.avatar = data.avatar
-                    // wx.downloadImage({
-                    //     serverId: data.avatar, // 需要下载的图片的服务器端ID，由uploadImage接口获得
-                    //     isShowProgressTips: 1, // 默认为1，显示进度提示
-                    //     success: function (res) {
-                    //         console.log('downloadImage', res)
-                    //         var localIds = res.localId // 返回图片下载后的本地ID
-                    //         // console.log('11111111')
-                    //         _this.avatar = res.localId
-                    //         wx.getLocalImgData({
-                    //             localId:
-                    //                 'wxLocalResource://1237378768e7q8e7r8qwe', // 图片的localID
-                    //             success: function (res) {
-                    //                 console.log('getLocalImgData', res)
-                    //                 var localData = res.localData // localData是图片的base64数据，可以用img标签显示
-                    //                 _this.avatar = localData
-                    //             },
-                    //         })
-                    //     },
-                    // })
-                    // this.workingList = data.workList
                 }
             })
         },
 
         gotoEditCardNew() {
             this.$router.push({
-                name: 'personal_editCard',
+                path: '/personal_editCard',
             })
         },
         gotoEditCard(id) {

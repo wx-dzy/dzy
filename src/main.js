@@ -49,7 +49,8 @@ import {
     Collapse, CollapseItem,
     GoodsAction, GoodsActionIcon, GoodsActionButton,
     Area,
-    ActionSheet
+    ActionSheet,
+    DatetimePicker
 
 } from 'vant';
 
@@ -94,7 +95,8 @@ Vue.use(GoodsActionButton);
 Vue.use(GoodsActionIcon);
 Vue.use(Area);
 Vue.use(ActionSheet);
-Vue.use(moment)
+Vue.use(moment);
+Vue.use(DatetimePicker);
 
 
 

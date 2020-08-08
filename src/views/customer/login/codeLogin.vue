@@ -318,12 +318,12 @@ export default {
             const _this = this
             var code = _this.getUrlParam('code')
             // var local = 'http://192.168.31.221:9000/'
- 
-            if (!code) { 
-                window.location.href =
-                    'http://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://192.168.1.112:9000/&response_type=code'
+
+            if (!code) {
                 // window.location.href =
-                //     'http://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://192.168.31.72:9000/&response_type=code'
+                //     'http://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://192.168.1.112:9000/&response_type=code'
+                window.location.href =
+                    'http://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://192.168.31.72:9000/&response_type=code'
 
                 // window.location.href =
                 //     'http://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://www.dzy315.com/codeLogin&response_type=code'
@@ -501,21 +501,11 @@ export default {
                         )
                         localStorage.setItem('dzy_token', data.accessToken, 7)
                         // let { access_token, username } = res.data;
-                        if (res.data.firstLogin == 0) {
-                            this.$router.push({
-                                path: '/home',
-                            })
-                        } else if (res.data.firstLogin == 1) {
-                            this.$router.push({
-                                path: '/firstLogin',
-                            })
-                        }
-
-                        //  console.log(
-                        //     util.getCookie("dzy_token"),
-                        //     util.getCookie("username"),
-                        //     util.getCookie("password")
-                        // )
+                        this.$router.push({
+                            path: '/home',
+                        })
+                    } else {
+                        this_.$message.error(res.message)
                     }
                     util.hideLoading()
                 })

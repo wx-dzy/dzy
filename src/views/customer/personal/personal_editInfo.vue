@@ -288,7 +288,7 @@ export default {
         saveInfo(info) {
             // info.sex == 1 ? (info.sex = '男') : (info.sex = '女')
             info.id = this.userInfo.id
-            info.avatar = this.serverId
+            this.serverId ? (info.avatar = this.serverId) : this.avatar
             console.log('保存个人信息', info)
             Api.saveUserInfo(info).then((res) => {
                 console.log('保存成功', res)

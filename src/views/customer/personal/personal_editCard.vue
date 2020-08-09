@@ -451,7 +451,9 @@ export default {
             cardInfo.provinceName = this.provinceName
             cardInfo.cityId = this.cityId
             cardInfo.cityName = this.cityName
-            cardInfo.companyLogo = this.serverId
+            this.serverId
+                ? (cardInfo.companyLogo = this.serverId)
+                : (cardInfo.companyLogo = this.cardInfo.companyLogo)
             this.checked == true ? (cardInfo.endDate = '') : cardInfo.endDate
             delete cardInfo.address
             delete cardInfo.undefined

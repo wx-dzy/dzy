@@ -37,13 +37,16 @@
                         name="birthday"
                         @click="showCalendar = true"
                     />
-                    <van-calendar
-                        v-model="showCalendar"
-                        @confirm="onConfirm"
-                        :min-date="minDate"
-                        :max-date="maxDate"
-                        color="rgba(248, 213, 126, 1)"
-                    />
+                    <van-popup v-model="showCalendar" position="bottom" :style="{ height: '35%' }">
+                        <van-datetime-picker
+                            type="date"
+                            title="选择年月日"
+                            @confirm="onConfirm"
+                            :min-date="minDate"
+                            :max-date="maxDate"
+                            :formatter="formatter"
+                        />
+                    </van-popup>
                     <van-field
                         type="tel"
                         label="联系电话"
@@ -189,18 +192,26 @@ export default {
     },
     watch: {},
     methods: {
-        onConfirm(date) {
+        formatter(type, val) {
+            if (type === 'year') {
+                return `${val}年`
+            } else if (type === 'month') {
+                return `${val}月`
+            }
+            return val
+        },
+        onConfirm(picker) {
             //出生日期
-            console.log('data', date)
+            console.log('picker', picker)
             // this.startDate = `${date.getFullYear()}-${
             //     date.getMonth() + 1
             // }-${date.getDate()}`
+            let month = picker.getMonth() + 1
+            let date = picker.getDate()
+            month < 10 ? (month = '0' + month) : (month = month)
+            date < 10 ? (date = '0' + date) : (date = date)
             this.userInfo.birthday =
-                date.getFullYear() +
-                '-' +
-                (date.getMonth() + 1) +
-                '-' +
-                date.getDate()
+                picker.getFullYear() + '-' + month + '-' + date
             console.log('userInfo.birthday', this.userInfo.birthday)
             this.showCalendar = false
         },
@@ -279,9 +290,13 @@ export default {
             console.log('保存个人信息', info)
             Api.saveUserInfo(info).then((res) => {
                 console.log('保存成功', res)
-                this.$router.push({
-                    name: 'personal',
-                })
+                if (res.code == 200) {
+                    this.$router.push({
+                        name: 'personal',
+                    })
+                } else {
+                    util.error(res.msg)
+                }
             })
         },
         // 获取个人信息

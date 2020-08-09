@@ -34,7 +34,7 @@
                 </div>
                 <div class="rightText">
                     <div class="title">{{item.enterpriseName}}</div>
-                    <div class="status">{{item.authStatus == 1?'已认证':'未认证'}}</div>
+                    <div class="status">{{item.authStatus == 1?'已认证':'待认证'}}</div>
                 </div>
             </div>
         </div>

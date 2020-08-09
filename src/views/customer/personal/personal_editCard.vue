@@ -482,12 +482,20 @@ export default {
                         this.endDate = this.cardInfo.endDate
                         if (this.startDate) {
                             this.startDate_1 = new Date(
-                                this.startDate.replace('-', ',')
+                                this.startDate.replace(/\-/g, ',')
+                            )
+                            console.log(
+                                'startDate_1',
+                                this.startDate.replace(/\-/g, ',')
                             )
                         }
                         if (this.endDate) {
                             this.endDate_1 = new Date(
-                                this.endDate.replace('-', ',')
+                                this.endDate.replace(/\-/g, ',')
+                            )
+                            console.log(
+                                'this.endDate_1',
+                                this.endDate.replace(/\-/g, ',')
                             )
                         }
                     }

@@ -115,8 +115,17 @@
                     name="endDate"
                     label="结束时间"
                     placeholder="请输入结束时间"
-                    @click="showCalendarEnd = true"
-                />
+                    @click-input="calendarEnd"
+                >
+                    <template #extra>
+                        <van-checkbox
+                            v-model="checked"
+                            @click="today"
+                            shape="square"
+                            checked-color="#f8d57e"
+                        >至今</van-checkbox>
+                    </template>
+                </van-field>
                 <!-- <van-calendar
                     v-model="showCalendarEnd"
                     @confirm="onConfirmEnd"
@@ -218,11 +227,13 @@
                 <div class="title">
                     <span>工作描述1</span>
                 </div>
-                <van-field v-model="cardInfo.workDesc" placeholder name="workDesc">
-                    <template #button>
-                        <i size="small" type="default">...</i>
-                    </template>
-                </van-field>
+                <van-field
+                    v-model="cardInfo.workDesc"
+                    placeholder
+                    name="workDesc"
+                    autosize
+                    type="textarea"
+                />
                 <!-- </div> -->
                 <!-- 工作描述2 -->
                 <!-- <div class="describe_1"> -->
@@ -248,7 +259,8 @@ import * as Api from '@/api/customer/personal'
 import visitingCard from '@/components/customer/visitingCard.vue'
 import AddressList from '@/assets/js/area'
 import wx from 'weixin-js-sdk'
-import { log } from 'pili-rtc-web'
+// import { log } from 'pili-rtc-web'
+// import { log } from 'pili-rtc-web'
 
 export default {
     name: 'personal_editCard',
@@ -290,12 +302,13 @@ export default {
             showCalendarEnd: false, //选择日期日历
             startDate: '', // 开始日期
             endDate: '', // 开始日期
-            minDate: new Date(2000, 0, 1), // 可选择的最小日期
+            minDate: new Date(1900, 0, 1), // 可选择的最小日期
             maxDate: new Date(), // 可选择的最大日期
             companyLogo: '', // 公司logo
             serverId: '', // 上传的logo  ID
             pattern: /^1[3456789]\d{9}$/, // 正则校验手机号
             pattern_email: /^([a-zA-Z\d])(\w|\-)+@[a-zA-Z\d]+\.[a-zA-Z]{2,4}$/,
+            checked: false, //至今
         }
     },
 
@@ -309,6 +322,22 @@ export default {
     },
     watch: {},
     methods: {
+        // 选择结束日期
+        calendarEnd() {
+            this.showCalendarEnd = true
+            this.checked = false
+        },
+        // 选择结束日期至今
+        today() {
+            console.log('至今')
+            var now = new Date()
+            let month = now.getMonth() + 1
+            let date = now.getDate()
+            month < 10 ? (month = '0' + month) : (month = month)
+            date < 10 ? (date = '0' + date) : (date = date)
+            this.endDate = now.getFullYear() + '-' + month + '-' + date
+            console.log('endDate', this.endDate)
+        },
         formatter(type, val) {
             if (type === 'year') {
                 return `${val}年`
@@ -387,7 +416,7 @@ export default {
             let date = picker.getDate()
             month < 10 ? (month = '0' + month) : (month = month)
             date < 10 ? (date = '0' + date) : (date = date)
-            this.endDate = picker.getFullYear() + '-' + month + '-' + month
+            this.endDate = picker.getFullYear() + '-' + month + '-' + date
             console.log('endDate', this.endDate)
             this.showCalendarEnd = false
         },
@@ -418,11 +447,12 @@ export default {
             cardInfo.cityName = this.cityName
             cardInfo.companyLogo = this.serverId
             cardInfo.companyLogo = '1111'
+            this.checked == true ? (cardInfo.endDate = '') : cardInfo.endDate
             delete cardInfo.address
             delete cardInfo.undefined
             // cardInfo = JSON.stringify(cardInfo)
             console.log('保存名片', cardInfo)
-
+            console.log('保存的结束时间', cardInfo.endDate)
             Api.editCardSave(cardInfo).then((res) => {
                 console.log('保存', res)
                 if (res.code == 200) {

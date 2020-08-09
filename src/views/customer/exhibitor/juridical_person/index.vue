@@ -504,8 +504,8 @@ export default {
             // border: 1px solid red;
             .name {
                 position: relative;
-                line-height: 44px;
-                height: 44px;
+                line-height: 0.52rem;
+                height: 0.52rem;
                 .enterprise_follow {
                     position: absolute;
                     right: 0.1rem;
@@ -515,7 +515,7 @@ export default {
                         position: normal;
                     }
                     .van-button {
-                        height: auto !important;
+                        height: 100% !important;
                     }
                     /deep/ .van-button--normal {
                         padding: 0;
@@ -524,9 +524,7 @@ export default {
                 }
             }
         }
-        .van-button {
-            height: auto;
-        }
+
         .type {
             height: 0.4rem;
             line-height: 0.4rem;
@@ -619,6 +617,9 @@ export default {
         width: 96%;
         height: 3.65rem;
         margin: 4rem auto 0;
+    }
+    .van-button {
+        height: 100% !important;
     }
 }
 </style>

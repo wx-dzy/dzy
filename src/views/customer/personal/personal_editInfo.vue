@@ -311,7 +311,11 @@ export default {
                     this.userInfo = data
                     this.workingList = data.workList
                     this.avatar = data.avatar
-                    this.currentDate = new Date(data.birthday.replace('-', ','))
+                    if (data.birthday) {
+                        this.currentDate = new Date(
+                            data.birthday.replace('-', ',')
+                        )
+                    }
                 }
             })
         },

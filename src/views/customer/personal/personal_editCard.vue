@@ -136,7 +136,7 @@
 
                 <van-popup v-model="showCalendarEnd" position="bottom" :style="{ height: '35%' }">
                     <van-datetime-picker
-                        type="date"
+                        type="year-month"
                         title="选择年月日"
                         v-model="endDate_1"
                         @confirm="onConfirmEnd"
@@ -478,13 +478,16 @@ export default {
                         this.cardInfo = res.data
                         this.startDate = this.cardInfo.startDate
                         this.endDate = this.cardInfo.endDate
-
-                        this.startDate_1 = new Date(
-                            this.startDate.replace('-', ',')
-                        )
-                        this.endDate_1 = new Date(
-                            this.endDate.replace('-', ',')
-                        )
+                        if (this.startDate) {
+                            this.startDate_1 = new Date(
+                                this.startDate.replace('-', ',')
+                            )
+                        }
+                        if (this.endDate) {
+                            this.endDate_1 = new Date(
+                                this.endDate.replace('-', ',')
+                            )
+                        }
                     }
                 })
             } else {

@@ -290,9 +290,13 @@ export default {
             console.log('保存个人信息', info)
             Api.saveUserInfo(info).then((res) => {
                 console.log('保存成功', res)
-                this.$router.push({
-                    name: 'personal',
-                })
+                if (res.code == 200) {
+                    this.$router.push({
+                        name: 'personal',
+                    })
+                } else {
+                    util.error(res.msg)
+                }
             })
         },
         // 获取个人信息

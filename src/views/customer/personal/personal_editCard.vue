@@ -399,7 +399,7 @@ export default {
             // }-${date.getDate()}`
             let month = picker.getMonth() + 1
             month < 10 ? (month = '0' + month) : (month = month)
-            this.startDate = picker.getFullYear() + '-' + month
+            this.startDate = picker.getFullYear() + '-' + month + '-' + '01'
             console.log('startDate', this.startDate)
             this.showCalendar = false
         },

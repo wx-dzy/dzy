@@ -41,6 +41,7 @@
                         <van-datetime-picker
                             type="date"
                             title="选择年月日"
+                            v-model="currentDate"
                             @confirm="onConfirm"
                             :min-date="minDate"
                             :max-date="maxDate"
@@ -184,6 +185,7 @@ export default {
             minDate: new Date(1900, 0, 1), // 可选择的最小日期
             maxDate: new Date(), // 可选择的最大日期
             pattern: /^1[3456789]\d{9}$/, // 正则校验手机号
+            currentDate: new Date(),
         }
     },
     created() {
@@ -261,7 +263,7 @@ export default {
                 success: function (res) {
                     // console.log('选择图片', res)
                     var localIds = res.localIds[0] // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-                    this.avatar = localIds
+                    _this.avatar = localIds
                     wx.uploadImage({
                         localId: localIds, // 需要上传的图片的本地ID，由chooseImage接口获得
                         isShowProgressTips: 1, // 默认为1，显示进度提示
@@ -309,6 +311,7 @@ export default {
                     this.userInfo = data
                     this.workingList = data.workList
                     this.avatar = data.avatar
+                    this.currentDate = new Date(data.birthday.replace('-', ','))
                 }
             })
         },

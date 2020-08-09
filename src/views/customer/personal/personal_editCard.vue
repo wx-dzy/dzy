@@ -106,6 +106,7 @@
                         :min-date="minDate"
                         :max-date="maxDate"
                         :formatter="formatter"
+                        v-model="startDate_1"
                     />
                 </van-popup>
 
@@ -137,6 +138,7 @@
                     <van-datetime-picker
                         type="date"
                         title="选择年月日"
+                        v-model="endDate_1"
                         @confirm="onConfirmEnd"
                         :min-date="minDate"
                         :max-date="maxDate"
@@ -277,7 +279,7 @@ export default {
                 infoImg: 'https://img.yzcdn.cn/vant/cat.jpeg',
                 name: 'xiaogang0-0',
                 status: 1,
-                activeInfo: '参观房',
+                activeInfo: '参观方',
             },
             cardInfo: {},
             phone: '',
@@ -302,6 +304,8 @@ export default {
             showCalendarEnd: false, //选择日期日历
             startDate: '', // 开始日期
             endDate: '', // 开始日期
+            startDate_1: new Date(), // 开始日期
+            endDate_1: new Date(), // 开始日期
             minDate: new Date(1900, 0, 1), // 可选择的最小日期
             maxDate: new Date(), // 可选择的最大日期
             companyLogo: '', // 公司logo
@@ -336,6 +340,7 @@ export default {
             month < 10 ? (month = '0' + month) : (month = month)
             date < 10 ? (date = '0' + date) : (date = date)
             this.endDate = now.getFullYear() + '-' + month + '-' + date
+            this.endDate_1 = new Date(this.endDate.replace('-', ','))
             console.log('endDate', this.endDate)
         },
         formatter(type, val) {
@@ -429,6 +434,7 @@ export default {
             let month = picker.getMonth() + 1
             month < 10 ? (month = '0' + month) : (month = month)
             this.startDate = picker.getFullYear() + '-' + month + '-' + '01'
+            this.startDate_1 = new Date(this.startDate.replace('-', ','))
             console.log('startDate', this.startDate)
             this.showCalendar = false
         },
@@ -446,7 +452,6 @@ export default {
             cardInfo.cityId = this.cityId
             cardInfo.cityName = this.cityName
             cardInfo.companyLogo = this.serverId
-            cardInfo.companyLogo = '1111'
             this.checked == true ? (cardInfo.endDate = '') : cardInfo.endDate
             delete cardInfo.address
             delete cardInfo.undefined
@@ -473,6 +478,13 @@ export default {
                         this.cardInfo = res.data
                         this.startDate = this.cardInfo.startDate
                         this.endDate = this.cardInfo.endDate
+
+                        this.startDate_1 = new Date(
+                            this.startDate.replace('-', ',')
+                        )
+                        this.endDate_1 = new Date(
+                            this.endDate.replace('-', ',')
+                        )
                     }
                 })
             } else {

@@ -47,7 +47,6 @@ import { mapGetters } from 'vuex'
 import * as Api from '@/api/customer/personal'
 import visitingCard from '@/components/customer/visitingCard.vue'
 import wx from 'weixin-js-sdk'
-
 export default {
     name: 'personal_attestation',
     components: {
@@ -228,6 +227,7 @@ export default {
     .top {
         padding-top: 0.42rem;
         background-color: #fff;
+        margin-bottom: 0.12rem;
         .top_title {
             padding-left: 0.6rem;
             font-size: 0.28rem;
@@ -237,8 +237,20 @@ export default {
         }
         .push {
             padding: 0.1rem;
+            height: 1.6rem;
+            .upedImg {
+                float: left;
+                width: 1.42rem;
+                height: 1.42rem;
+                margin-left: 0.4rem;
+                img {
+                    width: 100%;
+                    height: 100%;
+                    // max-height: 1.42rem;
+                }
+            }
             .upImg {
-                display: inline-block;
+                float: left;
                 width: 1.42rem;
                 height: 1.42rem;
                 border: 1px dashed rgba(0, 0, 0, 0.15);
@@ -253,15 +265,6 @@ export default {
                     color: rgba(0, 0, 0, 0.45);
                     line-height: 2;
                     font-weight: 700;
-                }
-            }
-            .upedImg {
-                display: inline-block;
-                width: 1.42rem;
-                height: 1.42rem;
-                img {
-                    width: 100%;
-                    max-height: 1.42rem;
                 }
             }
         }

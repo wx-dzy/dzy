@@ -300,6 +300,8 @@ export default {
             provinceName: '', // 省名称
             cityId: '', // 市id
             cityName: '', // 市名称
+            countyId: '', // 区县id
+            countyName: '', // 区县名称
             showCalendar: false, //选择日期日历
             showCalendarEnd: false, //选择日期日历
             startDate: '', // 开始日期
@@ -451,6 +453,8 @@ export default {
             cardInfo.provinceName = this.provinceName
             cardInfo.cityId = this.cityId
             cardInfo.cityName = this.cityName
+            cardInfo.countyId = this.countyId
+            cardInfo.countyName = this.countyName
             this.serverId
                 ? (cardInfo.companyLogo = this.serverId)
                 : (cardInfo.companyLogo = this.cardInfo.companyLogo)
@@ -527,6 +531,8 @@ export default {
             this.provinceName = e[0].name
             this.cityId = e[1].code
             this.cityName = e[1].name
+            this.countyId = e[2].code
+            this.countyName = e[2].name
             this.chooseAds = false
         },
         // 选择省市区

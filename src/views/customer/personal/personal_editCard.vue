@@ -84,6 +84,7 @@
                     <span class="notes">（注：结束时间如果选择“至今”）</span>
                 </div>
                 <van-field
+                    required
                     readonly
                     v-model="startDate"
                     name="startDate"
@@ -111,6 +112,7 @@
                 </van-popup>
 
                 <van-field
+                    required
                     readonly
                     v-model="endDate"
                     name="endDate"
@@ -300,6 +302,7 @@ export default {
             provinceName: '', // 省名称
             cityId: '', // 市id
             cityName: '', // 市名称
+            countyId: '', //县id
             showCalendar: false, //选择日期日历
             showCalendarEnd: false, //选择日期日历
             startDate: '', // 开始日期
@@ -340,7 +343,7 @@ export default {
             month < 10 ? (month = '0' + month) : (month = month)
             date < 10 ? (date = '0' + date) : (date = date)
             this.endDate = now.getFullYear() + '-' + month + '-' + date
-            this.endDate_1 = new Date(this.endDate.replace('-', ','))
+            this.endDate_1 = new Date(this.endDate.replace(/\-/g, '/'))
             console.log('endDate', this.endDate)
         },
         formatter(type, val) {
@@ -434,7 +437,7 @@ export default {
             let month = picker.getMonth() + 1
             month < 10 ? (month = '0' + month) : (month = month)
             this.startDate = picker.getFullYear() + '-' + month + '-' + '01'
-            this.startDate_1 = new Date(this.startDate.replace('-', ','))
+            this.startDate_1 = new Date(this.startDate.replace(/\-/g, '/'))
             console.log('startDate', this.startDate)
             this.showCalendar = false
         },
@@ -451,6 +454,7 @@ export default {
             cardInfo.provinceName = this.provinceName
             cardInfo.cityId = this.cityId
             cardInfo.cityName = this.cityName
+            cardInfo.countyId = this.countyId
             this.serverId
                 ? (cardInfo.companyLogo = this.serverId)
                 : (cardInfo.companyLogo = this.cardInfo.companyLogo)
@@ -482,20 +486,20 @@ export default {
                         this.endDate = this.cardInfo.endDate
                         if (this.startDate) {
                             this.startDate_1 = new Date(
-                                this.startDate.replace(/\-/g, ',')
+                                this.startDate.replace(/\-/g, '/')
                             )
                             console.log(
                                 'startDate_1',
-                                this.startDate.replace(/\-/g, ',')
+                                this.startDate.replace(/\-/g, '/')
                             )
                         }
                         if (this.endDate) {
                             this.endDate_1 = new Date(
-                                this.endDate.replace(/\-/g, ',')
+                                this.endDate.replace(/\-/g, '/')
                             )
                             console.log(
                                 'this.endDate_1',
-                                this.endDate.replace(/\-/g, ',')
+                                this.endDate.replace(/\-/g, '/')
                             )
                         }
                     }
@@ -527,6 +531,7 @@ export default {
             this.provinceName = e[0].name
             this.cityId = e[1].code
             this.cityName = e[1].name
+            this.countyId = e[2].code
             this.chooseAds = false
         },
         // 选择省市区

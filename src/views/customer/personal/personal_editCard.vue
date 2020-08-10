@@ -207,7 +207,6 @@
                     name="companyAddress"
                 />
                 <van-field
-                    v-model="cardInfo.companyAddressEn"
                     label="地址EN"
                     placeholder="请输入英文版地址"
                     name="companyAddressEn"
@@ -220,6 +219,7 @@
                             class="chooseAdd"
                             @confirm="confirmAdd"
                             @cancel="cancelAdd"
+                            :value="provinceCityCounty"
                         />
                     </div>
                 </van-action-sheet>
@@ -315,6 +315,7 @@ export default {
             pattern: /^1[3456789]\d{9}$/, // 正则校验手机号
             pattern_email: /^([a-zA-Z\d])(\w|\-)+@[a-zA-Z\d]+\.[a-zA-Z]{2,4}$/,
             checked: false, //至今
+            provinceCityCounty: ''
         }
     },
 
@@ -501,6 +502,10 @@ export default {
                                 'this.endDate_1',
                                 this.endDate.replace(/\-/g, ',')
                             )
+                        }
+                        if(this.cardInfo.provinceName) {
+                            this.address = this.cardInfo.provinceName + ' ' + this.cardInfo.cityName + ' ' + this.cardInfo.countyName
+                            this.provinceCityCounty = this.cardInfo.countyId
                         }
                     }
                 })

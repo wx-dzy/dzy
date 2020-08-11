@@ -209,7 +209,6 @@
                     name="companyAddress"
                 />
                 <van-field
-                    v-model="cardInfo.companyAddressEn"
                     label="地址EN"
                     placeholder="请输入英文版地址"
                     name="companyAddressEn"
@@ -222,6 +221,7 @@
                             class="chooseAdd"
                             @confirm="confirmAdd"
                             @cancel="cancelAdd"
+                            :value="provinceCityCounty"
                         />
                     </div>
                 </van-action-sheet>
@@ -302,7 +302,8 @@ export default {
             provinceName: '', // 省名称
             cityId: '', // 市id
             cityName: '', // 市名称
-            countyId: '', //县id
+            countyId: '', // 区县id
+            countyName: '', // 区县名称
             showCalendar: false, //选择日期日历
             showCalendarEnd: false, //选择日期日历
             startDate: '', // 开始日期
@@ -316,6 +317,7 @@ export default {
             pattern: /^1[3456789]\d{9}$/, // 正则校验手机号
             pattern_email: /^([a-zA-Z\d])(\w|\-)+@[a-zA-Z\d]+\.[a-zA-Z]{2,4}$/,
             checked: false, //至今
+            provinceCityCounty: ''
         }
     },
 
@@ -455,6 +457,7 @@ export default {
             cardInfo.cityId = this.cityId
             cardInfo.cityName = this.cityName
             cardInfo.countyId = this.countyId
+            cardInfo.countyName = this.countyName
             this.serverId
                 ? (cardInfo.companyLogo = this.serverId)
                 : (cardInfo.companyLogo = this.cardInfo.companyLogo)
@@ -502,6 +505,10 @@ export default {
                                 this.endDate.replace(/\-/g, '/')
                             )
                         }
+                        if(this.cardInfo.provinceName) {
+                            this.address = this.cardInfo.provinceName + ' ' + this.cardInfo.cityName + ' ' + this.cardInfo.countyName
+                            this.provinceCityCounty = this.cardInfo.countyId
+                        }
                     }
                 })
             } else {
@@ -532,6 +539,7 @@ export default {
             this.cityId = e[1].code
             this.cityName = e[1].name
             this.countyId = e[2].code
+            this.countyName = e[2].name
             this.chooseAds = false
         },
         // 选择省市区

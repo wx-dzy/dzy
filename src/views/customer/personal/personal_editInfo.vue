@@ -313,11 +313,11 @@ export default {
                     this.avatar = data.avatar
                     if (data.birthday) {
                         this.currentDate = new Date(
-                            data.birthday.replace(/\-/g, ',')
+                            data.birthday.replace(/\-/g, '/')
                         )
                         console.log(
                             'this.currentDate',
-                            data.birthday.replace(/\-/g, ',')
+                            data.birthday.replace(/\-/g, '/')
                         )
                     }
                 }

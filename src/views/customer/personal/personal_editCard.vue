@@ -212,6 +212,7 @@
                     label="地址EN"
                     placeholder="请输入英文版地址"
                     name="companyAddressEn"
+                    v-model="cardInfo.companyAddressEn"
                 />
                 <van-action-sheet v-model="chooseAds" title>
                     <div class="content">
@@ -508,6 +509,12 @@ export default {
                         if(this.cardInfo.provinceName) {
                             this.address = this.cardInfo.provinceName + ' ' + this.cardInfo.cityName + ' ' + this.cardInfo.countyName
                             this.provinceCityCounty = this.cardInfo.countyId
+                            this.provinceId = this.cardInfo.provinceId
+                            this.provinceName = this.cardInfo.provinceName
+                            this.cityId = this.cardInfo.cityId
+                            this.cityName = this.cardInfo.cityName
+                            this.countyId = this.cardInfo.countyId
+                            this.countyName = this.cardInfo.countyName
                         }
                     }
                 })

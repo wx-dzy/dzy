@@ -53,7 +53,7 @@
           <van-row v-if="detail.goodsSpecificationList.length" class="border pad22">
             <h2 class="title">参数</h2>
             <van-row v-for="(item,index) in detail.goodsSpecificationList" :key="index">
-              <van-col span="6">{{ item.name}}</van-col>
+              <van-col span="6">{{ item.name}}：</van-col>
               <van-col span="18">{{ item.values}}</van-col>
             </van-row>
           </van-row>

@@ -178,5 +178,8 @@ export default {
   width: 4rem;
   margin: 0.4rem 1.47rem;
 }
+.resources_info .item {
+  line-height: 0.8rem;
+}
 </style>
 

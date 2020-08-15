@@ -52,7 +52,7 @@
               class="item_i"
               v-for=" (_item, _index ) in item.interviewList"
               :key="'_item'+_index"
-              @click="handleLook(_item)"
+              @click.self="handleLook(_item)"
             >
               <van-col span="6">
                 <!-- <img :src="item.img" alt class="photo" /> -->

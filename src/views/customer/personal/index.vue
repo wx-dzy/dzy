@@ -105,6 +105,7 @@
 <script>
 import { util } from "@/utils";
 import { mapGetters } from "vuex";
+import { Dialog } from 'vant';
 import * as Api from "@/api/customer/personal";
 import * as _Api from "@/api/customer/OneOnOneVideo";
 
@@ -311,7 +312,11 @@ export default {
 
     // 取消预约
     handleCancel(row) {
-      let param = {
+      Dialog.confirm({
+        title: '确认操作',
+        message: '确认取消预约?'
+      }).then(() => {
+        let param = {
         // 预约明细id
         userPreInterviewDetailId: row.id,
         // 预约类型，1预约 0取消预约
@@ -328,6 +333,7 @@ export default {
         .catch((err) => {
           this.detail = {};
         });
+      }).catch(() => {});
     },
 
     // 判断日期是否为今天

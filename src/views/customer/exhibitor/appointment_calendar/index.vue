@@ -1,23 +1,20 @@
 <template>
-    <van-pull-refresh v-model="isLoading"
-                      @refresh="onRefresh"
-                      class="push_box">
-        <!--参展商主页-预约日历  -->
-        <div class="appointment_calendar">
-            <div class="top_header">
-                <img :src="userInfo.avatar"
-                     class="head_img"
-                     alt />
-                <p class="user_name">{{userInfo.realName}}</p>
-                <p class="job_title">{{userInfo.postName}}</p>
-            </div>
-            <div class="year_month">
-                <span class="left"
-                      @click="pickPre"></span>
-                <p class="month">{{ currentYear }}.{{ currentMonth }}</p>
-                <span class="right"
-                      @click="pickNext"></span>
-                <!-- <van-field
+    <!--参展商主页-预约日历  -->
+    <div class="appointment_calendar">
+        <div class="top_header">
+            <img :src="userInfo.avatar"
+                 class="head_img"
+                 alt />
+            <p class="user_name">{{userInfo.realName}}</p>
+            <p class="job_title">{{userInfo.postName}}</p>
+        </div>
+        <div class="year_month">
+            <span class="left"
+                  @click="pickPre"></span>
+            <p class="month">{{ currentYear }}.{{ currentMonth }}</p>
+            <span class="right"
+                  @click="pickNext"></span>
+            <!-- <van-field
       class="select_type"
       readonly
       clickable
@@ -25,8 +22,10 @@
       :value="value1"
       @click="showPicker = true"
             />-->
-            </div>
-
+        </div>
+        <van-pull-refresh v-model="isLoading"
+                          @refresh="onRefresh"
+                          class="push_box">
             <div class="date">
                 <!-- 日期 -->
                 <ul class="days">
@@ -80,23 +79,22 @@
                 <van-icon name="replay"
                           class="replay_icon" />下拉刷新
             </p>
-
-            <van-button class="bottom_button"
-                        v-show="status == 1"
-                        @click="toOrder">预 约</van-button>
-            <van-button class="bottom_button"
-                        v-show="status == 2"
-                        @click="cancleOrder">取 消 预 约</van-button>
-            <i v-if="status == 0"></i>
-            <van-popup v-model="showPicker"
-                       position="bottom">
-                <van-picker show-toolbar
-                            :columns="columns"
-                            @confirm="onConfirm"
-                            @cancel="showPicker = false" />
-            </van-popup>
-        </div>
-    </van-pull-refresh>
+        </van-pull-refresh>
+        <van-button class="bottom_button"
+                    v-show="status == 1"
+                    @click="toOrder">预 约</van-button>
+        <van-button class="bottom_button"
+                    v-show="status == 2"
+                    @click="cancleOrder">取 消 预 约</van-button>
+        <i v-if="status == 0"></i>
+        <van-popup v-model="showPicker"
+                   position="bottom">
+            <van-picker show-toolbar
+                        :columns="columns"
+                        @confirm="onConfirm"
+                        @cancel="showPicker = false" />
+        </van-popup>
+    </div>
 </template>
 <script src="https://cdn.jsdelivr.net/npm/jutils-src"></script>
 <script>
@@ -231,8 +229,8 @@ export default {
             Api.getUserInfo(this.enterpriseShowPeopleId).then((res) => {
                 const { code, msg, data, total } = res
                 console.log('人物信息', data)
-                if (code == 200) {
-                    this.userInfo = data
+                if (res.code == 200) {
+                    this.userInfo = res.data
                     this.getWeekInfo() //获取周数据
                     // this.initData(null);
                 }
@@ -537,19 +535,6 @@ export default {
 }
 </script>
 <style lang='scss' scoped>
-.refreshTip {
-    margin-top: 0.26rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 0.34rem;
-    font-size: 0.24rem;
-    font-family: "AlibabaPuHuiTiR";
-    color: rgba(74, 152, 247, 1);
-    line-height: 0.34rem;
-    // .replay_icon {
-    // }
-}
 .appointment_calendar {
     background-color: #fff;
     height: 100vh;
@@ -706,6 +691,19 @@ export default {
             }
             .date_content:nth-child(4) {
                 margin: 0;
+            }
+        }
+        .refreshTip {
+            margin-top: 0.26rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 0.34rem;
+            font-size: 0.24rem;
+            font-family: "AlibabaPuHuiTiR";
+            color: rgba(74, 152, 247, 1);
+            line-height: 0.34rem;
+            .replay_icon {
             }
         }
     }

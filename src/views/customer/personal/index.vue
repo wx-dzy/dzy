@@ -35,58 +35,109 @@
 
       <div class="myOrder">
         <h3 class="title">我的预约</h3>
-        <van-list
-          v-model="loading"
-          :finished="finished"
-          :finished-text="listData.length ? '----- 我是有底线的 -----' : '暂无预约'"
-          error-text="请求失败，点击重新加载"
-        >
-          <van-cell
-            v-for="(item, index)  in listData"
-            :key="index"
-            class="contItem"
-            :class="index+1 == listData.length ? 'margin0' : ''"
+        <div class="faceTalk">
+          <div class="title">我的面谈预约</div>
+          <van-list
+            v-model="loading"
+            :finished="finished"
+            :finished-text="listData.length ? ' ' : '暂无预约'"
+            error-text="请求失败，点击重新加载"
           >
-            <h5 class="tit">{{ item.localDate }} {{ item.enterpriseShowName }}</h5>
-            <van-row
-              class="item_i"
-              v-for=" (_item, _index ) in item.interviewList"
-              :key="'_item'+_index"
-              @click.self="handleLook(_item)"
+            <van-cell
+              v-for="(item, index)  in listData"
+              :key="index"
+              class="contItem"
+              :class="index+1 == listData.length ? 'margin0' : ''"
             >
-              <van-col span="6">
-                <!-- <img :src="item.img" alt class="photo" /> -->
-                <img :src="_item.interviewUserLogo" alt class="photo" />
-              </van-col>
-              <van-col span="18" class="con">
-                <p class="nterview">{{ _item.interviewEnterpriseName }}</p>
-                <p class="color999 clearfix">
-                  {{ _item.interviewDate }} {{ isToday(_item.interviewDate) ? '今日' : ''}}{{ _item.interviewTime.slice(0,5) }}
-                  <van-button
-                    round
-                    size="mini"
-                    color="#F8D57E"
-                    plain
-                    :disabled="!_item.id"
-                    class="pull-right"
-                    @click="handleCancel(_item)"
-                  >{{ _item.id ? '取消预约' : '已取消'}}</van-button>
-                </p>
-              </van-col>
-            </van-row>
-          </van-cell>
-        </van-list>
+              <h5 class="tit">{{ item.localDate }} {{ item.enterpriseShowName }}</h5>
+              <van-row
+                class="item_i"
+                v-for=" (_item, _index ) in item.interviewList"
+                :key="'_item'+_index"
+                @click.self="handleLook(_item)"
+              >
+                <van-col span="6">
+                  <!-- <img :src="item.img" alt class="photo" /> -->
+                  <img :src="_item.interviewUserLogo" alt class="photo" />
+                </van-col>
+                <van-col span="18" class="con">
+                  <p class="nterview">{{ _item.interviewEnterpriseName }}</p>
+                  <p class="color999 clearfix">
+                    {{ _item.interviewDate }} {{ isToday(_item.interviewDate) ? '今日' : ''}}{{ _item.interviewTime.slice(0,5) }}
+                    <van-button
+                      round
+                      size="mini"
+                      color="#F8D57E"
+                      plain
+                      :disabled="!_item.id"
+                      class="pull-right"
+                      @click="handleCancel(_item)"
+                    >{{ _item.id ? '取消预约' : '已取消'}}</van-button>
+                  </p>
+                </van-col>
+              </van-row>
+            </van-cell>
+          </van-list>
+        </div>
+
+        <div class="vist">
+          <div class="title">我的参观预约</div>
+          <van-list
+            v-model="loading"
+            :finished="finished"
+            :finished-text="listData2.length ? ' ' : '暂无预约'"
+            error-text="请求失败，点击重新加载"
+          >
+            <van-cell
+              v-for="(item, index)  in listData2"
+              :key="index"
+              class="contItem"
+              :class="index+1 == listData2.length ? 'margin0' : ''"
+            >
+              <h5 class="tit">{{ item.orderDate }} {{ item.enterpriseShowName }}</h5>
+              <!-- <van-row
+                class="item_i"
+                v-for=" (_item, _index ) in item.interviewList"
+                :key="'_item'+_index"
+                @click.self="handleLook(_item)"
+              >-->
+              <van-row class="item_i" @click.self="handleLook(item)">
+                <van-col span="5">
+                  <!-- <img :src="item.img" alt class="photo" /> -->
+                  <img :src="item.enterpriseLogo" alt class="photo" />
+                </van-col>
+                <van-col span="19" class="con">
+                  <p class="nterview">{{ item.enterpriseName }}</p>
+                  <p class="color999 clearfix">
+                    <!-- {{ item.interviewDate }} {{ isToday(item.orderDate) ? '今日' : ''}}{{ item.orderDate }} -->
+                    {{item.enterpriseShowStartDate}}至{{item.enterpriseShowEndDate}}
+                    <van-button
+                      round
+                      size="mini"
+                      color="#F8D57E"
+                      plain
+                      :disabled="!item.id"
+                      class="pull-right"
+                      @click="cancelVisit(item)"
+                    >{{ item.id ? '取消预约' : '已取消'}}</van-button>
+                  </p>
+                </van-col>
+              </van-row>
+            </van-cell>
+          </van-list>
+        </div>
       </div>
       <!-- <footer-nav :active="active" /> -->
     </van-pull-refresh>
 
     <ul class="btnWrap clearfix">
+      <div class="title">我的资料中心</div>
       <li class="item pull-left" @click="hanleLook(1)">
-        <p class="text pad30">我索取的企业资料</p>
+        <p class="text pad30">企业资料</p>
         <img src="@/assets/images/myOrderBg1.png" alt />
       </li>
       <li class="item pull-right" @click="hanleLook(2)">
-        <p class="text pad48">我的询价</p>
+        <p class="text pad48">询价单</p>
         <img src="@/assets/images/myOrderBg2.png" alt />
       </li>
     </ul>
@@ -105,7 +156,7 @@
 <script>
 import { util } from "@/utils";
 import { mapGetters } from "vuex";
-import { Dialog } from 'vant';
+import { Dialog } from "vant";
 import * as Api from "@/api/customer/personal";
 import * as _Api from "@/api/customer/OneOnOneVideo";
 
@@ -131,6 +182,8 @@ export default {
       },
       // 我的预约列表
       listData: [],
+      // 我的参观预约
+      listData2: [],
       // 名片的当前选中索引
       current: 0,
       loading: false,
@@ -261,6 +314,35 @@ export default {
           // 上拉刷新
           this.refreshing = false;
         });
+      Api.getMyVistList(params)
+        .then((res) => {
+          console.log("我的愉悦列表", res);
+          let { code, msg, data, total } = res;
+          // 加载状态结束
+          this.loading = false;
+          if (code == 200) {
+            if (status == 1) {
+              // 上拉刷新
+              this.refreshing = false;
+              // data[0].interviewList.push(data[0].interviewList[0]);
+              // data[0].interviewList.push(data[0].interviewList[0]);
+              this.listData2 = data;
+              this.$toast("刷新成功");
+            } else {
+              data.forEach((element) => {
+                this.listData2.push(element);
+              });
+            }
+            // 数据全部加载完成
+            if (data.length < this.pageSize) {
+              this.finished = true;
+            }
+          }
+        })
+        .catch((err) => {
+          // 上拉刷新
+          this.refreshing = false;
+        });
     },
 
     // 名片组件的 回调函数 返回名片的当前选中索引
@@ -313,27 +395,52 @@ export default {
     // 取消预约
     handleCancel(row) {
       Dialog.confirm({
-        title: '确认操作',
-        message: '确认取消预约?'
-      }).then(() => {
-        let param = {
-        // 预约明细id
-        userPreInterviewDetailId: row.id,
-        // 预约类型，1预约 0取消预约
-        type: 0,
-      };
-      Api.setCancelInterview(param)
-        .then((res) => {
-          let { code, msg, data, total } = res;
-          if (code == 200) {
-            util.success("取消成功");
-            this.onRefresh();
-          }
+        title: "确认操作",
+        message: "确认取消预约?",
+      })
+        .then(() => {
+          let param = {
+            // 预约明细id
+            userPreInterviewDetailId: row.id,
+            // 预约类型，1预约 0取消预约
+            type: 0,
+          };
+          Api.setCancelInterview(param)
+            .then((res) => {
+              let { code, msg, data, total } = res;
+              if (code == 200) {
+                util.success("取消成功");
+                this.onRefresh();
+              }
+            })
+            .catch((err) => {
+              this.detail = {};
+            });
         })
-        .catch((err) => {
-          this.detail = {};
-        });
-      }).catch(() => {});
+        .catch(() => {});
+    },
+
+    // 取消参展预约
+    cancelVisit(item){
+      Dialog.confirm({
+        title: "确认操作",
+        message: "确认取消预约?",
+      })
+        .then(() => {
+          let param = item.id;
+          Api.setCancelVist(param)
+            .then((res) => {
+              let { code, msg, data, total } = res;
+              if (code == 200) {
+                util.success("取消成功");
+                this.onRefresh();
+              }
+            })
+            .catch((err) => {
+              this.detail = {};
+            });
+        })
+        .catch(() => {});
     },
 
     // 判断日期是否为今天

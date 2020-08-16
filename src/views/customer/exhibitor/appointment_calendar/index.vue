@@ -1,16 +1,23 @@
 <template>
-    <!--参展商主页-预约日历  -->
-    <div class="appointment_calendar">
-        <div class="top_header">
-            <img :src="userHeadUrl" class="head_img" alt />
-            <p class="user_name">{{userInfo.realName}}</p>
-            <p class="job_title">{{userInfo.postName}}</p>
-        </div>
-        <div class="year_month">
-            <span class="left" @click="pickPre"></span>
-            <p class="month">{{ currentYear }}.{{ currentMonth }}</p>
-            <span class="right" @click="pickNext"></span>
-            <!-- <van-field
+    <van-pull-refresh v-model="isLoading"
+                      @refresh="onRefresh"
+                      class="push_box">
+        <!--参展商主页-预约日历  -->
+        <div class="appointment_calendar">
+            <div class="top_header">
+                <img :src="userInfo.avatar"
+                     class="head_img"
+                     alt />
+                <p class="user_name">{{userInfo.realName}}</p>
+                <p class="job_title">{{userInfo.postName}}</p>
+            </div>
+            <div class="year_month">
+                <span class="left"
+                      @click="pickPre"></span>
+                <p class="month">{{ currentYear }}.{{ currentMonth }}</p>
+                <span class="right"
+                      @click="pickNext"></span>
+                <!-- <van-field
       class="select_type"
       readonly
       clickable
@@ -18,20 +25,18 @@
       :value="value1"
       @click="showPicker = true"
             />-->
-        </div>
-        <van-pull-refresh v-model="isLoading" @refresh="onRefresh" class="push_box">
+            </div>
+
             <div class="date">
                 <!-- 日期 -->
                 <ul class="days">
                     <!-- 星期 -->
                     <ul class="weekdays">
-                        <li
-                            class="weekends"
+                        <li class="weekends"
                             v-for="(item,index) in weekListShow"
-                            :key="index"
-                        >
-                        <div class="times">{{item.text}}</div>
-                        
+                            :key="index">
+                            <div class="times">{{item.text}}</div>
+
                         </li>
                         <!-- <li>一</li>
           <li>二</li>
@@ -40,12 +45,10 @@
           <li>五</li>
                         <li class="weekends">六</li>-->
                     </ul>
-                    <li
-                        @click="pick(day.name,index,$event)"
+                    <li @click="pick(day.name,index,$event)"
                         v-for="(day, index) in days"
                         :key="index"
-                        v-show="day.showDate"
-                    >
+                        v-show="day.showDate">
                         <!--本月-->
                         <!-- <span v-if="day.getMonth()+ 1 != currentMonth" class="other-month">{{ day.getDate() }}</span> -->
                         <span>
@@ -56,40 +59,44 @@
                 class="active"
                             >{{ day.getDate() }}</span>-->
                             <span :class="{'active':index==current}">{{ day.name }}</span>
-                            <div>{{day.interviewStatus}}</div>
+                            <div class="status">{{day.interviewStatus == 0?'不可预约':day.interviewStatus == 1?'可预约':day.interviewStatus == 2?'约满':''}}</div>
                             <!-- <span v-else>{{ day.getDate() }}</span> -->
                         </span>
                         <!-- <p class="full" v-if="isFull">约满</p> -->
                     </li>
                 </ul>
             </div>
-            <div class="date_content" v-show="showDate">
-                <div
-                    class="item"
-                    v-for="(item,index) in todayData"
-                    :key="index"
-                    @click="check(index)"
-                >
+            <div class="date_content"
+                 v-show="showDate">
+                <div :class=" [checkIndex == index?'checkActive':'item']"
+                     v-for="(item,index) in todayData"
+                     :key="index"
+                     @click="check(index)">
                     <p class="item_top">{{item.interviewTime.substr(0,5)}}</p>
                     <p class="item_bottom">{{item.interviewStatus_1}}</p>
                 </div>
             </div>
             <p class="refreshTip">
-                <van-icon name="replay" class="replay_icon" />下拉刷新
+                <van-icon name="replay"
+                          class="replay_icon" />下拉刷新
             </p>
-        </van-pull-refresh>
-        <van-button class="bottom_button" v-show="status == 1" @click="toOrder">预 约</van-button>
-        <van-button class="bottom_button" v-show="status == 2" @click="cancleOrder">取 消 预 约</van-button>
-        <i v-if="status == 0"></i>
-        <van-popup v-model="showPicker" position="bottom">
-            <van-picker
-                show-toolbar
-                :columns="columns"
-                @confirm="onConfirm"
-                @cancel="showPicker = false"
-            />
-        </van-popup>
-    </div>
+
+            <van-button class="bottom_button"
+                        v-show="status == 1"
+                        @click="toOrder">预 约</van-button>
+            <van-button class="bottom_button"
+                        v-show="status == 2"
+                        @click="cancleOrder">取 消 预 约</van-button>
+            <i v-if="status == 0"></i>
+            <van-popup v-model="showPicker"
+                       position="bottom">
+                <van-picker show-toolbar
+                            :columns="columns"
+                            @confirm="onConfirm"
+                            @cancel="showPicker = false" />
+            </van-popup>
+        </div>
+    </van-pull-refresh>
 </template>
 <script src="https://cdn.jsdelivr.net/npm/jutils-src"></script>
 <script>
@@ -99,7 +106,7 @@ import getDate from '@/store/getDate'
 export default {
     name: 'appointment_calendar',
     components: {},
-    data() {
+    data () {
         return {
             current: 0, // 选中的日期下标
             weekList: [
@@ -171,16 +178,17 @@ export default {
             startDate: 0, //周数据开始
             endDate: 0, // 周数据结束
             showDate: false, // 是否显示
+            checkIndex: 0
         }
     },
     computed: {
-        isFull(day) {
+        isFull (day) {
             // console.log(day);
             return 1
         },
     },
 
-    created() {
+    created () {
         // let endtime = getDate.getToday().endtime;
         // //今日结束时间
         // let starttime = getDate.getToday().starttime;
@@ -218,20 +226,20 @@ export default {
         // })
     },
     methods: {
-        getUserInfo() {
+        getUserInfo () {
             // 获取人物信息
             Api.getUserInfo(this.enterpriseShowPeopleId).then((res) => {
                 const { code, msg, data, total } = res
-                // console.log('人物信息', data)
-                if (res.code == 200) {
-                    this.userInfo = res.data
+                console.log('人物信息', data)
+                if (code == 200) {
+                    this.userInfo = data
                     this.getWeekInfo() //获取周数据
                     // this.initData(null);
                 }
             })
         },
         // 取消预约
-        cancleOrder() {
+        cancleOrder () {
             Api.interview(this.userPreInterviewDetailId, 0).then((res) => {
                 // console.log('预约', res)
                 if ((res.code = 200)) {
@@ -242,7 +250,7 @@ export default {
         },
         //
         // 预约
-        toOrder() {
+        toOrder () {
             let params = {
                 userPreInterviewDetailId: this.userPreInterviewDetailId,
                 type: 1,
@@ -257,7 +265,8 @@ export default {
             })
         },
         //  选择时间
-        check(index) {
+        check (index) {
+            this.checkIndex = index
             this.status = this.todayData[index].interviewStatus
             this.userPreInterviewDetailId = this.todayData[
                 index
@@ -268,7 +277,7 @@ export default {
             )
         },
         // 获取日数据
-        getDayInfo() {
+        getDayInfo () {
             Api.getTodayData(this.userPreInterviewId).then((res) => {
                 if (res.code == 200 && res.data != '') {
                     this.todayData = res.data
@@ -291,7 +300,7 @@ export default {
             })
         },
         // 获取周数据
-        getWeekInfo() {
+        getWeekInfo () {
             // console.log('enterpriseShowPeopleId', this.enterpriseShowPeopleId)
 
             // var date = new Date()
@@ -324,7 +333,7 @@ export default {
                 .then((res) => {
                     // console.log('获取周数据', res.data)
                     const statusList = res.data
-                    console.log('获取周数据',statusList);
+                    console.log('获取周数据', statusList);
                     if (res.code == 200 && res.data != '') {
                         this.weekData = res.data
 
@@ -340,7 +349,7 @@ export default {
         },
 
         // 获取当月有多少天
-        getDaysofMonth() {
+        getDaysofMonth () {
             var date = new Date()
             var year = this.currentYear
             var month = this.currentMonth
@@ -362,10 +371,26 @@ export default {
             let totalWeek = line + (lastDay - date + 1)
             this.weekListShow = this.weekListShow.slice(line, totalWeek)
 
+
             let currentData = this.currentDay
-            console.log('11'+currentData);
+
+
             for (var i = currentData; i <= lastDay; i++) {
-                this.days.push({ name: i, showDate: true,interviewStatus:i.interviewStatus})
+
+                this.days.push({ name: i, showDate: true, interviewStatus: 0 })
+                i < 10 ? i = '0' + i : i
+                let today = `${this.currentYear}-${this.currentMonth}-${i}`
+                console.log('today:', today);
+                for (var j = 0; j < this.weekData.length; j++) {
+                    if (today == this.weekData[j].dateOfMonth) {
+                        console.log('i', i);
+                        console.log('j', j);
+                        this.days[i - 1].interviewStatus = this.weekData[j].interviewStatus
+                    }
+                }
+                // console.log('days', this.days);
+
+                // this.days.push({ name: i, showDate: true, interviewStatus: interviewStatus })
             }
             // console.log(this.days[0]);
             // console.log(this.weekData);
@@ -388,7 +413,7 @@ export default {
             // }
             // console.log('this.days:', this.days)
         },
-        formatDate(year, month, day) {
+        formatDate (year, month, day) {
             const y = year
             let m = month
             if (m < 10) m = `0${m}`
@@ -397,7 +422,7 @@ export default {
             return `${y}-${m}-${d}`
         },
         // 初始化
-        initData(cur) {
+        initData (cur) {
             let date = ''
             if (cur) {
                 date = new Date(cur)
@@ -405,12 +430,14 @@ export default {
                 date = new Date()
             }
             this.currentDay = date.getDate() // 今日日期 几号
+
             this.currentYear = date.getFullYear() // 当前年份
             this.currentMonth = date.getMonth() + 1 // 当前月份
+            this.currentMonth < 10 ? this.currentMonth = '0' + this.currentMonth : this.currentMonth
             this.startDate = `${this.currentYear}-${this.currentMonth}-${this.currentDay}`
             this.endDate = `${this.currentYear}-${this.currentMonth}-${
                 this.currentDay + 31
-            }`
+                }`
             this.currentWeek = date.getDay() // 1...6,0  // 星期几
             // console.log('currentWeek',this.currentWeek);
             if (this.currentWeek === 0) {
@@ -426,21 +453,21 @@ export default {
         },
 
         // 上个星期
-        weekPre() {
+        weekPre () {
             const d = this.days[0] // 如果当期日期是7号或者小于7号
             d.setDate(d.getDate() - 7)
             this.initData(d)
         },
 
         // 下个星期
-        weekNext() {
+        weekNext () {
             const d = this.days[6] // 如果当期日期是7号或者小于7号
             d.setDate(d.getDate() + 7)
             this.initData(d)
         },
 
         // 上一個月  传入当前年份和月份
-        pickPre(year, month) {
+        pickPre (year, month) {
             const d = new Date(
                 this.formatDate(this.currentYear, this.currentMonth, 1)
             )
@@ -451,7 +478,7 @@ export default {
             this.getWeekInfo()
         },
 
-        pickNext() {
+        pickNext () {
             const d = new Date(
                 this.formatDate(this.currentYear, this.currentMonth, 1)
             )
@@ -463,7 +490,7 @@ export default {
         },
 
         // 当前选择日期
-        pick(date, index) {
+        pick (date, index) {
             // console.log('picker-index', index)
             // console.log('picker-date', date)
             this.current = index
@@ -475,7 +502,7 @@ export default {
             const canBooking = [] //把可预约的日期放进一个数组，截取日期几号进行判断
             for (var value of this.weekData) {
                 canBooking.push(value.dateOfMonth.substr(8, 10))
-                
+
             }
             // console.log(this.canBooking);
             if (canBooking.map(Number).includes(date)) {
@@ -495,11 +522,11 @@ export default {
                 util.error('暂无数据')
             }
         },
-        onConfirm(value) {
+        onConfirm (value) {
             this.value1 = value
             this.showPicker = false
         },
-        onRefresh() {
+        onRefresh () {
             setTimeout(() => {
                 this.isLoading = false
                 this.getWeekInfo()
@@ -510,8 +537,22 @@ export default {
 }
 </script>
 <style lang='scss' scoped>
+.refreshTip {
+    margin-top: 0.26rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 0.34rem;
+    font-size: 0.24rem;
+    font-family: "AlibabaPuHuiTiR";
+    color: rgba(74, 152, 247, 1);
+    line-height: 0.34rem;
+    // .replay_icon {
+    // }
+}
 .appointment_calendar {
     background-color: #fff;
+    height: 100vh;
     .top_header {
         margin-bottom: 0.48rem;
         transform: translateY(-0.82rem);
@@ -528,14 +569,14 @@ export default {
         > p {
             margin-top: 0.12rem;
             color: rgba(49, 52, 55, 1);
-            font-family: 'AlibabaPuHuiTiM';
+            font-family: "AlibabaPuHuiTiM";
             text-align: center;
         }
         .user_name {
             text-align: center;
             height: 0.54rem;
             font-size: 0.4rem;
-            font-family: 'AlibabaPuHuiTiM';
+            font-family: "AlibabaPuHuiTiM";
             font-weight: bold;
             color: rgba(49, 52, 55, 1);
             line-height: 0.54rem;
@@ -547,7 +588,7 @@ export default {
         }
     }
     .top_header::after {
-        content: '';
+        content: "";
         width: 130%;
         height: 100%;
         position: absolute;
@@ -579,7 +620,7 @@ export default {
         .month {
             height: 0.4rem;
             font-size: 0.32rem;
-            font-family: 'AlibabaPuHuiTiR';
+            font-family: "AlibabaPuHuiTiR";
             color: rgba(157, 161, 166, 1);
             line-height: 0.44rem;
             margin: 0 0.14rem;
@@ -602,7 +643,7 @@ export default {
             position: relative;
         }
         .select_type::before {
-            content: '';
+            content: "";
             display: block;
             position: absolute;
             right: 0.1rem;
@@ -645,21 +686,26 @@ export default {
                     color: #9da1a6;
                 }
             }
+            .checkActive {
+                float: left;
+                text-align: center;
+                // flex: 25%;
+                width: 1.48rem;
+                height: 0.94rem;
+                border-radius: 0.1rem;
+                border: 0.02rem solid rgba(248, 213, 126, 1);
+                font-size: 0.26rem;
+                margin: 0.12rem;
+                background: #f8d57e;
+                .item_top {
+                    color: #313437;
+                }
+                .item_bottom {
+                    color: #9da1a6;
+                }
+            }
             .date_content:nth-child(4) {
                 margin: 0;
-            }
-        }
-        .refreshTip {
-            margin-top: 0.26rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 0.34rem;
-            font-size: 0.24rem;
-            font-family: 'AlibabaPuHuiTiR';
-            color: rgba(74, 152, 247, 1);
-            line-height: 0.34rem;
-            .replay_icon {
             }
         }
     }
@@ -717,16 +763,21 @@ export default {
             span {
                 display: inline-block;
                 font-size: 0.26rem;
-                font-family: 'AlibabaPuHuiTiR';
+                font-family: "AlibabaPuHuiTiR";
                 color: #313437;
                 line-height: 0.56rem;
                 width: 0.56rem;
                 height: 0.56rem;
             }
+            .status {
+                font-size: 12px;
+                color: #999;
+                line-height: 1;
+            }
             .active {
                 display: inline-block;
                 font-size: 0.26rem;
-                font-family: 'AlibabaPuHuiTiR';
+                font-family: "AlibabaPuHuiTiR";
                 color: rgba(49, 52, 55, 1);
                 line-height: 0.56rem;
                 width: 0.56rem;
@@ -751,7 +802,7 @@ export default {
 /deep/ .van-field__control {
     height: 0.4rem;
     font-size: 0.24rem;
-    font-family: 'AlibabaPuHuiTiR';
+    font-family: "AlibabaPuHuiTiR";
     color: rgba(157, 161, 166, 1);
     line-height: 0.4rem;
 }

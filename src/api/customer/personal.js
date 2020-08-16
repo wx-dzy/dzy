@@ -14,7 +14,7 @@ export const getMyInterviewPage = params => axios.get('/c/user-interview/my-inte
 export const getMyVistList = params => axios.get('/c/show-order/page', { params });
 
 // 我-首页-取消参观预约 /c/show-order/cancel/{id}
-export const setCancelVist = params => axios.post('/c/show-order/cancel' + params);
+export const setCancelVist = params => axios.post('/c/show-order/cancel' + '/' + params);
 
 // 参展商目录-预约日历-预约/取消预约 /c/show-people-interview/pre-interview/{userPreInterviewDetailId}/{type}
 export const setCancelInterview = params => axios.post('/c/show-people-interview/pre-interview/' + params.userPreInterviewDetailId + '/' + params.type,);

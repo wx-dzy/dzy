@@ -29,7 +29,10 @@
                             class="weekends"
                             v-for="(item,index) in weekListShow"
                             :key="index"
-                        >{{item.text}}</li>
+                        >
+                        <div class="times">{{item.text}}</div>
+                        
+                        </li>
                         <!-- <li>一</li>
           <li>二</li>
           <li>三</li>
@@ -53,6 +56,7 @@
                 class="active"
                             >{{ day.getDate() }}</span>-->
                             <span :class="{'active':index==current}">{{ day.name }}</span>
+                            <div>{{day.interviewStatus}}</div>
                             <!-- <span v-else>{{ day.getDate() }}</span> -->
                         </span>
                         <!-- <p class="full" v-if="isFull">约满</p> -->
@@ -218,7 +222,7 @@ export default {
             // 获取人物信息
             Api.getUserInfo(this.enterpriseShowPeopleId).then((res) => {
                 const { code, msg, data, total } = res
-                console.log('人物信息', data)
+                // console.log('人物信息', data)
                 if (res.code == 200) {
                     this.userInfo = res.data
                     this.getWeekInfo() //获取周数据
@@ -245,7 +249,7 @@ export default {
             }
             let type = 1
             Api.interview(this.userPreInterviewDetailId, type).then((res) => {
-                console.log('预约', res)
+                // console.log('预约', res)
                 if (res.code == 200) {
                     this.getUserInfo()
                     this.$toast('预约成功')
@@ -318,7 +322,9 @@ export default {
             }
             Api.getWeekData(params)
                 .then((res) => {
-                    console.log('获取周数据', res)
+                    // console.log('获取周数据', res.data)
+                    const statusList = res.data
+                    console.log('获取周数据',statusList);
                     if (res.code == 200 && res.data != '') {
                         this.weekData = res.data
 
@@ -357,9 +363,12 @@ export default {
             this.weekListShow = this.weekListShow.slice(line, totalWeek)
 
             let currentData = this.currentDay
+            console.log('11'+currentData);
             for (var i = currentData; i <= lastDay; i++) {
-                this.days.push({ name: i, showDate: true })
+                this.days.push({ name: i, showDate: true,interviewStatus:i.interviewStatus})
             }
+            // console.log(this.days[0]);
+            // console.log(this.weekData);
             // 判断是否在展会时间段内，在，显示，不在，不显示  charAt
             // let strWeek = this.weekData[0].dateOfMonth
             // let strMounth = strWeek.substr(5, 2)
@@ -435,7 +444,7 @@ export default {
             const d = new Date(
                 this.formatDate(this.currentYear, this.currentMonth, 1)
             )
-            console.log('d:', d)
+            // console.log('d:', d)
             d.setDate(0)
             this.initData(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1))
             this.getDaysofMonth()
@@ -468,7 +477,7 @@ export default {
                 canBooking.push(value.dateOfMonth.substr(8, 10))
                 
             }
-            console.log(this.canBooking);
+            // console.log(this.canBooking);
             if (canBooking.map(Number).includes(date)) {
                 var dateindex = canBooking
                     .map(Number)

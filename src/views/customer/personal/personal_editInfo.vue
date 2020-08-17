@@ -88,7 +88,7 @@
                             @click="gotoEditCard(item.id,$event)"
                         >
                             <div class="image">
-                                <img src alt />
+                                <img :src="item.companyLogo" alt />
                             </div>
                             <div class="middle">
                                 <div class="middleTop">

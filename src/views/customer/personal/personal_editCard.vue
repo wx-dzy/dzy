@@ -6,7 +6,7 @@
             <van-form @submit="saveCard">
                 <van-field label="上传LOGO" @click="getPJ">
                     <template #input>
-                        <img :src="companyLogo" />
+                        <img :src="cardInfo.companyLogo" />
                         <van-icon name="arrow" />
                     </template>
                 </van-field>

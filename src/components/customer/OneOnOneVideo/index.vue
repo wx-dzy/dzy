@@ -59,7 +59,18 @@ export default {
 
   watch: {},
   created() {
-    this.isWeiXin();
+    let _this = this
+    navigator.getUserMedia(
+      { video: true, audio: true },
+      function onSuccess(stream) {
+        // console.log("已点击允许,开启成功");
+        _this.isWeiXin();
+      },
+      function onError(error) {
+        util.error("摄像机拒绝访问")
+        console.log("错误：", error);
+      }
+    );
 
     // this.$router.beforeEach((to, from, next) => {
     //   next();

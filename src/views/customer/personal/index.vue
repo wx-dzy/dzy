@@ -101,7 +101,7 @@
                 :key="'_item'+_index"
                 @click.self="handleLook(_item)"
               >-->
-              <van-row class="item_i" @click.self="handleLook(item)">
+              <van-row class="item_i">
                 <van-col span="5">
                   <!-- <img :src="item.img" alt class="photo" /> -->
                   <img :src="item.enterpriseLogo" alt class="photo" />
@@ -421,7 +421,7 @@ export default {
     },
 
     // 取消参展预约
-    cancelVisit(item){
+    cancelVisit(item) {
       Dialog.confirm({
         title: "确认操作",
         message: "确认取消预约?",

@@ -60,11 +60,11 @@ export default {
   watch: {},
   created() {
     let _this = this
-    navigator.getUserMedia(
+    window.navigator.getUserMedia(
       { video: true, audio: true },
       function onSuccess(stream) {
-        // console.log("已点击允许,开启成功");
-        _this.isWeiXin();
+        console.log("已点击允许,开启成功");
+        // _this.isWeiXin();
       },
       function onError(error) {
         util.error("摄像机拒绝访问")
@@ -79,7 +79,7 @@ export default {
   },
   methods: {
     isWeiXin() {
-      var ua = window.navigator.userAgent.toLowerCase();
+      let ua = window.navigator.userAgent.toLowerCase();
       if (ua.match(/MicroMessenger/i) == "micromessenger") {
         // console.log(11);
         this.isWx = true;

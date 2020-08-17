@@ -115,6 +115,16 @@
                 color: rgba(49, 52, 55, 1) !important;
             }
         }
+        .faceTalk,.vist{
+            .title{
+                font-size: 0.26rem;
+                margin-left: 0.1rem;
+            }
+            .item_i {
+                padding: 0.46rem 0.2rem;
+
+            }
+        }
 
     }
 
@@ -196,7 +206,11 @@
 
     .btnWrap {
         padding: 0 0.27rem;
-
+        .title {
+            font-size: 0.32rem;
+            color: rgba(49, 52, 55, 1);
+            line-height: 1rem;
+        }
         .item {
             position: relative;
             width: 3.36rem;
@@ -215,10 +229,12 @@
                 padding-left: 0.4rem;
             }
             .pad30 {
-                padding-top: 0.3rem;
+                // padding-top: 0.3rem;
+                line-height: 1.38rem;
             }
             .pad48 {
-                padding-top: 0.48rem;
+                // padding-top: 0.48rem;
+                line-height: 1.38rem;
 
             }
 

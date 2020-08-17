@@ -37,21 +37,20 @@
                         </li>
                     </ul>
             </div>-->
-            <div style="display: flex;justify-content:space-around;margin-top: 10px">
+            <div style="display: flex;justify-content:space-around;bottom:2px;position:fixed;">
                 <van-button
-                    type="default"
-                    style="width: 150px;height: 40px;border-radius: 10px;border: 1px solid #000;background-color: #fff;text-align: center;letter-spacing: 10px;"
+                    class="submit"
                     @click="showPop"
                 >分享</van-button>
                 <!-- <van-button
                 type="default"
                 style="width: 150px;height: 40px;border-radius: 10px;border: 1px solid #000;background-color: orange;letter-spacing: 10px;"
                 >下载</van-button>-->
-                <van-button
+                <!-- <van-button
                     type="default"
                     style="width: 150px;height: 40px;border-radius: 10px;border: 1px solid #000;background-color: orange;letter-spacing: 10px;"
                     @click="checkAll"
-                >收藏</van-button>
+                >收藏</van-button> -->
             </div>
         </div>
         <div class="none" v-if="!url">
@@ -329,5 +328,15 @@ export default {
             width: 100%;
         }
     }
+}
+.submit {
+    height: 0.8rem;
+    width: 6.84rem;
+    line-height: 0.8rem;
+    text-align: center;
+    margin: 0.52rem 0.34rem;
+    background: rgba(248, 213, 126, 1);
+    letter-spacing: 0.2rem;
+    border-radius: 0.08rem;
 }
 </style>

@@ -10,7 +10,13 @@ export const getUserMyIndex = params => axios.get('c/user/my-index', { params })
 // 我-首页-我的预约列表  /c/user-interview/my-interview
 export const getMyInterviewPage = params => axios.get('/c/user-interview/my-interview', { params });
 
-// 参展商目录-预约日历-预约/取消预约
+// 我-首页-我的参观预约列表 /c/show-order/page
+export const getMyVistList = params => axios.get('/c/show-order/page', { params });
+
+// 我-首页-取消参观预约 /c/show-order/cancel/{id}
+export const setCancelVist = params => axios.post('/c/show-order/cancel' + '/' + params);
+
+// 参展商目录-预约日历-预约/取消预约 /c/show-people-interview/pre-interview/{userPreInterviewDetailId}/{type}
 export const setCancelInterview = params => axios.post('/c/show-people-interview/pre-interview/' + params.userPreInterviewDetailId + '/' + params.type,);
 
 // 切换身份

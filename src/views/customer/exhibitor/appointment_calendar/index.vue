@@ -58,7 +58,8 @@
                 class="active"
                             >{{ day.getDate() }}</span>-->
                             <span :class="{'active':index==current}">{{ day.name }}</span>
-                            <div class="status">{{day.interviewStatus == 0?'不可预约':day.interviewStatus == 1?'可预约':day.interviewStatus == 2?'约满':''}}</div>
+                            <!-- <div class="status">{{day.interviewStatus == 0?'不可预约':day.interviewStatus == 1?'可预约':day.interviewStatus == 2?'约满':''}}</div> -->
+                            <div class="status">{{day.interviewStatus === 0?' ':day.interviewStatus == 1?'开放日':day.interviewStatus == 2?'约满':''}}</div>
                             <!-- <span v-else>{{ day.getDate() }}</span> -->
                         </span>
                         <!-- <p class="full" v-if="isFull">约满</p> -->
@@ -770,7 +771,10 @@ export default {
             .status {
                 font-size: 12px;
                 color: #999;
-                line-height: 1;
+                // width: 0.56rem;
+                // height: 0.56rem;
+                // border: 1px solid red;
+                // line-height: 1;
             }
             .active {
                 display: inline-block;

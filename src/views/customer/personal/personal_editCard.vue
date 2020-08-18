@@ -345,7 +345,8 @@ export default {
             let date = now.getDate()
             month < 10 ? (month = '0' + month) : (month = month)
             date < 10 ? (date = '0' + date) : (date = date)
-            this.endDate = now.getFullYear() + '-' + month + '-' + date
+            // this.endDate = now.getFullYear() + '-' + month + '-' + date
+            this.endDate = now.getFullYear() + '-' + month
             this.endDate_1 = new Date(this.endDate.replace(/\-/g, '/'))
             console.log('endDate', this.endDate)
         },
@@ -427,7 +428,8 @@ export default {
             let date = picker.getDate()
             month < 10 ? (month = '0' + month) : (month = month)
             date < 10 ? (date = '0' + date) : (date = date)
-            this.endDate = picker.getFullYear() + '-' + month + '-' + date
+            // this.endDate = picker.getFullYear() + '-' + month + '-' + date
+            this.endDate = picker.getFullYear() + '-' + month
             console.log('endDate', this.endDate)
             this.showCalendarEnd = false
         },
@@ -439,7 +441,8 @@ export default {
             // }-${date.getDate()}`
             let month = picker.getMonth() + 1
             month < 10 ? (month = '0' + month) : (month = month)
-            this.startDate = picker.getFullYear() + '-' + month + '-' + '01'
+            // this.startDate = picker.getFullYear() + '-' + month + '-' + '01'
+            this.startDate = picker.getFullYear() + '-' + month
             this.startDate_1 = new Date(this.startDate.replace(/\-/g, '/'))
             console.log('startDate', this.startDate)
             this.showCalendar = false

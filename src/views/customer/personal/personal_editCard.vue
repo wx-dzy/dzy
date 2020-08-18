@@ -4,7 +4,8 @@
         <router-view />
         <div class="box">
             <van-form @submit="saveCard">
-                <van-field label="上传LOGO" @click="getPJ">
+                <van-field label="上传LOGO"
+                           @click="getPJ">
                     <template #input>
                         <img :src="cardInfo.companyLogo" />
                         <van-icon name="arrow" />
@@ -14,68 +15,57 @@
                 <!-- <div class="Company"> -->
                 <div class="title">
                     <span>公司/单位</span>
-                    <span class="authentication" @click="gotoAuthentication">去认证</span>
+                    <span class="authentication"
+                          @click="gotoAuthentication">去认证</span>
                 </div>
-                <van-field
-                    v-model="cardInfo.enterpriseName"
-                    name="enterpriseName"
-                    label="公司名称"
-                    required
-                    maxlength="40"
-                    placeholder="请输入中文公司/单位名称"
-                />
-                <van-field
-                    v-model="cardInfo.enterpriseNameEn"
-                    name="enterpriseNameEn"
-                    label="公司名称EN"
-                    maxlength="80"
-                    placeholder="请输入英文公司/单位名称"
-                />
+                <van-field v-model="cardInfo.enterpriseName"
+                           name="enterpriseName"
+                           label="公司名称"
+                           required
+                           maxlength="40"
+                           placeholder="请输入中文公司/单位名称" />
+                <van-field v-model="cardInfo.enterpriseNameEn"
+                           name="enterpriseNameEn"
+                           label="公司名称EN"
+                           maxlength="80"
+                           placeholder="请输入英文公司/单位名称" />
                 <!-- </div> -->
                 <!-- 姓名 -->
                 <!-- <div class="name"> -->
                 <div class="title">
                     <span>姓名</span>
                 </div>
-                <van-field
-                    v-model="cardInfo.userRealName"
-                    name="userRealName"
-                    label="姓名"
-                    required
-                    placeholder="请输入中文名（必填）"
-                    :rules="[{ required: true, message: '请输入中文名（必填）' }]"
-                />
-                <van-field
-                    required
-                    v-model="cardInfo.userRealNameEn"
-                    name="userRealNameEn"
-                    label="姓名EN"
-                    maxlength="40"
-                    placeholder="Patter"
-                />
+                <van-field v-model="cardInfo.userRealName"
+                           name="userRealName"
+                           label="姓名"
+                           required
+                           placeholder="请输入中文名（必填）"
+                           :rules="[{ required: true, message: '请输入中文名（必填）' }]" />
+                <van-field required
+                           v-model="cardInfo.userRealNameEn"
+                           name="userRealNameEn"
+                           label="姓名EN"
+                           maxlength="40"
+                           placeholder="Patter" />
                 <!-- </div> -->
                 <!-- 职位/岗位 -->
                 <!-- <div class="position"> -->
                 <div class="title">
                     <span>职位/岗位</span>
                 </div>
-                <van-field
-                    v-model="cardInfo.postName"
-                    name="postName"
-                    label="职位"
-                    required
-                    maxlength="20"
-                    placeholder="请输入中文公司/单位名称"
-                    :rules="[{ required: true, message: '请输入中文公司/单位名称' }]"
-                />
-                <van-field
-                    v-model="cardInfo.postNameEn"
-                    name="postNameEn"
-                    label="职位EN"
-                    required
-                    placeholder="请输入英文公司/单位名称"
-                    :rules="[{ required: true, message: '请输入英文文公司/单位名称' }]"
-                />
+                <van-field v-model="cardInfo.postName"
+                           name="postName"
+                           label="职位"
+                           required
+                           maxlength="20"
+                           placeholder="请输入中文公司/单位名称"
+                           :rules="[{ required: true, message: '请输入中文公司/单位名称' }]" />
+                <van-field v-model="cardInfo.postNameEn"
+                           name="postNameEn"
+                           label="职位EN"
+                           required
+                           placeholder="请输入英文公司/单位名称"
+                           :rules="[{ required: true, message: '请输入英文文公司/单位名称' }]" />
                 <!-- </div> -->
                 <!-- 在职时间 -->
                 <!-- <div class="time"> -->
@@ -83,50 +73,44 @@
                     <span>在职时间</span>
                     <span class="notes">（注：结束时间如果选择“至今”）</span>
                 </div>
-                <van-field
-                    required
-                    readonly
-                    v-model="startDate"
-                    name="startDate"
-                    label="开始时间"
-                    placeholder="请输入开始时间"
-                    :rules="[{ required: true, message: '请输入开始时间' }]"
-                    @click="showCalendar = true"
-                />
+                <van-field required
+                           readonly
+                           v-model="startDate"
+                           name="startDate"
+                           label="开始时间"
+                           placeholder="请输入开始时间"
+                           :rules="[{ required: true, message: '请输入开始时间' }]"
+                           @click="showCalendar = true" />
                 <!-- <van-calendar
                     v-model="showCalendar"
                     @confirm="onConfirm"
                     :min-date="minDate"
                     :max-date="maxDate"
                 />-->
-                <van-popup v-model="showCalendar" position="bottom" :style="{ height: '35%' }">
-                    <van-datetime-picker
-                        type="year-month"
-                        title="选择年月"
-                        @confirm="onConfirm"
-                        :min-date="minDate"
-                        :max-date="maxDate"
-                        :formatter="formatter"
-                        v-model="startDate_1"
-                    />
+                <van-popup v-model="showCalendar"
+                           position="bottom"
+                           :style="{ height: '35%' }">
+                    <van-datetime-picker type="year-month"
+                                         title="选择年月"
+                                         @confirm="onConfirm"
+                                         :min-date="minDate"
+                                         :max-date="maxDate"
+                                         :formatter="formatter"
+                                         v-model="startDate_1" />
                 </van-popup>
 
-                <van-field
-                    required
-                    readonly
-                    v-model="endDate"
-                    name="endDate"
-                    label="结束时间"
-                    placeholder="请输入结束时间"
-                    @click-input="calendarEnd"
-                >
+                <van-field required
+                           readonly
+                           v-model="endDate"
+                           name="endDate"
+                           label="结束时间"
+                           placeholder="请输入结束时间"
+                           @click-input="calendarEnd">
                     <template #extra>
-                        <van-checkbox
-                            v-model="checked"
-                            @click="today"
-                            shape="square"
-                            checked-color="#f8d57e"
-                        >至今</van-checkbox>
+                        <van-checkbox v-model="checked"
+                                      @click="today"
+                                      shape="square"
+                                      checked-color="#f8d57e">至今</van-checkbox>
                     </template>
                 </van-field>
                 <!-- <van-calendar
@@ -136,16 +120,16 @@
                     :max-date="maxDate"
                 />-->
 
-                <van-popup v-model="showCalendarEnd" position="bottom" :style="{ height: '35%' }">
-                    <van-datetime-picker
-                        type="year-month"
-                        title="选择年月日"
-                        v-model="endDate_1"
-                        @confirm="onConfirmEnd"
-                        :min-date="minDate"
-                        :max-date="maxDate"
-                        :formatter="formatter"
-                    />
+                <van-popup v-model="showCalendarEnd"
+                           position="bottom"
+                           :style="{ height: '35%' }">
+                    <van-datetime-picker type="year-month"
+                                         title="选择年月日"
+                                         v-model="endDate_1"
+                                         @confirm="onConfirmEnd"
+                                         :min-date="minDate"
+                                         :max-date="maxDate"
+                                         :formatter="formatter" />
                 </van-popup>
                 <!-- </div> -->
                 <!-- 联系方式 -->
@@ -153,77 +137,62 @@
                 <div class="title">
                     <span>联系方式</span>
                 </div>
-                <van-field
-                    name="phone"
-                    v-model="cardInfo.phone"
-                    required
-                    label="电话号码"
-                    placeholder="请输入电话号码"
-                    :rules="[{ pattern, message: '请输入正确手机号' }]"
-                    maxlength="11"
-                />
-                <van-field
-                    v-model="cardInfo.email"
-                    name="email"
-                    required
-                    label="邮箱地址"
-                    placeholder="请输入邮箱地址"
-                    :rules="[{ pattern_email, message: '请输入邮箱地址' }]"
-                />
+                <van-field name="phone"
+                           v-model="cardInfo.phone"
+                           required
+                           label="电话号码"
+                           placeholder="请输入电话号码"
+                           :rules="[{ pattern, message: '请输入正确手机号' }]"
+                           maxlength="11" />
+                <van-field v-model="cardInfo.email"
+                           name="email"
+                           required
+                           label="邮箱地址"
+                           placeholder="请输入邮箱地址"
+                           :rules="[{ pattern_email, message: '请输入邮箱地址' }]" />
                 <!-- </div> -->
                 <!-- 公司所属行业 -->
                 <!-- <div class="industry"> -->
                 <div class="title">
                     <span>公司所属行业</span>
                 </div>
-                <van-field
-                    v-model="cardInfo.industry"
-                    label="行业"
-                    placeholder="请输入中文名(必填)"
-                    name="industry"
-                />
-                <van-field
-                    v-model="cardInfo.industryEn"
-                    name="industryEn"
-                    label="行业EN"
-                    placeholder="请输入英文名"
-                />
+                <van-field v-model="cardInfo.industry"
+                           label="行业"
+                           placeholder="请输入中文名(必填)"
+                           name="industry" />
+                <van-field v-model="cardInfo.industryEn"
+                           name="industryEn"
+                           label="行业EN"
+                           placeholder="请输入英文名" />
                 <!-- </div> -->
                 <!-- 公司地址 -->
                 <!-- <div class="industry"> -->
                 <div class="title">
                     <span>公司地址</span>
                 </div>
-                <van-field
-                    name="address"
-                    v-model="address"
-                    label="省市区"
-                    placeholder="请选择省市区"
-                    @click="chooseAdd"
-                    readonly
-                />
-                <van-field
-                    v-model="cardInfo.companyAddress"
-                    label="详细地址"
-                    placeholder="请输入详细地址"
-                    name="companyAddress"
-                />
-                <van-field
-                    label="地址EN"
-                    placeholder="请输入英文版地址"
-                    name="companyAddressEn"
-                    v-model="cardInfo.companyAddressEn"
-                />
-                <van-action-sheet v-model="chooseAds" title>
+                <van-field name="address"
+                           v-model="address"
+                           label="省市区"
+                           placeholder="请选择省市区"
+                           @click="chooseAdd"
+                           readonly />
+                <van-field v-model="cardInfo.companyAddress"
+                           label="详细地址"
+                           placeholder="请输入详细地址"
+                           name="companyAddress" />
+                <van-field label="地址EN"
+                           placeholder="请输入英文版地址"
+                           name="companyAddressEn"
+                           v-model="cardInfo.companyAddressEn" />
+                <van-action-sheet v-model="chooseAds"
+                                  title>
                     <div class="content">
-                        <van-area
-                            title="请选择省市区"
-                            :area-list="addressList"
-                            class="chooseAdd"
-                            @confirm="confirmAdd"
-                            @cancel="cancelAdd"
-                            :value="provinceCityCounty"
-                        />
+                        <van-area title="请选择省市区"
+                                  :area-list="addressList"
+                                  class="chooseAdd"
+                                  @confirm="confirmAdd"
+                                  @cancel="cancelAdd"
+                                  :value="provinceCityCounty" />
                     </div>
                 </van-action-sheet>
                 <!-- </div> -->
@@ -232,13 +201,11 @@
                 <div class="title">
                     <span>工作描述1</span>
                 </div>
-                <van-field
-                    v-model="cardInfo.workDesc"
-                    placeholder
-                    name="workDesc"
-                    autosize
-                    type="textarea"
-                />
+                <van-field v-model="cardInfo.workDesc"
+                           placeholder
+                           name="workDesc"
+                           autosize
+                           type="textarea" />
                 <!-- </div> -->
                 <!-- 工作描述2 -->
                 <!-- <div class="describe_1"> -->
@@ -251,7 +218,9 @@
                     </template>
                 </van-field>-->
                 <!-- </div> -->
-                <van-button type="info" native-type="submit" class="submit">保存</van-button>
+                <van-button type="info"
+                            native-type="submit"
+                            class="submit">保存</van-button>
             </van-form>
         </div>
     </div>
@@ -273,7 +242,7 @@ export default {
         // 名片
         visitingCard,
     },
-    data() {
+    data () {
         return {
             value1: 'Patter',
             // uploader: [{ url: 'https://img.yzcdn.cn/vant/leaf.jpg' }],
@@ -322,7 +291,7 @@ export default {
         }
     },
 
-    created() {
+    created () {
         this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
         this.id = this.$route.query.id
         // console.log('this.id', this.id)
@@ -333,12 +302,12 @@ export default {
     watch: {},
     methods: {
         // 选择结束日期
-        calendarEnd() {
+        calendarEnd () {
             this.showCalendarEnd = true
             this.checked = false
         },
         // 选择结束日期至今
-        today() {
+        today () {
             console.log('至今')
             var now = new Date()
             let month = now.getMonth() + 1
@@ -350,7 +319,7 @@ export default {
             this.endDate_1 = new Date(this.endDate.replace(/\-/g, '/'))
             console.log('endDate', this.endDate)
         },
-        formatter(type, val) {
+        formatter (type, val) {
             if (type === 'year') {
                 return `${val}年`
             } else if (type === 'month') {
@@ -358,7 +327,7 @@ export default {
             }
             return val
         },
-        getPJ() {
+        getPJ () {
             let _this = this
             let url = window.location.href
             let params = {
@@ -393,7 +362,7 @@ export default {
                 })
         },
         // 上传图片
-        uploadImg() {
+        uploadImg () {
             let _this = this
             wx.chooseImage({
                 count: 1, // 默认9
@@ -418,7 +387,7 @@ export default {
         },
         // 选择日期
 
-        onConfirmEnd(picker) {
+        onConfirmEnd (picker) {
             // 结束日期
             console.log('picker', picker)
             // this.endDate = `${date.getFullYear()}-${
@@ -433,7 +402,7 @@ export default {
             console.log('endDate', this.endDate)
             this.showCalendarEnd = false
         },
-        onConfirm(picker) {
+        onConfirm (picker) {
             //开始日期
             console.log('picker', picker)
             // this.startDate = `${date.getFullYear()}-${
@@ -448,7 +417,7 @@ export default {
             this.showCalendar = false
         },
         // 保存
-        saveCard(cardInfo) {
+        saveCard (cardInfo) {
             // cardInfo.companyLogo = 'sfsdf'
             cardInfo.id = this.id
             cardInfo.cardUrl = localStorage.getItem('cardUrl')
@@ -461,16 +430,19 @@ export default {
             cardInfo.cityId = this.cityId
             cardInfo.cityName = this.cityName
             cardInfo.countyId = this.countyId
-            cardInfo.countyName = this.countyName
+            cardInfo.countyName = this.countyNamestartDate
+            cardInfo.startDate = cardInfo.startDate + '-' + '01'
+
             this.serverId
                 ? (cardInfo.companyLogo = this.serverId)
                 : (cardInfo.companyLogo = this.cardInfo.companyLogo)
-            this.checked == true ? (cardInfo.endDate = '') : cardInfo.endDate
+            this.checked == true ? (cardInfo.endDate = '') : cardInfo.endDate = cardInfo.endDate + '-' + '01'
             delete cardInfo.address
             delete cardInfo.undefined
             // cardInfo = JSON.stringify(cardInfo)
             console.log('保存名片', cardInfo)
             console.log('保存的结束时间', cardInfo.endDate)
+            console.log('保存的开始时间', cardInfo.startDate)
             Api.editCardSave(cardInfo).then((res) => {
                 console.log('保存', res)
                 if (res.code == 200) {
@@ -481,7 +453,7 @@ export default {
             })
         },
         // 获取名片信息
-        getCard() {
+        getCard () {
             let params = this.id
             console.log('cardid', this.id)
             if (this.id) {
@@ -509,7 +481,7 @@ export default {
                                 this.endDate.replace(/\-/g, '/')
                             )
                         }
-                        if(this.cardInfo.provinceName) {
+                        if (this.cardInfo.provinceName) {
                             this.address = this.cardInfo.provinceName + ' ' + this.cardInfo.cityName + ' ' + this.cardInfo.countyName
                             this.provinceCityCounty = this.cardInfo.countyId
                             this.provinceId = this.cardInfo.provinceId
@@ -531,17 +503,17 @@ export default {
             }
         },
         // 去认证
-        gotoAuthentication() {
+        gotoAuthentication () {
             this.$router.push({
                 name: 'personal_attestation',
             })
         },
         // 选择省市区点击取消按钮
-        cancelAdd() {
+        cancelAdd () {
             this.chooseAds = false
         },
         // 选择省市区点击确认按钮
-        confirmAdd(e) {
+        confirmAdd (e) {
             console.log('confirmAdd', e)
             this.address = e[0].name + ' ' + e[1].name + ' ' + e[2].name
             this.provinceId = e[0].code
@@ -553,11 +525,11 @@ export default {
             this.chooseAds = false
         },
         // 选择省市区
-        chooseAdd() {
+        chooseAdd () {
             console.log('123')
             this.chooseAds = true
         },
-        onsubmt() {
+        onsubmt () {
             Api.getHomePage(params)
                 .then((res) => {
                     let { code, msg, data, total } = res
@@ -571,7 +543,7 @@ export default {
                 })
         },
 
-        handleSetInfo(row) {
+        handleSetInfo (row) {
             this.$router.push({
                 name: 'personal_details',
                 query: {
@@ -581,7 +553,7 @@ export default {
         },
 
         // 查看详情
-        handleLook(row) {
+        handleLook (row) {
             this.$router.push({
                 name: 'personal_details',
                 query: {
@@ -595,7 +567,7 @@ export default {
 
     computed: {},
 
-    mounted() {
+    mounted () {
         this.$nextTick().then(() => {
             setTimeout(() => {
                 window.scrollTo(0, 0)
@@ -606,8 +578,8 @@ export default {
 </script>
 
     <style lang="scss" scoped>
-@import '@/assets/styles/base/calc_vm.scss';
-@import './personal.scss';
+@import "@/assets/styles/base/calc_vm.scss";
+@import "./personal.scss";
 .nullImg {
     width: 4rem;
     margin: 0.4rem 1.47rem;

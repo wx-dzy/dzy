@@ -42,8 +42,8 @@
                 <van-radio
                   :name="enterpriseIndex"
                   v-for="(item,enterpriseIndex) in checkList"
-                  :key="enterpriseIndex"
-                  @click="checkEnterprise(enterpriseIndex)"
+                  :key="item.id"
+                  @click="checkEnterprise(item.id)"
                 >
                   {{item.enterpriseName}}
                   <template #icon="props">
@@ -59,7 +59,7 @@
                 <van-radio
                   :name="identityIndex"
                   v-for="(item,identityIndex) in identityList"
-                  :key="identityIndex"
+                  :key="item.id"
                   @click="goto(identityIndex)"
                 >
                   {{item.identityName}}
@@ -86,14 +86,14 @@ export default {
       refreshing: false,
       // 选择当前企业
       checkList: [
-        { text: "好招数创（北京）科技有限公司" },
-        { text: "宝鸡有一群怀揣着梦想奇迹美好网络科技有限公司" },
-        { text: "风风火火有限公司" },
+        { id:1,text: "好招数创（北京）科技有限公司" },
+        { id:2,text: "宝鸡有一群怀揣着梦想奇迹美好网络科技有限公司" },
+        { id:3,text: "风风火火有限公司" },
       ],
       identityList: [
-        { text: "参观人员" },
-        { text: "企业管理员" },
-        { text: "办展工作人员" },
+        { id:1,text: "参观人员" },
+        { id:2,text: "企业管理员" },
+        { id:3,text: "办展工作人员" },
       ],
       enterpriseIndex: 0, // 默认选择企业名
       identityIndex: sessionStorage.getItem("identityIndex")
@@ -110,9 +110,9 @@ export default {
   },
   methods: {
     // 选择企业
-    checkEnterprise(enterpriseIndex) {
-      console.log("enterpriseIndex", enterpriseIndex);
-      this.enterpriseIndex = enterpriseIndex;
+    checkEnterprise(id) {
+      console.log("id", id);
+      this.enterpriseIndex = id;
       let enterpriseId = this.checkList[this.enterpriseIndex].enterpriseId;
 
       console.log("enterpriseId:", enterpriseId);

@@ -10,8 +10,10 @@
         line-height: 0.8rem;background: linear-gradient(270deg,rgba(248, 213, 126, 0.32) 0%,rgba(229, 204, 157, 1) 100%
         );border-radius: 0.12rem;padding-top: 0.2rem;"
       >
-        当前身份：{{identityList[identityIndex].identityName}}
+        <span v-if="this.checkList <= 0 ? true : false">当前身份：参观者</span>
+        <span v-if="this.checkList <= 0 ? false : true">当前身份：{{identityList[identityIndex].identityName}}</span>
         <van-button
+          v-if="this.checkList <= 0 ? false : true"
           round
           size="mini"
           color="#F8D57E"
@@ -41,7 +43,7 @@
               <van-radio-group v-model="enterpriseIndex">
                 <van-radio
                   :name="enterpriseIndex"
-                  v-for="(item,enterpriseIndex) in checkList"
+                  v-for="item in checkList"
                   :key="item.id"
                   @click="checkEnterprise(item.id)"
                 >

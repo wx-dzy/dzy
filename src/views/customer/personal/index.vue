@@ -438,6 +438,7 @@ export default {
               if (code == 200) {
                 util.success("取消成功");
                 this.onRefresh();
+                location.reload();
               }
             })
             .catch((err) => {

@@ -50,29 +50,35 @@
                         v-show="day.showDate">
                         <!--本月-->
                         <!-- <span v-if="day.getMonth()+ 1 != currentMonth" class="other-month">{{ day.getDate() }}</span> -->
-                        <span>
+                        <div>
                             <!-- <span v-else> -->
                             <!--今天-->
                             <!-- <span
                 v-if="day.getFullYear() == new Date().getFullYear() && day.getMonth() == new Date().getMonth() && day.getDate() == new Date().getDate()"
                 class="active"
                             >{{ day.getDate() }}</span>-->
-                            <span :class="{'active':index==current}">{{ day.name }}</span>
+                            <div :class="{'active':index==current}">
+                                <div>{{ day.name }}</div>
+                                <div class="status" style="display: inline-block;">{{day.interviewStatus === 0?' ':day.interviewStatus == 1?'开放日':day.interviewStatus == 2?'约满':''}}</div>
+                            </div>
                             <!-- <div class="status">{{day.interviewStatus == 0?'不可预约':day.interviewStatus == 1?'可预约':day.interviewStatus == 2?'约满':''}}</div> -->
-                            <div class="status">{{day.interviewStatus === 0?' ':day.interviewStatus == 1?'开放日':day.interviewStatus == 2?'约满':''}}</div>
+                            <!-- <div class="status">{{day.interviewStatus === 0?' ':day.interviewStatus == 1?'开放日':day.interviewStatus == 2?'约满':''}}</div> -->
                             <!-- <span v-else>{{ day.getDate() }}</span> -->
-                        </span>
+                        </div>
                         <!-- <p class="full" v-if="isFull">约满</p> -->
                     </li>
                 </ul>
             </div>
             <div class="date_content"
                  v-show="showDate">
-                <div :class=" [checkIndex == index?'checkActive':'item']"
-                     v-for="(item,index) in todayData"
-                     :key="index"
-                     @click="check(index)">
-                    <p class="item_top">{{item.interviewTime.substr(0,5)}}</p>
+                
+                <div :class= "{'checkActive':index2==checkIndex}"
+                      class="item"
+                     v-for="(item,index2) in todayData"
+                     :key="index2"
+                     :data-index="index2"
+                     @click.stop="check(index2)">
+                    <p class="item_top">{{item.interviewTime}}</p>
                     <p class="item_bottom">{{item.interviewStatus_1}}</p>
                 </div>
             </div>
@@ -264,16 +270,15 @@ export default {
             })
         },
         //  选择时间
-        check (index) {
-            this.checkIndex = index
-            this.status = this.todayData[index].interviewStatus
+        check (index2) {
+         
+            this.checkIndex = index2
+            this.status = this.todayData[index2].interviewStatus
             this.userPreInterviewDetailId = this.todayData[
-                index
+                index2
             ].userPreInterviewDetailId
-            console.log(
-                'userPreInterviewDetailId:',
-                this.userPreInterviewDetailId
-            )
+           
+              console.log(this.todayData)
         },
         // 获取日数据
         getDayInfo () {
@@ -644,19 +649,17 @@ export default {
     .push_box {
         transform: translateY(-0.82rem);
         .date_content {
-            // display: flex;
-            // flex-wrap: wrap;
-            // justify-content: space-around;
-            // align-items: center;
             margin: 0.44rem auto 0;
             width: 6.96rem;
-            height: 6.02rem;
+            // height: 6.02rem;
+            padding-bottom: 0.5rem;
             background: rgba(255, 255, 255, 1);
             box-shadow: 0rem 0.1rem 0.26rem 0rem rgba(223, 227, 233, 0.51);
             border-radius: 0.1rem;
             // padding: 0.34rem  0.26rem;
             .item {
-                float: left;
+                // float: left;
+                display: inline-block;
                 text-align: center;
                 // flex: 25%;
                 width: 1.48rem;

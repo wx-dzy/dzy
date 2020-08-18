@@ -2,7 +2,9 @@
 <template>
   <div class="personal footerPad" v-if="1">
     <!-- 下拉刷新 -->
-    <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+    <!-- <van-pull-refresh v-model="refreshing" @refresh="onRefresh"> -->
+    <!-- 无上拉刷新 -->
+    <van-pull-refresh v-model="refreshing">
       <van-row class="info">
         <van-col span="5">
           <van-image round width="0.96rem" height="0.96rem" :src="detail.userInfo.avatar" />
@@ -34,9 +36,10 @@
       </div>
 
       <div class="myOrder">
-        <h3 class="title">我的预约</h3>
+        <!-- <h3 class="title">我的预约</h3> -->
+        <h3 class="title">我的面谈预约</h3>
         <div class="faceTalk">
-          <div class="title">我的面谈预约</div>
+          <!-- <div class="title">我的面谈预约</div> -->
           <van-list
             v-model="loading"
             :finished="finished"
@@ -54,7 +57,7 @@
                 class="item_i"
                 v-for=" (_item, _index ) in item.interviewList"
                 :key="'_item'+_index"
-                @click.self="handleLook(_item)"
+                @click="handleLook(_item)"
               >
                 <van-col span="6">
                   <!-- <img :src="item.img" alt class="photo" /> -->
@@ -71,7 +74,7 @@
                       plain
                       :disabled="!_item.id"
                       class="pull-right"
-                      @click="handleCancel(_item)"
+                      @click.stop="handleCancel(_item)"
                     >{{ _item.id ? '取消预约' : '已取消'}}</van-button>
                   </p>
                 </van-col>
@@ -79,9 +82,10 @@
             </van-cell>
           </van-list>
         </div>
+        <h3 class="title">我的参观预约</h3>
 
         <div class="vist">
-          <div class="title">我的参观预约</div>
+          <!-- <div class="title">我的参观预约</div> -->
           <van-list
             v-model="loading"
             :finished="finished"
@@ -269,18 +273,18 @@ export default {
     },
 
     // 上拉刷新
-    onRefresh() {
-      this.finished = false;
-      this.pageNum = 1;
-      let params = {
-        pageNum: this.pageNum, // 页数
-        pageSize: this.pageSize, // 每页几条数据
-      };
-      this.onsubmt(params, 1);
-      // this.detail.userCardList = [];
-      // // // 获取详情
-      // this.handleDetail();
-    },
+    // onRefresh() {
+    //   this.finished = false;
+    //   this.pageNum = 1;
+    //   let params = {
+    //     pageNum: this.pageNum, // 页数
+    //     pageSize: this.pageSize, // 每页几条数据
+    //   };
+    //   this.onsubmt(params, 1);
+    //   // this.detail.userCardList = [];
+    //   // // // 获取详情
+    //   // this.handleDetail();
+    // },
 
     // 请求参数 params status{1:上拉刷新，2：正常请求}
     onsubmt(params, statu) {

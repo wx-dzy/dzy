@@ -59,18 +59,7 @@ export default {
 
   watch: {},
   created() {
-    let _this = this
-    window.navigator.getUserMedia(
-      { video: true, audio: true },
-      function onSuccess(stream) {
-        console.log("已点击允许,开启成功");
-        // _this.isWeiXin();
-      },
-      function onError(error) {
-        util.error("摄像机拒绝访问")
-        console.log("错误：", error);
-      }
-    );
+    this.isWeiXin();
 
     // this.$router.beforeEach((to, from, next) => {
     //   next();
@@ -81,23 +70,48 @@ export default {
     isWeiXin() {
       let ua = window.navigator.userAgent.toLowerCase();
       if (ua.match(/MicroMessenger/i) == "micromessenger") {
-        // console.log(11);
+        console.log(11);
         this.isWx = true;
         // return true;
       } else {
+        console.log(222);
+
         this.isWx = false;
         this.init();
         // return false;
       }
     },
     init() {
-      this.roomName = this.$route.query.roomName;
-      this.roomToken = this.$route.query.roomToken;
-      this.roomUserId = this.$route.query.roomUserId;
-      // 调用临时 生成访客地址
-      this.fff();
-      // 进入房间
-      this.handleGoVideo();
+      let _this = this;
+      // navigator.getUserMedia =
+      //   navigator.getUserMedia ||
+      //   navigator.webkitGetUserMedia ||
+      //   navigator.mozGetUserMedia ||
+      //   navigator.msGetUserMedia;
+
+      // if (navigator.getUserMedia) {
+      //   // 支持
+      // } else {
+      //   // 不支持
+      // }
+
+      window.navigator.getUserMedia(
+        { video: true, audio: true },
+        function onSuccess(stream) {
+          console.log("已点击允许,开启成功");
+          _this.roomName = _this.$route.query.roomName;
+          _this.roomToken = _this.$route.query.roomToken;
+          _this.roomUserId = _this.$route.query.roomUserId;
+          // 调用临时 生成访客地址
+          _this.fff();
+          // 进入房间
+          _this.handleGoVideo();
+        },
+        function onError(error) {
+          util.error("摄像机拒绝访问");
+          console.log("错误：", error);
+        }
+      );
     },
 
     // 进入房间

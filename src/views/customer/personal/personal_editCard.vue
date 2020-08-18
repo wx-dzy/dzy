@@ -110,7 +110,7 @@
                         v-model="startDate_1"
                     />
                 </van-popup>
-
+  
                 <van-field
                     required
                     readonly
@@ -135,7 +135,7 @@
                     :min-date="minDate"
                     :max-date="maxDate"
                 />-->
-
+  
                 <van-popup v-model="showCalendarEnd" position="bottom" :style="{ height: '35%' }">
                     <van-datetime-picker
                         type="year-month"
@@ -255,19 +255,19 @@
             </van-form>
         </div>
     </div>
-</template>
-</script>
+  </template>
+  </script>
     <script>
-import { util } from '@/utils'
-import { mapGetters } from 'vuex'
-import * as Api from '@/api/customer/personal'
-import visitingCard from '@/components/customer/visitingCard.vue'
-import AddressList from '@/assets/js/area'
-import wx from 'weixin-js-sdk'
-// import { log } from 'pili-rtc-web'
-// import { log } from 'pili-rtc-web'
-
-export default {
+  import { util } from '@/utils'
+  import { mapGetters } from 'vuex'
+  import * as Api from '@/api/customer/personal'
+  import visitingCard from '@/components/customer/visitingCard.vue'
+  import AddressList from '@/assets/js/area'
+  import wx from 'weixin-js-sdk'
+  // import { log } from 'pili-rtc-web'
+  // import { log } from 'pili-rtc-web'
+  
+  export default {
     name: 'personal_editCard',
     components: {
         // 名片
@@ -321,7 +321,7 @@ export default {
             provinceCityCounty: ''
         }
     },
-
+  
     created() {
         this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
         this.id = this.$route.query.id
@@ -374,7 +374,7 @@ export default {
                             timestamp: data.timestamp, // 必填，生成签名的时间戳
                             nonceStr: data.nonceStr, // 必填，生成签名的随机串
                             signature: data.signature, // 必填，签名
-                            jsApiList: ['chooseImage', 'uploadImage'], // 必填，需要使用的JS接口列表
+                            jsApiList: ['chooseImage', 'uploadImage', 'previewImage'], // 必填，需要使用的JS接口列表
                         })
                         wx.ready(function () {
                             console.log('config成功') // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中
@@ -402,6 +402,7 @@ export default {
                     console.log('选择图片', res)
                     var localIds = res.localIds[0] // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
                     _this.companyLogo = localIds
+                    _this.cardInfo.companyLogo = localIds
                     console.log('companyLogo', _this.companyLogo)
                     wx.uploadImage({
                         localId: localIds, // 需要上传的图片的本地ID，由chooseImage接口获得
@@ -416,7 +417,7 @@ export default {
             })
         },
         // 选择日期
-
+  
         onConfirmEnd(picker) {
             // 结束日期
             console.log('picker', picker)
@@ -451,7 +452,7 @@ export default {
             cardInfo.cardUrl = localStorage.getItem('cardUrl')
                 ? localStorage.getItem('cardUrl')
                 : ''
-
+  
             // cardInfo.cardUrl = '222222'
             cardInfo.provinceId = this.provinceId
             cardInfo.provinceName = this.provinceName
@@ -567,7 +568,7 @@ export default {
                     console.log(err, 'err')
                 })
         },
-
+  
         handleSetInfo(row) {
             this.$router.push({
                 name: 'personal_details',
@@ -576,7 +577,7 @@ export default {
                 },
             })
         },
-
+  
         // 查看详情
         handleLook(row) {
             this.$router.push({
@@ -589,9 +590,9 @@ export default {
             })
         },
     },
-
+  
     computed: {},
-
+  
     mounted() {
         this.$nextTick().then(() => {
             setTimeout(() => {
@@ -599,17 +600,17 @@ export default {
             }, 0)
         })
     },
-}
-</script>
-
+  }
+  </script>
+  
     <style lang="scss" scoped>
-@import '@/assets/styles/base/calc_vm.scss';
-@import './personal.scss';
-.nullImg {
+  @import '@/assets/styles/base/calc_vm.scss';
+  @import './personal.scss';
+  .nullImg {
     width: 4rem;
     margin: 0.4rem 1.47rem;
-}
-.personal_editCard {
+  }
+  .personal_editCard {
     background: #f7f8faff;
     .box {
         .van-field {
@@ -656,24 +657,25 @@ export default {
             border-radius: 0.08rem;
         }
     }
-}
-/deep/ .van-cell {
+  }
+  /deep/ .van-cell {
     height: 1.12rem;
     line-height: 1.12rem;
     padding: 0px 0.34rem;
-}
-// 必选项位置
-// /deep/ .van-cell--required::before {
-
-// }
-/deep/ .van-button--round {
+  }
+  // 必选项位置
+  // /deep/ .van-cell--required::before {
+  
+  // }
+  /deep/ .van-button--round {
     width: 6.84rem;
     margin: 0.8rem 0;
-}
-/deep/ .van-button--info {
+  }
+  /deep/ .van-button--info {
     color: #313437;
     background-color: #f8d57e;
     border: 1px solid #f8d57e;
-}
-</style>
-
+  }
+  </style>
+  
+  

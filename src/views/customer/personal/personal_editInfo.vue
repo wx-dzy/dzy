@@ -5,7 +5,7 @@
         <div class="fromList">
             <van-form @submit="saveInfo">
                 <div class="top">
-                    <van-field name="avatar" label="头像" @click="getPJ">
+                    <van-field name="avatar" label="头像" @click="chooseImg">
                         <template #input>
                             <img :src="avatar" />
                             <!-- <img :src="userInfo.avatar" /> -->
@@ -186,11 +186,13 @@ export default {
             maxDate: new Date(), // 可选择的最大日期
             pattern: /^1[3456789]\d{9}$/, // 正则校验手机号
             currentDate: new Date(),
+            localIds: ''
         }
     },
     created() {
         this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
         this.getInfo()
+        this.getWxJsConfig()
     },
     watch: {},
     methods: {
@@ -217,17 +219,14 @@ export default {
             console.log('userInfo.birthday', this.userInfo.birthday)
             this.showCalendar = false
         },
-        getPJ() {
+        getWxJsConfig() {
             let _this = this
             let params = {
                 url: window.location.href,
             }
-            console.log('params', params)
             Api.getAppId(params)
                 .then((res) => {
-                    console.log('获取appid', res)
                     const { code, data, msg, total } = res
-                    console.log('appid', data.appId)
                     if (code == 200) {
                         wx.config({
                             debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -235,11 +234,10 @@ export default {
                             timestamp: data.timestamp, // 必填，生成签名的时间戳
                             nonceStr: data.nonceStr, // 必填，生成签名的随机串
                             signature: data.signature, // 必填，签名
-                            jsApiList: ['chooseImage', 'uploadImage'], // 必填，需要使用的JS接口列表
+                            jsApiList: ['chooseImage', 'uploadImage', 'previewImage'], // 必填，需要使用的JS接口列表
                         })
                         wx.ready(function () {
                             console.log('config成功') // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中
-                            _this.uploadImg()
                         })
                         wx.error(function (res) {
                             console.log('config失败', res) // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名
@@ -253,45 +251,48 @@ export default {
                 })
         },
         // 上传头像
-        uploadImg() {
-            console.log('11111')
+        chooseImg() {
             let _this = this
             wx.chooseImage({
                 count: 1, // 默认9
                 sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
                 sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
                 success: function (res) {
-                    // console.log('选择图片', res)
-                    var localIds = res.localIds[0] // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-                    _this.avatar = localIds
-                    wx.uploadImage({
-                        localId: localIds, // 需要上传的图片的本地ID，由chooseImage接口获得
-                        isShowProgressTips: 1, // 默认为1，显示进度提示
+                    _this.localIds = res.localIds[0] // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                    _this.avatar = _this.localIds
+                    if(!(_this.localIds.startsWith('weixin'))) {
+                        wx.getLocalImgData({
+                        localId: _this.localIds, // 图片的localID
                         success: function (res) {
-                            // console.log('上传图片', res)
-                            // var serverId = res.serverId 返回图片的服务器端ID
-                            _this.serverId = res.serverId
+                            if(res && res.localData) {
+                                _this.avatar = res.localData // localData是图片的base64数据，可以用img标签显示
+                            }
                         },
                     })
-                    // wx.getLocalImgData({
-                    //     localId: localIds, // 图片的localID
-                    //     success: function (res) {
-                    //         console.log('getLocalImgData', res)
-                    //         var localData = res.localData // localData是图片的base64数据，可以用img标签显示
-                    //         _this.avatar = localData
-                    //     },
-                    // })
+                    }
                 },
             })
         },
         // 保存
         saveInfo(info) {
-            // info.sex == 1 ? (info.sex = '男') : (info.sex = '女')
+            let _this = this;
+            // 判断是否需要上传图片
+            if(_this.localIds) {
+                wx.uploadImage({
+                    localId: _this.localIds, // 需要上传的图片的本地ID，由chooseImage接口获得
+                    isShowProgressTips: 1, // 默认为1，显示进度提示
+                    success: function (res) {
+                        info.avatar = res.serverId
+                        _this.doSaveInfo(info);
+                    },
+                })
+            } else {
+                _this.doSaveInfo(info)
+            }
+        },
+        doSaveInfo (info) {
             info.id = this.userInfo.id
-            this.serverId ? (info.avatar = this.serverId) : this.avatar
-            console.log('保存个人信息', info)
             Api.saveUserInfo(info).then((res) => {
-                console.log('保存成功', res)
                 if (res.code == 200) {
                     this.$router.push({
                         name: 'personal',

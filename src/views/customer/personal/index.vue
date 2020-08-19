@@ -123,7 +123,7 @@
                       :disabled="!item.id"
                       class="pull-right"
                       @click="cancelVisit(item)"
-                    >{{ item.id ? '取消预约' : '已取消'}}</van-button>
+                    >{{ item.status == 1? '已申请':item.status == 2? '已通过' :item.status == 3? '已拒绝' :item.status == 4? '已取消' :item.status == 5? '已结束':''}}</van-button>
                   </p>
                 </van-col>
               </van-row>
@@ -132,19 +132,18 @@
         </div>
       </div>
       <!-- <footer-nav :active="active" /> -->
-          <ul class="btnWrap clearfix">
-      <div class="title">我的资料中心</div>
-      <li class="item pull-left" @click="hanleLook(1)">
-        <p class="text pad30">企业资料</p>
-        <img src="@/assets/images/myOrderBg1.png" alt />
-      </li>
-      <li class="item pull-right" @click="hanleLook(2)">
-        <p class="text pad48">询价单</p>
-        <img src="@/assets/images/myOrderBg2.png" alt />
-      </li>
-    </ul>
+      <ul class="btnWrap clearfix">
+        <div class="title">我的资料中心</div>
+        <li class="item pull-left" @click="hanleLook(1)">
+          <p class="text pad30">企业资料</p>
+          <img src="@/assets/images/myOrderBg1.png" alt />
+        </li>
+        <li class="item pull-right" @click="hanleLook(2)">
+          <p class="text pad48">询价单</p>
+          <img src="@/assets/images/myOrderBg2.png" alt />
+        </li>
+      </ul>
     </van-pull-refresh>
-
 
     <footer-nav :active="active" />
   </div>
@@ -323,7 +322,7 @@ export default {
         });
       Api.getMyVistList(params)
         .then((res) => {
-          console.log("我的愉悦列表", res);
+          console.log("我的参观预约列表", res);
           let { code, msg, data, total } = res;
           // 加载状态结束
           this.loading = false;
@@ -429,26 +428,28 @@ export default {
 
     // 取消参展预约
     cancelVisit(item) {
-      Dialog.confirm({
-        title: "确认操作",
-        message: "确认取消预约?",
-      })
-        .then(() => {
-          let param = item.id;
-          Api.setCancelVist(param)
-            .then((res) => {
-              let { code, msg, data, total } = res;
-              if (code == 200) {
-                util.success("取消成功");
-                this.onRefresh();
-                location.reload();
-              }
-            })
-            .catch((err) => {
-              this.detail = {};
-            });
+      console.log("item:", item);
+      if (item.status == 1 || item.status == 2) {
+        Dialog.confirm({
+          title: "确认操作",
+          message: "确认取消预约?",
         })
-        .catch(() => {});
+          .then(() => {
+            let param = item.id;
+            Api.setCancelVist(param)
+              .then((res) => {
+                let { code, msg, data, total } = res;
+                if (code == 200) {
+                  util.success("取消成功");
+                  this.onRefresh();
+                }
+              })
+              .catch((err) => {
+                this.detail = {};
+              });
+          })
+          .catch(() => {});
+      }
     },
 
     // 判断日期是否为今天

@@ -17,7 +17,7 @@
                             </van-col>
                             <!-- 中文 -->
                             <van-col span="18" v-if="isShow">
-                                <h2 class="name">{{ item.userRealName}}</h2>
+                                <h2 class="name">{{ item.userRealName}}<span style="margin-left:0.1rem;">{{item.postName}}</span></h2>
                                 <p class="company">{{ item.enterpriseName }}</p>
 
                                 <p v-show="item.phone" class="tel pad30">
@@ -35,16 +35,28 @@
                             </van-col>
                             <!-- 英文 -->
                             <van-col span="18" v-else>
-                                <h2 class="name">{{ item.userRealNameEn}}</h2>
+                                <h2 class="name">{{ item.userRealNameEn}}<span style="margin-left:0.1rem;">{{item.postNameEn}}</span></h2>
                                 <p class="company">{{ item.enterpriseNameEn }}</p>
 
-                                <p v-show="item.phoneEn" class="tel pad30">
+                                <!-- <p v-show="item.phoneEn" class="tel pad30">
                                     <i class="icon iconfont yz-dianhua"></i>
                                     {{ item.phoneEn }}
                                 </p>
                                 <p v-show="item.emailEn" class="mail pad30">
                                     <i class="icon iconfont yz-youjian"></i>
                                     {{ item.emailEn }}
+                                </p>
+                                <p v-show="item.companyAddressEn" class="address pad30">
+                                    <i class="icon iconfont yz-dizhi"></i>
+                                    {{ item.companyAddressEn }}
+                                </p> -->
+                                <p v-show="item.phone" class="tel pad30">
+                                    <i class="icon iconfont yz-dianhua"></i>
+                                    {{ item.phone }}
+                                </p>
+                                <p v-show="item.email" class="mail pad30">
+                                    <i class="icon iconfont yz-youjian"></i>
+                                    {{ item.email }}
                                 </p>
                                 <p v-show="item.companyAddressEn" class="address pad30">
                                     <i class="icon iconfont yz-dizhi"></i>

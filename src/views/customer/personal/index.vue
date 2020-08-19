@@ -132,9 +132,7 @@
         </div>
       </div>
       <!-- <footer-nav :active="active" /> -->
-    </van-pull-refresh>
-
-    <ul class="btnWrap clearfix">
+          <ul class="btnWrap clearfix">
       <div class="title">我的资料中心</div>
       <li class="item pull-left" @click="hanleLook(1)">
         <p class="text pad30">企业资料</p>
@@ -145,6 +143,9 @@
         <img src="@/assets/images/myOrderBg2.png" alt />
       </li>
     </ul>
+    </van-pull-refresh>
+
+
     <footer-nav :active="active" />
   </div>
   <!-- 占位图 -->
@@ -216,6 +217,8 @@ export default {
           let { code, msg, data, total } = res;
           if (code == 200) {
             this.detail = data;
+            console.log("详情");
+            console.log(this.detail);
           } else if (code == 401) {
             this.$router.push({
               path: "/",

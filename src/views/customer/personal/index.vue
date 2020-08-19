@@ -229,26 +229,6 @@ export default {
         });
     },
 
-    // 切换身份 satus=1 '参展方'   satus=2 '参观方'
-    // handleChangeIdentity(satus) {
-    //   // console.log(satus, "-- 1参展方,2参观方");
-    //   let params = {};
-    //   // return alert(satus + "暂无接口-- 1参展方,2参观方");
-    //   return alert(satus + "暂无接口-- 1参招方,2参观方");
-    //   Api.setChangeIdentity(params)
-    //     .then((res) => {
-    //       this.changeIdentity = false;
-    //       let { code, msg, data, total } = res;
-    //       if (code == 200) {
-    //         util.success(msg);
-    //         this.handleDetail();
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       this.changeIdentity = false;
-    //     });
-    // },
-
     // 搜索
     onSearch() {
       this.pageNum = 1;
@@ -333,7 +313,7 @@ export default {
               // data[0].interviewList.push(data[0].interviewList[0]);
               // data[0].interviewList.push(data[0].interviewList[0]);
               this.listData2 = data;
-              this.$toast("刷新成功");
+              // this.$toast("刷新成功");
             } else {
               data.forEach((element) => {
                 this.listData2.push(element);
@@ -347,7 +327,7 @@ export default {
         })
         .catch((err) => {
           // 上拉刷新
-          this.refreshing = false;
+          // this.refreshing = false;
         });
     },
 

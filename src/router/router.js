@@ -181,7 +181,7 @@ export default [
         path: '/juridical_person',
         meta: {
             requiresAuth: false,
-            title: '法人详情',
+            title: '企业人物',
         },
         name: 'juridical_person',
         component: () => import('@/views/customer/exhibitor/juridical_person')

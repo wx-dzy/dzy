@@ -97,8 +97,9 @@
                                 </div>
                                 <div class="companyName">{{item.enterpriseName}}</div>
                                 <div class="date">
-                                    <span class="begin">{{item.startDate}}</span>-
-                                    <span class="over">{{item.endDate}}</span>
+                                    <span class="begin">{{item.startDate.substring(0, 7)}}</span>
+                                    -
+                                    <span class="over">{{item.endDate ? item.endDate.substring(0, 7) : '至今'}}</span>
                                 </div>
                                 <div class="working">{{item.workDesc}}</div>
                             </div>

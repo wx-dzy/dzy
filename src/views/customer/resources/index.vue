@@ -35,21 +35,38 @@ export default {
     // 企业
     enterpriseList,
     // 人物
-    personList
+    personList,
     // footerNav
   },
   data() {
     return {
-      activeName: "enterprise_list"
+      activeName: "enterprise_list",
     };
   },
 
-  created() {},
+  beforeRouteLeave(to, from, next) {
+    if (
+      to.name == "resources_enterpriseDetail" ||
+      to.name == "resources_personDetail"
+    ) {
+      sessionStorage.setItem("dzy_resourcesActive", this.activeName);
+    } else {
+      sessionStorage.removeItem("dzy_resourcesActive");
+    }
+    next();
+  },
+
+  created() {
+    let str = sessionStorage.getItem("dzy_resourcesActive");
+    sessionStorage.removeItem("dzy_resourcesActive");
+    // console.log(str, "str");
+    this.activeName = this.$route.query.activeName = str || "enterprise_list";
+  },
   watch: {},
   methods: {
     onClick(name, title) {
       // console.log(name, title);
-    }
+    },
   },
 
   computed: {},
@@ -60,7 +77,7 @@ export default {
         window.scrollTo(0, 0);
       }, 0);
     });
-  }
+  },
 };
 </script>
 

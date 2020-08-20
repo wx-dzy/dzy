@@ -484,21 +484,18 @@ export default {
     // 获取名片信息
     getCard() {
       let params = this.id;
-      console.log("cardid", this.id);
       if (this.id) {
         Api.editCardGetEdit(params).then((res) => {
           console.log("获取名片信息-编辑", res);
           if (res.code == 200) {
             this.cardInfo = res.data;
-            this.startDate = this.cardInfo.startDate;
-            this.endDate = this.cardInfo.endDate;
+            this.startDate = this.cardInfo.startDate.substring(0, 7)
+            this.endDate = this.cardInfo.endDate ? this.cardInfo.endDate.substring(0, 7) : ''
             if (this.startDate) {
               this.startDate_1 = new Date(this.startDate.replace(/\-/g, "/"));
-              console.log("startDate_1", this.startDate.replace(/\-/g, "/"));
             }
             if (this.endDate) {
               this.endDate_1 = new Date(this.endDate.replace(/\-/g, "/"));
-              console.log("this.endDate_1", this.endDate.replace(/\-/g, "/"));
             }
             if (this.cardInfo.provinceName) {
               this.address =

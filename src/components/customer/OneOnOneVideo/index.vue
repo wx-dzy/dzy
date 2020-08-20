@@ -83,18 +83,22 @@ export default {
     },
     init() {
       let _this = this;
-      // navigator.getUserMedia =
-      //   navigator.getUserMedia ||
-      //   navigator.webkitGetUserMedia ||
-      //   navigator.mozGetUserMedia ||
-      //   navigator.msGetUserMedia;
+      window.navigator.getUserMedia =
+        window.navigator.getUserMedia ||
+        window.navigator.webkitGetUserMedia ||
+        window.navigator.mozGetUserMedia ||
+        window.navigator.msGetUserMedia;
 
-      // if (navigator.getUserMedia) {
-      //   // 支持
-      // } else {
-      //   // 不支持
-      // }
+      if (window.navigator.getUserMedia) {
+          util.error("22222摄像机拒绝访问");
 
+        // 支持
+      } else {
+          util.error("11111摄像机拒绝访问");
+
+        // 不支持
+      }
+return
       window.navigator.getUserMedia(
         { video: true, audio: true },
         function onSuccess(stream) {

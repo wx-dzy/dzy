@@ -45,12 +45,6 @@
               <!--本月-->
               <!-- <span v-if="day.getMonth()+ 1 != currentMonth" class="other-month">{{ day.getDate() }}</span> -->
               <div class="checkDays">
-                <!-- <span v-else> -->
-                <!--今天-->
-                <!-- <span
-                v-if="day.getFullYear() == new Date().getFullYear() && day.getMonth() == new Date().getMonth() && day.getDate() == new Date().getDate()"
-                class="active"
-                >{{ day.getDate() }}</span>-->
                 <div :class="{'active':index==current}">
                   <div class="dayTime">{{ day.name }}</div>
                   <div
@@ -58,24 +52,29 @@
                     style="display: inline-block;"
                   >{{day.interviewStatus === 0?' ':day.interviewStatus == 1?'开放日':day.interviewStatus == 2?'约满':''}}</div>
                 </div>
-                <!-- <div class="status">{{day.interviewStatus == 0?'不可预约':day.interviewStatus == 1?'可预约':day.interviewStatus == 2?'约满':''}}</div> -->
-                <!-- <div class="status">{{day.interviewStatus === 0?' ':day.interviewStatus == 1?'开放日':day.interviewStatus == 2?'约满':''}}</div> -->
-                <!-- <span v-else>{{ day.getDate() }}</span> -->
               </div>
-              <!-- <p class="full" v-if="isFull">约满</p> -->
             </li>
           </ul>
         </ul>
       </div>
       <div class="date_content" v-show="showDate">
+        <!-- :class="{active:index == num}" -->
         <div
-          :class="{'checkActive':index2==checkIndex}"
+          :class="{checkActive:index2 == num}"
           class="item"
           v-for="(item,index2) in todayData"
           :key="index2"
           :data-index="index2"
           @click.stop="check(index2)"
         >
+          <!-- <div
+          :class="{'checkActive':index2==checkIndex}"
+          class="item"
+          v-for="(item,index2) in todayData"
+          :key="index2"
+          :data-index="index2"
+          @click.stop="check(index2)"
+          >-->
           <p class="item_top">{{item.interviewTime}}</p>
           <p class="item_bottom">{{item.interviewStatus_1}}</p>
         </div>
@@ -107,6 +106,7 @@ export default {
   components: {},
   data() {
     return {
+        num: 0,
       current: 0, // 选中的日期下标
       weekList: [
         { text: "日", value: 7 },
@@ -265,7 +265,8 @@ export default {
     },
     //  选择时间
     check(index2) {
-      this.checkIndex = index2;
+      this.num = index2;  
+    //   this.checkIndex = index2;
       this.status = this.todayData[index2].interviewStatus;
       this.userPreInterviewDetailId = this.todayData[
         index2
@@ -507,9 +508,9 @@ export default {
           var dateindex = canBooking.map(Number).findIndex((val, index) => {
             return val == date;
           });
-        //   console.log("---------------------------");
-        //   console.log(canBooking);
-        //   console.log("---------------------------");
+          //   console.log("---------------------------");
+          //   console.log(canBooking);
+          //   console.log("---------------------------");
           this.userPreInterviewId = this.weekData[dateindex].userPreInterviewId;
           this.getDayInfo();
           this.showDate = true;
@@ -671,7 +672,6 @@ export default {
         }
       }
       .checkActive {
-        float: left;
         text-align: center;
         // flex: 25%;
         width: 1.48rem;

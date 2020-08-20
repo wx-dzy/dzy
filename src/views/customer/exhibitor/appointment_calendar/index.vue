@@ -250,6 +250,9 @@ export default {
                 // console.log('预约', res)
                 if ((res.code = 200)) {
                     util.success("取消预约成功");
+                    this.weekData = {}
+                    this.todayData = {}
+                    this.status = ''
                     this.getUserInfo();
                 }
             });
@@ -265,7 +268,11 @@ export default {
             Api.interview(this.userPreInterviewDetailId, type).then((res) => {
                 // console.log('预约', res)
                 if (res.code == 200) {
-                    this.getUserInfo();
+                    this.todayData = {}
+                    this.weekData = {}
+                    this.getWeekInfo();
+                    this.status = this.todayData[this.num].interviewStatus;
+
                     this.$toast("预约成功");
                 }
             });
@@ -288,8 +295,8 @@ export default {
                     this.todayData = res.data;
                     // console.log('todayData', this.todayData)
                     this.userPreInterviewDetailId = this.todayData[0].userPreInterviewDetailId;
-
-                    // console.log('获取日数据', this.todayData)
+                    this.status = this.todayData[0].interviewStatus
+                    console.log('获取日数据', this.todayData)
                     for (var i = 0; i < this.todayData.length; i++) {
                         if (this.todayData[i].interviewStatus == 0) {
                             this.todayData[i].interviewStatus_1 = "不可预约";

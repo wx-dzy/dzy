@@ -11,10 +11,10 @@
       <!-- :disabled="item.enterpriseShowCalendarList.length ? false : true" -->
       <van-tab v-for="(item,index) in details" :key="index">
         <template #title>
-          <span
+          <!-- <span
             v-if="item.enterpriseShowCalendarList && item.enterpriseShowCalendarList.length"
             class="sta"
-          >有招</span>
+          >有招</span> -->
           <!-- >有展</span> -->
           {{ item.monthDesc }}
         </template>

@@ -90,32 +90,30 @@ export default {
         window.navigator.msGetUserMedia;
 
       if (window.navigator.getUserMedia) {
-          util.error("22222摄像机拒绝访问");
-
+        util.success("支持");
+        window.navigator.getUserMedia(
+          { video: true, audio: true },
+          function onSuccess(stream) {
+            console.log("已点击允许,开启成功");
+            _this.roomName = _this.$route.query.roomName;
+            _this.roomToken = _this.$route.query.roomToken;
+            _this.roomUserId = _this.$route.query.roomUserId;
+            // 调用临时 生成访客地址
+            _this.fff();
+            // 进入房间
+            _this.handleGoVideo();
+          },
+          function onError(error) {
+            util.error("摄像机拒绝访问");
+            console.log("错误：", error);
+          }
+        );
         // 支持
       } else {
-          util.error("11111摄像机拒绝访问");
+        util.error("不支持");
 
         // 不支持
       }
-return
-      window.navigator.getUserMedia(
-        { video: true, audio: true },
-        function onSuccess(stream) {
-          console.log("已点击允许,开启成功");
-          _this.roomName = _this.$route.query.roomName;
-          _this.roomToken = _this.$route.query.roomToken;
-          _this.roomUserId = _this.$route.query.roomUserId;
-          // 调用临时 生成访客地址
-          _this.fff();
-          // 进入房间
-          _this.handleGoVideo();
-        },
-        function onError(error) {
-          util.error("摄像机拒绝访问");
-          console.log("错误：", error);
-        }
-      );
     },
 
     // 进入房间

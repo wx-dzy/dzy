@@ -246,20 +246,20 @@ export default {
         },
         // 取消预约
         cancleOrder () {
+            console.log('userPreInterviewDetailId:', this.userPreInterviewDetailId);
             Api.interview(this.userPreInterviewDetailId, 0).then((res) => {
                 // console.log('预约', res)
                 if ((res.code = 200)) {
                     util.success("取消预约成功");
-                    this.weekData = {}
                     this.todayData = {}
-                    this.status = ''
-                    this.getUserInfo();
+                    this.getDayInfo();
                 }
             });
         },
         //
         // 预约
         toOrder () {
+            console.log('userPreInterviewDetailId:', this.userPreInterviewDetailId);
             let params = {
                 userPreInterviewDetailId: this.userPreInterviewDetailId,
                 type: 1,
@@ -283,19 +283,19 @@ export default {
             //   this.checkIndex = index2;
             this.status = this.todayData[index2].interviewStatus;
             this.userPreInterviewDetailId = this.todayData[
-                index2
+                this.num
             ].userPreInterviewDetailId;
 
-            console.log(this.todayData);
         },
         // 获取日数据
         getDayInfo () {
+            this.todayData = {}
             Api.getTodayData(this.userPreInterviewId).then((res) => {
                 if (res.code == 200 && res.data != "") {
                     this.todayData = res.data;
                     // console.log('todayData', this.todayData)
                     this.userPreInterviewDetailId = this.todayData[0].userPreInterviewDetailId;
-                    this.status = this.todayData[0].interviewStatus
+                    this.status == '' ? this.status = this.todayData[0].interviewStatus : this.status = this.status
                     console.log('获取日数据', this.todayData)
                     for (var i = 0; i < this.todayData.length; i++) {
                         if (this.todayData[i].interviewStatus == 0) {
@@ -313,6 +313,7 @@ export default {
         },
         // 获取周数据
         getWeekInfo () {
+            this.weekData = {}
             // console.log('enterpriseShowPeopleId', this.enterpriseShowPeopleId)
 
             // var date = new Date()

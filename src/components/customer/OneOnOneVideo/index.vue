@@ -90,7 +90,8 @@ export default {
         window.navigator.msGetUserMedia;
 
       if (window.navigator.getUserMedia) {
-        util.success("支持");
+        // util.success("支持");
+        // http://www.voidcn.com/article/p-clazbexv-bwr.html
         window.navigator.getUserMedia(
           { video: true, audio: true },
           function onSuccess(stream) {

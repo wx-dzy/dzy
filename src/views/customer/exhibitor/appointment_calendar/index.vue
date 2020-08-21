@@ -299,9 +299,9 @@ export default {
             } else if (this.todayData[i].interviewStatus == 1) {
               this.todayData[i].interviewStatus_1 = "可预约";
             } else if (this.todayData[i].interviewStatus == 2) {
-              this.todayData[i].interviewStatus_1 = "已预约";
+              this.todayData[i].interviewStatus_1 = "已被约";
             } else if (this.todayData[i].interviewStatus == 3) {
-              this.todayData[i].interviewStatus_1 = "预约其他";
+              this.todayData[i].interviewStatus_1 = "已约其他";
             }
           }
         }

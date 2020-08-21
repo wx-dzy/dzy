@@ -45,7 +45,7 @@
               <!--本月-->
               <!-- <span v-if="day.getMonth()+ 1 != currentMonth" class="other-month">{{ day.getDate() }}</span> -->
               <div class="checkDays">
-                <div :class="{'active':index==current}">
+                <div :class="{active:index==current}">
                   <div class="dayTime">{{ day.name }}</div>
                   <div
                     class="status"
@@ -83,8 +83,10 @@
         <van-icon name="replay" class="replay_icon" />下拉刷新
       </p>
     </van-pull-refresh>
-    <van-button class="bottom_button" v-show="status == 1" @click="toOrder">预 约</van-button>
-    <van-button class="bottom_button" v-show="status == 2" @click="cancleOrder">取 消 预 约</van-button>
+    <div v-show="showDate">
+      <van-button class="bottom_button" v-show="status == 1" @click="toOrder">预 约</van-button>
+      <van-button class="bottom_button" v-show="status == 2" @click="cancleOrder">取 消 预 约</van-button>
+    </div>
     <i v-if="status == 0"></i>
     <van-popup v-model="showPicker" position="bottom">
       <van-picker
@@ -106,7 +108,7 @@ export default {
   components: {},
   data() {
     return {
-        num: 0,
+      num: 0,
       current: 0, // 选中的日期下标
       weekList: [
         { text: "日", value: 7 },
@@ -239,17 +241,20 @@ export default {
     },
     // 取消预约
     cancleOrder() {
+      console.log("userPreInterviewDetailId:", this.userPreInterviewDetailId);
       Api.interview(this.userPreInterviewDetailId, 0).then((res) => {
         // console.log('预约', res)
         if ((res.code = 200)) {
           util.success("取消预约成功");
-          this.getUserInfo();
+          this.todayData = {};
+          this.getDayInfo();
         }
       });
     },
     //
     // 预约
     toOrder() {
+      console.log("userPreInterviewDetailId:", this.userPreInterviewDetailId);
       let params = {
         userPreInterviewDetailId: this.userPreInterviewDetailId,
         type: 1,
@@ -258,40 +263,45 @@ export default {
       Api.interview(this.userPreInterviewDetailId, type).then((res) => {
         // console.log('预约', res)
         if (res.code == 200) {
-          this.getUserInfo();
+          this.todayData = {};
+          this.weekData = {};
+          this.getWeekInfo();
+          this.status = this.todayData[this.num].interviewStatus;
+
           this.$toast("预约成功");
         }
       });
     },
     //  选择时间
     check(index2) {
-      this.num = index2;  
-    //   this.checkIndex = index2;
+      this.num = index2;
+      //   this.checkIndex = index2;
       this.status = this.todayData[index2].interviewStatus;
       this.userPreInterviewDetailId = this.todayData[
-        index2
+        this.num
       ].userPreInterviewDetailId;
-
-      console.log(this.todayData);
     },
     // 获取日数据
     getDayInfo() {
+      this.todayData = {};
       Api.getTodayData(this.userPreInterviewId).then((res) => {
         if (res.code == 200 && res.data != "") {
           this.todayData = res.data;
           // console.log('todayData', this.todayData)
           this.userPreInterviewDetailId = this.todayData[0].userPreInterviewDetailId;
-
-          // console.log('获取日数据', this.todayData)
+          this.status == ""
+            ? (this.status = this.todayData[0].interviewStatus)
+            : (this.status = this.status);
+          console.log("获取日数据", this.todayData);
           for (var i = 0; i < this.todayData.length; i++) {
             if (this.todayData[i].interviewStatus == 0) {
               this.todayData[i].interviewStatus_1 = "不可预约";
             } else if (this.todayData[i].interviewStatus == 1) {
               this.todayData[i].interviewStatus_1 = "可预约";
             } else if (this.todayData[i].interviewStatus == 2) {
-              this.todayData[i].interviewStatus_1 = "已预约";
+              this.todayData[i].interviewStatus_1 = "已被约";
             } else if (this.todayData[i].interviewStatus == 3) {
-              this.todayData[i].interviewStatus_1 = "预约其他";
+              this.todayData[i].interviewStatus_1 = "已约其他";
             }
           }
         }
@@ -299,6 +309,7 @@ export default {
     },
     // 获取周数据
     getWeekInfo() {
+      this.weekData = {};
       // console.log('enterpriseShowPeopleId', this.enterpriseShowPeopleId)
 
       // var date = new Date()
@@ -414,7 +425,7 @@ export default {
       if (m < 10) m = `0${m}`;
       let d = day;
       if (d < 10) d = `0${d}`;
-      return `${y}-${m}-${d}`;
+      return `${y}/${m}/${d}`;
     },
     // 初始化
     initData(cur) {
@@ -461,10 +472,12 @@ export default {
       const d = this.days[6]; // 如果当期日期是7号或者小于7号
       d.setDate(d.getDate() + 7);
       this.initData(d);
+      this.getWeekInfo();
     },
 
     // 上一個月  传入当前年份和月份
     pickPre(year, month) {
+      this.pick();
       const d = new Date(
         this.formatDate(this.currentYear, this.currentMonth, 1)
       );
@@ -476,6 +489,7 @@ export default {
     },
 
     pickNext() {
+      this.pick();
       const d = new Date(
         this.formatDate(this.currentYear, this.currentMonth, 1)
       );
@@ -518,7 +532,7 @@ export default {
           this.showDate = false;
           util.error("暂无数据");
         }
-      } else {
+      } else if (theDate != yue) {
         util.error("暂无数据");
       }
     },

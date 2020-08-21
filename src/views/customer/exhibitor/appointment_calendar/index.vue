@@ -51,7 +51,7 @@
                             <!--本月-->
                             <!-- <span v-if="day.getMonth()+ 1 != currentMonth" class="other-month">{{ day.getDate() }}</span> -->
                             <div class="checkDays">
-                                <div :class="{'active':index==current}">
+                                <div :class="{active:index==current}">
                                     <div class="dayTime">{{ day.name }}</div>
                                     <div class="status"
                                          style="display: inline-block;">{{day.interviewStatus === 0?' ':day.interviewStatus == 1?'开放日':day.interviewStatus == 2?'约满':''}}</div>
@@ -480,6 +480,7 @@ export default {
 
         // 上一個月  传入当前年份和月份
         pickPre (year, month) {
+            this.pick()
             const d = new Date(
                 this.formatDate(this.currentYear, this.currentMonth, 1)
             );
@@ -491,6 +492,7 @@ export default {
         },
 
         pickNext () {
+            this.pick()
             const d = new Date(
                 this.formatDate(this.currentYear, this.currentMonth, 1)
             );
@@ -533,8 +535,8 @@ export default {
                     this.showDate = false;
                     util.error("暂无数据");
                 }
-            } else {
-                util.error("暂无数据");
+            } else if (theDate != yue) {
+                // util.error("暂无数据");
             }
         },
         onConfirm (value) {

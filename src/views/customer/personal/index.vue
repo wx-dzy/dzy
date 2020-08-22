@@ -419,7 +419,8 @@ export default {
                                 let { code, msg, data, total } = res;
                                 if (code == 200) {
                                     util.success("取消成功");
-                                    this.onRefresh();
+                                    this.listData2 = {}
+                                    this.onSearch();
                                 }
                             })
                             .catch((err) => {

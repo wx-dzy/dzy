@@ -531,7 +531,7 @@ export default {
         } else {
           this.showDate = false;
           util.error("暂无数据");
-        }
+        } 
       } else if (theDate != yue) {
         util.error("暂无数据");
       }

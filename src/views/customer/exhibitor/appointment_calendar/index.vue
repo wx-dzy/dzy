@@ -85,7 +85,7 @@
     </van-pull-refresh>
     <div v-show="showDate">
       <van-button class="bottom_button" v-show="status == 1" @click="toOrder">预 约</van-button>
-      <van-button class="bottom_button" v-show="status == 2" @click="cancleOrder">取 消 预 约</van-button>
+      <van-button class="bottom_button" v-show="status == 4" @click="cancleOrder">取 消 预 约</van-button>
     </div>
     <i v-if="status == 0"></i>
     <van-popup v-model="showPicker" position="bottom">
@@ -302,6 +302,8 @@ export default {
               this.todayData[i].interviewStatus_1 = "已被约";
             } else if (this.todayData[i].interviewStatus == 3) {
               this.todayData[i].interviewStatus_1 = "已约其他";
+            } else if(this.todayData[i].interviewstatus == 4) {
+              this.todayData[i].interviewStatus_1 = "我已约";
             }
           }
         }

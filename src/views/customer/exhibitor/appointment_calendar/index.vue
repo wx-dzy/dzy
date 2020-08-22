@@ -84,8 +84,8 @@
       </p>
     </van-pull-refresh>
     <div v-show="showDate">
-      <van-button class="bottom_button" v-show="status == 1" @click="toOrder">预 约</van-button>
-      <van-button class="bottom_button" v-show="status == 2" @click="cancleOrder">取 消 预 约</van-button>
+      <van-button class="bottom_button" v-show="this.status === 1" @click="toOrder">预 约</van-button>
+      <van-button class="bottom_button" v-show="this.status === 4" @click="cancleOrder">取 消 预 约</van-button>
     </div>
     <i v-if="status == 0"></i>
     <van-popup v-model="showPicker" position="bottom">
@@ -267,13 +267,16 @@ export default {
           this.weekData = {};
           this.getWeekInfo();
           this.status = this.todayData[this.num].interviewStatus;
-
+          console.log("+++++++++++++++++++++++++++++++++++");
+          console.log(this.status);
           this.$toast("预约成功");
         }
       });
     },
     //  选择时间
     check(index2) {
+      console.log("+--------------------------");
+      console.log(this.status);
       this.num = index2;
       //   this.checkIndex = index2;
       this.status = this.todayData[index2].interviewStatus;
@@ -299,10 +302,12 @@ export default {
             } else if (this.todayData[i].interviewStatus == 1) {
               this.todayData[i].interviewStatus_1 = "可预约";
             } else if (this.todayData[i].interviewStatus == 2) {
-              this.todayData[i].interviewStatus_1 = "已预约";
+              this.todayData[i].interviewStatus_1 = "已被约";
             } else if (this.todayData[i].interviewStatus == 3) {
-              this.todayData[i].interviewStatus_1 = "预约其他";
-            }
+              this.todayData[i].interviewStatus_1 = "已约其他";
+            } else if (this.todayData[i].interviewStatus == 4) {
+              this.todayData[i].interviewStatus_1 = "我已约";
+            } 
           }
         }
       });

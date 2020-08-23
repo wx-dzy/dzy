@@ -262,21 +262,21 @@ export default {
       let type = 1;
       Api.interview(this.userPreInterviewDetailId, type).then((res) => {
         // console.log('预约', res)
+        // debugger
         if (res.code == 200) {
           this.todayData = {};
           this.weekData = {};
           this.getWeekInfo();
-          this.status = this.todayData[this.num].interviewStatus;
-          console.log("+++++++++++++++++++++++++++++++++++");
-          console.log(this.status);
+          // this.status = this.todayData[this.num].interviewStatus;
+          console.log("当前预约状态值+++++++++++++++++++++++++++++++++++");
+          console.log(this.status+"----4为我已约");
           this.$toast("预约成功");
+          // this.getDayInfo()
         }
       });
     },
     //  选择时间
     check(index2) {
-      console.log("+--------------------------");
-      console.log(this.status);
       this.num = index2;
       //   this.checkIndex = index2;
       this.status = this.todayData[index2].interviewStatus;

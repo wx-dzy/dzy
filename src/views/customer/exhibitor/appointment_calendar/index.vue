@@ -501,6 +501,15 @@ export default {
             this.initData(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1));
             this.getDaysofMonth();
             this.getWeekInfo();
+            setTimeout(() => {
+                const yue = this.weekData[0].dateOfMonth.substr(0, 7);
+                console.log('yue:', yue);
+                var theDate = `${this.currentYear}-${this.currentMonth}`;
+                console.log('thedate:', theDate);
+                if (theDate != yue) {
+                    util.error("暂无数据");
+                }
+            }, 500)
         },
 
         pickNext () {
@@ -513,6 +522,15 @@ export default {
             this.initData(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1));
             this.getDaysofMonth();
             this.getWeekInfo();
+            setTimeout(() => {
+                const yue = this.weekData[0].dateOfMonth.substr(0, 7);
+                console.log('yue:', yue);
+                var theDate = `${this.currentYear}-${this.currentMonth}`;
+                console.log('thedate:', theDate);
+                if (theDate != yue) {
+                    util.error("暂无数据");
+                }
+            }, 500)
         },
 
         // 当前选择日期
@@ -525,38 +543,36 @@ export default {
             // console.log('checkData', checkData)
             // console.log(this.weekData[index])
             // console.log(this.weekData)
-            const yue = this.weekData[0].dateOfMonth.substr(0, 7);
-            var theDate = `${this.currentYear}-${this.currentMonth}`;
-            if (theDate === yue) {
-                // alert("这个月有数据");
-                const canBooking = []; //把可预约的日期放进一个数组，截取日期几号进行判断
-                for (var value of this.weekData) {
-                    canBooking.push(value.dateOfMonth.substr(8, 10));
-                }
 
-                if (canBooking.map(Number).includes(date)) {
-                    var dateindex = canBooking.map(Number).findIndex((val, index) => {
-                        return val == date;
-                    });
-                    //   console.log("---------------------------");
-                    //   console.log(canBooking);
-                    //   console.log("---------------------------");
-                    this.userPreInterviewId = this.weekData[dateindex].userPreInterviewId;
-                    console.log('userPreInterviewId:', this.userPreInterviewId);
-                    this.todayData = {}
-                    this.getDayInfo();
-                    setTimeout(() => {
-                        this.userPreInterviewDetailId = this.todayData[0].userPreInterviewDetailId
-                    }, 1000)
 
-                    this.showDate = true;
-                } else {
-                    this.showDate = false;
-                    util.error("暂无数据");
-                }
-            } else if (theDate != yue) {
-                util.error("暂无数据");
+            // alert("这个月有数据");
+            const canBooking = []; //把可预约的日期放进一个数组，截取日期几号进行判断
+            for (var value of this.weekData) {
+                canBooking.push(value.dateOfMonth.substr(8, 10));
             }
+
+            if (canBooking.map(Number).includes(date)) {
+                var dateindex = canBooking.map(Number).findIndex((val, index) => {
+                    return val == date;
+                });
+                //   console.log("---------------------------");
+                //   console.log(canBooking);
+                //   console.log("---------------------------");
+                this.userPreInterviewId = this.weekData[dateindex].userPreInterviewId;
+                console.log('userPreInterviewId:', this.userPreInterviewId);
+                this.todayData = {}
+                this.getDayInfo();
+                setTimeout(() => {
+                    this.userPreInterviewDetailId = this.todayData[0].userPreInterviewDetailId
+                }, 1000)
+
+                this.showDate = true;
+            } else if (date && index) {
+                this.showDate = false;
+                util.error("暂无数据");
+
+            }
+
         },
         onConfirm (value) {
             this.value1 = value;

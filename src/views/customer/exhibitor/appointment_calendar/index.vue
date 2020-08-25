@@ -274,8 +274,7 @@ export default {
                 // debugger
                 if (res.code == 200) {
                     this.todayData = {};
-                    this.weekData = {};
-                    this.getWeekInfo();
+                    this.getDayInfo();
                     // this.status = this.todayData[this.num].interviewStatus;
                     console.log("当前预约状态值+++++++++++++++++++++++++++++++++++");
                     console.log(this.status + "----4为我已约");
@@ -519,6 +518,7 @@ export default {
         pick (date, index) {
             // console.log('picker-index', index)
             // console.log('picker-date', date)
+            this.num = 0
             this.current = index;
             let checkData = this.currentYear + "-" + this.currentMonth + "-" + date;
             // console.log('checkData', checkData)
@@ -541,7 +541,13 @@ export default {
                     //   console.log(canBooking);
                     //   console.log("---------------------------");
                     this.userPreInterviewId = this.weekData[dateindex].userPreInterviewId;
+                    console.log('userPreInterviewId:', this.userPreInterviewId);
+                    this.todayData = {}
                     this.getDayInfo();
+                    setTimeout(() => {
+                        this.userPreInterviewDetailId = this.todayData[0].userPreInterviewDetailId
+                    }, 1000)
+
                     this.showDate = true;
                 } else {
                     this.showDate = false;

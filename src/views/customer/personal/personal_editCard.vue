@@ -669,7 +669,6 @@ export default {
 }
 // 必选项位置
 // /deep/ .van-cell--required::before {
-
 // }
 /deep/ .van-button--round {
   width: 6.84rem;

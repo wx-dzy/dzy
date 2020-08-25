@@ -25,7 +25,8 @@
                 <van-icon name="arrow" />
             </div>
         </div>
-        <div class="box3 box" @click="goToAdd">
+        <div class="box3 box"
+             @click="goToAdd">
             <div class="leftBox">
                 <i class="iconfont">&#xe66c;</i>
             </div>
@@ -43,14 +44,21 @@
 export default {
     name: '',
     components: {},
-    data() {
-        return {}
+    data () {
+        return {
+            sysOrganizationId: this.$route.query.sysOrganizationId
+        }
     },
-    created() {},
+    created () {
+        console.log('sysOrganizationId:', this.sysOrganizationId);
+    },
     methods: {
-        goToAdd() {
+        goToAdd () {
             this.$router.push({
                 name: 'MTaddMember',
+                query: {
+                    sysOrganizationId: this.sysOrganizationId
+                }
             })
         },
     },

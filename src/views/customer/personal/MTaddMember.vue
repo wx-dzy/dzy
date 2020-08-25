@@ -2,18 +2,24 @@
     <!-- 手动添加成员 -->
     <div class="MTaddMember">
         <van-form @submit="addMember">
-            <van-field
-                v-model="userInfo.realName"
-                name="realName"
-                label="姓名"
-                placeholder="请输入姓名"
-                :rules="[{ required: true, message: '请输入姓名' }]"
-            />
-            <van-field name="username" v-model="userInfo.username" label="账号" placeholder="选填" />
-            <van-field label="别名" name="nickname" placeholder="选填" v-model="userInfo.nickname" />
-            <van-field name="sex" label="性别">
+            <van-field v-model="userInfo.realName"
+                       name="realName"
+                       label="姓名"
+                       placeholder="请输入姓名"
+                       :rules="[{ required: true, message: '请输入姓名' }]" />
+            <van-field name="username"
+                       v-model="userInfo.username"
+                       label="账号"
+                       placeholder="选填" />
+            <van-field label="别名"
+                       name="nickname"
+                       placeholder="选填"
+                       v-model="userInfo.nickname" />
+            <van-field name="sex"
+                       label="性别">
                 <template #input>
-                    <van-radio-group direction="horizontal" v-model="userInfo.radio">
+                    <van-radio-group direction="horizontal"
+                                     v-model="userInfo.radio">
                         <van-radio name="男">男</van-radio>
                         <van-radio name="女">女</van-radio>
                     </van-radio-group>
@@ -21,60 +27,57 @@
             </van-field>
             <!-- 选填项 -->
             <div class="titleText">选填项：</div>
-            <van-field
-                type="tel"
-                label="手机"
-                name="mobile"
-                v-model="userInfo.mobile"
-                placeholder="请输入手机号码"
-            />
-            <van-field
-                type="tel"
-                label="座机"
-                name="phone"
-                v-model="userInfo.phone"
-                placeholder="选填"
-            />
-            <van-field label="邮箱地址" name="email" v-model="userInfo.email" placeholder="选填" />
-            <van-field label="地址" placeholder="选填" name="address" v-model="userInfo.address" />
-            <van-field
-                name="sysPostName"
-                label="职务"
-                v-model="userInfo.sysPostName"
-                placeholder="选填"
-            />
+            <van-field type="tel"
+                       label="手机"
+                       name="mobile"
+                       v-model="userInfo.mobile"
+                       placeholder="请输入手机号码" />
+            <van-field type="tel"
+                       label="座机"
+                       name="phone"
+                       v-model="userInfo.phone"
+                       placeholder="选填" />
+            <van-field label="邮箱地址"
+                       name="email"
+                       v-model="userInfo.email"
+                       placeholder="选填" />
+            <van-field label="地址"
+                       placeholder="选填"
+                       name="address"
+                       v-model="userInfo.address" />
+            <van-field name="sysPostName"
+                       label="职务"
+                       v-model="userInfo.sysPostName"
+                       placeholder="选填" />
             <div class="departments">
-                <van-field
-                    label="部门"
-                    v-model="userInfo.setDepartments"
-                    name="setDepartments"
-                    placeholder="选填"
-                    readonly
-                />
-                <van-button @click="setMem" native-type="button">设置部门</van-button>
+                <van-field label="部门"
+                           v-model="userInfo.setDepartments"
+                           name="setDepartments"
+                           placeholder="选填"
+                           readonly />
+                <van-button @click="setMem"
+                            native-type="button">设置部门</van-button>
             </div>
-            <van-overlay :show="IsSetMem" class="setMem" @click="IsSetMem = false">
+            <van-overlay :show="IsSetMem"
+                         class="setMem"
+                         @click="IsSetMem = false">
                 <div class="wrapper">
                     <div class="block">
                         <div class="setBox">
                             <!-- <van-search v-model="value" shape="round" placeholder="搜索" /> -->
                             <van-radio-group v-model="userInfo.setDepartments">
-                                <van-radio
-                                    :name="item.name"
-                                    v-for="(item,setIndex) in setList"
-                                    :key="setIndex"
-                                    @click="checkIndex(item.id,$event)"
-                                >
+                                <van-radio :name="item.name"
+                                           v-for="(item,setIndex) in setList"
+                                           :key="setIndex"
+                                           @click="checkIndex(item.id,$event)">
                                     <span class="left_img">
                                         <i class="iconfont">&#xe672;</i>
                                     </span>
                                     <span class="setText">{{item.name}}</span>
 
                                     <template #icon="props">
-                                        <img
-                                            class="success2"
-                                            :src="props.checked ? activeIcon : inactiveIcon"
-                                        />
+                                        <img class="success2"
+                                             :src="props.checked ? activeIcon : inactiveIcon" />
                                     </template>
                                 </van-radio>
                             </van-radio-group>
@@ -82,7 +85,9 @@
                     </div>
                 </div>
             </van-overlay>
-            <van-button type="info" class="submit" native-type="submit">保存</van-button>
+            <van-button type="info"
+                        class="submit"
+                        native-type="submit">保存</van-button>
         </van-form>
     </div>
 </template>
@@ -92,7 +97,7 @@ import * as Api from '@/api/customer/personal'
 export default {
     name: '',
     components: {},
-    data() {
+    data () {
         return {
             userInfo: {
                 username: '',
@@ -103,7 +108,6 @@ export default {
                 email: '',
                 address: '',
                 sysPostName: '',
-                userId: '',
                 setDepartments: '',
                 nickname: '', // 别名
             },
@@ -114,16 +118,17 @@ export default {
             inactiveIcon: require('@/assets/images/no.png'),
             value: '',
             setDepartments: '',
-            sysOrganizationId: '', //部门id
+            sysOrganizationId: this.$route.query.sysOrganizationId, //部门id
         }
     },
-    created() {
-        this.sysOrganizationId = this.$route.query.sysOrganizationId
-            ? this.$route.query.sysOrganizationId
-            : 0
+    created () {
+        // this.sysOrganizationId = this.$route.query.sysOrganizationId
+        //     ? this.$route.query.sysOrganizationId
+        //     : 0
+        console.log('sysOrganizationId:', this.sysOrganizationId);
         // this.userInfo.sysOrganizationId = this.$route.query.sysOrganizationId
         this.userInfo.setDepartments = this.$route.query.name
-        this.userInfo.userId = this.$route.query.userId
+        this.userId = this.$route.query.userId
         if (this.userId) {
             this.getDetails(this.userId)
         }
@@ -131,13 +136,13 @@ export default {
     },
     methods: {
         // 选择的部门id
-        checkIndex(id) {
+        checkIndex (id) {
             console.log('选择的部门id', id)
             this.sysOrganizationId = id
         },
         // 获取子部门
 
-        getChildren() {
+        getChildren () {
             let enterpriseId = sessionStorage.getItem('enterpriseId')
             console.log('sysOrganizationId', this.sysOrganizationId)
             Api.getChildDept(enterpriseId, this.sysOrganizationId).then(
@@ -151,16 +156,17 @@ export default {
             )
         },
         // 添加人员-获取人员详情
-        getDetails(userId) {
-            Aoi.getMemberDetail(userId).then((res) => {
+        getDetails (userId) {
+            Api.getMemberDetail(userId).then((res) => {
                 console.log('添加人员-获取人员详情', res)
                 let { code, msg, data, total } = res
                 if (code == 200) {
+                    this.userInfo = data
                 }
             })
         },
         // 添加成员
-        addMember(e) {
+        addMember (e) {
             // console.log('添加成员', e)
             delete e.undefined
             delete e.setDepartments
@@ -175,7 +181,7 @@ export default {
                 }
             })
         },
-        setMem() {
+        setMem () {
             this.IsSetMem = true
         },
     },

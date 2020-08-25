@@ -1,45 +1,59 @@
 <template>
     <!-- 设置部门 -->
     <div class="setDepartments">
-        <van-search v-model="value" shape="round" placeholder="当前企业的人名" />
+        <van-search v-model="value"
+                    shape="round"
+                    placeholder="当前企业的人名" />
         <div class="item">
-            <div
-                class="itemBox"
-                v-for="(item,index) in itemList"
-                :key="index"
-                @click="toAddMember(item.id,item.name,$event)"
-            >
+            <!-- 子部门 -->
+            <div class="itemBox"
+                 v-for="(item,index) in itemList"
+                 @click="toOrginization(item.id,$event)"
+                 :key="index">
                 <div class="left">
-                    <img :src="item.imgUrl" alt />
+                    <img :src="item.imgUrl"
+                         alt />
                 </div>
                 <div class="right">{{item.name}}</div>
+            </div>
+            <!-- 子部门人员 -->
+            <div class="itemBox"
+                 v-for="item in userList"
+                 @click="toAddMember(item.id,$event)"
+                 :key="item.id">
+                <div class="left">
+                    <img :src="item.avatar"
+                         @error="avatarErr(item)"
+                         alt />
+                </div>
+                <div class="right">{{item.realName}}</div>
             </div>
         </div>
         <div class="remarks">注：添加子部门，可以是一个公司形式，也可以是部门形式</div>
         <div class="foot">
-            <button
-                class="add1"
-                @click="show = true"
-                style="background: rgba(248, 213, 126, 1);border:none;"
-            >添加部门</button>
-            <button
-                @click="addMember"
-                class="add2"
-                style="background:rgba(255,255,255,1);border:0.02rem solid rgba(213,213,222,1);"
-            >添加成员</button>
+            <button class="add1"
+                    @click="show = true"
+                    style="background: rgba(248, 213, 126, 1);border:none;">添加部门</button>
+            <button @click="addMember"
+                    class="add2"
+                    style="background:rgba(255,255,255,1);border:0.02rem solid rgba(213,213,222,1);">添加成员</button>
             <!-- 添加部门弹出框 -->
-            <van-overlay :show="show" @click="show = false">
-                <div class="wrapper" @click.stop style="margin-top:3rem;">
+            <van-overlay :show="show"
+                         @click="show = false">
+                <div class="wrapper"
+                     @click.stop
+                     style="margin-top:3rem;">
                     <!-- <div class="block" /> -->
-                    <div
-                        class="mini-member"
-                        style="width:6.96rem;height:5.38rem;background:rgba(255,255,255,1);border-radius:0.08rem;margin:auto;"
-                    >
+                    <div class="mini-member"
+                         style="width:6.96rem;height:5.38rem;background:rgba(255,255,255,1);border-radius:0.08rem;margin:auto;">
                         <div class="title">添加子部门</div>
-                        <input type="text" placeholder="请输入部门名称" v-model="name" />
+                        <input type="text"
+                               placeholder="请输入部门名称"
+                               v-model="name" />
                         <div class="remark">注：添加子部门，可以是一个公司形式，也可以是部门形式</div>
                         <button @click="show = false">取消</button>
-                        <button class="ok" @click="addChildDept">确认</button>
+                        <button class="ok"
+                                @click="addChildDept">确认</button>
                     </div>
                 </div>
             </van-overlay>
@@ -61,46 +75,32 @@ import * as Api from '@/api/customer/personal'
 export default {
     name: '',
     components: {},
-    data() {
+    data () {
         return {
-            itemList: [
-                // {
-                //     imgUrl: require('../../../assets/images/girl.png'),
-                //     company: '风风火火有限公司',
-                // },
-                // {
-                //     imgUrl: require('../../../assets/images/girl.png'),
-                //     company: '风风火火有限公司',
-                // },
-                // {
-                //     imgUrl: require('../../../assets/images/girl.png'),
-                //     company: '风风火火有限公司',
-                // },
-                // {
-                //     imgUrl: require('../../../assets/images/girl.png'),
-                //     company: '风风火火有限公司',
-                // },
-                // {
-                //     imgUrl: require('../../../assets/images/girl.png'),
-                //     company: '风风火火有限公司',
-                // },
-                // {
-                //     imgUrl: require('../../../assets/images/girl.png'),
-                //     company: '王晓红',
-                // },
-            ],
+            itemList: [],  // 组织机构列表
+            userList: [], // 用户列表
             value: '',
             show: false,
             name: '', // 子部门名称
             sysOrganizationId: this.$route.query.sysOrganizationId,
         }
     },
-    created() {
+    created () {
         this.getChildren()
     },
     methods: {
+        // 查看子部门
+        toOrginization (id) {
+            console.log('id', id);
+            this.sysOrganizationId = id
+            this.getChildren()
+        },
+        // 头像加载失败
+        avatarErr (item) {
+            item.avatar = require('../../../assets/images/nullPhoto.jpg')
+        },
         // 添加子部门
-        addChildDept() {
+        addChildDept () {
             this.show = false
             let parentId = this.sysOrganizationId
             console.log('parentId', parentId)
@@ -118,27 +118,31 @@ export default {
             })
         },
         // 返回添加成员
-        toAddMember(id, name) {
-            console.log('sysOrganizationId', id)
+        toAddMember (id) {
+            console.log('userId:', id)
             this.$router.push({
                 path: '/MTaddMember',
                 query: {
-                    sysOrganizationId: id,
-                    name: name,
+                    userId: id,
+                    sysOrganizationId: this.sysOrganizationId
                 },
             })
         },
-        // 获取子部门
+        // 获取子部门及其人员
 
-        getChildren() {
+        getChildren () {
             console.log('sysOrganizationId', this.sysOrganizationId)
-            let enterpriseId = sessionStorage.getItem('enterpriseId')
-            Api.getChildDept(enterpriseId, this.sysOrganizationId).then(
+            Api.getChildDeptandUser(this.sysOrganizationId).then(
                 (res) => {
-                    console.log('获取子部门:', res)
+                    console.log('获取子部门及其人员:', res)
                     let { code, data, msg, total } = res
                     if (code == 200) {
-                        this.itemList = data
+                        this.itemList = data.sysOrganizationList
+                        for (var i = 0; i < this.itemList.length; i++) {
+                            this.itemList[i].imgUrl = require('../../../assets/images/nullCompany.png')
+                        }
+                        this.userList = data.userList
+
                     }
                 }
             )
@@ -149,13 +153,16 @@ export default {
         // showPopup() {
         //   this.show = true;
         // },
-        addMember() {
+        addMember () {
             this.$router.push({
                 name: 'addMember',
+                query: {
+                    sysOrganizationId: this.sysOrganizationId
+                }
             })
         },
     },
-    mounted() {
+    mounted () {
         document.body.style.backgroundColor = '#eeeeee'
     },
 }

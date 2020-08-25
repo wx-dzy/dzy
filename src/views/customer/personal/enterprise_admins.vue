@@ -27,7 +27,7 @@
             </div>
             <!-- 组织机构下人员列表 -->
             <div class="itemBox"
-                 v-for="(item,index) in userList"
+                 v-for="item in userList"
                  :key="item.id">
                 <div class="left">
                     <img :src="item.avatar"

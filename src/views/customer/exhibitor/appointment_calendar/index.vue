@@ -738,8 +738,8 @@ export default {
             font-family: "AlibabaPuHuiTiR";
             color: rgba(74, 152, 247, 1);
             line-height: 0.34rem;
-            .replay_icon {
-            }
+            // .replay_icon {
+            // }
         }
     }
     .bottom_button {

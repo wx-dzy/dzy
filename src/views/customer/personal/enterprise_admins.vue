@@ -4,7 +4,9 @@
         <div class="top">
             <checkIdentity></checkIdentity>
         </div>
-        <van-search v-model="value" shape="round" placeholder="当前企业的人名" />
+        <van-search v-model="value"
+                    shape="round"
+                    placeholder="当前企业的人名" />
         <div class="organizationStructure">
             <div class="title">
                 <span>组织结构</span>
@@ -13,36 +15,49 @@
                     <span @click="toSetDepartments('0',$event)">设置</span>
                 </div>
             </div>
-            <div
-                class="itemBox"
-                v-for="(item,index) in companyList"
-                :key="index"
-                @click="toSetDepartments(item.id,$event)"
-            >
+            <div class="itemBox"
+                 v-for="(item,index) in companyList"
+                 :key="index"
+                 @click="toSetDepartments(item.id,$event)">
                 <div class="left">
-                    <img :src="item.imgUrl" alt />
+                    <img :src="item.imgUrl"
+                         alt />
                 </div>
                 <div class="right">{{item.name}}</div>
             </div>
+            <!-- 组织机构下人员列表 -->
+            <div class="itemBox"
+                 v-for="(item,index) in userList"
+                 :key="item.id">
+                <div class="left">
+                    <img :src="item.avatar"
+                         alt />
+                </div>
+                <div class="right">{{item.realName}}</div>
+            </div>
         </div>
-        <div class="addMember" @click="addMember">
-            <span
-                style="display: inline-block;width:0.48rem;height:0.48rem;background:#F8D57E;border-radius:50%;text-align:center;font-size:0.34rem;line-height:0.48rem;"
-            >+</span>
+        <div class="addMember"
+             @click="addMember">
+            <span style="display: inline-block;width:0.48rem;height:0.48rem;background:#F8D57E;border-radius:50%;text-align:center;font-size:0.34rem;line-height:0.48rem;">+</span>
             <span style="margin-left:0.2rem;">添加成员</span>
         </div>
         <!-- 成员加入待确认 -->
         <div class="memberLoading">
             <div class="title">成员加入待确认</div>
-            <div class="itemBox" v-for="(item,index) in memberList" :key="index">
+            <div class="itemBox"
+                 v-for="(item,index) in memberList"
+                 :key="index">
                 <div class="member_left">
-                    <img :src="item.avatar" alt />
+                    <img :src="item.avatar"
+                         alt />
                 </div>
                 <div class="member_right">
                     <div class="name">{{item.realName}}</div>
                     <div class="btn">
-                        <span class="ok" @click="pass(item.id)">通过</span>
-                        <span class="no" @click="nopass(item.id)">不通过</span>
+                        <span class="ok"
+                              @click="pass(item.id)">通过</span>
+                        <span class="no"
+                              @click="nopass(item.id)">不通过</span>
                     </div>
                 </div>
             </div>
@@ -50,19 +65,21 @@
         <!-- 指定参观人员 -->
         <div class="appoint">
             <div class="title">指定参观人员</div>
-            <div class="itemBox" v-for="(item,index) in appointList" :key="index">
+            <div class="itemBox"
+                 v-for="(item,index) in appointList"
+                 :key="index">
                 <div class="appointLeft">
-                    <img :src="item.avatar" alt />
+                    <img :src="item.avatar"
+                         alt />
                 </div>
                 <div class="middle">
                     <div class="exhibitionName">{{item.enterpriseShowName}}</div>
-                    <span
-                        class="peopleName"
-                        v-for="(peopleItem,index) in item.showPeopleList"
-                        :key="index"
-                    >{{peopleItem.realName}}</span>
+                    <span class="peopleName"
+                          v-for="(peopleItem,index) in item.showPeopleList"
+                          :key="index">{{peopleItem.realName}}</span>
                 </div>
-                <div class="appointRight" @click="addMember">添加人员</div>
+                <div class="appointRight"
+                     @click="addMember">添加人员</div>
             </div>
         </div>
     </div>
@@ -76,54 +93,22 @@ export default {
     components: {
         checkIdentity,
     },
-    data() {
+    data () {
         return {
             value: '',
-            appointList: [
-                {
-                    imgUrl: require('../../../assets/images/girl.png'),
-                    exhibitionName: '秋季暖暖家装展',
-                    name: '张明 王华 李达达 赵明明 张明 王华 李达达 赵明明',
-                },
-                {
-                    imgUrl: require('../../../assets/images/girl.png'),
-                    exhibitionName: '秋季暖暖家装展',
-                    name: '张明 王华 李达达 赵明明',
-                },
-            ],
-            memberList: [
-                {
-                    imgUrl: require('../../../assets/images/girl.png'),
-                    name: '王晓红',
-                },
-                {
-                    imgUrl: require('../../../assets/images/girl.png'),
-                    name: '王晓红',
-                },
-            ],
-            companyList: [
-                {
-                    imgUrl: require('../../../assets/images/girl.png'),
-                    company: '风风火火有限公司',
-                },
-                {
-                    imgUrl: require('../../../assets/images/girl.png'),
-                    company: '风风火火有限公司',
-                },
-                {
-                    imgUrl: require('../../../assets/images/girl.png'),
-                    company: '王晓红',
-                },
-            ],
+            appointList: [],  // 指定参观人员列表
+            memberList: [],  // 成员加入待确认列表
+            companyList: [],  // 组织机构列表
             userIdentity: {}, // 用户身份
+            userList: {}, // 组织机构下人员列表
         }
     },
-    created() {
+    created () {
         this.getInfo()
     },
     methods: {
         // 设置部门
-        toSetDepartments(id) {
+        toSetDepartments (id) {
             // console.log('sysOrganizationId11111111111111', id)
 
             this.$router.push({
@@ -134,7 +119,7 @@ export default {
             })
         },
         // 不通过
-        nopass(id) {
+        nopass (id) {
             console.log('userId', id)
             id ? (id = id) : 0
             let params = {
@@ -150,7 +135,7 @@ export default {
             })
         },
         // 通过
-        pass(id) {
+        pass (id) {
             console.log('userId', id)
             let params = {
                 userId: id,
@@ -165,19 +150,20 @@ export default {
             })
         },
         // 获取信息
-        getInfo() {
+        getInfo () {
             Api.indexAdmin().then((res) => {
                 console.log('获取信息', res)
                 let { code, data, msg, total } = res
                 if (code == 200) {
-                    this.companyList = data.deptList
-                    this.memberList = data.userApplyList
-                    this.appointList = data.showPeopleList
-                    this.userIdentity = data.userIdentity
+                    this.companyList = data.deptList   //组织机构列表
+                    this.memberList = data.userApplyList    // 成员加入待确认列表
+                    this.appointList = data.showPeopleList   // 指定参观人员列表
+                    this.userIdentity = data.userIdentity   //用户身份
+                    this.userList = data.userList   // 组织机构下人员列表
                 }
             })
         },
-        addMember() {
+        addMember () {
             this.$router.push({
                 name: 'addMember',
             })

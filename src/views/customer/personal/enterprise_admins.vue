@@ -15,12 +15,14 @@
                     <span @click="toSetDepartments('0',$event)">设置</span>
                 </div>
             </div>
+            <!-- 组织结构 -->
             <div class="itemBox"
                  v-for="(item,index) in companyList"
                  :key="index"
                  @click="toSetDepartments(item.id,$event)">
                 <div class="left">
                     <img :src="item.imgUrl"
+                         @error="logoErr(item)"
                          alt />
                 </div>
                 <div class="right">{{item.name}}</div>
@@ -28,9 +30,11 @@
             <!-- 组织机构下人员列表 -->
             <div class="itemBox"
                  v-for="item in userList"
+                 @click="editMember(item.id,$event)"
                  :key="item.id">
                 <div class="left">
                     <img :src="item.avatar"
+                         @error="avatarErr(item)"
                          alt />
                 </div>
                 <div class="right">{{item.realName}}</div>
@@ -65,21 +69,21 @@
         <!-- 指定参观人员 -->
         <div class="appoint">
             <div class="title">指定参观人员</div>
-            <div class="itemBox"
-                 v-for="(item,index) in appointList"
+            <div v-for="(item,index) in appointList"
                  :key="index">
-                <div class="appointLeft">
-                    <img :src="item.avatar"
-                         alt />
+                <div class="itemBox"
+                     v-for="(peopleItem,index) in item.showPeopleList"
+                     :key="index">
+                    <div class="appointLeft">
+                        <img :src="peopleItem.avatar"
+                             @error="avatarErr(peopleItem)"
+                             alt />
+                    </div>
+                    <div class="peopleName">{{peopleItem.realName}}</div>
+                    <div class="appointRight"
+                         @click="addMember">添加人员</div>
                 </div>
-                <div class="middle">
-                    <div class="exhibitionName">{{item.enterpriseShowName}}</div>
-                    <span class="peopleName"
-                          v-for="(peopleItem,index) in item.showPeopleList"
-                          :key="index">{{peopleItem.realName}}</span>
-                </div>
-                <div class="appointRight"
-                     @click="addMember">添加人员</div>
+
             </div>
         </div>
     </div>
@@ -107,6 +111,26 @@ export default {
         this.getInfo()
     },
     methods: {
+        // 返回添加成员
+        editMember (id) {
+            console.log('userId:', id)
+            this.$router.push({
+                path: '/MTaddMember',
+                query: {
+                    userId: id,
+                    sysOrganizationId: 0
+                },
+            })
+        },
+        // 部门头像加载失败
+        logoErr () {
+            item.imgUrl = require('../../../assets/images/nullCompany.png')
+        },
+        // 头像加载失败
+        avatarErr (item) {
+            item.avatar = require('../../../assets/images/nullPhoto.jpg')
+            item.avatar = require('../../../assets/images/nullPhoto.jpg')
+        },
         // 设置部门
         toSetDepartments (id) {
             // console.log('sysOrganizationId11111111111111', id)
@@ -156,6 +180,11 @@ export default {
                 let { code, data, msg, total } = res
                 if (code == 200) {
                     this.companyList = data.deptList   //组织机构列表
+                    for (var i = 0; i < this.companyList.length; i++) {
+                        this.companyList[i].imgUrl = require('../../../assets/images/nullCompany.png')
+                    }
+
+
                     this.memberList = data.userApplyList    // 成员加入待确认列表
                     this.appointList = data.showPeopleList   // 指定参观人员列表
                     this.userIdentity = data.userIdentity   //用户身份
@@ -312,36 +341,40 @@ export default {
             border-bottom: 0.02rem solid rgba(233, 233, 233, 1);
             .appointLeft {
                 flex: 15%;
-                width: 0.96rem;
-                height: 0.96rem;
+
                 border-radius: 50%;
                 margin: auto 0;
                 img {
-                    width: 100%;
-                    height: 100%;
+                    // width: 100%;
+                    // height: 100%;
+                    width: 0.96rem;
+                    height: 0.96rem;
                 }
             }
-            .middle {
+            .peopleName {
                 flex: 65%;
-                padding-left: 0.3rem;
+                width: 3.14rem;
                 padding-top: 0.34rem;
-                .exhibitionName {
-                    font-size: 0.32rem;
-                    color: rgba(49, 52, 55, 1);
-                    line-height: 0.36rem;
-                }
-                .peopleName {
-                    width: 3.14rem;
-                    padding-top: 0.12rem;
-                    line-height: 0.34rem;
-                    font-size: 0.24rem;
-                    color: rgba(157, 161, 166, 1);
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    margin-right: 0.25rem;
-                }
+                padding-left: 0.3rem;
+                line-height: 0.34rem;
+                font-size: 0.24rem;
+                color: rgba(157, 161, 166, 1);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                margin-right: 0.25rem;
             }
+            // .middle {
+            //     flex: 65%;
+            //     padding-left: 0.3rem;
+            //     padding-top: 0.34rem;
+            //     .exhibitionName {
+            //         font-size: 0.32rem;
+            //         color: rgba(49, 52, 55, 1);
+            //         line-height: 0.36rem;
+            //     }
+
+            // }
             .appointRight {
                 flex: 20%;
                 font-size: 0.24rem;

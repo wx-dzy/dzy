@@ -53,7 +53,7 @@ export const changeIdentity = params => axios.post('/c/user/change-identity', pa
 export const MTAddMember = params => axios.post('/c/user/add-enterprise-people', params);
 
 // 添加人员-获取人员详情
-export const getMemberDetail = params => axios.get('/c/user/get-enterprise-people/', { params });
+export const getMemberDetail = params => axios.get('/c/user/get-enterprise-people/' + params);
 
 // 获取下级部门
 export const getChildDept = (enterpriseId, sysOrganizationId) => axios.get('/c/sys-organization/list-sub-dept/' + enterpriseId + '/' + sysOrganizationId);

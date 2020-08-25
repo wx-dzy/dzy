@@ -5,21 +5,25 @@
                     shape="round"
                     placeholder="当前企业的人名" />
         <div class="item">
+            <!-- 子部门 -->
             <div class="itemBox"
                  v-for="(item,index) in itemList"
-                 :key="index"
-                 @click="toAddMember(item.id,item.name,$event)">
+                 @click="toOrginization(item.id,$event)"
+                 :key="index">
                 <div class="left">
                     <img :src="item.imgUrl"
                          alt />
                 </div>
                 <div class="right">{{item.name}}</div>
             </div>
+            <!-- 子部门人员 -->
             <div class="itemBox"
                  v-for="item in userList"
+                 @click="toAddMember(item.id,$event)"
                  :key="item.id">
                 <div class="left">
                     <img :src="item.avatar"
+                         @error="avatarErr(item)"
                          alt />
                 </div>
                 <div class="right">{{item.realName}}</div>
@@ -85,6 +89,16 @@ export default {
         this.getChildren()
     },
     methods: {
+        // 查看子部门
+        toOrginization (id) {
+            console.log('id', id);
+            this.sysOrganizationId = id
+            this.getChildren()
+        },
+        // 头像加载失败
+        avatarErr (item) {
+            item.avatar = require('../../../assets/images/nullPhoto.jpg')
+        },
         // 添加子部门
         addChildDept () {
             this.show = false
@@ -104,27 +118,31 @@ export default {
             })
         },
         // 返回添加成员
-        toAddMember (id, name) {
-            console.log('sysOrganizationId', id)
+        toAddMember (id) {
+            console.log('userId:', id)
             this.$router.push({
                 path: '/MTaddMember',
                 query: {
-                    sysOrganizationId: id,
-                    name: name,
+                    userId: id,
+                    sysOrganizationId: this.sysOrganizationId
                 },
             })
         },
-        // 获取子部门
+        // 获取子部门及其人员
 
         getChildren () {
             console.log('sysOrganizationId', this.sysOrganizationId)
             Api.getChildDeptandUser(this.sysOrganizationId).then(
                 (res) => {
-                    console.log('获取子部门:', res)
+                    console.log('获取子部门及其人员:', res)
                     let { code, data, msg, total } = res
                     if (code == 200) {
                         this.itemList = data.sysOrganizationList
+                        for (var i = 0; i < this.itemList.length; i++) {
+                            this.itemList[i].imgUrl = require('../../../assets/images/nullCompany.png')
+                        }
                         this.userList = data.userList
+
                     }
                 }
             )

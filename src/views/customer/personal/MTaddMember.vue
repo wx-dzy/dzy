@@ -108,7 +108,6 @@ export default {
                 email: '',
                 address: '',
                 sysPostName: '',
-                userId: '',
                 setDepartments: '',
                 nickname: '', // 别名
             },
@@ -129,7 +128,7 @@ export default {
         console.log('sysOrganizationId:', this.sysOrganizationId);
         // this.userInfo.sysOrganizationId = this.$route.query.sysOrganizationId
         this.userInfo.setDepartments = this.$route.query.name
-        this.userInfo.userId = this.$route.query.userId
+        this.userId = this.$route.query.userId
         if (this.userId) {
             this.getDetails(this.userId)
         }
@@ -158,10 +157,11 @@ export default {
         },
         // 添加人员-获取人员详情
         getDetails (userId) {
-            Aoi.getMemberDetail(userId).then((res) => {
+            Api.getMemberDetail(userId).then((res) => {
                 console.log('添加人员-获取人员详情', res)
                 let { code, msg, data, total } = res
                 if (code == 200) {
+                    this.userInfo = data
                 }
             })
         },

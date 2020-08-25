@@ -67,3 +67,6 @@ export const CardUrl = params => axios.get('/c/user/list-card-url', params);
 // 获取js配置
 
 export const getAppId = params => axios.get('/c/wx/wx-js-config', { params });
+
+// 获取子部门及当前部门人员
+export const getChildDeptandUser = sysOrganizationId => axios.get('/c/sys-organization/list-sub-dept-and-user/' + sysOrganizationId);

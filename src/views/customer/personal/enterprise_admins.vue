@@ -70,20 +70,27 @@
         <div class="appoint">
             <div class="title">指定参观人员</div>
             <div v-for="(item,index) in appointList"
+                 class="itemBox"
                  :key="index">
-                <div class="itemBox"
-                     v-for="(peopleItem,index) in item.showPeopleList"
-                     :key="index">
-                    <div class="appointLeft">
-                        <img :src="peopleItem.avatar"
-                             @error="avatarErr(peopleItem)"
-                             alt />
-                    </div>
-                    <div class="peopleName">{{peopleItem.realName}}</div>
-                    <div class="appointRight"
-                         @click="addMember">添加人员</div>
+
+                <div class="appointLeft">
+                    <img :src="item.logo"
+                         @error="avatarErr(item)"
+                         alt />
                 </div>
 
+                <div class="exhibition">展会
+
+                </div>
+                <!-- <div class="exhibition">{{item.enterpriseShowName}}</div> -->
+
+                <div class="member">
+                    <i class="peopleName"
+                       v-for="(peopleItem,index) in item.showPeopleList"
+                       :key="index">{{peopleItem.realName}}</i>
+                </div>
+                <div class="appointRight"
+                     @click="addMember">添加人员</div>
             </div>
         </div>
     </div>
@@ -187,6 +194,10 @@ export default {
 
                     this.memberList = data.userApplyList    // 成员加入待确认列表
                     this.appointList = data.showPeopleList   // 指定参观人员列表
+                    for (let i = 0; i < this.appointList.length; i++) {
+                        this.appointList[i].logo = require('../../../assets/images/nullPhoto.jpg')
+
+                    }
                     this.userIdentity = data.userIdentity   //用户身份
                     this.userList = data.userList   // 组织机构下人员列表
                 }
@@ -331,17 +342,20 @@ export default {
     }
     .appoint {
         padding: 0.4rem 0.32rem;
+        position: relative;
         .title {
             font-size: 0.24rem;
             color: #9da1a6;
         }
+
         .itemBox {
             display: flex;
+            width: 100%;
             height: 1.46rem;
             border-bottom: 0.02rem solid rgba(233, 233, 233, 1);
+            position: relative;
             .appointLeft {
                 flex: 15%;
-
                 border-radius: 50%;
                 margin: auto 0;
                 img {
@@ -351,18 +365,13 @@ export default {
                     height: 0.96rem;
                 }
             }
-            .peopleName {
+            .exhibition {
                 flex: 65%;
-                width: 3.14rem;
-                padding-top: 0.34rem;
-                padding-left: 0.3rem;
-                line-height: 0.34rem;
-                font-size: 0.24rem;
-                color: rgba(157, 161, 166, 1);
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                margin-right: 0.25rem;
+                padding-top: 0.3rem;
+                padding-left: 0.34rem;
+                font-size: 16px;
+                color: #000;
+                box-sizing: border-box;
             }
             // .middle {
             //     flex: 65%;
@@ -389,6 +398,22 @@ export default {
                 border-radius: 0.24rem;
                 border: 0.02rem solid rgba(248, 213, 126, 1);
                 text-align: center;
+            }
+            .member {
+                width: 50%;
+                position: absolute;
+                top: 0.85rem;
+                left: 1.1rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                .peopleName {
+                    line-height: 0.34rem;
+                    font-size: 0.24rem;
+                    color: rgba(157, 161, 166, 1);
+
+                    margin-left: 0.25rem;
+                }
             }
         }
     }

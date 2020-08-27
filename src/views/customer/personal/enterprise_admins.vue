@@ -79,10 +79,10 @@
                          alt />
                 </div>
 
-                <div class="exhibition">展会
+                <!-- <div class="exhibition">展会
 
-                </div>
-                <!-- <div class="exhibition">{{item.enterpriseShowName}}</div> -->
+                </div> -->
+                <div class="exhibition">{{item.enterpriseShowName}}</div>
 
                 <div class="member">
                     <i class="peopleName"

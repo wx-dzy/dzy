@@ -451,6 +451,7 @@ export default {
         ? localStorage.getItem("cardUrl")
         : "";
 
+<<<<<<< HEAD
       // cardInfo.cardUrl = '222222'
       cardInfo.provinceId = this.provinceId;
       cardInfo.provinceName = this.provinceName;
@@ -459,6 +460,18 @@ export default {
       cardInfo.countyId = this.countyId;
       cardInfo.countyName = this.countyNamestartDate;
       cardInfo.startDate = cardInfo.startDate + "-" + "01";
+=======
+            this.serverId
+                ? (cardInfo.companyLogo = this.serverId)
+                : (cardInfo.companyLogo = this.cardInfo.companyLogo);
+            if (this.checked == true) {
+                cardInfo.endDate = ""
+                // let newDate = new Date()
+                // let month = newDate.getMonth() + 1
+                // month < 10 ? month = '0' + month : month = month
+                // let newDate_1 = newDate.getFullYear() + '-' + month + '-' + '01'
+                // cardInfo.endDate = newDate_1
+>>>>>>> f1c6ab9a0ea22dc4f474dc39ca6a6334c45d22bc
 
       this.serverId
         ? (cardInfo.companyLogo = this.serverId)
@@ -500,8 +513,48 @@ export default {
               ? this.cardInfo.endDate.substring(0, 7)
               : "";
 
+<<<<<<< HEAD
             if (this.startDate) {
               this.startDate_1 = new Date(this.startDate.replace(/\-/g, "/"));
+=======
+                        if (this.startDate) {
+                            this.startDate_1 = new Date(this.startDate.replace(/\-/g, "/"));
+                        }
+                        if (!this.endDate) {
+                            console.log('11111111111111111111');
+                            let today = new Date()
+                            let year = today.getFullYear()
+                            let month = today.getMonth() + 1
+                            month > 9 ? month = month : month = '0' + month
+                            this.endDate_1 = year + '/' + month;
+                            this.endDate = year + '-' + month
+                            this.checked = true
+                        }
+                        if (this.cardInfo.provinceName) {
+                            this.address =
+                                this.cardInfo.provinceName +
+                                " " +
+                                this.cardInfo.cityName +
+                                " " +
+                                this.cardInfo.countyName;
+                            this.provinceCityCounty = this.cardInfo.countyId;
+                            this.provinceId = this.cardInfo.provinceId;
+                            this.provinceName = this.cardInfo.provinceName;
+                            this.cityId = this.cardInfo.cityId;
+                            this.cityName = this.cardInfo.cityName;
+                            this.countyId = this.cardInfo.countyId;
+                            this.countyName = this.cardInfo.countyName;
+                        }
+                    }
+                });
+            } else {
+                Api.editCardGet().then((res) => {
+                    console.log("获取名片信息-新增", res);
+                    if (res.code == 200) {
+                        this.cardInfo = res.data;
+                    }
+                });
+>>>>>>> f1c6ab9a0ea22dc4f474dc39ca6a6334c45d22bc
             }
             if (this.endDate) {
               this.endDate_1 = new Date(this.endDate.replace(/\-/g, "/"));

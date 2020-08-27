@@ -192,6 +192,7 @@ export default {
       localIds: "",
     };
   },
+  
   created() {
     this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
     this.getInfo();

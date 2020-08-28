@@ -170,7 +170,8 @@ export default {
             // console.log('添加成员', e)
             delete e.undefined
             delete e.setDepartments
-            e.userId = 0
+            this.userId ? e.userId = this.userId : e.userId = 0
+
             e.sysOrganizationId = this.sysOrganizationId
             let params = JSON.stringify(e)
             console.log('添加成员', params)

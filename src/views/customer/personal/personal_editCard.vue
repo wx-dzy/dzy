@@ -439,19 +439,6 @@ export default {
             cardInfo.countyName = this.countyNamestartDate;
             cardInfo.startDate = cardInfo.startDate + "-" + "01";
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-      // cardInfo.cardUrl = '222222'
-      cardInfo.provinceId = this.provinceId;
-      cardInfo.provinceName = this.provinceName;
-      cardInfo.cityId = this.cityId;
-      cardInfo.cityName = this.cityName;
-      cardInfo.countyId = this.countyId;
-      cardInfo.countyName = this.countyNamestartDate;
-      cardInfo.startDate = cardInfo.startDate + "-" + "01";
-=======
->>>>>>> fb58b2fc275817797aca5705e6ba5e1272584331
             this.serverId
                 ? (cardInfo.companyLogo = this.serverId)
                 : (cardInfo.companyLogo = this.cardInfo.companyLogo);
@@ -462,10 +449,6 @@ export default {
                 // month < 10 ? month = '0' + month : month = month
                 // let newDate_1 = newDate.getFullYear() + '-' + month + '-' + '01'
                 // cardInfo.endDate = newDate_1
-<<<<<<< HEAD
-=======
->>>>>>> f1c6ab9a0ea22dc4f474dc39ca6a6334c45d22bc
->>>>>>> fb58b2fc275817797aca5705e6ba5e1272584331
 
             }
             delete cardInfo.address;
@@ -495,13 +478,6 @@ export default {
 
                         this.endDate = this.cardInfo.endDate ? this.cardInfo.endDate.substring(0, 7) : ''
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-            if (this.startDate) {
-              this.startDate_1 = new Date(this.startDate.replace(/\-/g, "/"));
-=======
->>>>>>> fb58b2fc275817797aca5705e6ba5e1272584331
                         if (this.startDate) {
                             this.startDate_1 = new Date(this.startDate.replace(/\-/g, "/"));
                         }
@@ -539,28 +515,6 @@ export default {
                         this.cardInfo = res.data;
                     }
                 });
-<<<<<<< HEAD
-=======
->>>>>>> f1c6ab9a0ea22dc4f474dc39ca6a6334c45d22bc
-            }
-            if (this.endDate) {
-              this.endDate_1 = new Date(this.endDate.replace(/\-/g, "/"));
-            }
-            if (this.cardInfo.provinceName) {
-              this.address =
-                this.cardInfo.provinceName +
-                " " +
-                this.cardInfo.cityName +
-                " " +
-                this.cardInfo.countyName;
-              this.provinceCityCounty = this.cardInfo.countyId;
-              this.provinceId = this.cardInfo.provinceId;
-              this.provinceName = this.cardInfo.provinceName;
-              this.cityId = this.cardInfo.cityId;
-              this.cityName = this.cardInfo.cityName;
-              this.countyId = this.cardInfo.countyId;
-              this.countyName = this.cardInfo.countyName;
->>>>>>> fb58b2fc275817797aca5705e6ba5e1272584331
             }
         },
         // 去认证

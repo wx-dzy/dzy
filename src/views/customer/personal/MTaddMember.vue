@@ -5,11 +5,13 @@
             <van-field v-model="userInfo.realName"
                        name="realName"
                        label="姓名"
+                       required
                        placeholder="请输入姓名"
                        :rules="[{ required: true, message: '请输入姓名' }]" />
             <van-field name="username"
                        v-model="userInfo.username"
                        label="账号"
+                       required
                        placeholder="选填" />
             <van-field label="别名"
                        name="nickname"
@@ -30,6 +32,7 @@
             <van-field type="tel"
                        label="手机"
                        name="mobile"
+                       required
                        v-model="userInfo.mobile"
                        placeholder="请输入手机号码" />
             <van-field type="tel"

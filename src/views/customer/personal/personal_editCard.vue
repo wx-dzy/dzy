@@ -487,7 +487,7 @@ export default {
                             let year = today.getFullYear()
                             let month = today.getMonth() + 1
                             month > 9 ? month = month : month = '0' + month
-                            this.endDate_1 = year + '/' + month;
+                            this.endDate_1 = year + '/' + month
                             this.endDate = year + '-' + month
                             this.checked = true
                         }

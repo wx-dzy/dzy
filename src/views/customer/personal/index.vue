@@ -1,6 +1,11 @@
 // 我的
 <template>
   <div class="personal footerPad" v-if="1">
+    <div class="setBtn">
+      <div>
+        <span @click="toLogin">设置</span>
+      </div>
+    </div>
     <!-- 下拉刷新 -->
     <!-- <van-pull-refresh v-model="refreshing" @refresh="onRefresh"> -->
     <!-- 无上拉刷新 -->
@@ -208,6 +213,12 @@ export default {
   },
   watch: {},
   methods: {
+    toLogin() {
+      
+      this.$router.push({
+        path: "/set",
+      });
+    },
     // init() {
     //   Promise.all([Api.getUserMyIndex(), Api.getUserMyIndex()])
     //     .then((res) => {
@@ -221,7 +232,7 @@ export default {
     handleDetail() {
       Api.getUserMyIndex()
         .then((res) => {
-        //   console.log("获取详情", res);
+          //   console.log("获取详情", res);
           let { code, msg, data, total } = res;
           if (code == 200) {
             this.detail = data;
@@ -250,7 +261,7 @@ export default {
 
     created() {
       let dzy_token = localStorage.getItem("dzy_token");
-    //   console.log("dzy_token:", dzy_token);
+      //   console.log("dzy_token:", dzy_token);
       if (!dzy_token) {
         this.$router.push({
           path: "/",
@@ -311,7 +322,7 @@ export default {
         });
       Api.getMyVistList(params)
         .then((res) => {
-        //   console.log("我的参观预约列表", res);
+          //   console.log("我的参观预约列表", res);
           let { code, msg, data, total } = res;
           // 加载状态结束
           this.loading = false;
@@ -418,7 +429,7 @@ export default {
 
     // 取消参展预约
     cancelVisit(item) {
-    //   console.log("item:", item);
+      //   console.log("item:", item);
       if (item.status == 1 || item.status == 2) {
         Dialog.confirm({
           title: "确认操作",

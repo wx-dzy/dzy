@@ -62,8 +62,8 @@
                             native-type="button">设置部门</van-button>
             </div>
             <van-overlay :show="IsSetMem"
-                         class="setMem"
-                         @click="IsSetMem = false">
+                         @click="IsSetMem = false"
+                         class="setMem">
                 <div class="wrapper">
                     <div class="block">
                         <div class="setBox">
@@ -72,7 +72,7 @@
                                 <van-radio :name="item.name"
                                            v-for="(item,setIndex) in setList"
                                            :key="setIndex"
-                                           @click="checkIndex(item.id,$event)">
+                                           @click="checkIndex(item.id,item.leaf,$event)">
                                     <span class="left_img">
                                         <i class="iconfont">&#xe672;</i>
                                     </span>
@@ -122,6 +122,7 @@ export default {
             value: '',
             setDepartments: '',
             sysOrganizationId: this.$route.query.sysOrganizationId, //部门id
+            sysOrganizationId_2: ''
         }
     },
     created () {
@@ -139,9 +140,28 @@ export default {
     },
     methods: {
         // 选择的部门id
-        checkIndex (id) {
+        checkIndex (id, leaf) {
             console.log('选择的部门id', id)
-            this.sysOrganizationId = id
+            console.log('选择的部门leaf', leaf)
+            this.sysOrganizationId_2 = id
+            if (leaf != 1) {
+                let enterpriseId = sessionStorage.getItem('enterpriseId')
+                let sysOrganizationId = id
+                Api.getChildDept(enterpriseId, sysOrganizationId).then(
+                    (res) => {
+                        console.log('获取子部门:', res)
+                        let { code, data, msg, total } = res
+                        if (code == 200) {
+                            this.setList = data
+                        }
+                    }
+                )
+                this.IsSetMem = true
+            }
+            else {
+                this.IsSetMem = false
+            }
+
         },
         // 获取子部门
 
@@ -177,7 +197,7 @@ export default {
             delete e.setDepartments
             this.userId ? e.userId = this.userId : e.userId = 0
 
-            e.sysOrganizationId = this.sysOrganizationId
+            e.sysOrganizationId = this.sysOrganizationId_2
             let params = JSON.stringify(e)
             console.log('添加成员', params)
             Api.MTAddMember(params).then((res) => {
@@ -189,6 +209,8 @@ export default {
         },
         setMem () {
             this.IsSetMem = true
+            this.setList = []
+            this.getChildren()
         },
     },
 }

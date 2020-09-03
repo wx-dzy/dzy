@@ -35,7 +35,7 @@
                             </van-col>
                             <!-- 英文 -->
                             <van-col span="18" v-else>
-                                <h2 class="name">{{ item.userRealNameEn}}<span style="margin-left:0.1rem;">{{item.postNameEn}}</span></h2>
+                                <h2 class="name">{{ item.userRealNameEn}}<span style="display: block;">{{item.postNameEn}}</span></h2>
                                 <p class="company">{{ item.enterpriseNameEn }}</p>
 
                                 <!-- <p v-show="item.phoneEn" class="tel pad30">

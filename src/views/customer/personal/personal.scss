@@ -2,7 +2,7 @@
     position: relative;
     min-height: 100vh;
     overflow: auto;
-    padding: 0.3rem 0;
+    // padding: 0.3rem 0;
     .setBtn{
         // border: 1px solid red;
         border-radius: 0 0 3px 3px;
@@ -13,6 +13,7 @@
             font-size: 0.28rem;
             font-weight: bold;
             color:#313437;
+            line-height: 0.8rem;
         }
     }
 

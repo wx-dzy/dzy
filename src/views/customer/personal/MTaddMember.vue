@@ -43,7 +43,29 @@
           readonly
         />
         <van-button @click="setMem" native-type="button">设置部门</van-button>
+        <!-- <van-button @click="showPopup" native-type="button">设置部门</van-button> -->
       </div>
+      <!-- <van-popup v-model="show" position="top">
+        <div class="wrapper">
+          <van-radio-group v-model="userInfo.setDepartments">
+            <van-radio
+              :name="item.name"
+              v-for="(item,setIndex) in setList"
+              :key="setIndex"
+              @click="checkIndex(item.id,item.leaf,$event)"
+            >
+              <span class="left_img">
+                <i class="iconfont">&#xe672;</i>
+              </span>
+              <span class="setText">{{item.name}}</span>
+
+              <template #icon="props">
+                <img class="success2" :src="props.checked ? activeIcon : inactiveIcon" />
+              </template>
+            </van-radio>
+          </van-radio-group>
+        </div>
+      </van-popup>-->
       <van-overlay :show="IsSetMem" @click="IsSetMem = false" class="setMem">
         <div class="wrapper">
           <div class="block">
@@ -82,6 +104,7 @@ export default {
   components: {},
   data() {
     return {
+      show: false,
       userInfo: {
         username: "",
         radio: "男",
@@ -119,6 +142,16 @@ export default {
     this.getChildren();
   },
   methods: {
+    setMem() {
+      this.IsSetMem = true;
+      this.setList = [];
+      this.getChildren();
+    },
+    // showPopup() {
+    //   this.show = true;
+    //   this.setList = [];
+    //   this.getChildren();
+    // },
     // 选择的部门id
     checkIndex(id, leaf) {
       console.log("选择的部门id", id);
@@ -140,7 +173,6 @@ export default {
       }
     },
     // 获取子部门
-
     getChildren() {
       let enterpriseId = sessionStorage.getItem("enterpriseId");
       console.log("sysOrganizationId", this.sysOrganizationId);
@@ -181,15 +213,10 @@ export default {
         if (res.code == 200) {
           // this.$router.go(-1);
           this.$router.push({
-            path:'/enterprise_admins'
-          })
+            path: "/enterprise_admins",
+          });
         }
       });
-    },
-    setMem() {
-      this.IsSetMem = true;
-      this.setList = [];
-      this.getChildren();
     },
   },
 };

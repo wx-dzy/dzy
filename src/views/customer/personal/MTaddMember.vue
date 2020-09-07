@@ -179,7 +179,10 @@ export default {
       Api.MTAddMember(params).then((res) => {
         console.log("添加成员:", res);
         if (res.code == 200) {
-          this.$router.go(-1);
+          // this.$router.go(-1);
+          this.$router.push({
+            path:'/enterprise_admins'
+          })
         }
       });
     },

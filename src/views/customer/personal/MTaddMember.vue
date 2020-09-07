@@ -37,7 +37,7 @@
       <div class="departments">
         <van-field
           label="部门"
-          v-model="userInfo.setDepartments"
+          v-model="userInfo.sysOrganizationName"
           name="setDepartments"
           placeholder="选填"
           readonly

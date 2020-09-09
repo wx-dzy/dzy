@@ -177,9 +177,10 @@ export default {
       let enterpriseId = sessionStorage.getItem("enterpriseId");
       console.log("sysOrganizationId", this.sysOrganizationId);
       let sysOrganizationId = this.sysOrganizationId;
-      this.sysOrganizationId
-        ? (sysOrganizationId = this.sysOrganizationId)
-        : (sysOrganizationId = 0);
+      // this.sysOrganizationId
+      //   ? (sysOrganizationId = this.sysOrganizationId)
+      //   : (sysOrganizationId = 0);
+      this.sysOrganizationId=0
       Api.getChildDept(enterpriseId, sysOrganizationId).then((res) => {
         console.log("获取子部门:", res);
         let { code, data, msg, total } = res;

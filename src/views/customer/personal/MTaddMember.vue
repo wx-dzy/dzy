@@ -37,7 +37,7 @@
       <div class="departments">
         <van-field
           label="部门"
-          v-model="sysOrganizationName"
+          v-model="userInfo.sysOrganizationName"
           name="setDepartments"
           placeholder="选填"
           readonly
@@ -116,6 +116,7 @@ export default {
         sysPostName: "",
         setDepartments: "",
         nickname: "", // 别名
+        sysOrganizationName:this.$route.query.sysName
       },
       IsSetMem: false,
       setIndex: 0,
@@ -125,7 +126,7 @@ export default {
       value: "",
       setDepartments: "",
       sysOrganizationId: this.$route.query.sysOrganizationId, //部门id
-      sysOrganizationName: this.$route.query.sysName,
+      // sysOrganizationName: this.$route.query.sysName,
       sysOrganizationId_2: "",
     };
   },
@@ -171,11 +172,12 @@ export default {
             this.setList = data;
           }
         });
+        this.userInfo.sysOrganizationName = this.userInfo.sysOrganizationName
+        // this.sysOrganizationName = name;
         this.IsSetMem = true;
       } else if (leaf == 1) {
         console.log("222222222222222:", name);
-
-        this.sysOrganizationName = name;
+        this.userInfo.sysOrganizationName = name;
         this.IsSetMem = false;
       }
     },
@@ -203,6 +205,7 @@ export default {
         let { code, msg, data, total } = res;
         if (code == 200) {
           this.userInfo = data;
+          this.sysOrganizationName = this.userInfo.sysOrganizationName
         }
       });
     },

@@ -7,7 +7,7 @@
       <div
         class="itemBox"
         v-for="(item,index) in itemList"
-        @click="toOrginization(item.id,$event)"
+        @click="toOrginization(item.id,$event,item.name)"
         :key="index"
       >
         <div class="left">
@@ -78,6 +78,7 @@ export default {
     return {
       itemList: [], // 组织机构列表
       userList: [], // 用户列表
+      childName:'',
       value: "",
       show: false,
       name: "", // 子部门名称
@@ -90,9 +91,12 @@ export default {
   },
   methods: {
     // 查看子部门
-    toOrginization(id) {
+    toOrginization(id,$event,name) {
       console.log("id", id);
       this.sysOrganizationId = id;
+      this.childName = name
+      // console.log('子部门名：');
+      // console.log(this.childName);
       this.getChildren();
     },
     // 头像加载失败
@@ -140,12 +144,15 @@ export default {
         let { code, data, msg, total } = res;
         if (code == 200) {
           this.itemList = data.sysOrganizationList;
+          console.log(this.itemList);
+          console.log('-----------------');
           for (var i = 0; i < this.itemList.length; i++) {
             this.itemList[
               i
             ].imgUrl = require("../../../assets/images/nullCompany.png");
           }
           this.userList = data.userList;
+
         }
       });
     },
@@ -156,6 +163,11 @@ export default {
     //   this.show = true;
     // },
     addMember() {
+      if (this.childName=='') {
+        this.sysName= this.sysName
+      }else if (this.childName!= '') {
+        this.sysName = this.childName
+      }
       this.$router.push({
         name: "addMember",
         query: {

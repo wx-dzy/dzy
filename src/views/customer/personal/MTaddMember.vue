@@ -37,7 +37,7 @@
       <div class="departments">
         <van-field
           label="部门"
-          v-model="userInfo.sysOrganizationName"
+          v-model="sysOrganizationName"
           name="setDepartments"
           placeholder="选填"
           readonly
@@ -125,6 +125,7 @@ export default {
       value: "",
       setDepartments: "",
       sysOrganizationId: this.$route.query.sysOrganizationId, //部门id
+      sysOrganizationName: this.$route.query.sysName,
       sysOrganizationId_2: "",
     };
   },
@@ -132,6 +133,7 @@ export default {
     // this.sysOrganizationId = this.$route.query.sysOrganizationId
     //     ? this.$route.query.sysOrganizationId
     //     : 0
+    // console.log('部门名'+this.$route.query.sysName);
     console.log("sysOrganizationId:", this.sysOrganizationId);
     // this.userInfo.sysOrganizationId = this.$route.query.sysOrganizationId
     this.userInfo.setDepartments = this.$route.query.name;
@@ -146,6 +148,7 @@ export default {
       this.IsSetMem = true;
       this.setList = [];
       this.getChildren();
+      // this.sysOrganizationName =
     },
     // showPopup() {
     //   this.show = true;
@@ -162,6 +165,7 @@ export default {
         let sysOrganizationId = id;
         Api.getChildDept(enterpriseId, sysOrganizationId).then((res) => {
           console.log("获取子部门:", res);
+          console.log(this.$route.query.bumenName);
           let { code, data, msg, total } = res;
           if (code == 200) {
             this.setList = data;
@@ -170,8 +174,9 @@ export default {
         this.IsSetMem = true;
       } else if (leaf == 1) {
         console.log("222222222222222:", name);
+
+        this.sysOrganizationName = name;
         this.IsSetMem = false;
-        this.userInfo.sysOrganizationName = name;
       }
     },
     // 获取子部门

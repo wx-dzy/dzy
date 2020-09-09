@@ -19,7 +19,7 @@
             <div class="itemBox"
                  v-for="(item,index) in companyList"
                  :key="index"
-                 @click="toSetDepartments(item.id,$event)">
+                 @click="toSetDepartments(item.id,$event,item.name)">
                 <div class="left">
                     <img :src="item.imgUrl"
                          @error="logoErr(item)"
@@ -139,13 +139,12 @@ export default {
             item.avatar = require('../../../assets/images/nullPhoto.jpg')
         },
         // 设置部门
-        toSetDepartments (id) {
-            // console.log('sysOrganizationId11111111111111', id)
-
+        toSetDepartments (id,$event,sysOrganizationName) {
             this.$router.push({
                 path: '/setDepartments',
                 query: {
                     sysOrganizationId: id,
+                    sysOrganizationName:sysOrganizationName,
                 },
             })
         },

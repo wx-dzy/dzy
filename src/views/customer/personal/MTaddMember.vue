@@ -45,27 +45,6 @@
         <van-button @click="setMem" native-type="button">设置部门</van-button>
         <!-- <van-button @click="showPopup" native-type="button">设置部门</van-button> -->
       </div>
-      <!-- <van-popup v-model="show" position="top">
-        <div class="wrapper">
-          <van-radio-group v-model="userInfo.setDepartments">
-            <van-radio
-              :name="item.name"
-              v-for="(item,setIndex) in setList"
-              :key="setIndex"
-              @click="checkIndex(item.id,item.leaf,$event)"
-            >
-              <span class="left_img">
-                <i class="iconfont">&#xe672;</i>
-              </span>
-              <span class="setText">{{item.name}}</span>
-
-              <template #icon="props">
-                <img class="success2" :src="props.checked ? activeIcon : inactiveIcon" />
-              </template>
-            </van-radio>
-          </van-radio-group>
-        </div>
-      </van-popup>-->
       <van-overlay :show="IsSetMem" @click="IsSetMem = false" class="setMem">
         <div class="wrapper">
           <div class="block">
@@ -116,7 +95,7 @@ export default {
         sysPostName: "",
         setDepartments: "",
         nickname: "", // 别名
-        sysOrganizationName:this.$route.query.sysName
+        sysOrganizationName: this.$route.query.sysName,
       },
       IsSetMem: false,
       setIndex: 0,
@@ -127,7 +106,7 @@ export default {
       setDepartments: "",
       sysOrganizationId: this.$route.query.sysOrganizationId, //部门id
       // sysOrganizationName: this.$route.query.sysName,
-      sysOrganizationId_2: "",
+      sysOrganizationId_2: this.$route.query.sysOrganizationId,
     };
   },
   created() {
@@ -172,7 +151,7 @@ export default {
             this.setList = data;
           }
         });
-        this.userInfo.sysOrganizationName = this.userInfo.sysOrganizationName
+        this.userInfo.sysOrganizationName = this.userInfo.sysOrganizationName;
         // this.sysOrganizationName = name;
         this.IsSetMem = true;
       } else if (leaf == 1) {
@@ -205,7 +184,7 @@ export default {
         let { code, msg, data, total } = res;
         if (code == 200) {
           this.userInfo = data;
-          this.sysOrganizationName = this.userInfo.sysOrganizationName
+          this.sysOrganizationName = this.userInfo.sysOrganizationName;
         }
       });
     },
@@ -217,6 +196,9 @@ export default {
       this.userId ? (e.userId = this.userId) : (e.userId = 0);
 
       e.sysOrganizationId = this.sysOrganizationId_2;
+      console.log("e-----------------------");
+      console.log(e);
+      console.log("e-----------------------");
       let params = JSON.stringify(e);
       console.log("添加成员", params);
       Api.MTAddMember(params).then((res) => {
@@ -285,10 +267,11 @@ export default {
     background-color: rgba(248, 213, 126, 1);
     border-color: rgba(248, 213, 126, 1);
   }
-  //   .wrapper{
-  //       position: absolute;
-  //       right: 0;
-  //   }
+  // .wrapper{
+  //     // position: absolute;
+  //     // right: 0;
+
+  // }
   .block {
     background-color: #fff;
     width: 7.5rem;
@@ -342,5 +325,15 @@ export default {
       }
     }
   }
+}
+/deep/ .van-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    overflow-y: scroll;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,.7);
 }
 </style>

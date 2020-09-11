@@ -43,7 +43,7 @@
       </div>
       <!-- 占位图 -->
       <img
-        v-else
+        v-if="!listData.length && isNum"
         src="@/assets/images/nullImgText.png"
         style="width: 2.6rem; margin: 1.4rem 2rem;"
         class="nullImg"
@@ -67,6 +67,7 @@ export default {
   },
   data() {
     return {
+      isNum: 0,
       searchVal: "",
       listData: [],
       loading: false,
@@ -129,6 +130,7 @@ export default {
       Api.getFollowPage(params)
         .then(res => {
           let { code, msg, data, total } = res;
+          this.isNum++
           // 加载状态结束
           this.loading = false;
           if (code == 200) {

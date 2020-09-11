@@ -32,7 +32,7 @@
 
       <!-- 搜索 -->
       <van-search
-        v-model="form.searchVal"
+        v-model="form.params"
         placeholder="请输入企业名称/法人姓名/品牌姓名"
         @search="onSearch"
         @input="onSearch"
@@ -116,7 +116,7 @@ export default {
       enterpriseId: "",
 
       form: {
-        searchVal: "",
+        params: "",
         // 排序，1：正序，2：倒序
         isAsc: 1,
         pageSize: 10,
@@ -225,7 +225,7 @@ export default {
     onRefresh() {
       this.finished = false;
       this.form.pageNum = 1;
-      this.form.searchVal = "";
+      this.form.params = "";
       let param = Object.assign(
         {},
         this.form,

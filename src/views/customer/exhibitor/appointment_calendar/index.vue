@@ -267,6 +267,8 @@ export default {
         // debugger
         if (res.code == 200) {
           this.todayData = {};
+          this.weekData = {};
+          this.getWeekInfo();
           this.getDayInfo();
           // this.status = this.todayData[this.num].interviewStatus;
           console.log("当前预约状态值+++++++++++++++++++++++++++++++++++");
@@ -502,11 +504,13 @@ export default {
         console.log("thedate:", theDate);
         if (theDate != yue) {
           util.error("暂无数据");
+          this.todayData = {};
         }
       }, 500);
     },
 
     pickNext() {
+      this.todayData = {};
       this.pick();
       const d = new Date(
         this.formatDate(this.currentYear, this.currentMonth, 1)
@@ -523,6 +527,7 @@ export default {
         console.log("thedate:", theDate);
         if (theDate != yue) {
           util.error("暂无数据");
+          this.todayData = {};
         }
       }, 500);
     },
@@ -538,30 +543,34 @@ export default {
       // console.log(this.weekData[index])
       // console.log(this.weekData)
 
-      // alert("这个月有数据");
-      const canBooking = []; //把可预约的日期放进一个数组，截取日期几号进行判断
-      for (var value of this.weekData) {
-        canBooking.push(value.dateOfMonth.substr(8, 10));
-      }
+      // 以下判断当前月份是否有数据
+      const yue = this.weekData[0].dateOfMonth.substr(0, 7);
+      var theDate = `${this.currentYear}-${this.currentMonth}`;
+      if (theDate === yue) {
+        // alert("这个月有数据");
+        const canBooking = []; //把可预约的日期放进一个数组，截取日期几号进行判断
+        for (var value of this.weekData) {
+          canBooking.push(value.dateOfMonth.substr(8, 10));
+        }
 
-      if (canBooking.map(Number).includes(date)) {
-        var dateindex = canBooking.map(Number).findIndex((val, index) => {
-          return val == date;
-        });
-        //   console.log("---------------------------");
-        //   console.log(canBooking);
-        //   console.log("---------------------------");
-        this.userPreInterviewId = this.weekData[dateindex].userPreInterviewId;
-        console.log("userPreInterviewId:", this.userPreInterviewId);
-        this.todayData = {};
-        this.getDayInfo();
-        setTimeout(() => {
-          this.userPreInterviewDetailId = this.todayData[0].userPreInterviewDetailId;
-        }, 1000);
+        if (canBooking.map(Number).includes(date)) {
+          var dateindex = canBooking.map(Number).findIndex((val, index) => {
+            return val == date;
+          });
+          this.userPreInterviewId = this.weekData[dateindex].userPreInterviewId;
+          console.log("userPreInterviewId:", this.userPreInterviewId);
+          this.todayData = {};
+          this.getDayInfo();
+          setTimeout(() => {
+            this.userPreInterviewDetailId = this.todayData[0].userPreInterviewDetailId;
+          }, 1000);
 
-        this.showDate = true;
-      } else if (date && index) {
-        this.showDate = false;
+          this.showDate = true;
+        } else if (date && index) {
+          this.showDate = false;
+          util.error("暂无数据");
+        }
+      } else if (theDate != yue) {
         util.error("暂无数据");
       }
     },

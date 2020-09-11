@@ -56,7 +56,8 @@
       <div class="title">我的企业</div>
       <div class="item_text">
         <div class="name" v-for="(item,index) in myEnterpriseList" :key="index">
-          {{item.enterpriseName}}
+          <div class="names">{{item.enterpriseName}}</div>
+
           <!-- <div class="img">
             <img :src="item.logo" alt="">
           </div>-->
@@ -467,17 +468,22 @@ export default {
       margin-top: 0.1rem;
 
       // height: 44px;
-      height: 2rem;
+      // height: 2rem;
       // line-height: 0.44rem;
       // border: 1px solid red;
       .name {
-        position: relative;
-        line-height: 0.52rem;
+        // position: relative;
+        display: flex;
+        justify-content: space-between;
         height: 0.52rem;
+        .names {
+          line-height: 0.52rem;
+          margin-bottom: 0.1rem;
+        }
         .enterprise_follow {
-          position: absolute;
-          right: 0.1rem;
-          top: 0;
+          // position: absolute;
+          // right: 0.1rem;
+          // top: 0;
           display: inline-block;
           .van-button::before {
             position: normal;
@@ -488,6 +494,9 @@ export default {
           /deep/ .van-button--normal {
             padding: 0;
             font-size: 0.28rem;
+          }
+          /deep/ .van-button {
+            height: 0.5rem;
           }
         }
       }

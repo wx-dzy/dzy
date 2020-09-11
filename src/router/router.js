@@ -296,6 +296,15 @@ export default [
         name: 'setDepartments',
         component: () => import('@/views/customer/personal/setDepartments.vue'),
     },
+    {
+        path: '/set',
+        meta: {
+            requiresAuth: false,
+            title: '设置',
+        },
+        name: 'set',
+        component: () => import('@/views/customer/personal/set.vue'),
+    },
     // ------------------   我的   end ------------------
 
 

@@ -465,11 +465,11 @@ export default {
         : (cardInfo.companyLogo = this.cardInfo.companyLogo);
       if (this.checked == true) {
         cardInfo.endDate = "";
-        let newDate = new Date();
-        let month = newDate.getMonth() + 1;
-        month < 10 ? (month = "0" + month) : (month = month);
-        let newDate_1 = newDate.getFullYear() + "-" + month + "-" + "01";
-        cardInfo.endDate = newDate_1;
+        // let newDate = new Date()
+        // let month = newDate.getMonth() + 1
+        // month < 10 ? month = '0' + month : month = month
+        // let newDate_1 = newDate.getFullYear() + '-' + month + '-' + '01'
+        // cardInfo.endDate = newDate_1
       }
       delete cardInfo.address;
       delete cardInfo.undefined;
@@ -503,8 +503,15 @@ export default {
             if (this.startDate) {
               this.startDate_1 = new Date(this.startDate.replace(/\-/g, "/"));
             }
-            if (this.endDate) {
-              this.endDate_1 = new Date(this.endDate.replace(/\-/g, "/"));
+            if (!this.endDate) {
+              console.log("11111111111111111111");
+              let today = new Date();
+              let year = today.getFullYear();
+              let month = today.getMonth() + 1;
+              month > 9 ? (month = month) : (month = "0" + month);
+              this.endDate_1 = year + "/" + month;
+              this.endDate = year + "-" + month;
+              this.checked = true;
             }
             if (this.cardInfo.provinceName) {
               this.address =
@@ -669,6 +676,7 @@ export default {
 }
 // 必选项位置
 // /deep/ .van-cell--required::before {
+
 // }
 /deep/ .van-button--round {
   width: 6.84rem;

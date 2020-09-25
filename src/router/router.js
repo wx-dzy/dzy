@@ -23,15 +23,15 @@ export default [
         name: 'codeLogin',
         component: () => import('@/views/customer/login/codeLogin.vue')
     },
-    {
-        path: '',
-        meta: {
-            requiresAuth: false,
-            title: '登录',
-        },
-        name: 'codeLogin',
-        component: () => import('@/views/customer/login/codeLogin.vue')
-    },
+    // {
+    //     path: '',
+    //     meta: {
+    //         requiresAuth: false,
+    //         title: '登录',
+    //     },
+    //     name: 'codeLogin',
+    //     component: () => import('@/views/customer/login/codeLogin.vue')
+    // },
 
     // 注册
     {

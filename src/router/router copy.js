@@ -1,28 +1,19 @@
 export default [
-    // {
-    //     path: '/login',
-    //     redirect: '/login'
-    // },
-    // demo
-    // {
-    //     path: '/Main',
-    //     meta: {
-    //         requiresAuth: false,
-    //         title: 'demo',
-    //     },
-    //     name: 'Main',
-    //     component: () => import('@/components/customer/Main.vue')
-    // },
-    // 手机号验证码登录
     {
-        path: '/',
+        path: '/login',
+        redirect: '/login'
+    },
+    // demo
+    {
+        path: '/Main',
         meta: {
             requiresAuth: false,
-            title: '登录',
+            title: 'demo',
         },
-        name: 'login',
-        component: () => import('@/views/customer/login/codeLogin.vue')
+        name: 'Main',
+        component: () => import('@/components/customer/Main.vue')
     },
+    // 手机号验证码登录
     {
         path: '/codeLogin',
         meta: {
@@ -32,7 +23,15 @@ export default [
         name: 'codeLogin',
         component: () => import('@/views/customer/login/codeLogin.vue')
     },
-   
+    {
+        path: '',
+        meta: {
+            requiresAuth: false,
+            title: '登录',
+        },
+        name: 'codeLogin',
+        component: () => import('@/views/customer/login/codeLogin.vue')
+    },
 
     // 注册
     {
@@ -221,16 +220,6 @@ export default [
             //     component: () => import('@/views/customer/personal/personal_editCard.vue'),
             // }
         ]
-    },
-
-    {
-        path: '/subscribeList',
-        meta: {
-            requiresAuth: false,
-            title: '预约面谈列表',
-        },
-        name: 'subscribeList',
-        component: () => import('@/views/customer/personal/subscribeList.vue'),
     },
 
     {

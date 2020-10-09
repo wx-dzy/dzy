@@ -7,7 +7,7 @@ const productionGzipExtensions = ['js', 'css'];
 const Timestamp = new Date().getTime();  //当前时间为了防止打包缓存不刷新，所以给每个js文件都加一个时间戳
 module.exports = {
     // 基本路径
-    // publicPath: env === 'production' ? 'http://static.aitifen.cn/jiaoshi/' : '/',
+    publicPath: env === 'production' ? 'dzy-wx-product/' : 'dzy-wx-test/',
     // 输出目录
     // outputDir: 'dist',
     // 静态文件目录

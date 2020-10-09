@@ -1,203 +1,165 @@
 // 我的
 <template>
-  <div>
-    <div class="personal footerPad" v-if="isWx">
-      <div class="setBtn">
-        <div>
-          <span @click="toLogin">设置</span>
-        </div>
+  <div class="personal footerPad" v-if="1">
+    <div class="setBtn">
+      <div>
+        <span @click="toLogin">设置</span>
       </div>
-      <!-- 下拉刷新 -->
-      <!-- <van-pull-refresh v-model="refreshing" @refresh="onRefresh"> -->
-      <!-- 无上拉刷新 -->
-      <!-- <van-pull-refresh v-model="refreshing"> -->
-      <van-row class="info">
-        <van-col span="5">
-          <van-image
-            round
-            width="0.96rem"
-            height="0.96rem"
-            :src="detail.userInfo.avatar"
-          />
-        </van-col>
-        <van-col span="14">
-          <h3 class="name">{{ detail.userInfo.nickname }}</h3>
-          <span
-            v-show="
-              detail.userInfo.authStatus == 0 || detail.userInfo.authStatus == 1
-            "
-            class="status"
-            >{{
-              detail.userInfo.authStatus == 1
-                ? "已认证"
-                : detail.userInfo.authStatus == 0
-                ? "未认证"
-                : ""
-            }}</span
+    </div>
+    <!-- 下拉刷新 -->
+    <!-- <van-pull-refresh v-model="refreshing" @refresh="onRefresh"> -->
+    <!-- 无上拉刷新 -->
+    <!-- <van-pull-refresh v-model="refreshing"> -->
+    <van-row class="info">
+      <van-col span="5">
+        <van-image round width="0.96rem" height="0.96rem" :src="detail.userInfo.avatar" />
+      </van-col>
+      <van-col span="14">
+        <h3 class="name">{{detail.userInfo.nickname}}</h3>
+        <span
+          v-show="detail.userInfo.authStatus ==0 || detail.userInfo.authStatus==1"
+          class="status"
+        >{{detail.userInfo.authStatus == 1 ? '已认证' : detail.userInfo.authStatus == 0 ? '未认证' : '' }}</span>
+      </van-col>
+      <van-col span="5" class="text-right" @click="handleSetInfo">
+        <span class="inffAll">
+          个人信息
+          <van-icon name="arrow" />
+        </span>
+      </van-col>
+
+      <checkIdentity :identity="detail.userInfo.identity"></checkIdentity>
+    </van-row>
+
+    <!-- 名片 -->
+    <div class="visitingCard" v-if="detail.userCardList.length">
+      <visitingCard
+        :dataList.sync="detail.userCardList"
+        :disabled="true"
+        @successCBK="handleActive"
+      ></visitingCard>
+    </div>
+
+    <div class="myOrder">
+      <!-- <h3 class="title">我的预约</h3> -->
+      <h3 class="title">我的面谈预约</h3>
+      <div class="faceTalk">
+        <!-- <div class="title">我的面谈预约</div> -->
+        <van-list
+          v-model="loading"
+          :finished="finished"
+          :finished-text="listData.length ? ' ' : '暂无预约'"
+          error-text="请求失败，点击重新加载"
+        >
+          <van-cell
+            v-for="(item, index)  in listData"
+            :key="index"
+            class="contItem"
+            :class="index+1 == listData.length ? 'margin0' : ''"
           >
-        </van-col>
-        <van-col span="5" class="text-right" @click="handleSetInfo">
-          <span class="inffAll">
-            个人信息
-            <van-icon name="arrow" />
-          </span>
-        </van-col>
-
-        <checkIdentity :identity="detail.userInfo.identity"></checkIdentity>
-      </van-row>
-
-      <!-- 名片 -->
-      <div class="visitingCard" v-if="detail.userCardList.length">
-        <visitingCard
-          :dataList.sync="detail.userCardList"
-          :disabled="true"
-          @successCBK="handleActive"
-        ></visitingCard>
+            <h5 class="tit">{{ item.localDate }} {{ item.enterpriseShowName }}</h5>
+            <van-row
+              class="item_i"
+              v-for=" (_item, _index ) in item.interviewList"
+              :key="'_item'+_index"
+              @click="handleLook(_item)"
+            >
+              <van-col span="6">
+                <!-- <img :src="item.img" alt class="photo" /> -->
+                <img :src="_item.interviewUserLogo" alt class="photo" />
+              </van-col>
+              <van-col span="18" class="con">
+                <p class="nterview">{{ _item.interviewEnterpriseName }}</p>
+                <p class="color999 clearfix">
+                  {{ _item.interviewDate }} {{ isToday(_item.interviewDate) ? '今日' : ''}}{{ _item.interviewTime.slice(0,5) }}
+                  <van-button
+                    round
+                    size="mini"
+                    color="#F8D57E"
+                    plain
+                    :disabled="!_item.id"
+                    class="pull-right"
+                    @click.stop="handleCancel(_item)"
+                  >{{ _item.id ? '取消预约' : '已取消'}}</van-button>
+                </p>
+              </van-col>
+            </van-row>
+          </van-cell>
+        </van-list>
       </div>
+      <h3 class="title">我的参观预约</h3>
 
-      <div class="myOrder">
-        <!-- <h3 class="title">我的预约</h3> -->
-        <h3 class="title">我的面谈预约</h3>
-        <div class="faceTalk">
-          <!-- <div class="title">我的面谈预约</div> -->
-          <van-list
-            v-model="loading"
-            :finished="finished"
-            :finished-text="listData.length ? ' ' : '暂无预约'"
-            error-text="请求失败，点击重新加载"
+      <div class="vist">
+        <!-- <div class="title">我的参观预约</div> -->
+        <van-list
+          v-model="loading"
+          :finished="finished"
+          :finished-text="listData2.length ? ' ' : '暂无预约'"
+          error-text="请求失败，点击重新加载"
+        >
+          <van-cell
+            v-for="(item, index)  in listData2"
+            :key="index"
+            class="contItem"
+            :class="index+1 == listData2.length ? 'margin0' : ''"
           >
-            <van-cell
-              v-for="(item, index) in listData"
-              :key="index"
-              class="contItem"
-              :class="index + 1 == listData.length ? 'margin0' : ''"
-            >
-              <h5 class="tit">
-                {{ item.localDate }} {{ item.enterpriseShowName }}
-              </h5>
-              <van-row
-                class="item_i"
-                v-for="(_item, _index) in item.interviewList"
-                :key="'_item' + _index"
-                @click="handleLook(_item)"
-              >
-                <van-col span="6">
-                  <!-- <img :src="item.img" alt class="photo" /> -->
-                  <img :src="_item.interviewUserLogo" alt class="photo" />
-                </van-col>
-                <van-col span="18" class="con">
-                  <p class="nterview">{{ _item.interviewEnterpriseName }}</p>
-                  <p class="color999 clearfix">
-                    {{ _item.interviewDate }}
-                    {{ isToday(_item.interviewDate) ? "今日" : ""
-                    }}{{ _item.interviewTime.slice(0, 5) }}
-                    <van-button
-                      round
-                      size="mini"
-                      color="#F8D57E"
-                      plain
-                      :disabled="!_item.id"
-                      class="pull-right"
-                      @click.stop="handleCancel(_item)"
-                      >{{ _item.id ? "取消预约" : "已取消" }}</van-button
-                    >
-                  </p>
-                </van-col>
-              </van-row>
-            </van-cell>
-          </van-list>
-        </div>
-        <h3 class="title">我的参观预约</h3>
-
-        <div class="vist">
-          <!-- <div class="title">我的参观预约</div> -->
-          <van-list
-            v-model="loading"
-            :finished="finished"
-            :finished-text="listData2.length ? ' ' : '暂无预约'"
-            error-text="请求失败，点击重新加载"
-          >
-            <van-cell
-              v-for="(item, index) in listData2"
-              :key="index"
-              class="contItem"
-              :class="index + 1 == listData2.length ? 'margin0' : ''"
-            >
-              <h5 class="tit">
-                {{ item.orderDate }} {{ item.enterpriseShowName }}
-              </h5>
-              <!-- <van-row
+            <h5 class="tit">{{ item.orderDate }} {{ item.enterpriseShowName }}</h5>
+            <!-- <van-row
                 class="item_i"
                 v-for=" (_item, _index ) in item.interviewList"
                 :key="'_item'+_index"
                 @click.self="handleLook(_item)"
             >-->
-              <van-row class="item_i">
-                <van-col span="5">
-                  <!-- <img :src="item.img" alt class="photo" /> -->
-                  <img :src="item.enterpriseLogo" alt class="photo" />
-                </van-col>
-                <van-col span="19" class="con">
-                  <p class="nterview">{{ item.enterpriseName }}</p>
-                  <p class="color999 clearfix">
-                    <!-- {{ item.interviewDate }} {{ isToday(item.orderDate) ? '今日' : ''}}{{ item.orderDate }} -->
-                    {{ item.enterpriseShowStartDate }}至{{
-                      item.enterpriseShowEndDate
-                    }}
-                    <van-button
-                      round
-                      size="mini"
-                      color="#F8D57E"
-                      plain
-                      :disabled="!item.id"
-                      class="pull-right"
-                      @click="cancelVisit(item)"
-                      >{{
-                        item.status == 1
-                          ? "已申请"
-                          : item.status == 2
-                          ? "已通过"
-                          : item.status == 3
-                          ? "已拒绝"
-                          : item.status == 4
-                          ? "已取消"
-                          : item.status == 5
-                          ? "已结束"
-                          : ""
-                      }}</van-button
-                    >
-                  </p>
-                </van-col>
-              </van-row>
-            </van-cell>
-          </van-list>
-        </div>
+            <van-row class="item_i">
+              <van-col span="5">
+                <!-- <img :src="item.img" alt class="photo" /> -->
+                <img :src="item.enterpriseLogo" alt class="photo" />
+              </van-col>
+              <van-col span="19" class="con">
+                <p class="nterview">{{ item.enterpriseName }}</p>
+                <p class="color999 clearfix">
+                  <!-- {{ item.interviewDate }} {{ isToday(item.orderDate) ? '今日' : ''}}{{ item.orderDate }} -->
+                  {{item.enterpriseShowStartDate}}至{{item.enterpriseShowEndDate}}
+                  <van-button
+                    round
+                    size="mini"
+                    color="#F8D57E"
+                    plain
+                    :disabled="!item.id"
+                    class="pull-right"
+                    @click="cancelVisit(item)"
+                  >{{ item.status == 1? '已申请':item.status == 2? '已通过' :item.status == 3? '已拒绝' :item.status == 4? '已取消' :item.status == 5? '已结束':''}}</van-button>
+                </p>
+              </van-col>
+            </van-row>
+          </van-cell>
+        </van-list>
       </div>
-      <!-- <footer-nav :active="active" /> -->
-      <ul class="btnWrap clearfix">
-        <div class="title">我的资料中心</div>
-        <li class="item pull-left" @click="hanleLook(1)">
-          <p class="text pad30">企业资料</p>
-          <img src="@/assets/images/myOrderBg1.png" alt />
-        </li>
-        <li class="item pull-right" @click="hanleLook(2)">
-          <p class="text pad48">询价单</p>
-          <img src="@/assets/images/myOrderBg2.png" alt />
-        </li>
-      </ul>
-      <!-- </van-pull-refresh> -->
-
-      <footer-nav :active="active" />
     </div>
-    <!-- 占位图 -->
-    <img
-      v-if="isWx && !detail.userInfo"
-      src="@/assets/images/null.png"
-      style="width: 4rem; margin: 1.4rem 1.47rem"
-      class="nullImg"
-      alt
-    />
+    <!-- <footer-nav :active="active" /> -->
+    <ul class="btnWrap clearfix">
+      <div class="title">我的资料中心</div>
+      <li class="item pull-left" @click="hanleLook(1)">
+        <p class="text pad30">企业资料</p>
+        <img src="@/assets/images/myOrderBg1.png" alt />
+      </li>
+      <li class="item pull-right" @click="hanleLook(2)">
+        <p class="text pad48">询价单</p>
+        <img src="@/assets/images/myOrderBg2.png" alt />
+      </li>
+    </ul>
+    <!-- </van-pull-refresh> -->
+
+    <footer-nav :active="active" />
   </div>
+  <!-- 占位图 -->
+  <img
+    v-else
+    src="@/assets/images/null.png"
+    style="width: 4rem; margin: 1.4rem 1.47rem;"
+    class="nullImg"
+    alt
+  />
 </template>
 
 <script>
@@ -221,9 +183,8 @@ export default {
   },
   data() {
     return {
-      isWx: false,
-      // show: false,
-      // changeIdentity: false,
+      show: false,
+      changeIdentity: false,
       detail: {
         userCardList: [],
         userInfo: {},
@@ -244,50 +205,16 @@ export default {
   },
 
   created() {
-    this.isWeiXin();
+    // this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    // 获取详情
+    this.handleDetail();
+    // 搜索
+    this.onSearch();
   },
   watch: {},
   methods: {
-    isWeiXin() {
-
-      let dzy_token = localStorage.getItem("dzy_token");
-      //   console.log("dzy_token:", dzy_token);
-
-      let ua = window.navigator.userAgent.toLowerCase();
-      if (ua.match(/MicroMessenger/i) == "micromessenger") {
-        this.isWx = true;
-        if (!dzy_token) {
-          return this.$router.push({
-            path: "/",
-          });
-        } else {
-          this.$router.push({
-            path: "/personal",
-            query: {
-              dzyToken: dzy_token,
-            },
-          });
-        }
-
-        this.init();
-      } else {
-        this.isWx = false;
-        let dzy_token = this.$route.query.dzyToken;
-        dzy_token ? localStorage.setItem("dzy_token", dzy_token) : localStorage.removeItem("dzy_token");
-        this.$router.push({
-          name: "subscribeList",
-        });
-      }
-    },
-    init() {
-      // this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
-
-      // 获取详情
-      this.handleDetail();
-      // 搜索
-      this.onSearch();
-    },
     toLogin() {
+      
       this.$router.push({
         path: "/set",
       });
@@ -330,6 +257,21 @@ export default {
         pageSize: this.pageSize, // 每页几条数据
       };
       this.onsubmt(params);
+    },
+
+    created() {
+      let dzy_token = localStorage.getItem("dzy_token");
+      //   console.log("dzy_token:", dzy_token);
+      if (!dzy_token) {
+        this.$router.push({
+          path: "/",
+        });
+      }
+      // this.userInfo = JSON.parse(localStorage.getItem("userInfo"));
+      // 获取详情
+      this.handleDetail();
+      // 搜索
+      this.onSearch();
     },
 
     // 上拉刷新
@@ -428,11 +370,38 @@ export default {
 
     // 查看预约详情
     handleLook(row) {
-      return Dialog.alert({
-        message: "请点击右上角,选择浏览器中打开！",
-      }).then(() => {
-        // on close
-      });
+      console.log(row)
+      //   创建房间 预约id
+      let params = row.id;
+      let str = ""
+      if(row.meetingId) {
+        str = 'getRoomToken'
+      }else {
+        str = 'getRoomAdminToken'
+      }
+      _Api[str](params)
+        .then((res) => {
+          let { code, data, msg, total } = res;
+          if (code == 200) {
+            // console.log(
+            //   `http://localhost:3000/?roomName=${data.roomName}&roomToken=${data.roomToken}&roomUserId=${data.roomUserId}`
+            // );
+            // window.location.href = `http://localhost:3000/?roomName=${data.roomName}&roomToken=${data.roomToken}&roomUserId=${data.roomUserId}`;
+// return
+            // 进入房间
+            this.$router.push({
+              name: "OneOnOneVideo",
+              query: {
+                roomName: data.roomName,
+                roomToken: data.roomToken,
+                roomUserId: data.roomUserId,
+              },
+            });
+          } else if (code == 11000) {
+            util.warning("预约开始前10分钟可进入！！");
+          }
+        })
+        .catch((err) => {});
     },
 
     // 取消预约

@@ -163,51 +163,32 @@ export default {
           // 上拉刷新
           this.refreshing = false;
         });
-      Api.getMyVistList(params)
-        .then((res) => {
-          //   console.log("我的参观预约列表", res);
-          let { code, msg, data, total } = res;
-          // 加载状态结束
-          this.loading = false;
-          if (code == 200) {
-            if (status == 1) {
-              // 上拉刷新
-              this.refreshing = false;
-              // data[0].interviewList.push(data[0].interviewList[0]);
-              // data[0].interviewList.push(data[0].interviewList[0]);
-              this.listData2 = data;
-              // this.$toast("刷新成功");
-            } else {
-              data.forEach((element) => {
-                this.listData2.push(element);
-              });
-            }
-            // 数据全部加载完成
-            if (data.length < this.pageSize) {
-              this.finished = true;
-            }
-          }
-        })
-        .catch((err) => {
-          // 上拉刷新
-          // this.refreshing = false;
-        });
+      
     },
 
     // 查看预约详情
     handleLook(row) {
+      console.log(row)
+      let str = ""
+      if(row.meetingId) {
+        str = 'getRoomToken'
+      }else {
+        str = 'getRoomAdminToken'
+
+      }
       //   创建房间 预约id
       let params = row.id;
-      _Api
-        .getRoomToken(params)
+      _Api[str](params)
         .then((res) => {
           let { code, data, msg, total } = res;
+
+          console.log(data,'data')
           if (code == 200) {
             // console.log(
             //   `http://localhost:3000/?roomName=${data.roomName}&roomToken=${data.roomToken}&roomUserId=${data.roomUserId}`
             // );
             // window.location.href = `http://localhost:3000/?roomName=${data.roomName}&roomToken=${data.roomToken}&roomUserId=${data.roomUserId}`;
-
+// return
             // 进入房间
             this.$router.push({
               name: "OneOnOneVideo",

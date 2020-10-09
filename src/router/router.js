@@ -223,15 +223,15 @@ export default [
         ]
     },
 
-    {
-        path: '/subscribeList',
-        meta: {
-            requiresAuth: false,
-            title: '预约面谈列表',
-        },
-        name: 'subscribeList',
-        component: () => import('@/views/customer/personal/subscribeList.vue'),
-    },
+    // {
+    //     path: '/subscribeList',
+    //     meta: {
+    //         requiresAuth: false,
+    //         title: '预约面谈列表',
+    //     },
+    //     name: 'subscribeList',
+    //     component: () => import('@/views/customer/personal/subscribeList.vue'),
+    // },
 
     {
         path: '/personal_editCard',
@@ -404,7 +404,7 @@ export default [
             requiresAuth: false,
             // title: '参观者-首页',
             // title: '参观观众',
-            title: '一对一视频',
+            title: '面谈',
         },
         name: 'OneOnOneVideo',
         component: () => import('@/components/customer/OneOnOneVideo/index.vue')

@@ -2,8 +2,23 @@
 // https://blog.csdn.net/u013210620/article/details/82345897#%E5%A4%A7%E5%B0%8F%E7%AA%97%E5%88%87%E6%8D%A2
 <template>
   <!-- <div class="OneOnOneVideo footerPad"> -->
+
   <div class="OneOnOneVideo">
-    <div v-if="!isWx">
+    <div v-if="isWx" class="text">请点击右上角，选择使用浏览器打本页面</div>
+    <div v-else-if="!isWx && !isStart" class="text">
+      <van-button
+        type="info"
+        loading-type="spinner"
+        loading-text="开始面谈"
+        class="startBtn"
+        size="small"
+        @click="handleClickStart"
+        >开始面谈</van-button
+      >
+      <!-- <p>注：点击“开始会议”，系统将跳转试用浏览器打开本页面</p> -->
+    </div>
+    <!-- <div v-else-if="!isWx && isStart"> -->
+    <div v-else>
       <!-- 本地视频 -->
       <!-- <div id="localplayer" style class="fullscreen-player" @dbclick="switchScreen"></div> -->
       <div id="localplayer" style class="fullscreen-player"></div>
@@ -11,7 +26,6 @@
 
       <!-- 远端视频 -->
       <div id="remoteplayer" class="mini-player" style></div>
-
       <van-button
         type="info"
         loading-type="spinner"
@@ -19,9 +33,44 @@
         class="sizeBtn"
         size="small"
         @click="switchScreen"
-      >大小窗切换</van-button>
+        >大小窗切换</van-button
+      >
+      <div class="center" v-show="0">
+        <van-button
+          type="info"
+          loading-type="spinner"
+          loading-text="加入房间"
+          class="sizeBtn"
+          size="small"
+          @click="switchScreen"
+          >大小窗切换</van-button
+        >
+        <van-button
+          type="info"
+          loading-type="spinner"
+          loading-text="离开会议"
+          size="small"
+          @click="handleclose"
+          >静音</van-button
+        >
+        <van-button
+          type="info"
+          loading-type="spinner"
+          loading-text="离开会议"
+          size="small"
+          @click="handleclose"
+          >静音对方</van-button
+        >
+        <van-button
+          type="info"
+          loading-type="spinner"
+          loading-text="离开会议"
+          size="small"
+          @click="handleclose"
+          >离开会议</van-button
+        >
+      </div>
     </div>
-    <div v-else class="text">请点击右上角，选择使用浏览器打本页面</div>
     <!-- <footer-nav :active="active" /> -->
   </div>
 </template>
@@ -54,11 +103,20 @@ export default {
       // 视频参数
       page: {},
       isWx: true,
+      isStart: false,
     };
   },
 
-  watch: {},
+  watch: {
+    isStart(newVal, oldVal) {
+      // console.log(newVal);
+      if (newVal && !this.isWx) {
+        this.init();
+      }
+    },
+  },
   created() {
+    // document.title = '面谈'
     this.isWeiXin();
 
     // this.$router.beforeEach((to, from, next) => {
@@ -75,13 +133,15 @@ export default {
         // return true;
       } else {
         console.log(222);
-
         this.isWx = false;
-        this.init();
+        // this.init();
         // return false;
       }
     },
+
     init() {
+      document.title = "一对一视频";
+
       let _this = this;
       window.navigator.getUserMedia =
         window.navigator.getUserMedia ||
@@ -112,7 +172,6 @@ export default {
         // 支持
       } else {
         util.error("不支持");
-
         // 不支持
       }
     },
@@ -247,6 +306,11 @@ export default {
       console.log("浏览器刷新 || 关闭了");
       that.page.myRTC.leaveRoom();
     },
+
+    // 开始面谈
+    handleClickStart() {
+      this.isStart = !this.isStart;
+    },
   },
 
   // beforeRouteLeave(to, from, next) {
@@ -296,6 +360,26 @@ export default {
     position: absolute;
     right: 0;
     top: 0;
+  }
+  .startBtn {
+    display: inline-block;
+    margin-top: 14vh;
+    padding: 0.5rem 0.3rem;
+    background-color: #e29638;
+    border-color: #bbbbbb;
+    color: white;
+    border-radius: 0.1rem;
+    font-size: 0.21rem;
+    text-align: center;
+    line-height: 0.3rem;
+    font-weight: bold;
+    opacity: 1;
+  }
+  .center {
+    text-align: center;
+    .van-button {
+      margin: 0.02rem 0.05rem;
+    }
   }
 }
 </style>

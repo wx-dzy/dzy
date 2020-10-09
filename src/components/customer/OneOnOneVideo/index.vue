@@ -307,9 +307,23 @@ export default {
       that.page.myRTC.leaveRoom();
     },
 
-    // 开始面谈
+    // 开始面谈按钮
     handleClickStart() {
       this.isStart = !this.isStart;
+    },
+
+    // 关闭按钮
+    handleclose() {
+      this.browerStatus();
+      if (confirm("您确定要关闭本页吗？")) {
+        console.log("关闭");
+
+        window.opener = null;
+        window.open("", "_self");
+        window.close();
+      } else {
+        console.log("取消");
+      }
     },
   },
 

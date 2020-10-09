@@ -239,6 +239,8 @@ export default {
             // console.log("详情");
             // console.log(this.detail);
           } else if (code == 401) {
+            // 删除token
+            localStorage.removeItem("dzy_token")
             this.$router.push({
               path: "/",
             });

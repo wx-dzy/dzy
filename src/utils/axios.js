@@ -88,6 +88,8 @@ instance.interceptors.response.use(response => {
     // console.log(error.response.data)
     if (error.response.data.status == 401) {
         util.error('登录过期请重新登录');
+        // 删除token
+        localStorage.removeItem("dzy_token")
         vm.$router.push({ name: 'login' })
         return
     }

@@ -412,7 +412,7 @@ export default {
                             this.isBtn = true
                             this.showTimer()
                             // this.$toast(res.msg)
-                            this.$toast('验证吗发送成功！')
+                            this.$toast('验证码发送成功！')
                         }
                     })
             }

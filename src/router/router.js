@@ -411,6 +411,16 @@ export default [
     },
 
     // ------------------   企业产品目录   end ------------------
+    // 跳转pc页面
+    {
+        path: '/dazWebLink',
+        meta: {
+            requiresAuth: false,
+            title: '',
+        },
+        name: 'dazWebLink',
+        component: () => import('@/views/customer/jumpLink/dazWebLink.vue'),
+    },
 
 
 

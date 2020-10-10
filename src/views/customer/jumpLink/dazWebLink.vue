@@ -48,11 +48,10 @@ export default {
       let ua = navigator.userAgent.toLowerCase();
       if (ua.match(/MicroMessenger/i) == "micromessenger") {
         this.isWeiXin = true;
-      }else{
-this.isWeiXin = false;
-      this.handleClickStart();
+      } else {
+        this.isWeiXin = false;
+        this.handleClickStart();
       }
-      
     },
     handleClickStart() {
       // window.open(this.srcUrl);
@@ -69,20 +68,25 @@ this.isWeiXin = false;
 <style lang="scss" scoped>
 @import "@/assets/styles/base/calc_vm.scss";
 .dazWebLink {
-  padding: 1rem 0.2rem;
+  // padding: 1rem 0.2rem;
+  padding: 7vh 0.2rem;
   font-size: 0.32rem;
   .center {
     text-align: center;
   }
   .padding10 {
-    padding: 1rem 0;
+    padding: 2vh 0;
+    // padding: 1rem 0;
   }
   .padding5 {
-    padding: 0.5rem 0;
+    padding: 1vh 0;
+    // padding: 0.5rem 0;
   }
   .padLeft5 {
     padding-left: 0.5rem;
-    line-height: 0.8rem;
+    // line-height: 0.8rem;
+    line-height: 5vh;
+    min-height: 0.4rem;
   }
   .cGreen {
     color: forestgreen;

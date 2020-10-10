@@ -48,9 +48,11 @@ export default {
       let ua = navigator.userAgent.toLowerCase();
       if (ua.match(/MicroMessenger/i) == "micromessenger") {
         this.isWeiXin = true;
-      }
-      this.isWeiXin = false;
+      }else{
+this.isWeiXin = false;
       this.handleClickStart();
+      }
+      
     },
     handleClickStart() {
       // window.open(this.srcUrl);

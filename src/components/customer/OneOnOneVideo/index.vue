@@ -307,6 +307,7 @@ export default {
       this.isStart = !this.isStart;
     },
     // 1静音, 2关闭屏幕
+    // https://developer.qiniu.com/rtn/sdk/4420/qnrtcsession-room-management#8
     handleMute(status) {
       // 默认静音
       status = status ? status : 1;

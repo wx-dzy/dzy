@@ -35,31 +35,24 @@
         @click="switchScreen"
         >大小窗切换</van-button
       >
-      <div class="center" v-show="0">
+      <div class="center" v-show="1">
         <van-button
           type="info"
           loading-type="spinner"
-          loading-text="加入房间"
-          class="sizeBtn"
+          loading-text="静音"
           size="small"
-          @click="switchScreen"
-          >大小窗切换</van-button
+          :class="myMute ? 'red' : ''"
+          @click="handleMute(1)"
+          >{{ this.myMute ? "取消静音" : "静音" }}</van-button
         >
         <van-button
           type="info"
           loading-type="spinner"
-          loading-text="离开会议"
+          loading-text="关闭屏幕"
+          :class="myFrame ? 'red' : ''"
           size="small"
-          @click="handleclose"
-          >静音</van-button
-        >
-        <van-button
-          type="info"
-          loading-type="spinner"
-          loading-text="离开会议"
-          size="small"
-          @click="handleclose"
-          >静音对方</van-button
+          @click="handleMute(2)"
+          >{{ this.myFrame ? "打开屏幕" : "关闭屏幕" }}</van-button
         >
         <van-button
           type="info"
@@ -104,6 +97,10 @@ export default {
       page: {},
       isWx: true,
       isStart: false,
+      // 我方是否静音
+      myMute: false,
+      // 是关闭屏幕
+      myFrame: false,
     };
   },
 
@@ -128,14 +125,12 @@ export default {
     isWeiXin() {
       let ua = window.navigator.userAgent.toLowerCase();
       if (ua.match(/MicroMessenger/i) == "micromessenger") {
-        console.log(11);
+        // console.log('isWx = true');
         this.isWx = true;
-        // return true;
       } else {
-        console.log(222);
+        // console.log('isWx = false');
         this.isWx = false;
         // this.init();
-        // return false;
       }
     },
 
@@ -311,16 +306,44 @@ export default {
     handleClickStart() {
       this.isStart = !this.isStart;
     },
+    // 1静音, 2关闭屏幕
+    handleMute(status) {
+      // 默认静音
+      status = status ? status : 1;
+      // 静音
+      if (status == 1) {
+        this.myMute = !this.myMute;
+        // this.page.myRTC.mute(this.myMute);
+      }
+      // 黑屏
+      if (status == 2) {
+        this.myFrame = !this.myFrame;
+        // this.page.myRTC.mute(this.myMute, this.myFrame);
+      }
+      this.page.myRTC.mute(this.myMute, this.myFrame);
+    },
 
     // 关闭按钮
     handleclose() {
-      this.browerStatus();
-      if (confirm("您确定要关闭本页吗？")) {
-        console.log("关闭");
+      if (confirm("您确定要退出面谈吗？")) {
+        // this.$router.push({
+        //   name: "OneOnOneClose",
+        //   query: {
+        //     roomName: this.roomName,
+        //     roomToken: this.roomToken,
+        //     roomUserId: this.roomUserId,
+        //   },
+        // });
 
-        window.opener = null;
-        window.open("", "_self");
-        window.close();
+        this.$router.go(0);
+
+        // console.log("关闭");
+        // this.browerStatus();
+        // this.isStart = !this.isStart;
+        // this.page.myRTC.leaveRoom();
+        // window.opener = null;
+        // window.open("", "_self");
+        // window.close();
       } else {
         console.log("取消");
       }
@@ -394,6 +417,12 @@ export default {
     .van-button {
       margin: 0.02rem 0.05rem;
     }
+  }
+
+  .van-button--info.red {
+    color: #fff;
+    background-color: red;
+    border: 1px solid red;
   }
 }
 </style>

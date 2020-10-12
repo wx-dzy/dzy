@@ -242,7 +242,7 @@ export default {
         this.page.myRTC = myRTC;
         // console.log(this.page.myRTC == myRTC, "----===");
         try {
-          console.log(this.roomToken, "22222");
+          // console.log(this.roomToken, "22222");
           const users = await myRTC.joinRoomWithToken(this.roomToken); // 加入房间
           this.page.users = users;
 

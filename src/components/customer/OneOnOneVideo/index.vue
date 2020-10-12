@@ -123,18 +123,33 @@ export default {
   },
   methods: {
     isWeiXin() {
-      let ua = window.navigator.userAgent.toLowerCase();
+      var u = navigator.userAgent;
+      var isAndroid = u.indexOf("Android") > -1 || u.indexOf("Adr") > -1; //android终端
+      var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+      // alert("是否是Android：" + isAndroid);
+      // alert("是否是iOS：" + isiOS);
+      let _isiOS = isiOS ? isiOS : false
+
+
+      let ua = navigator.userAgent.toLowerCase();
       if (ua.match(/MicroMessenger/i) == "micromessenger") {
         // console.log('isWx = true');
-        this.isWx = true;
-        this.isWx = false;
 
+        this.isWx = _isiOS ? true : false;
       } else {
         // console.log('isWx = false');
         this.isWx = false;
-        
+
         // this.init();
       }
+    },
+    // 是否是ios
+    isiOS() {
+      
+
+
+
+      // return _isiOS
     },
 
     init() {

@@ -122,15 +122,29 @@ export default {
     // });
   },
   methods: {
+    // isWeiXin() {
+    //   let ua = window.navigator.userAgent.toLowerCase();
+    //   if (ua.match(/MicroMessenger/i) == "micromessenger") {
+    //     // console.log('isWx = true');
+    //     this.isWx = true;
+    //   } else {
+    //     // console.log('isWx = false');
+    //     this.isWx = false;
+        
+    //     // this.init();
+    //   }
+    // },
+    // 判断是否是微信 且 ios
     isWeiXin() {
-      var u = navigator.userAgent;
-      var isAndroid = u.indexOf("Android") > -1 || u.indexOf("Adr") > -1; //android终端
-      var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+      let u = navigator.userAgent;
+      // let isAndroid = u.indexOf("Android") > -1 || u.indexOf("Adr") > -1; //android终端
+      let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
       // alert("是否是Android：" + isAndroid);
       // alert("是否是iOS：" + isiOS);
+      // 是否是ios系统
       let _isiOS = isiOS ? isiOS : false
 
-
+      // 判断是否是微信端
       let ua = navigator.userAgent.toLowerCase();
       if (ua.match(/MicroMessenger/i) == "micromessenger") {
         // console.log('isWx = true');
@@ -142,14 +156,6 @@ export default {
 
         // this.init();
       }
-    },
-    // 是否是ios
-    isiOS() {
-      
-
-
-
-      // return _isiOS
     },
 
     init() {
@@ -236,7 +242,7 @@ export default {
         this.page.myRTC = myRTC;
         // console.log(this.page.myRTC == myRTC, "----===");
         try {
-          console.log(this.roomToken, "22222");
+          // console.log(this.roomToken, "22222");
           const users = await myRTC.joinRoomWithToken(this.roomToken); // 加入房间
           this.page.users = users;
 

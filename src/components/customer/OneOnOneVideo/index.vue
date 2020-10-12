@@ -144,27 +144,47 @@ export default {
       //   window.navigator.mozGetUserMedia ||
       //   window.navigator.msGetUserMedia;
 
-      if (window.navigator.mediaDevices === undefined) {
-          window.navigator.mediaDevices = {};
+      // if (window.navigator.mediaDevices === undefined) {
+      //     window.navigator.mediaDevices = {};
+      // }
+      // if (window.navigator.mediaDevices.getUserMedia === undefined) {
+      //     window.navigator.mediaDevices.getUserMedia = function (constraints) {
+      //     var getUserMedia = window.navigator.getUserMedia = window.navigator.getUserMedia || window.navigator.webkitGetUserMedia || window.navigator.mozGetUserMedia || window.navigator.msGetUserMedia || window.navigator.oGetUserMedia;
+      //   if (!getUserMedia) {
+      //       return Promise.reject(new Error('getUserMedia is not implemented in this browser'));
+      //   }
+      //   return new Promise(function (resolve, reject) {
+      //     getUserMedia.call(window.navigator, constraints, resolve, reject);
+      //   });
+      //   }
+      // }
+
+      if (navigator.mediaDevices === undefined) {
+        navigator.mediaDevices = {};
       }
-      if (window.navigator.mediaDevices.getUserMedia === undefined) {
-          window.navigator.mediaDevices.getUserMedia = function (constraints) {
-          var getUserMedia = window.navigator.getUserMedia = window.navigator.getUserMedia || window.navigator.webkitGetUserMedia || window.navigator.mozGetUserMedia || window.navigator.msGetUserMedia || window.navigator.oGetUserMedia;
-        if (!getUserMedia) {
-            return Promise.reject(new Error('getUserMedia is not implemented in this browser'));
-        }
-        return new Promise(function (resolve, reject) {
-          getUserMedia.call(window.navigator, constraints, resolve, reject);
-        });
-        }
+      if (navigator.mediaDevices.getUserMedia === undefined) {
+        navigator.mediaDevices.getUserMedia = function (constraints) {
+          var getUserMedia =
+            navigator.getUserMedia ||
+            navigator.webkitGetUserMedia ||
+            navigator.mozGetUserMedia ||
+            navigator.msGetUserMedia ||
+            navigator.oGetUserMedia;
+          if (!getUserMedia) {
+            return Promise.reject(
+              new Error("getUserMedia is not implemented in this browser")
+            );
+          }
+          return new Promise(function (resolve, reject) {
+            getUserMedia.call(navigator, constraints, resolve, reject);
+          });
+        };
       }
 
-
-
-      if (window.navigator.getUserMedia) {
+      if (navigator.getUserMedia) {
         // util.success("支持");
         // http://www.voidcn.com/article/p-clazbexv-bwr.html
-        window.navigator.getUserMedia(
+        navigator.getUserMedia(
           { video: true, audio: true },
           function onSuccess(stream) {
             // if(!_this.$route.query.roomToken){
@@ -198,7 +218,7 @@ export default {
         this.page.myRTC = myRTC;
         // console.log(this.page.myRTC == myRTC, "----===");
         try {
-          console.log(this.roomToken,'22222')
+          console.log(this.roomToken, "22222");
           const users = await myRTC.joinRoomWithToken(this.roomToken); // 加入房间
           this.page.users = users;
 

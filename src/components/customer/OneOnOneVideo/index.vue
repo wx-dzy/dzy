@@ -127,9 +127,12 @@ export default {
       if (ua.match(/MicroMessenger/i) == "micromessenger") {
         // console.log('isWx = true');
         this.isWx = true;
+        this.isWx = false;
+
       } else {
         // console.log('isWx = false');
         this.isWx = false;
+        
         // this.init();
       }
     },

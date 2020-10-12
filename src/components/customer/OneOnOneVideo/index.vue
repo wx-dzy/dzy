@@ -138,11 +138,28 @@ export default {
       document.title = "一对一视频";
 
       let _this = this;
-      window.navigator.getUserMedia =
-        window.navigator.getUserMedia ||
-        window.navigator.webkitGetUserMedia ||
-        window.navigator.mozGetUserMedia ||
-        window.navigator.msGetUserMedia;
+      // window.navigator.getUserMedia =
+      //   window.navigator.getUserMedia ||
+      //   window.navigator.webkitGetUserMedia ||
+      //   window.navigator.mozGetUserMedia ||
+      //   window.navigator.msGetUserMedia;
+
+      if (window.navigator.mediaDevices === undefined) {
+          window.navigator.mediaDevices = {};
+      }
+      if (window.navigator.mediaDevices.getUserMedia === undefined) {
+          window.navigator.mediaDevices.getUserMedia = function (constraints) {
+          var getUserMedia = window.navigator.getUserMedia = window.navigator.getUserMedia || window.navigator.webkitGetUserMedia || window.navigator.mozGetUserMedia || window.navigator.msGetUserMedia || window.navigator.oGetUserMedia;
+        if (!getUserMedia) {
+            return Promise.reject(new Error('getUserMedia is not implemented in this browser'));
+        }
+        return new Promise(function (resolve, reject) {
+          getUserMedia.call(window.navigator, constraints, resolve, reject);
+        });
+        }
+      }
+
+
 
       if (window.navigator.getUserMedia) {
         // util.success("支持");
@@ -150,7 +167,10 @@ export default {
         window.navigator.getUserMedia(
           { video: true, audio: true },
           function onSuccess(stream) {
-            console.log("已点击允许,开启成功");
+            // if(!_this.$route.query.roomToken){
+            //   return util.error("房间token不存在");
+            // }
+            // console.log(_this.$route.query.roomToken,"已点击允许,开启成功");
             _this.roomName = _this.$route.query.roomName;
             _this.roomToken = _this.$route.query.roomToken;
             _this.roomUserId = _this.$route.query.roomUserId;
@@ -178,6 +198,7 @@ export default {
         this.page.myRTC = myRTC;
         // console.log(this.page.myRTC == myRTC, "----===");
         try {
+          console.log(this.roomToken,'22222')
           const users = await myRTC.joinRoomWithToken(this.roomToken); // 加入房间
           this.page.users = users;
 

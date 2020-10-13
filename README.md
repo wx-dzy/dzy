@@ -117,23 +117,23 @@ https://juejin.im/post/5cbff700e51d456e361ed904
     ```
     1，用户首页
 
-    https://www.dzy315.com/hlwl_wexin/userManager.html?username=huangzb&telephone=17601001098
+    https://www.dzy315.com/dzy-order/userManager.html?username=huangzb&telephone=17601001098
 
     2，询价单列表
 
-    https://www.dzy315.com/hlwl_wexin/uploadInquiry/order/tobeQuoted.html
+    https://www.dzy315.com/dzy-order/uploadInquiry/order/tobeQuoted.html
 
     3，上传询价单
 
-    https://www.dzy315.com/hlwl_wexin/uploadInquiry/submit-inquiry.html
+    https://www.dzy315.com/dzy-order/uploadInquiry/submit-inquiry.html
 
     4，合同待签署列表
 
-    https://www.dzy315.com/hlwl_wexin/manager/purchaseContract/awaitContract.html
+    https://www.dzy315.com/dzy-order/manager/purchaseContract/awaitContract.html
 
     5，订单待发货列表
 
-    https://www.dzy315.com/hlwl_wexin/orderRemake/orderList.html?orderStatus=2
+    https://www.dzy315.com/dzy-order/orderRemake/orderList.html?orderStatus=2
     ```
 
 ### 公用方法 

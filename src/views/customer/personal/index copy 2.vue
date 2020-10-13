@@ -511,7 +511,7 @@ export default {
 
       if (type == 2) {
         window.location.href =
-          "https://www.dzy315.com/hlwl_wexin/uploadInquiry/order/tobeQuoted.html";
+          "https://www.dzy315.com/dzy-order/uploadInquiry/order/tobeQuoted.html"
         // util.success("跳转我的询价路由");
       }
     },

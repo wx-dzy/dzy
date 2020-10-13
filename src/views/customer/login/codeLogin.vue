@@ -324,7 +324,7 @@ export default {
                 //     'https://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://192.168.0.101:9000/&response_type=code'
                 // window.location.href =
                 //     'https://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://192.168.31.72:9000/&response_type=code'
-                // window.location.href = 'https://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=https://www.dzy315.com/codeLogin&response_type=code'
+                // window.location.href = 'https://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=https://www.dzy315.com/dzy-wx-test/codeLogin&response_type=code'
                 // 正式
                 // window.location.href = 'https://www.dzy315.com/get-weixin-code.html?appid=wxb5ea1c14b28400c1&scope=snsapi_base&state=123&redirect_uri=https://www.dzy315.com/codeLogin&response_type=code'
                 // 本地公用地址

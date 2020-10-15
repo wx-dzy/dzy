@@ -5,7 +5,7 @@
       <p class="padding10 center">
         该功能因在PC端操作更方便，请使用微信PC端打开该页面，并授权跳转到浏览器上进行操作。
       </p>
-      <h3 class="padding5">跳转失败，如何用电脑打开？</h3>
+      <h5 class="padding5">跳转失败，如何用电脑打开？</h5>
       <p class="padLeft5">方法一 电脑访问网址：</p>
       <p class="padLeft5">
         <!-- <a :href="srcUrl" class="cGreen">{{ srcUrl }}</a> -->
@@ -70,7 +70,7 @@ export default {
 .dazWebLink {
   // padding: 1rem 0.2rem;
   padding: 7vh 0.2rem;
-  font-size: 0.32rem;
+  font-size: 0.22rem;
   .center {
     text-align: center;
   }
@@ -95,7 +95,7 @@ export default {
     color: forestgreen;
     line-height: 0.32rem;
     height: 0.32rem;
-    font-size: 0.32rem;
+    font-size: 0.22rem;
     background-color: #fff;
     border: 1px solid #fff;
   }

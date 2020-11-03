@@ -93,9 +93,11 @@ export default {
         imgUrl: window.location.href, // 分享图标
 
         success: function () {
-          // 设置成功
-          util.success(分享设置成功);
+          util.success('分享成功');
         },
+        cancel: function () {
+          util.success('取消分享');
+        }
       });
     },
 

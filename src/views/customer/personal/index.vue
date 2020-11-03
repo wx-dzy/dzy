@@ -3,7 +3,7 @@
   <div class="personal footerPad" v-if="1">
     <div class="setBtn">
       <div>
-        <span @click="toLogin">设置</span>
+        <span @click="toLogin">登陆/注册</span>
       </div>
     </div>
     <!-- 下拉刷新 -->

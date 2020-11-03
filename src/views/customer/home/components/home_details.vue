@@ -1,6 +1,8 @@
 // 展会详情  id=1272919606905835521
 <template>
     <div class="home_details">
+                <shareTemp :share-data.sync="shareData" />
+
         <!-- <div v-if="details.enterprise && details.enterprise.id"> -->
         <div v-if="details.enterprise && details.enterprise.id">
             <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
@@ -169,6 +171,7 @@ import img3 from '@/assets/images/home/3.png'
 import nullImg from '@/assets/images/null.png'
 import follow from '@/components/customer/follow.vue'
 import html2canvas from 'html2canvas'
+import shareTemp from '@/components/customer/share.vue'
 
 // import footerNav from "@/components/customer/footerNav/index.vue";
 
@@ -176,6 +179,8 @@ export default {
     name: 'home_details',
     components: {
         follow,
+        // 分享
+        shareTemp
         // footerNav
     },
     data() {
@@ -208,6 +213,16 @@ export default {
                 // enterprise: {},
                 // enterpriseShow: {},
             },
+            shareData:{
+                // 分享标题
+                title: '展会详情',
+                // 分享描述
+                desc: '这是描述',
+                // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                link: encodeURIComponent(window.location.href),
+                // 分享图标
+                imgUrl: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1604385429697&di=80a7b28ee58dad33427bc3c07ba99f7c&imgtype=0&src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fimages%2F20171120%2Fbfdfc973135f475a983e3ee7a8e0ae7d.jpeg'
+            }
         }
     },
 

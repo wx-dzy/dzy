@@ -42,7 +42,9 @@ export default {
     getWxJsConfig() {
       let _this = this;
       let params = {
-        url: this.shareData.link,
+        // url: this.shareData.link,
+        url: window.location.href,
+
       };
       Api.getAppId(params)
         .then((res) => {
@@ -87,7 +89,9 @@ export default {
         title: _this.shareData.title, // 分享标题
         desc: _this.shareData.desc, // 分享描述
         link: _this.shareData.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-        imgUrl: _this.shareData.imgUrl, // 分享图标
+        // imgUrl: _this.shareData.imgUrl, // 分享图标
+        imgUrl: window.location.href, // 分享图标
+
         success: function () {
           // 设置成功
           util.success(分享设置成功);
@@ -95,40 +99,9 @@ export default {
       });
     },
 
-    // 上传头像
-    chooseImg() {
-      let _this = this;
-      wx.chooseImage({
-        count: 1, // 默认9
-        sizeType: ["original", "compressed"], // 可以指定是原图还是压缩图，默认二者都有
-        sourceType: ["album", "camera"], // 可以指定来源是相册还是相机，默认二者都有
-        success: function (res) {
-          _this.localIds = res.localIds[0]; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-          _this.avatar = _this.localIds;
-          if (!_this.localIds.startsWith("weixin")) {
-            wx.getLocalImgData({
-              localId: _this.localIds, // 图片的localID
-              success: function (res) {
-                if (res && res.localData) {
-                  _this.avatar = res.localData; // localData是图片的base64数据，可以用img标签显示
-                }
-              },
-            });
-          }
-        },
-      });
-    },
+    
 
-    aa() {
-      wx.chooseImage({
-        count: 1, // 默认9
-        sizeType: ["original", "compressed"], // 可以指定是原图还是压缩图，默认二者都有
-        sourceType: ["album", "camera"], // 可以指定来源是相册还是相机，默认二者都有
-        success: function (res) {
-          var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-        },
-      });
-    },
+    
   },
   computed: {},
 };

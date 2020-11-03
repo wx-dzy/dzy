@@ -318,17 +318,31 @@ export default {
             const _this = this
             var code = _this.getUrlParam('code')
             // var local = 'http://192.168.31.221:9000/'
- 
+            
+            const env = process.env.NODE_ENV === 'development' ?
+                'development' :
+                process.env.VUE_APP_MODE === 'test' ? 'test' :
+                    process.env.VUE_APP_MODE === 'demo' ? 'demo' :
+                        'production';
+            // console.log(env, '运行环境env{production:线上;test:测试;development:本地;}')
+
+
             if (!code) {
+                    window.location.href = env == 'development' ? 'https://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://127.0.0.1:9000/codeLogin?&response_type=code&scope=snsapi_base&state=123' :
+                                                  env == 'test' ? 'https://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=https://www.dzy315.com/dzy-wx-test/codeLogin&response_type=code' :
+                                            env == 'production' ? 'https://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=https://www.dzy315.com/dzy-wx-product/codeLogin&response_type=code' : ''
+
+
+
                 // window.location.href =
                 //     'https://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://192.168.0.101:9000/codeLogin&response_type=code'
-                // window.location.href =
-                //     'https://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://192.168.31.72:9000/codeLogin&response_type=code'
+                // window.location.href ='https://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://192.168.31.72:9000/codeLogin&response_type=code'
+                // 测试
                 // window.location.href = 'https://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=https://www.dzy315.com/dzy-wx-test/codeLogin&response_type=code'
                 // 正式
                 // window.location.href = 'https://www.dzy315.com/get-weixin-code.html?appid=wxb5ea1c14b28400c1&scope=snsapi_base&state=123&redirect_uri=https://www.dzy315.com/codeLogin&response_type=code'
                 // 本地公用地址
-                window.location.href="https://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://127.0.0.1:9000/codeLogin?&response_type=code&scope=snsapi_base&state=123"
+                // window.location.href="https://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://127.0.0.1:9000/codeLogin?&response_type=code&scope=snsapi_base&state=123"
                                       
             } else {
                 _this.code = code

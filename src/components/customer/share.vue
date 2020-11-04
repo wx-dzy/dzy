@@ -40,9 +40,11 @@ export default {
 
     // 获取微信配置
     getWxJsConfig() {
+      console.log(encodeURIComponent(window.location.href))
       let _this = this;
       let params = {
         // url: this.shareData.link,
+        // url:encodeURIComponent(window.location.href),
         url: window.location.href,
 
       };
@@ -58,10 +60,16 @@ export default {
               signature: data.signature, // 必填，签名
               jsapi_ticket: data.jsapi_ticket,
               jsApiList: [
-                "checkJsApi",
-                "chooseImage",
-                "uploadImage",
-                "previewImage",
+                'onMenuShareTimeline',
+                'onMenuShareAppMessage',
+                'onMenuShareQQ',
+                'updateAppMessageShareData',
+                'updateTimelineShareData',
+                'onMenuShareWeibo',
+                'onMenuShareQZone',
+                'startRecord',
+                'stopRecord',
+                'onVoiceRecordEnd'
               ], // 必填，需要使用的JS接口列表
             });
             wx.ready(function () {

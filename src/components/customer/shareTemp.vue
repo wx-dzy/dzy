@@ -44,8 +44,8 @@ export default {
       let _this = this;
       let params = {
         // url: this.shareData.link,
-        // url:encodeURIComponent(window.location.href),
-        url: window.location.href,
+        url: encodeURIComponent(window.location.href),
+        // url: window.location.href,
 
       };
       Api.getAppId(params)

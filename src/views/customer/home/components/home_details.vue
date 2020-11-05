@@ -171,7 +171,7 @@ import img3 from '@/assets/images/home/3.png'
 import nullImg from '@/assets/images/null.png'
 import follow from '@/components/customer/follow.vue'
 import html2canvas from 'html2canvas'
-import shareTemp from '@/components/customer/share.vue'
+import shareTemp from '@/components/customer/shareTemp.vue'
 
 // import footerNav from "@/components/customer/footerNav/index.vue";
 

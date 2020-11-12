@@ -330,7 +330,7 @@ export default {
             if (!code) {
                     window.location.href = env == 'development' ? 'https://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=http://127.0.0.1:9000/codeLogin?&response_type=code&scope=snsapi_base&state=123' :
                                                   env == 'test' ? 'https://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=https://www.dzy315.com/dzy-wx-test/codeLogin&response_type=code' :
-                                            env == 'production' ? 'https://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=https://www.dzy315.com/dzy-wx-product/codeLogin&response_type=code' : ''
+                                            env == 'production' ? 'https://www.dzy315.com/get-weixin-code.html?appid=wxb5ea1c14b28400c1&scope=snsapi_base&state=123&redirect_uri=https://www.dzy315.com/codeLogin&response_type=code' : ''
 
 
 

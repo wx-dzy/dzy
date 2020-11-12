@@ -1,7 +1,8 @@
 // 展会详情  id=1272919606905835521
 <template>
     <div class="home_details">
-                <shareTemp :share-data.sync="shareData" />
+        <!-- 分享组件 -->
+        <shareTemp :share-data.sync="shareData" />
 
         <!-- <div v-if="details.enterprise && details.enterprise.id"> -->
         <div v-if="details.enterprise && details.enterprise.id">

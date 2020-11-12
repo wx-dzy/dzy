@@ -1,7 +1,7 @@
 // 分享 组件
 <template>
   <div class="shareTemp">
-    <van-button class="submit" @click="getWxJsConfig">分享</van-button>
+    <van-button class="submit" @click="handleShare">分享</van-button>
   </div>
 </template>
 
@@ -29,7 +29,7 @@ export default {
   },
   created() {
     this._src = Object.assign([], this.imgSrc);
-    // this.getWxJsConfig();
+    this.getWxJsConfig();
   },
   methods: {
     handleClick(url) {
@@ -92,6 +92,7 @@ export default {
     // 分享
     handleShare() {
       let _this = this;
+      _this.$toast("走分享操作");
       //需在用户可能点击分享按钮前就先调用
       wx.updateAppMessageShareData({
         title: _this.shareData.title, // 分享标题

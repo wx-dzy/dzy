@@ -2,7 +2,7 @@
 <template>
     <div class="home_details">
         <!-- 分享组件 -->
-        <shareTemp :share-data.sync="shareData" />
+        <!-- <shareTemp :share-data.sync="shareData" /> -->
 
         <!-- <div v-if="details.enterprise && details.enterprise.id"> -->
         <div v-if="details.enterprise && details.enterprise.id">

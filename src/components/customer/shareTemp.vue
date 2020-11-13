@@ -1,7 +1,7 @@
-// 分享 组件
+// 分享 组件 https://blog.csdn.net/qq_38705449/article/details/103525504?utm_source=app
 <template>
   <div class="shareTemp">
-    <van-button class="submit" @click="handleShare">分享</van-button>
+    <van-button class="submit" @click="getWxJsConfig">分享</van-button>
   </div>
 </template>
 
@@ -29,7 +29,7 @@ export default {
   },
   created() {
     this._src = Object.assign([], this.imgSrc);
-    this.getWxJsConfig();
+    // this.getWxJsConfig();
   },
   methods: {
     handleClick(url) {
@@ -40,13 +40,12 @@ export default {
 
     // 获取微信配置
     getWxJsConfig() {
-      console.log(encodeURIComponent(window.location.href))
+      console.log(encodeURIComponent(window.location.href));
       let _this = this;
       let params = {
         // url: this.shareData.link,
         url: encodeURIComponent(window.location.href),
         // url: window.location.href,
-
       };
       Api.getAppId(params)
         .then((res) => {
@@ -60,24 +59,35 @@ export default {
               signature: data.signature, // 必填，签名
               jsapi_ticket: data.jsapi_ticket,
               jsApiList: [
-                'onMenuShareTimeline',
-                'onMenuShareAppMessage',
-                'onMenuShareQQ',
-                'updateAppMessageShareData',
-                'updateTimelineShareData',
-                'onMenuShareWeibo',
-                'onMenuShareQZone',
-                'startRecord',
-                'stopRecord',
-                'onVoiceRecordEnd'
+                "onMenuShareTimeline",
+                "onMenuShareAppMessage",
+                "onMenuShareQQ",
+                "onMenuShareWeibo",
+                "onMenuShareQZone",
+                "showMenuItems",
               ], // 必填，需要使用的JS接口列表
             });
             wx.ready(function () {
+              // wx.checkJsApi({
+              //   jsApiList: [
+              //     "onMenuShareTimeline",
+              //     "onMenuShareAppMessage",
+              //     "onMenuShareQQ",
+              //     "onMenuShareWeibo",
+              //     "onMenuShareQZone",
+              //     "showMenuItems",
+              //   ], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+              //   success: function (res) {
+              //     // 如：{"checkResult":{"onMenuShareQQ":true},"errMsg":"checkJsApi:ok"}
+              //   },
+              // });
               // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中
               // 分享
               this.handleShare();
             });
             wx.error(function (res) {
+              _this.$toast(res, "config失败");
+
               console.log("config失败", res); // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名
             });
           } else {
@@ -91,28 +101,41 @@ export default {
 
     // 分享
     handleShare() {
+      util.success("进入分享函数");
+
+      wx.showMenuItems({
+        menuList: [
+          "menuItem:share:appMessage",
+          "menuItem:share:timeline",
+          "menuItem:share:qq",
+          "menuItem:favorite",
+        ], // 要显示的菜单项，所有menu项见附录3
+      });
+
+      return;
+
       let _this = this;
-      _this.$toast("走分享操作");
-      //需在用户可能点击分享按钮前就先调用
-      wx.updateAppMessageShareData({
-        title: _this.shareData.title, // 分享标题
-        desc: _this.shareData.desc, // 分享描述
+      // wx.updateTimelineShareData({
+      // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+      wx.onMenuShareAppMessage({
+        // title: _this.shareData.title, // 分享标题
+        // desc: _this.shareData.desc, // 分享描述
+
+        title: "请查看详情吧！！", // 分享标题
+        desc: "分享描述怎么写？请自己设定吧", // 分享描述
         link: _this.shareData.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
         // imgUrl: _this.shareData.imgUrl, // 分享图标
-        imgUrl: window.location.href, // 分享图标
+        imgUrl:
+          "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1605263246096&di=5d71d3f0ed7549a67fdee635d8fe926c&imgtype=0&src=http%3A%2F%2Fb.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2F37d12f2eb9389b50ce7fd7718435e5dde7116e14.jpg", // 分享图标
 
         success: function () {
-          util.success('分享成功');
+          util.success("分享成功");
         },
         cancel: function () {
-          util.success('取消分享');
-        }
+          util.success("取消分享");
+        },
       });
     },
-
-    
-
-    
   },
   computed: {},
 };

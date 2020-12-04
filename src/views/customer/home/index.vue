@@ -328,7 +328,7 @@ export default {
 
     // 查看详情
     handleLook(row) {
-      debugger
+      // debugger
       this.$router.push({
         name: "home_details",
         query: {

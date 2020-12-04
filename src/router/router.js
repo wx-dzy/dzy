@@ -73,7 +73,7 @@ export default [
         path: '/home_introduce',
         meta: {
             requiresAuth: false,
-            title: '企业简介',
+            title: '会议介绍',
         },
         name: 'home_introduce',
         component: () => import('@/views/customer/home/components/home_introduce.vue')

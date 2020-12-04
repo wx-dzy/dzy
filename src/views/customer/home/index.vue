@@ -328,12 +328,13 @@ export default {
 
     // 查看详情
     handleLook(row) {
+      debugger
       this.$router.push({
         name: "home_details",
         query: {
           // 企业id
           id: row.id,
-          // title: row.enterpriseName
+          title: row.showName
         },
       });
     },

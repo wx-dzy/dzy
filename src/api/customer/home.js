@@ -30,3 +30,9 @@ export const getSendVerifyCode= params => axios.get('/c/show-order/send-verify-c
 
 // 承办公司-单个会展预约  /c/show-order/add
 export const setShowOrderAdd = params => axios.post('/c/show-order/add', params);
+
+// 参展商目录-首页-参展商列表 /c/enterprise-show/page/{enterpriseShowId}
+export const getSupplierList= params => axios.get(`/c/enterprise-show/page/${params.enterpriseShowId}`,{params});
+
+// 展会详情首页，我的面谈预约  /c/enterprise-show/list-my-interview/{enterpriseShowId}
+export const getListMyInterview= params => axios.get(`/c/enterprise-show/list-my-interview/${params.enterpriseShowId}`,{params});

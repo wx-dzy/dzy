@@ -94,29 +94,39 @@
 
       <div class="center_btn">
         <van-tabs
-          v-model="active"
+          v-model="activeName"
           class="tab"
           swipe-threshold="5"
           title-active-color="#000"
           @click="changeTab"
         >
-          <van-tab title="供应商目录">
-             引入供应商目录{{active}}
-           
+          <van-tab title="供应商目录" name="supplier_list">
+            <!-- <supplierList :activeName="activeName" /> -->
           </van-tab>
-          <van-tab title="已约面谈">
-             引入预约模块{{active}}
-            
+          <van-tab title="已约面谈" name="subscribe_list">
+            <!-- <subscribeList :activeName="activeName" /> -->
           </van-tab>
         </van-tabs>
 
-        <van-grid clickable :border="false" :column-num="3">
-          <van-grid-item @click="handleToIntroduce(3)">
+        <div class="tab_content">
+          <supplierList
+            v-if="activeName == 'supplier_list'"
+            :enterpriseShowId = "`${details.enterpriseShow.id}`"
+          />
+
+          <subscribeList
+            v-if="activeName == 'subscribe_list'"
+            :enterpriseShowId = "`${details.enterpriseShow.id}`"
+          />
+        </div>
+
+        <van-grid clickable :border="false" :column-num="2">
+          <!-- <van-grid-item @click="handleToIntroduce(3)">
             <svg class="icon svg-icon" aria-hidden="true">
               <use xlink:href="#yz-canzhanshangmulu" />
             </svg>
             供应商目录
-          </van-grid-item>
+          </van-grid-item> -->
 
           <van-grid-item @click="handleToIntroduce(4)">
             <!-- <van-grid-item to="/"> -->
@@ -223,6 +233,8 @@ import html2canvas from "html2canvas";
 import shareTemp from "@/components/customer/shareTemp.vue";
 
 // import footerNav from "@/components/customer/footerNav/index.vue";
+import supplierList from "./supplier_list.vue";
+import subscribeList from "./subscribe_list.vue";
 
 export default {
   name: "home_details",
@@ -231,11 +243,13 @@ export default {
     // 分享
     shareTemp,
     // footerNav
+    supplierList,
+    subscribeList,
   },
   data() {
     return {
-    //   loading: false,
-       active: 0,
+      //   loading: false,
+      activeName: "supplier_list",
       // 分享图片地址
       imageurl: "",
       // 企业id
@@ -330,8 +344,8 @@ export default {
       // this.showShare = true;
     },
 
-     //切换tab
-    changeTab (title,name) {},
+    //切换tab
+    changeTab(title, name) {},
 
     // 选择分享
     onSelect(option) {
@@ -360,7 +374,7 @@ export default {
           const imageurl = canvas.toDataURL("image/png");
           this.imageurl = imageurl;
 
-        //   console.log(imageurl);
+          //   console.log(imageurl);
           // 这里需要自己选择命名规则
 
           const imagename = this.handleIndexName(
@@ -401,7 +415,7 @@ export default {
 
     // 查看公司简介
     handleToIntroduce(type) {
-    //   console.log(type);
+      //   console.log(type);
       // 年会展日历
       if (type == 1) {
         // 这里是唯一的入口

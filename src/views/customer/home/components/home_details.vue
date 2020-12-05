@@ -17,8 +17,8 @@
       <div class="details_top">
         <van-row class="cont">
           <!-- <van-col span="4">
-                        <img :src="details.enterprise.logo" alt="logo" class="logo" />
-                    </van-col> -->
+                  <img :src="details.enterprise.logo" alt="logo" class="logo" />
+              </van-col> -->
           <van-col span="24">
             <van-row>
               <van-col span="19">
@@ -57,22 +57,16 @@
               :showIndex="1"
               @successCBK="handleFollow"
             />
-            <van-button
+            <!-- <van-button
               icon="icon iconfont yz-fenxiang"
               type="default"
               class="btnNone"
               @click="handleShare"
               >分享</van-button
-            >
+            > -->
           </van-col>
           <van-row class="w100">
             <van-col span="12">
-              <!-- <van-button
-                                type="default"
-                                class="btnNone1"
-                                @click="handleToIntroduce(1)"
-                            >{{year}}年招采日历</van-button> -->
-
               <van-button
                 type="default"
                 class="btnNone1"
@@ -111,12 +105,12 @@
         <div class="tab_content">
           <supplierList
             v-if="activeName == 'supplier_list'"
-            :enterpriseShowId = "`${details.enterpriseShow.id}`"
+            :enterpriseShowId="`${details.enterpriseShow.id}`"
           />
 
           <subscribeList
             v-if="activeName == 'subscribe_list'"
-            :enterpriseShowId = "`${details.enterpriseShow.id}`"
+            :enterpriseShowId="`${details.enterpriseShow.id}`"
           />
         </div>
 
@@ -131,7 +125,7 @@
           <van-grid-item @click="handleToIntroduce(4)">
             <!-- <van-grid-item to="/"> -->
             <svg class="icon svg-icon" aria-hidden="true">
-              <use xlink:href="#yz-zhanhuiricheng" />
+              <use xlink:href="#yz-canguanyuyue" />
             </svg>
             <!-- 展会日程 -->
             招采日程
@@ -139,8 +133,9 @@
 
           <van-grid-item @click="handleToIntroduce(1)">
             <svg class="icon svg-icon" aria-hidden="true">
-              <use xlink:href="#yz-canguanyuyue" />
+              <use xlink:href="#yz-zhanhuiricheng" />
             </svg>
+
             {{ year }}年招采日历
           </van-grid-item>
         </van-grid>
@@ -504,6 +499,11 @@ export default {
   .nullImg {
     width: 4rem;
     margin: 0.4rem 1.47rem;
+  }
+
+  .tab_content {
+    margin-bottom: 0.1rem;
+    box-shadow: 0rem 0.2rem 0.26rem 0rem #e9e9e9;
   }
 }
 </style>

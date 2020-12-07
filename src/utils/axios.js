@@ -8,6 +8,7 @@ import qs from 'qs';
 import {
     util
 } from '@/utils';
+import { set } from 'core-js/fn/dict';
 
 // 运行环境
 const env = process.env.NODE_ENV === 'development' ?
@@ -85,19 +86,23 @@ instance.interceptors.response.use(response => {
     }
     return data;
 }, error => {
-    // console.log(error.response.data)
-    if (error.response.data.status == 401) {
+    if (error.response.data.code == 401) {
+        // console.log(error.response.data)
         util.error('登录过期请重新登录');
         // 删除token
-        localStorage.removeItem("dzy_token")
-        vm.$router.push({ name: 'login' })
+        setTimeout(()=>{
+            localStorage.removeItem("dzy_token")
+            console.log(vm.$router,'22222')
+            vm.$router.push({ path: "/" })
+        },1000)
+       
         return
     }
-    if (error.response.data.status == 417) {
+    if (error.response.data.code == 417) {
         util.error(error.response.data.msg);
         return
     }
-    if (error.response.data.status == 500) {
+    if (error.response.data.code == 500) {
         if (error.response.data.msg) {
             util.error(error.response.data.msg);
         } else if (error.response.data.message) {

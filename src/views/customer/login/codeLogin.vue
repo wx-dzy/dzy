@@ -202,10 +202,10 @@ export default {
         }
     },
     created() {
-        console.log('进入手机号登陆')
+        // console.log('进入手机号登陆')
 
         this.getPJ()
-        console.log('openId', this.openId)
+        // console.log('openId', this.openId)
         // this.getInfo()
         // this.getUrlParam()
         // 获取本地登录信息
@@ -225,7 +225,7 @@ export default {
         //tel 是data() 里面的数据tel，newVal是tel变化后的值，oldVal是tel变化前的值
         headimgurl: {
             handler(newVal, oldVal) {
-                console.log(newVal, oldVal)
+                // console.log(newVal, oldVal)
                 if (newVal) {
                     this.isDisabled = true
                 } else {
@@ -248,7 +248,7 @@ export default {
             }
             Api.loginInit(params)
                 .then((res) => {
-                    console.log('微信登录', res)
+                    // console.log('微信登录', res)
                     if (res.code == 200) {
                         let {
                             accessToken,
@@ -295,14 +295,14 @@ export default {
         //       },
         // 获取js配置
         getPJ() {
-            console.log('appId', this.appId)
+            // console.log('appId', this.appId)
             if (!this.appId) {
                 Api.getAppId()
                     .then((res) => {
-                        console.log('获取appid', res)
+                        // console.log('获取appid', res)
                         const { code, data, msg, total } = res
                         this.appId = data.appId
-                        console.log('appid', this.appId)
+                        // console.log('appid', this.appId)
                         // 获取code
                         this.getCode()
                     })
@@ -333,7 +333,7 @@ export default {
                                             env == 'production' ? 'https://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_base&state=123&redirect_uri=https://www.dzy315.com/dzy-wx-product/codeLogin&response_type=code' : ''                     
             } else {
                 _this.code = code
-                console.log('code', _this.code)
+                // console.log('code', _this.code)
                 var data = {
                     code: _this.code,
                 }
@@ -343,12 +343,12 @@ export default {
 
         // 获取openid
         getopenid_data(data) {
-            console.log('data', data)
-            console.log('openId', this.openId)
+            // console.log('data', data)
+            // console.log('openId', this.openId)
             if (!this.openId) {
-                console.log('code_1', this.code)
+                // console.log('code_1', this.code)
                 Api.getOpenId(this.code).then((res) => {
-                    console.log('获取openid', res)
+                    // console.log('获取openid', res)
                     if (res.code == 200) {
                         // "moduleId":1,
                         localStorage.setItem('dzy_openId', res.data.openId, 7)
@@ -368,7 +368,7 @@ export default {
         getInfo() {
             if (!this.headimgurl || !this.nickname) {
                 Api.getUserInfo(this.openId).then((res) => {
-                    console.log('获取用户信息', res)
+                    // console.log('获取用户信息', res)
                     if (res.code == 200) {
                         this.headimgurl = res.data.headimgurl
                         this.nickname = res.data.nickname
@@ -402,14 +402,14 @@ export default {
         // 获取验证码
         getVerification() {
             let _this = this
-            console.log('获取验证码', this.mobile)
+            // console.log('获取验证码', this.mobile)
             if (!/^1[3456789]\d{9}$/.test(this.mobile)) {
                 this.$toast('请输入正确手机号')
             } else {
                 Api.getMobile(_this.mobile)
                     // Api.getMobile(this.code,this.mobile)
                     .then((res) => {
-                        console.log('验证码', res)
+                        // console.log('验证码', res)
                         if (res.code == 200) {
                             this.isBtn = true
                             this.showTimer()
@@ -479,7 +479,7 @@ export default {
                         mobile: this.mobile,
                         openId: this.openId,
                     }
-                    console.log('params', params)
+                    // console.log('params', params)
 
                     // 请求登录
                     this.onSubmt(params)
@@ -488,11 +488,11 @@ export default {
         },
         // 请求登录
         onSubmt(params) {
-            console.log(params)
+            // console.log(params)
             util.showLoading()
             Api.codeInit(params)
                 .then((res) => {
-                    console.log('res', res)
+                    // console.log('res', res)
                     let { code, data, msg, total } = res
                     if (res.code == 417) {
                         this_.$message.error(res.message)

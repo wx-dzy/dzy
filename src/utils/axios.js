@@ -17,7 +17,7 @@ const env = process.env.NODE_ENV === 'development' ?
         process.env.VUE_APP_MODE === 'demo' ? 'demo' :
             'production';
 
-console.log(env, '运行环境env{production:线上;test:测试;development:本地;}')
+// console.log(env, '运行环境env{production:线上;test:测试;development:本地;}')
 // 线上测试&线上正式环境   
 const baseURL = env === 'production' ? 'https://www.dzy315.com/p/dzy' : (env === 'test' ? 'https://www.dzy315.com/t/dzy' : 'https://www.dzy315.com/t/dzy');
 
@@ -66,8 +66,14 @@ instance.interceptors.response.use(response => {
     let {
         data
     } = response;
-
-    if (response.status == 404) {
+    if (response.status == 401) {
+        util.error('登录过期请重新登录');
+        // 删除token
+        setTimeout(()=>{
+            localStorage.removeItem("dzy_token")
+            vm.$router.push({ path: "/" })
+        },1000)
+    } else if (response.status == 404) {
         this.$router.push('/err-404');
     } else if (response.status == 500) {
         util.error('服务器开小差了，请稍后再试');
@@ -92,7 +98,6 @@ instance.interceptors.response.use(response => {
         // 删除token
         setTimeout(()=>{
             localStorage.removeItem("dzy_token")
-            console.log(vm.$router,'22222')
             vm.$router.push({ path: "/" })
         },1000)
        

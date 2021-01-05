@@ -50,7 +50,8 @@ import {
     GoodsAction, GoodsActionIcon, GoodsActionButton,
     Area,
     ActionSheet,
-    DatetimePicker
+    DatetimePicker,
+    NumberKeyboard
 
 } from 'vant';
 
@@ -97,6 +98,8 @@ Vue.use(Area);
 Vue.use(ActionSheet);
 Vue.use(moment);
 Vue.use(DatetimePicker);
+Vue.use(NumberKeyboard);
+
 
 
 

@@ -19,3 +19,9 @@ export const getEnterpriseById = params => axios.get('/c/enterprise/get-enterpri
 
 // 新产品详情 /c/goods/get-sale-info-by-id/{goodsId} 
 export const getGoodDetailById = params => axios.get('/c/goods/get-sale-info-by-id/'+params);
+
+// 根据id获取询价单详情 /c/inquiry-order/to-inquire-order-add/{prodoctId}
+export const getInquiryItem = params => axios.get(`/c/inquiry-order/to-inquire-order-add/${params}`);
+
+// 保存询价单  /c/inquiry-order/save-inquiry-order
+export const subInquiryOrder= params => axios.post('/c/inquiry-order/save-inquiry-order', params);

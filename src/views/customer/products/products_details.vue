@@ -258,19 +258,20 @@ export default {
     },
     // 去下单
     handleGoshop() {
-      // 临时跳转
-      window.location.href = `https://www.dzy315.com/hlwl_wexin/uploadInquiry/order/details.html?inquiryId=1243&status=2&goodsName=${this.detail.goodsBaseInfo.goodsName}`;
+      // // 临时跳转
+      // window.location.href = `https://www.dzy315.com/hlwl_wexin/uploadInquiry/order/details.html?inquiryId=1243&status=2&goodsName=${this.detail.goodsBaseInfo.goodsName}`;
 
-      return;
-      let param = [];
-      param.push(this.detail.goodsBaseInfo.id);
+      // return;
+      // let param = [];
+      // param.push(this.detail.goodsBaseInfo.id);
 
       // 正常跳转
       this.$router.push({
         name: "products_uploadInquiry",
         query: {
           // 商品id数组
-          goodsIds: JSON.stringify(param),
+          // goodsIds: JSON.stringify(param),
+          goodsIds: this.detail.goodsBaseInfo.id
         },
       });
     },

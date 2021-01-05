@@ -12,14 +12,17 @@
           :autoplay="10000"
           indicator-color="white"
         >
-          <van-swipe-item v-for="(image, index)  in detail.goodsImagesList" :key="index">
+          <van-swipe-item
+            v-for="(image, index) in detail.goodsImagesList"
+            :key="index"
+          >
             <!-- <router-link :to="{'path':'personal'}"> -->
             <div v-if="image.mediaType" class="itemImg">
               <Video-Demo
                 :_id="image.id"
                 :src="image.videoUrl"
                 :playVideoId.sync="playVideoId"
-                style="width: 100%;"
+                style="width: 100%"
               />
             </div>
             <img v-else :src="image.mediaUrl" alt />
@@ -30,14 +33,14 @@
 
         <div class="contwrap">
           <van-row class="head border pad22">
-            <h2 class="title">{{ detail.goodsBaseInfo.goodsName}}</h2>
+            <h2 class="title">{{ detail.goodsBaseInfo.goodsName }}</h2>
 
             <van-col span="19">
               <p>品 牌：{{ detail.goodsBaseInfo.brandName }}</p>
               <p>订货号：{{ detail.goodsBaseInfo.orderNo }}</p>
-              <p
-                v-if="detail.goodsBaseInfo.goodsPrice.toString().length"
-              >商品价格：{{ detail.goodsBaseInfo.goodsPrice + '元' || '' }}</p>
+              <p v-if="detail.goodsBaseInfo.goodsPrice.toString().length">
+                商品价格：{{ detail.goodsBaseInfo.goodsPrice + "元" || "" }}
+              </p>
             </van-col>
             <van-col span="10" v-show="detail.goodsBaseInfo.minOrderQuantity">
               <p>起订量：{{ detail.goodsBaseInfo.minOrderQuantity }}</p>
@@ -46,7 +49,12 @@
               <p>制造商编号：{{ detail.goodsBaseInfo.manufacturerModel }}</p>
             </van-col>
             <van-col span="5" class="shareBtn text-right">
-              <van-button round size="small" color="#F8D57E" @click="handeGetData">
+              <van-button
+                round
+                size="small"
+                color="#F8D57E"
+                @click="handeGetData"
+              >
                 <span class="icon iconfont yz-fenxiang1"></span>
                 分享
               </van-button>
@@ -55,8 +63,10 @@
 
           <van-row v-if="detail.attributeList" class="border pad22">
             <!-- <h2 class="title">参数</h2> -->
-            <van-row v-for="(item,index) in detail.attributeList" :key="index">
-              <van-col span="7" class="text-right bold">{{ item.key}}：</van-col>
+            <van-row v-for="(item, index) in detail.attributeList" :key="index">
+              <van-col span="7" class="text-right bold"
+                >{{ item.key }}：</van-col
+              >
               <van-col span="17">{{ item.value }}</van-col>
             </van-row>
           </van-row>
@@ -64,11 +74,13 @@
           <van-row v-if="detail.skuAttributeList" class="border pad22">
             <!-- <h2 class="title">销售属性</h2> -->
             <van-row
-              v-for="(item,index) in detail.skuAttributeList"
+              v-for="(item, index) in detail.skuAttributeList"
               style="margin-bottom: 0.1rem"
               :key="index"
             >
-              <van-col span="7" class="text-right">{{ item.attributeName}}：</van-col>
+              <van-col span="7" class="text-right"
+                >{{ item.attributeName }}：</van-col
+              >
               <van-col span="17">
                 <!-- {{item.active}} -->
                 <van-radio-group
@@ -82,34 +94,40 @@
                     :name="obj.key"
                     shape="square"
                     class="className"
-                    :class="obj.key == item.active  ? 'checkClassName' : ''"
-                  >{{ obj.value }}</van-radio>
+                    :class="obj.key == item.active ? 'checkClassName' : ''"
+                    >{{ obj.value }}</van-radio
+                  >
                   <!-- <van-radio :name="obj.key" shape="square">单选框 2</van-radio> -->
                 </van-radio-group>
               </van-col>
             </van-row>
+            <!-- {{ checkbj }} -->
+
             <h2 class="title cred">
               价格：
-              <span class>{{ price ? price + '元' : '' }}</span>
+              <span class>{{ price ? price + "元" : "" }}</span>
             </h2>
           </van-row>
 
           <!-- {{detail.skuAttributeList}} -->
           <van-row class="border" v-if="detail.goodsIntroductionList.length">
             <h2 class="title">产品详情</h2>
-            <van-col span="24" v-for="(item,index) in detail.goodsIntroductionList" :key="index">
+            <van-col
+              span="24"
+              v-for="(item, index) in detail.goodsIntroductionList"
+              :key="index"
+            >
               <div v-if="item.mediaType" class="itemImg">
                 <Video-Demo
                   :_id="item.id"
                   :src="item.videoUrl"
                   :playVideoId.sync="playVideoId"
-                  style="width: 100%;"
+                  style="width: 100%"
                 />
               </div>
               <img v-else :src="item.mediaUrl" alt class="itemImg" />
             </van-col>
           </van-row>
-
           <van-goods-action class="footer">
             <!-- <van-goods-action-icon icon="icon iconfont yz-shangjia" text="商家" /> -->
             <van-goods-action-icon
@@ -136,7 +154,7 @@
       <img
         v-if="!detail.goodsBaseInfo && !refreshing"
         src="@/assets/images/nullImgText.png"
-        style="width: 2.6rem; margin: 1.4rem 2rem;"
+        style="width: 2.6rem; margin: 1.4rem 2rem"
         class="nullImg"
         alt
       />
@@ -158,7 +176,6 @@ export default {
   },
   data() {
     return {
-      //
       playVideoId: "",
       // 商品di
       goodsId: "",
@@ -249,7 +266,8 @@ export default {
       );
       // console.log(checkbj, "checkbj");
       // 当前选中参数
-      this.checkbj = checkbj ? checkbj : {}
+      this.checkbj = checkbj ? checkbj : {};
+
       this.price = checkbj
         ? checkbj.price
         : this.detail.goodsBaseInfo.minGoodsPrice +
@@ -258,20 +276,24 @@ export default {
     },
     // 去下单
     handleGoshop() {
-      // // 临时跳转
-      // window.location.href = `https://www.dzy315.com/hlwl_wexin/uploadInquiry/order/details.html?inquiryId=1243&status=2&goodsName=${this.detail.goodsBaseInfo.goodsName}`;
-
-      // return;
-      // let param = [];
-      // param.push(this.detail.goodsBaseInfo.id);
+      if (1) {
+        // 临时跳转
+        // window.location.href = `https://www.dzy315.com/hlwl_wexin/uploadInquiry/order/details.html?inquiryId=1243&status=2&goodsName=${this.detail.goodsBaseInfo.goodsName}`;
+        // return;
+      }
 
       // 正常跳转
+      // let param = [];
+      // param.push(this.detail.goodsBaseInfo.id);
+      if (!this.checkbj.id) {
+        return this.$toast("请选择商品属性！！");
+      }
       this.$router.push({
         name: "products_uploadInquiry",
         query: {
           // 商品id数组
           // goodsIds: JSON.stringify(param),
-          goodsIds: this.detail.goodsBaseInfo.id
+          goodsIds: this.checkbj.id,
         },
       });
     },

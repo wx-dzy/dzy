@@ -105,6 +105,7 @@ Vue.use(NumberKeyboard);
 
 
 
+
 // 视频播放
 import VideoPlayer from 'vue-video-player'
 require('video.js/dist/video-js.css')

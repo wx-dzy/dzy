@@ -1,4 +1,4 @@
-// 企业产品目录-列表页
+// 企业产品目录-列表页 可选择备份
 <template>
   <div class="products">
     <!-- 下拉刷新 -->
@@ -63,17 +63,15 @@
               class="contentItem"
               :class="type==2 ? 'padL10' : ''"
             >
-              <van-row @click="handleLook(item)">
+              <van-row>
                 <van-col :span="type == 2 ? 8 : 7">
-                  <!-- <van-checkbox v-show="type==2" :name="item.id" checked-color="#F8D57E">
+                  <van-checkbox v-show="type==2" :name="item.id" checked-color="#F8D57E">
                     <img :src="item.goodsLogo" alt class="logo" />
-                  </van-checkbox> -->
-                    <img :src="item.goodsLogo" alt class="logo" />
-
+                  </van-checkbox>
                   <img v-show="type==1" :src="item.goodsLogo" alt class="logo" />
                 </van-col>
                 <!-- {{type}} -->
-                <van-col :span="type == 2 ? 16 : 17" >
+                <van-col :span="type == 2 ? 16 : 17" @click="handleLook(item)">
                   <h3 class="title">{{ item.goodsName }}</h3>
                   <van-col span="24" class="color999">订货号：{{ item.orderNo }}</van-col>
                   <van-col span="24" class="color999">起订量：{{ item.minOrderQuantity }}</van-col>
@@ -92,7 +90,7 @@
         alt
       />
     </van-pull-refresh>
-    <!-- <van-button v-if="type==2" color="#F8D57E" class="gobtn" @click="handleGoshop">去询价/下单</van-button> -->
+    <van-button v-if="type==2" color="#F8D57E" class="gobtn" @click="handleGoshop">去询价/下单</van-button>
   </div>
 </template>
 

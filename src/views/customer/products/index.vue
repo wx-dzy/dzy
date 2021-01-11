@@ -70,7 +70,7 @@
                   </van-checkbox> -->
                     <img :src="item.goodsLogo" alt class="logo" />
 
-                  <img v-show="type==1" :src="item.goodsLogo" alt class="logo" />
+                  <!-- <img v-show="type==1" :src="item.goodsLogo" alt class="logo" /> -->
                 </van-col>
                 <!-- {{type}} -->
                 <van-col :span="type == 2 ? 16 : 17" >

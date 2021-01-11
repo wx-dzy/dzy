@@ -208,6 +208,7 @@
         }
 
         .itemList {
+            width: calc(100% - 0.24rem);
             margin-bottom: 0.4rem;
             padding: 0.22rem;
             background: rgba(255, 255, 255, 1);

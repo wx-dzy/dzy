@@ -48,7 +48,7 @@
             <van-col span="14" v-show="detail.goodsBaseInfo.manufacturerModel">
               <p>制造商编号：{{ detail.goodsBaseInfo.manufacturerModel }}</p>
             </van-col>
-            <van-col span="5" class="shareBtn text-right">
+            <!-- <van-col span="5" class="shareBtn text-right">
               <van-button
                 round
                 size="small"
@@ -58,6 +58,13 @@
                 <span class="icon iconfont yz-fenxiang1"></span>
                 分享
               </van-button>
+            </van-col> -->
+            <van-col span="24" class="padding0">
+              <van-field name="stepper"  label-width="50" label="数量：">
+                <template #input>
+                  <van-stepper v-model="detail.goodsBaseInfo.quantity" />
+                </template>
+              </van-field>
             </van-col>
           </van-row>
 
@@ -361,6 +368,11 @@ export default {
   }
   .bold {
     font-weight: bold;
+  }
+  .padding0 {
+    .van-cell {
+      padding: 0;
+    }
   }
 }
 </style>

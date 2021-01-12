@@ -94,12 +94,14 @@
       </div>
     </div>
     <div class="product_catalog" v-if="productList.length>0">
-      <div class="top-title" @click="toProductList">
+      <div class="top-title padding20" @click="toProductList">
         <span>企业产品目录</span>
-        <van-icon name="arrow" />
+        <!-- <van-icon name="arrow" /> -->
       </div>
+      <products>
+      </products>
 
-      <div class="item">
+      <!-- <div class="item">
         <div
           class="itemList"
           v-for="(item,index) in productList"
@@ -115,7 +117,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <!-- 企业产品目录 -->
@@ -125,6 +127,8 @@
 </template>
 <script>
 import VideoDemo from "@/components/customer/videoPlay/index.vue";
+import products from "@/views/customer/products/index.vue";
+
 import photo1 from "@/assets/images/man.png";
 import photo2 from "@/assets/images/girl.png";
 import photo3 from "@/assets/images/center.png";
@@ -135,6 +139,7 @@ export default {
   name: "exhibitor_details",
   components: {
     VideoDemo, // 播放
+    products
   },
   data() {
     return {
@@ -174,6 +179,7 @@ export default {
     },
     // 商品目录
     toProductList() {
+      return
       this.$router.push({
         name: "products",
         query: {
@@ -497,7 +503,7 @@ export default {
   }
 
   .product_catalog {
-    margin-top: 1.02rem;
+    // margin-top: 1.02rem;
     margin-bottom: 1.3rem;
 
     .itemList {
@@ -547,7 +553,10 @@ export default {
     }
   }
 }
+.padding20 {
+  padding: 0.2rem 0;
 
+}
 .top-title {
   color: #313437;
   position: relative;

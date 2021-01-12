@@ -51,7 +51,8 @@ import {
     Area,
     ActionSheet,
     DatetimePicker,
-    NumberKeyboard
+    NumberKeyboard,
+    Stepper
 
 } from 'vant';
 
@@ -99,6 +100,7 @@ Vue.use(ActionSheet);
 Vue.use(moment);
 Vue.use(DatetimePicker);
 Vue.use(NumberKeyboard);
+Vue.use(Stepper);
 
 
 

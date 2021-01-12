@@ -3,7 +3,7 @@
   <div class="products">
     <!-- 下拉刷新 -->
     <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-      <van-row class="head">
+      <!-- <van-row class="head">
         <van-col span="7">
           <img :src="details.logo" alt class="photo" />
         </van-col>
@@ -28,7 +28,7 @@
             @click="handleOrder"
           >预约面谈</van-button>
         </van-col>
-      </van-row>
+      </van-row> -->
 
       <!-- 搜索 -->
       <van-search
@@ -36,7 +36,7 @@
         placeholder="请输入企业名称/法人姓名/品牌姓名"
         @search="onSearch"
         @input="onSearch"
-        class="inline w70"
+        class="inline w110"
       />
 
       <van-dropdown-menu class="inline w30" active-color="#ee0a24">
@@ -352,5 +352,9 @@ export default {
 <style lang="scss" scoped>
 @import "@/assets/styles/base/calc_vm.scss";
 @import "./products.scss";
+.w110 {
+  width: 5.6rem;
+  padding: 0;
+}
 </style>
 

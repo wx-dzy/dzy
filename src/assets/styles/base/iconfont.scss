@@ -78,6 +78,22 @@ $iconfont-path: "./assets/fonts" !default;
 
 // 阿里云
 
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.yz-gouwuchekong:before {
+  content: "\e600";
+}
+
+.yz-youshangjiao:before {
+  content: "\e79a";
+}
+
 .yz-suoquyangpin:before {
   content: "\e670";
 }

@@ -37,6 +37,13 @@ export default {
           path: "resources"
         },
         {
+          ico: "icon iconfont yz-gouwuchekong",
+          name: "shoppingCart",
+          lable: "购物车",
+          // 路由
+          path: "shoppingCart"
+        },
+        {
           ico: "icon iconfont yz-zuzhijiagou",
           name: "list",
           lable: "列表",

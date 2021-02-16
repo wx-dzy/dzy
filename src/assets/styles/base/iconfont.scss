@@ -86,6 +86,14 @@ $iconfont-path: "./assets/fonts" !default;
   -moz-osx-font-smoothing: grayscale;
 }
 
+.yz-shanchu:before {
+  content: "\e612";
+}
+
+.yz-qi:before {
+  content: "\e67d";
+}
+
 .yz-gouwuchekong:before {
   content: "\e600";
 }

@@ -52,7 +52,12 @@ import {
     ActionSheet,
     DatetimePicker,
     NumberKeyboard,
-    Stepper
+    Stepper,
+    Card,
+    Tag,
+    SubmitBar,
+    AddressList,
+    AddressEdit
 
 } from 'vant';
 
@@ -101,8 +106,11 @@ Vue.use(moment);
 Vue.use(DatetimePicker);
 Vue.use(NumberKeyboard);
 Vue.use(Stepper);
-
-
+Vue.use(Card);
+Vue.use(Tag);
+Vue.use(SubmitBar);
+Vue.use(AddressList);
+Vue.use(AddressEdit);
 
 
 

@@ -411,6 +411,60 @@ export default [
     },
 
     // ------------------   企业产品目录   end ------------------
+
+    // ------------------   购物车 start------------------
+
+    {
+        path: '/shoppingCart',
+        meta: {
+            requiresAuth: false,
+            title: '购物车',
+        },
+        name: 'shoppingCart',
+        component: () => import('@/views/customer/shoppingCart/index.vue'),
+    },
+
+    {
+        path: '/addressPage',
+        meta: {
+            requiresAuth: false,
+            title: '地址列表',
+        },
+        name: 'addressPage',
+        component: () => import('@/views/customer/shoppingCart/addressPage.vue'),
+    },
+    {
+        path: '/editAddAddress',
+        meta: {
+            requiresAuth: false,
+            title: '新增/编辑地址',
+        },
+        name: 'editAddAddress',
+        component: () => import('@/views/customer/shoppingCart/editAddAddress.vue'),
+    },
+
+
+    // {
+    //     path: '/products_details',
+    //     meta: {
+    //         requiresAuth: false,
+    //         title: '产品详情',
+    //     },
+    //     name: 'products_details',
+    //     component: () => import('@/views/customer/shoppingCart/products_details.vue'),
+    // },
+    // {
+    //     path: '/products_uploadInquiry',
+    //     meta: {
+    //         requiresAuth: false,
+    //         title: '上传询价单',
+    //     },
+    //     name: 'products_uploadInquiry',
+    //     component: () => import('@/views/customer/shoppingCart/products_uploadInquiry.vue'),
+    // },
+    // ------------------   购物车   end ------------------
+
+
     // 跳转pc页面
     {
         path: '/dazWebLink',

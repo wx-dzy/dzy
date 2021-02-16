@@ -60,9 +60,9 @@
               </van-button>
             </van-col> -->
             <van-col span="24" class="padding0">
-              <van-field name="stepper"  label-width="50" label="数量：">
+              <van-field name="stepper" label-width="50" label="数量：">
                 <template #input>
-                  <van-stepper v-model="detail.goodsBaseInfo.quantity" />
+                  <van-stepper v-model="detail.goodsBaseInfo.quantity" :min="detail.goodsBaseInfo.minOrderQuantity" />
                 </template>
               </van-field>
             </van-col>
@@ -142,17 +142,32 @@
               text="索取样品"
               @click="handleBtnDetail"
             />
-            <van-goods-action-button
+            <!-- <van-goods-action-button
               color="#F8D57E"
               type="warning"
               text="去询价/下单"
               @click="handleGoshop"
-            />
+            /> 
+            
             <van-goods-action-button
               color="#F8D57E"
               type="danger"
               text="索取产品资料"
               @click="handeGetData"
+            />
+            -->
+
+            <van-goods-action-button
+              color="#F8D57E"
+              type="warning"
+              text="加入购物车"
+              @click="handleAddShopping"
+            />
+            <van-goods-action-button
+              color="#F8D57E"
+              type="danger"
+              text="购物车"
+              @click="handleToShopping"
             />
           </van-goods-action>
         </div>
@@ -226,7 +241,6 @@ export default {
             this.detail = data;
             // 查找动态价格
             this.handleGetPrice();
-
             // this.detail.goodsBaseInfo.goodsPrice = ''
           }
         })
@@ -283,18 +297,14 @@ export default {
     },
     // 去下单
     handleGoshop() {
-      if (1) {
-        // 临时跳转
-        // window.location.href = `https://www.dzy315.com/hlwl_wexin/uploadInquiry/order/details.html?inquiryId=1243&status=2&goodsName=${this.detail.goodsBaseInfo.goodsName}`;
-        // return;
-      }
-
       // 正常跳转
       // let param = [];
       // param.push(this.detail.goodsBaseInfo.id);
       if (!this.checkbj.id) {
         return this.$toast("请选择商品属性！！");
       }
+
+      // 上传询价单唯一入口
       this.$router.push({
         name: "products_uploadInquiry",
         query: {
@@ -302,6 +312,40 @@ export default {
           // goodsIds: JSON.stringify(param),
           goodsIds: this.checkbj.id,
         },
+      });
+    },
+
+    // 添加购物车
+    handleAddShopping() {
+      if (!this.checkbj.id) {
+        return this.$toast("请选择商品属性！！");
+      }
+      let params = {
+        // 产品id
+        productId: this.checkbj.id,
+        // 产品数量
+        quantity: this.detail.goodsBaseInfo.quantity,
+      };
+      // debugger;
+      util.showLoading();
+      Api.addShopping(params)
+        .then((res) => {
+          let { code, msg, data, total } = res;
+          util.hideLoading();
+          if (code == 200) {
+            this.$toast("添加成功！！");
+          }
+        })
+        .catch((err) => {
+          util.hideLoading();
+        });
+    },
+
+    // 去购物车
+    handleToShopping() {
+      this.$router.push({
+        name: "shoppingCart",
+        query: {},
       });
     },
     // 索取产品资料

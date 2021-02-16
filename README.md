@@ -170,6 +170,18 @@ https://juejin.im/post/5cbff700e51d456e361ed904
     2.企业产品目录-上传询价单：  
         http://localhost:9000/products_uploadInquiry?goodsIds=%5B%221275702956557078530%22%5D
 
-    3.我的
-    4.整体跑一遍 看那个功能没有完善
 
+        
+ checkedAll: {
+      handler(newVal, oldVal) {
+        if (newVal) {
+          this.handleCheckAll();
+        } else {
+          this.handleToggleAll();
+        }
+      },
+      // deep属性对对象进行深度监听
+      // deep: true,
+      // 这样使用watch时有一个特点，就是当值第一次绑定的时候，不会执行监听函数，只有值        发生改变才会执行。
+      // 如果我们需要在最初绑定值的时候也执行函数，则就需要用到immediate属性。比如当父组件向子组件动态传值时，子组件props首次获取到父组件传来的默认值时，也需要执行函数，此时就需要将immediate设为true。
+      immediate: true,

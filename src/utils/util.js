@@ -293,8 +293,8 @@ util.clearCookie = function(cname) {
 util.Debounce = function (fn, t) {
     let delay = t || 500;
     let timer;
-    console.log(fn)
-    console.log(typeof fn)
+    // console.log(fn)
+    // console.log(typeof fn)
     return function () {
         let args = arguments;
         if(timer){

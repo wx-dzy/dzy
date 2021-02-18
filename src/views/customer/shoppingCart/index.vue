@@ -62,7 +62,7 @@
                           :name="obj.id"
                           checked-color="#F8D57E"
                           class="posiLeft"
-                          @click="handleItemChange"
+                          @click="handleItemChange(obj)"
                         />
                         <p>
                           参数：
@@ -86,7 +86,7 @@
                             integer
                             input-width="20px"
                             button-size="20px"
-                            @change="handleStep('1',item,obj)"
+                            @change="handleStep('1', item, obj)"
                           />
 
                           <i class="footTit fr"
@@ -138,7 +138,7 @@
                           :name="obj.id"
                           checked-color="#F8D57E"
                           class="posiLeft"
-                          @click="handleItemChange"
+                          @click="handleItemChange(obj)"
                         />
                         <p>
                           参数：
@@ -162,7 +162,7 @@
                             integer
                             input-width="20px"
                             button-size="20px"
-                            @change="handleStep('2','',obj)"
+                            @change="handleStep('2', '', obj)"
                           />
 
                           <i class="footTit fr">小计：带询价</i>
@@ -575,12 +575,23 @@ export default {
     // },
   },
   methods: {
-    handleItemChange(e) {
+    // 单个点击控制全选是否选中
+    handleItemChange(item) {
       if (this.checkActive.length == this.totalNum) {
         this.checkedAll = true;
       } else {
         this.checkedAll = false;
       }
+      let tag = this.checkActive.find((obj) => {
+        return item.id == obj;
+      });
+
+      if (tag) {
+        item.isCheck = true;
+      } else {
+        item.isCheck = false;
+      }
+      // console.log(tag, item, "ee");
     },
 
     handleAllChange() {
@@ -660,16 +671,32 @@ export default {
             ele.vendor.accountPeriodType = "票到后";
             // 付款类型
             ele.vendor.paymentType = "电汇";
+
+            ele.productList.forEach((element) => {
+              element.isCheck = false;
+            });
           }
           if (type == 2) {
             delete ele.vendor.showPicker;
             delete ele.vendor.showPicker1;
             delete ele.vendor.showPicker2;
+
+            ele.productList.forEach((element) => {
+              delete element.isCheck;
+            });
           }
         });
 
         data.orderList.forEach((ele) => {
           this.totalNum += ele.productList.length;
+          ele.productList.forEach((element) => {
+            if (type == 1) {
+              element.isCheck = false;
+            }
+            if (type == 2) {
+              delete element.isCheck;
+            }
+          });
         });
 
         // 上拉刷新
@@ -680,7 +707,7 @@ export default {
     },
 
     // type 1为订单 2为询价单
-    handleStep(type, item, obj ) {
+    handleStep(type, item, obj) {
       type = type ? type : 2;
       if (type == 1) {
         // console.log(item);
@@ -781,7 +808,7 @@ export default {
       // 删除自定义数据
       let data = this.handleData(JSON.parse(JSON.stringify(this.details)), 2);
       // debugger;
-      let param = this.checkedAll ? data : this.handleSubData(data);
+      let param = this.checkedAll ? data : this.handleSubData();
       util.showLoading();
       Api.subOrder(param)
         .then((res) => {
@@ -801,71 +828,24 @@ export default {
     },
 
     // 非全选数据处理
-    handleSubData(data) {
-      // data为this.detail 去掉自定义字段后字段
-      let param = {
-        address: this.details.address.id,
-        list: [{}, {}, {}],
-        orderList: [
-          {},
-          {},
-          {},
-          {},
-          // {
-          //   vendor:{},
-          //   productList:[]
-          // }
-        ],
-        inquiryList: [
-          {},
-          {},
-          {},
-          // {
-          //   vendor:{},
-          //   productList:[]
-          // }
-        ],
-      };
-      console.log(data.orderList);
-      console.log(data.inquiryList);
-
-      debugger;
-      this.checkActive.forEach((ele) => {
-        debugger;
-        data.orderList.forEach((obj) => {
-          let orders = obj.productList.find((item1) => {
-            return ele == item1.id;
-          });
-          if (orders) {
-            // if (orders) {
-            //   let tag = {
-            //     vendor: {},
-            //     productList: [],
-            //   };
-            //   tag.vendor = obj.vendor;
-            //   tag.productList.push(orders);
-            //   param.orderList.push(tag);
-            // }
-            param.orderList.push(orders);
-          }
-        });
-        data.inquiryList.forEach((obj) => {
-          debugger;
-          let inquirys = obj.inquiryList.find((item1) => {
-            return ele == item1.id;
-          });
-          if (inquirys) {
-            param.inquiryList.push(inquirys);
+    handleSubData() {
+      let param = JSON.parse(JSON.stringify(this.details));
+      param.inquiryList.forEach((ele) => {
+        ele.productList.forEach((obj, index) => {
+          if (!obj.isCheck) {
+            ele.productList.splice(index, 1);
           }
         });
       });
-      console.log(
-        "此处缺少data于checkActive比较 循环数据处理",
-        data,
-        this.checkActive
-      );
-      // debugger;
-      // 选中数据 this.checkActive
+
+      param.orderList.forEach((ele) => {
+        ele.productList.forEach((obj, index) => {
+          if (!obj.isCheck) {
+            ele.productList.splice(index, 1);
+          }
+        });
+      });
+      param = this.handleData(JSON.parse(JSON.stringify(param)), 2);
       return param;
     },
 

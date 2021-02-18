@@ -1,6 +1,9 @@
 // 购物车列表
 import { axios } from '@/utils';
 
+// 添加到购物车
+export const addShopping= params => axios.post('/c/goods-cart/add', params);
+
 
 // 我的购物车列表
 export const getMyCartList = params => axios.get('/c/goods-cart/list-my-cart' + params);

@@ -188,6 +188,8 @@
 import { util } from "@/utils";
 import { mapGetters } from "vuex";
 import * as Api from "@/api/customer/products";
+import * as _Api from "@/api/customer/shoppingCart";
+
 import VideoDemo from "@/components/customer/videoPlay/index.vue";
 // import visitingCard from "@/components/customer/visitingCard.vue";
 
@@ -328,7 +330,7 @@ export default {
       };
       // debugger;
       util.showLoading();
-      Api.addShopping(params)
+      _Api.addShopping(params)
         .then((res) => {
           let { code, msg, data, total } = res;
           util.hideLoading();

@@ -86,7 +86,7 @@
                             integer
                             input-width="20px"
                             button-size="20px"
-                            @change="handleStep(item)"
+                            @change="handleStep('1',item,obj)"
                           />
 
                           <i class="footTit fr"
@@ -162,6 +162,7 @@
                             integer
                             input-width="20px"
                             button-size="20px"
+                            @change="handleStep('2','',obj)"
                           />
 
                           <i class="footTit fr">小计：带询价</i>
@@ -635,7 +636,7 @@ export default {
 
     handleData(data, type) {
       // 临时数据
-      data = JSON.parse(JSON.stringify(this.details1));
+      // data = JSON.parse(JSON.stringify(this.details1));
       this.totalNum = 0;
       type = type ? type : 1;
       if (!data) {
@@ -677,14 +678,43 @@ export default {
 
       return data;
     },
-    handleStep(item) {
-      // console.log(item);
-      item.vendor.totalAmount = 0;
-      item.productList.forEach((ele) => {
-        item.vendor.totalAmount += ele.quantity * ele.price;
-      });
-      // console.log(item.vendor.totalAmount);
+
+    // type 1为订单 2为询价单
+    handleStep(type, item, obj ) {
+      type = type ? type : 2;
+      if (type == 1) {
+        // console.log(item);
+        item.vendor.totalAmount = 0;
+        item.productList.forEach((ele) => {
+          item.vendor.totalAmount += ele.quantity * ele.price;
+        });
+        // console.log(item.vendor.totalAmount);
+      }
+      // 单个物品数量提交
+      this.handleSunNum(obj);
     },
+
+    // 单个物品数量提交
+    handleSunNum: util.Debounce(function (item) {
+      // console.log(111,item.quantity,item.productId);
+      let params = {
+        // 产品id
+        productId: item.productId,
+        // 产品数量
+        quantity: item.quantity,
+      };
+      // util.showLoading();
+      Api.addShopping(params)
+        .then((res) => {
+          let { code, msg, data, total } = res;
+          // util.hideLoading();
+          if (code == 200) {
+          }
+        })
+        .catch((err) => {
+          // util.hideLoading();
+        });
+    }, 1000),
 
     handleDele() {
       // 清空
@@ -748,7 +778,6 @@ export default {
 
     // 提交数据
     handleOnsubData() {
-      util.success("二次确认！！", 2000);
       // 删除自定义数据
       let data = this.handleData(JSON.parse(JSON.stringify(this.details)), 2);
       // debugger;
@@ -775,31 +804,67 @@ export default {
     handleSubData(data) {
       // data为this.detail 去掉自定义字段后字段
       let param = {
-        address: this.details.address,
-        orderList: [],
-        inquiryList: [],
+        address: this.details.address.id,
+        list: [{}, {}, {}],
+        orderList: [
+          {},
+          {},
+          {},
+          {},
+          // {
+          //   vendor:{},
+          //   productList:[]
+          // }
+        ],
+        inquiryList: [
+          {},
+          {},
+          {},
+          // {
+          //   vendor:{},
+          //   productList:[]
+          // }
+        ],
       };
+      console.log(data.orderList);
+      console.log(data.inquiryList);
 
+      debugger;
       this.checkActive.forEach((ele) => {
-        let orders = data.orderList.find((item1) => {
-          return ele == item1.id;
+        debugger;
+        data.orderList.forEach((obj) => {
+          let orders = obj.productList.find((item1) => {
+            return ele == item1.id;
+          });
+          if (orders) {
+            // if (orders) {
+            //   let tag = {
+            //     vendor: {},
+            //     productList: [],
+            //   };
+            //   tag.vendor = obj.vendor;
+            //   tag.productList.push(orders);
+            //   param.orderList.push(tag);
+            // }
+            param.orderList.push(orders);
+          }
         });
-        if (orders) {
-          param.orderList.push(orders);
-        }
-        let inquirys = data.inquiryList.find((item1) => {
-          return ele == item1.id;
+        data.inquiryList.forEach((obj) => {
+          debugger;
+          let inquirys = obj.inquiryList.find((item1) => {
+            return ele == item1.id;
+          });
+          if (inquirys) {
+            param.inquiryList.push(inquirys);
+          }
         });
-        if (inquirys) {
-          param.inquiryList.push(inquirys);
-        }
       });
       console.log(
         "此处缺少data于checkActive比较 循环数据处理",
         data,
         this.checkActive
       );
-      debugger
+      // debugger;
       // 选中数据 this.checkActive
       return param;
     },

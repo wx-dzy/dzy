@@ -25,6 +25,3 @@ export const getInquiryItem = params => axios.get(`/c/inquiry-order/to-inquire-o
 
 // 保存询价单  /c/inquiry-order/save-inquiry-order
 export const subInquiryOrder= params => axios.post('/c/inquiry-order/save-inquiry-order', params);
-
-// 添加到购物车
-export const addShopping= params => axios.post('/c/goods-cart/add', params);

@@ -27,7 +27,6 @@
         </van-cell>
         <van-form @submit="onsubmt">
           <van-checkbox-group v-model="checkActive" ref="checkboxOrderList">
-            <!-- {{ checkActive }} -->
             <!-- 订货列表内容 -->
             <div v-if="details.orderList.length" class="content">
               <van-cell
@@ -807,7 +806,6 @@ export default {
     handleOnsubData() {
       // 删除自定义数据
       let data = this.handleData(JSON.parse(JSON.stringify(this.details)), 2);
-      // debugger;
       let param = this.checkedAll ? data : this.handleSubData();
       util.showLoading();
       Api.subOrder(param)

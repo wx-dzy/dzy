@@ -26,33 +26,22 @@
           </van-row>
         </van-cell>
         <van-form @submit="onsubmt">
-          <!-- 订货列表内容 -->
-          <div v-if="details.orderList.length" class="content">
-            <van-cell
-              v-for="(item, index) in details.orderList"
-              :key="`orderList${index}`"
-              class="contentItem pad0"
-            >
-              <van-row>
-                {{ item.vendor.checkedItemAll }}
-                <h3 class="headTit">
-                  <van-checkbox
-                    v-model="item.vendor.checkedItemBtn"
-                    shape="square"
-                    checked-color="rgb(248, 213, 126)"
-                    class="itemAllClass"
-                    @click="handleItemAllClick(item)"
-                  ></van-checkbox>
-                  <i
-                    data-v-0388d822=""
-                    class="van-icon van-icon-icon iconfont yz-qi"
-                  />
-                  {{ item.vendor.enterpriseName }}
-                </h3>
-                <van-checkbox-group
-                  v-model="item.vendor.checkedItemAll"
-                  ref="checkboxes"
-                >
+          <van-checkbox-group v-model="checkActive" ref="checkboxOrderList">
+            <!-- 订货列表内容 -->
+            <div v-if="details.orderList.length" class="content">
+              <van-cell
+                v-for="(item, index) in details.orderList"
+                :key="`orderList${index}`"
+                class="contentItem pad0"
+              >
+                <van-row>
+                  <h3 class="headTit">
+                    <i
+                      data-v-0388d822=""
+                      class="van-icon van-icon-icon iconfont yz-qi"
+                    />
+                    {{ item.vendor.enterpriseName }}
+                  </h3>
                   <van-col
                     :span="24"
                     v-for="(obj, _index) in item.productList"
@@ -72,7 +61,7 @@
                           :name="obj.id"
                           checked-color="#F8D57E"
                           class="posiLeft"
-                          @click="handleItemChange(obj, item)"
+                          @click="handleItemChange(obj)"
                         />
                         <p>
                           参数：
@@ -109,38 +98,25 @@
                   <p class="totalAmount">
                     应付总额：{{ item.vendor.totalAmount || 0 }}元
                   </p>
-                </van-checkbox-group>
-              </van-row>
-            </van-cell>
-          </div>
+                </van-row>
+              </van-cell>
+            </div>
 
-          <!-- 询价列表内容 -->
-          <div v-if="details.inquiryList.length" class="content">
-            <van-cell
-              v-for="(item, index) in details.inquiryList"
-              :key="`inquiryList${index}`"
-              class="contentItem pad0"
-            >
-              <van-row>
-                {{ item.vendor.checkedItemAll }}
-                <h3 class="headTit">
-                  <van-checkbox
-                    v-model="item.vendor.checkedItemBtn"
-                    shape="square"
-                    checked-color="rgb(248, 213, 126)"
-                    class="itemAllClass"
-                    @click="handleItemAllClick(item)"
-                  ></van-checkbox>
-                  <i
-                    data-v-0388d822=""
-                    class="van-icon van-icon-icon iconfont yz-qi"
-                  />
-                  {{ item.vendor.enterpriseName }}
-                </h3>
-                <van-checkbox-group
-                  v-model="item.vendor.checkedItemAll"
-                  ref="checkboxes"
-                >
+            <!-- 询价列表内容 -->
+            <div v-if="details.inquiryList.length" class="content">
+              <van-cell
+                v-for="(item, index) in details.inquiryList"
+                :key="`inquiryList${index}`"
+                class="contentItem pad0"
+              >
+                <van-row>
+                  <h3 class="headTit">
+                    <i
+                      data-v-0388d822=""
+                      class="van-icon van-icon-icon iconfont yz-qi"
+                    />
+                    {{ item.vendor.enterpriseName }}
+                  </h3>
                   <van-col
                     :span="24"
                     v-for="(obj, _index) in item.productList"
@@ -161,7 +137,7 @@
                           :name="obj.id"
                           checked-color="#F8D57E"
                           class="posiLeft"
-                          @click="handleItemChange(obj, item)"
+                          @click="handleItemChange(obj)"
                         />
                         <p>
                           参数：
@@ -274,13 +250,13 @@
                   <p class="totalAmount">
                     应付总额：{{ item.vendor.totalAmount || "带询价" }}
                   </p>
-                </van-checkbox-group>
-              </van-row>
-            </van-cell>
-          </div>
-          <!-- </van-checkbox-group> -->
+                </van-row>
+              </van-cell>
+            </div>
+          </van-checkbox-group>
 
           <van-submit-bar
+            :disabled="!checkActive.length"
             decimal-length="0"
             button-text="提交"
             native-type="submit"
@@ -572,7 +548,8 @@ export default {
         ],
       },
       refreshing: false,
-      // totalNum: 0,
+      checkActive: [],
+      totalNum: 0,
     };
   },
 
@@ -598,10 +575,13 @@ export default {
   },
   methods: {
     // 单个点击控制全选是否选中
-    handleItemChange(item, parent) {
-      // console.log(item,parent,1111)
-      // 修改每个按钮对应 键值 该键值 留给 部分提交使用
-      let tag = parent.vendor.checkedItemAll.find((obj) => {
+    handleItemChange(item) {
+      if (this.checkActive.length == this.totalNum) {
+        this.checkedAll = true;
+      } else {
+        this.checkedAll = false;
+      }
+      let tag = this.checkActive.find((obj) => {
         return item.id == obj;
       });
 
@@ -610,35 +590,11 @@ export default {
       } else {
         item.isCheck = false;
       }
-      // 处理当前企业的 全选
-      if (parent.vendor.checkedItemAll.length == parent.productList.length) {
-        parent.vendor.checkedItemBtn = true;
-      } else {
-        parent.vendor.checkedItemBtn = false;
-      }
-      // 判断底部全选按钮是否选中
-      this.handeChackAll();
-    },
-
-    // 判断底部全选按钮是否选中
-    handeChackAll() {
-      // this.checkedAll = true
-      let n = 0;
-      this.details.orderList.forEach((ele) => {
-        if (!ele.vendor.checkedItemBtn) {
-          n++;
-        }
-      });
-
-      this.details.inquiryList.forEach((ele) => {
-        if (!ele.vendor.checkedItemBtn) {
-          n++;
-        }
-      });
-      this.checkedAll = !!n ? false : true;
+      // console.log(tag, item, "ee");
     },
 
     handleAllChange() {
+      // console.log(this.checkedAll,'All')
       if (this.checkedAll) {
         this.handleCheckAll();
       } else {
@@ -646,51 +602,10 @@ export default {
       }
     },
     handleCheckAll() {
-      let num = this.details.orderList.length + this.details.inquiryList.length;
-      for (var i = 0; i < num; i++) {
-        this.$refs.checkboxes[i].toggleAll(true);
-      }
-      // 处理每个企业的 全选/取消
-      this.handeItemAllCheak(1);
+      this.$refs.checkboxOrderList.toggleAll(true);
     },
-
     handleToggleAll() {
-      let num = this.details.orderList.length + this.details.inquiryList.length;
-      for (var i = 0; i < num; i++) {
-        this.$refs.checkboxes[i].toggleAll();
-      }
-      // 处理每个企业的 全选/取消
-      this.handeItemAllCheak(2);
-    },
-
-    // 处理每个企业的 全选/取消
-    handeItemAllCheak(type) {
-      // type 1 选中每个企业  type 2 取消选中每个企业
-      this.details.orderList.forEach((ele) => {
-        if (type == 1) {
-          ele.vendor.checkedItemBtn = true;
-        } else {
-          ele.vendor.checkedItemBtn = false;
-        }
-      });
-      this.details.inquiryList.forEach((ele) => {
-        if (type == 1) {
-          ele.vendor.checkedItemBtn = true;
-        } else {
-          ele.vendor.checkedItemBtn = false;
-        }
-      });
-    },
-
-    // 每个企业的全选点击事件
-    handleItemAllClick(row) {
-      row.vendor.checkedItemAll = [];
-      row.productList.forEach((ele) => {
-        if (row.vendor.checkedItemBtn) {
-          row.vendor.checkedItemAll.push(ele.id);
-        }
-        ele.isCheck = row.vendor.checkedItemBtn;
-      });
+      this.$refs.checkboxOrderList.toggleAll();
     },
 
     // 跳转修改地址
@@ -729,11 +644,10 @@ export default {
         });
     },
 
-    // 数据处理
     handleData(data, type) {
       // 临时数据
-      data = JSON.parse(JSON.stringify(this.details1));
-      // this.totalNum = 0;
+      // data = JSON.parse(JSON.stringify(this.details1));
+      this.totalNum = 0;
       type = type ? type : 1;
       if (!data) {
         // 数据处理
@@ -743,14 +657,12 @@ export default {
           inquiryList: [],
         };
       } else {
-        data.inquiryList.forEach((ele, index) => {
-          // this.totalNum += ele.productList.length;
+        data.inquiryList.forEach((ele) => {
+          this.totalNum += ele.productList.length;
           if (type == 1) {
             ele.vendor.showPicker = false;
             ele.vendor.showPicker1 = false;
             ele.vendor.showPicker2 = false;
-            ele.vendor.checkedItemAll = [];
-            ele.vendor.checkedItemBtn = false;
             // 默认值设置
             // 账期，数字天数
             ele.vendor.estimateAccountPeriod = 30;
@@ -767,8 +679,6 @@ export default {
             delete ele.vendor.showPicker;
             delete ele.vendor.showPicker1;
             delete ele.vendor.showPicker2;
-            delete ele.vendor.checkedItemAll;
-            delete ele.vendor.checkedItemBtn;
 
             ele.productList.forEach((element) => {
               delete element.isCheck;
@@ -776,22 +686,16 @@ export default {
           }
         });
 
-        data.orderList.forEach((ele, index) => {
-          // this.totalNum += ele.productList.length;
-          if (type == 1) {
-            ele.vendor.checkedItemAll = [];
-            ele.vendor.checkedItemBtn = false;
-            ele.productList.forEach((element) => {
+        data.orderList.forEach((ele) => {
+          this.totalNum += ele.productList.length;
+          ele.productList.forEach((element) => {
+            if (type == 1) {
               element.isCheck = false;
-            });
-          }
-          if (type == 2) {
-            delete ele.vendor.checkedItemAll;
-            delete ele.vendor.checkedItemBtn;
-            ele.productList.forEach((element) => {
+            }
+            if (type == 2) {
               delete element.isCheck;
-            });
-          }
+            }
+          });
         });
 
         // 上拉刷新
@@ -838,23 +742,9 @@ export default {
         });
     }, 1000),
 
-    // 获取当前选中总数 组成新的数组
-    handeleActiveNum() {
-      let _arr = [];
-      this.details.orderList.forEach((ele) => {
-        _arr = _arr.concat(ele.vendor.checkedItemAll);
-      });
-
-      this.details.inquiryList.forEach((ele) => {
-        _arr = _arr.concat(ele.vendor.checkedItemAll);
-      });
-
-      return _arr;
-    },
     handleDele() {
-      let _arr = this.handeleActiveNum();
       // 清空
-      if (!_arr.length) {
+      if (!this.checkActive.length) {
         return util.error("请先选择数据！！");
       }
       // 二次确认
@@ -867,6 +757,7 @@ export default {
             // console.log("清空");
             this.handleDeleSub(2);
           } else {
+            // console.log(this.checkActive);
             this.handleDeleSub(1);
           }
         })
@@ -877,13 +768,14 @@ export default {
     handleDeleSub(type) {
       type = type ? type : 1;
       let tag = type == 1 ? "removeByIds" : type == 2 ? "clearGoodsCart" : "";
-      let param = type == 1 ? this.handeleActiveNum() : "";
+      let param = type == 1 ? this.checkActive : "";
       util.showLoading();
       Api[tag](param)
         .then((res) => {
           util.hideLoading();
           let { code, msg, data, total } = res;
           if (code == 200) {
+            this.checkActive = [];
             this.checkedAll = false;
 
             util.success(msg);
@@ -898,12 +790,6 @@ export default {
 
     // 提交确认
     onsubmt(values) {
-       let _arr = this.handeleActiveNum();
-      // 不能为空
-      if (!_arr.length) {
-        return util.error("请先选择数据！！");
-      }
-
       // 二次确认
       Dialog.confirm({
         title: "提示",
@@ -927,6 +813,7 @@ export default {
           util.hideLoading();
           let { code, msg, data, total } = res;
           if (code == 200) {
+            this.checkActive = [];
             this.checkedAll = false;
             util.success(msg);
             // 刷新列表
@@ -1089,14 +976,6 @@ export default {
       font-size: 0.42rem;
       color: red;
     }
-  }
-
-  .itemAllClass {
-    display: inline-block;
-    vertical-align: middle;
-    position: relative;
-    left: -0.25rem;
-    // left: -7px;
   }
 
   .posiLeft {

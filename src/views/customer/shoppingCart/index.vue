@@ -38,7 +38,6 @@
                 <h3 class="headTit">
                   <van-checkbox
                     v-model="item.vendor.checkedItemBtn"
-                    shape="square"
                     checked-color="rgb(248, 213, 126)"
                     class="itemAllClass"
                     @click="handleItemAllClick(item)"
@@ -132,7 +131,6 @@
                 <h3 class="headTit">
                   <van-checkbox
                     v-model="item.vendor.checkedItemBtn"
-                    shape="square"
                     checked-color="rgb(248, 213, 126)"
                     class="itemAllClass"
                     @click="handleItemAllClick(item)"
@@ -300,6 +298,7 @@
               <van-checkbox
                 v-model="checkedAll"
                 @click="handleAllChange"
+                checked-color="rgb(248, 213, 126)"
                 class="checAclass"
                 >全选</van-checkbox
               >
@@ -992,11 +991,11 @@ export default {
                 console.log(action, done);
                 // 查看订单
                 if (action == "confirm") {
-                  urlApi.goOrderList()
+                  urlApi.goOrderList();
                 }
                 // 查看询价单
                 if (action == "cancel") {
-                  urlApi.goInquiryList()
+                  urlApi.goInquiryList();
                 }
                 done();
               },

@@ -1,6 +1,6 @@
-// url 跳转
+// url 跳转 统一处理 页面
 
-// router 使用实例
+// router 使用实例 请勿删除
 // export const goOrderList = params => {
 //   console.log(params,'params参数')
 //   return window.vm.$router.push({

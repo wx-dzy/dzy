@@ -75,6 +75,7 @@
                           @click="handleItemChange(obj, item)"
                         />
                         <p>
+                          {{ obj.isCheck }}
                           参数：
                           <van-tag
                             v-for="sku in obj.skuAttributeList"
@@ -164,6 +165,7 @@
                           @click="handleItemChange(obj, item)"
                         />
                         <p>
+                          {{ obj.isCheck }}
                           参数：
                           <van-tag
                             v-for="sku in obj.skuAttributeList"
@@ -669,15 +671,27 @@ export default {
       this.details.orderList.forEach((ele) => {
         if (type == 1) {
           ele.vendor.checkedItemBtn = true;
+          ele.productList.forEach((obj) => {
+            obj.isCheck = true;
+          });
         } else {
           ele.vendor.checkedItemBtn = false;
+          ele.productList.forEach((obj) => {
+            obj.isCheck = false;
+          });
         }
       });
       this.details.inquiryList.forEach((ele) => {
         if (type == 1) {
           ele.vendor.checkedItemBtn = true;
+          ele.productList.forEach((obj) => {
+            obj.isCheck = true;
+          });
         } else {
           ele.vendor.checkedItemBtn = false;
+          ele.productList.forEach((obj) => {
+            obj.isCheck = false;
+          });
         }
       });
     },
@@ -691,6 +705,23 @@ export default {
         }
         ele.isCheck = row.vendor.checkedItemBtn;
       });
+      this.handleIsAll();
+    },
+
+    // 底部全选是否选中
+    handleIsAll() {
+      let n = 0;
+      this.details.orderList.forEach((ele) => {
+        if (!ele.vendor.checkedItemBtn) {
+          n++;
+        }
+      });
+      this.details.inquiryList.forEach((ele) => {
+        if (!ele.vendor.checkedItemBtn) {
+          n++;
+        }
+      });
+      this.checkedAll = n > 0 ? false : true;
     },
 
     // 跳转修改地址
@@ -732,7 +763,7 @@ export default {
     // 数据处理
     handleData(data, type) {
       // 临时数据
-      data = JSON.parse(JSON.stringify(this.details1));
+      // data = JSON.parse(JSON.stringify(this.details1));
       // this.totalNum = 0;
       type = type ? type : 1;
       if (!data) {
@@ -898,7 +929,7 @@ export default {
 
     // 提交确认
     onsubmt(values) {
-       let _arr = this.handeleActiveNum();
+      let _arr = this.handeleActiveNum();
       // 不能为空
       if (!_arr.length) {
         return util.error("请先选择数据！！");
@@ -921,6 +952,7 @@ export default {
       // 删除自定义数据
       let data = this.handleData(JSON.parse(JSON.stringify(this.details)), 2);
       let param = this.checkedAll ? data : this.handleSubData();
+      console.log(JSON.stringify(param));
       util.showLoading();
       Api.subOrder(param)
         .then((res) => {
@@ -941,20 +973,42 @@ export default {
     // 非全选数据处理
     handleSubData() {
       let param = JSON.parse(JSON.stringify(this.details));
+      debugger;
+
       param.inquiryList.forEach((ele) => {
-        ele.productList.forEach((obj, index) => {
-          if (!obj.isCheck) {
-            ele.productList.splice(index, 1);
+        // ele.productList.forEach((obj, index) => {
+        //   if (!obj.isCheck) {
+        //     console.log(ele.productList, "inquiryList");
+        //     ele.productList.splice(index, 1);
+        //     console.log(ele.productList, "inquiryList");
+        //   }
+        // });
+
+        let i = ele.productList.length;
+        while (i--) {
+        debugger
+
+          if (!ele.productList[i].isCheck) {
+            ele.productList.splice(i, 1);
           }
-        });
+        }
       });
 
       param.orderList.forEach((ele) => {
-        ele.productList.forEach((obj, index) => {
-          if (!obj.isCheck) {
-            ele.productList.splice(index, 1);
+        // ele.productList.forEach((obj, index) => {
+        //   if (!obj.isCheck) {
+        //     console.log(ele.productList, "orderList");
+        //     ele.productList.splice(index, 1);
+        //     console.log(ele.productList, "orderList");
+        //   }
+        // });
+        debugger
+        let i = ele.productList.length;
+        while (i--) {
+          if (!ele.productList[i].isCheck) {
+            ele.productList.splice(i, 1);
           }
-        });
+        }
       });
       param = this.handleData(JSON.parse(JSON.stringify(param)), 2);
       return param;

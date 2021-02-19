@@ -34,7 +34,7 @@
               class="contentItem pad0"
             >
               <van-row>
-                {{ item.vendor.checkedItemAll }}
+                <!-- {{ item.vendor.checkedItemAll }} -->
                 <h3 class="headTit">
                   <van-checkbox
                     v-model="item.vendor.checkedItemBtn"
@@ -75,7 +75,7 @@
                           @click="handleItemChange(obj, item)"
                         />
                         <p>
-                          {{ obj.isCheck }}
+                          <!-- {{ obj.isCheck }} -->
                           参数：
                           <van-tag
                             v-for="sku in obj.skuAttributeList"
@@ -123,7 +123,7 @@
               class="contentItem pad0"
             >
               <van-row>
-                {{ item.vendor.checkedItemAll }}
+                <!-- {{ item.vendor.checkedItemAll }} -->
                 <h3 class="headTit">
                   <van-checkbox
                     v-model="item.vendor.checkedItemBtn"
@@ -165,7 +165,7 @@
                           @click="handleItemChange(obj, item)"
                         />
                         <p>
-                          {{ obj.isCheck }}
+                          <!-- {{ obj.isCheck }} -->
                           参数：
                           <van-tag
                             v-for="sku in obj.skuAttributeList"
@@ -222,6 +222,10 @@
                       </van-popup>
                     </van-col>
                     <van-col span="12">
+
+                      {{ item.vendor.estimateAccountPeriod}}
+                      {{ item.vendor.accountPeriodType}}
+                      {{ item.vendor.paymentType}}
                       <!-- :rules="[{ required: true, message: '请选择' }]" -->
                       <van-field
                         v-model="item.vendor.estimateAccountPeriod"
@@ -574,7 +578,6 @@ export default {
         ],
       },
       refreshing: false,
-      // totalNum: 0,
     };
   },
 
@@ -764,7 +767,6 @@ export default {
     handleData(data, type) {
       // 临时数据
       // data = JSON.parse(JSON.stringify(this.details1));
-      // this.totalNum = 0;
       type = type ? type : 1;
       if (!data) {
         // 数据处理
@@ -774,8 +776,8 @@ export default {
           inquiryList: [],
         };
       } else {
+        // console.log(data,type)
         data.inquiryList.forEach((ele, index) => {
-          // this.totalNum += ele.productList.length;
           if (type == 1) {
             ele.vendor.showPicker = false;
             ele.vendor.showPicker1 = false;
@@ -793,6 +795,8 @@ export default {
             ele.productList.forEach((element) => {
               element.isCheck = false;
             });
+            // debugger
+
           }
           if (type == 2) {
             delete ele.vendor.showPicker;
@@ -808,7 +812,6 @@ export default {
         });
 
         data.orderList.forEach((ele, index) => {
-          // this.totalNum += ele.productList.length;
           if (type == 1) {
             ele.vendor.checkedItemAll = [];
             ele.vendor.checkedItemBtn = false;
@@ -952,7 +955,7 @@ export default {
       // 删除自定义数据
       let data = this.handleData(JSON.parse(JSON.stringify(this.details)), 2);
       let param = this.checkedAll ? data : this.handleSubData();
-      console.log(JSON.stringify(param));
+      // console.log(JSON.stringify(param));
       util.showLoading();
       Api.subOrder(param)
         .then((res) => {
@@ -973,21 +976,9 @@ export default {
     // 非全选数据处理
     handleSubData() {
       let param = JSON.parse(JSON.stringify(this.details));
-      debugger;
-
       param.inquiryList.forEach((ele) => {
-        // ele.productList.forEach((obj, index) => {
-        //   if (!obj.isCheck) {
-        //     console.log(ele.productList, "inquiryList");
-        //     ele.productList.splice(index, 1);
-        //     console.log(ele.productList, "inquiryList");
-        //   }
-        // });
-
         let i = ele.productList.length;
         while (i--) {
-        debugger
-
           if (!ele.productList[i].isCheck) {
             ele.productList.splice(i, 1);
           }
@@ -995,14 +986,6 @@ export default {
       });
 
       param.orderList.forEach((ele) => {
-        // ele.productList.forEach((obj, index) => {
-        //   if (!obj.isCheck) {
-        //     console.log(ele.productList, "orderList");
-        //     ele.productList.splice(index, 1);
-        //     console.log(ele.productList, "orderList");
-        //   }
-        // });
-        debugger
         let i = ele.productList.length;
         while (i--) {
           if (!ele.productList[i].isCheck) {

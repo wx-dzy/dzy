@@ -861,7 +861,7 @@ export default {
         quantity: item.quantity,
       };
       // util.showLoading();
-      Api.addShopping(params)
+      Api.subNumberUpdates(params)
         .then((res) => {
           let { code, msg, data, total } = res;
           // util.hideLoading();

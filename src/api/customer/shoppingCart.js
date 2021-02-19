@@ -28,3 +28,6 @@ export const saveOrUpdateAddress= params => axios.post('/c/enterprise-address/sa
 
 // 购物车生成订单
 export const subOrder= params => axios.post('/c/order/create-order', params);
+
+// 更新购物车中商品数量
+export const subNumberUpdates= params => axios.post('/c/goods-cart/update-product-quantity-in-goods-cart', params);

@@ -68,7 +68,9 @@
                       :thumb-link="`products_details?goodsId${obj.goodsId}`"
                     >
                       <template #price>
-                        <span class="priceClass">{{ obj.price ? `¥${obj.price}` : '' }}</span>
+                        <span class="priceClass">{{
+                          obj.price ? `¥${obj.price}` : ""
+                        }}</span>
                       </template>
                       <template #tags>
                         <van-checkbox
@@ -333,6 +335,20 @@
         alt
       />
     </van-pull-refresh>
+    <!-- 成功提示弹窗 -->
+    <!-- <van-dialog
+      v-model="dialogShow"
+      title="标题"
+      show-cancel-button
+      class="dialogWrap"
+    >
+      <h3>您的订货商品提交成功！</h3>
+      <div>
+        <van-button type="primary" size="normal">查看订单</van-button>
+        <van-button type="primary" size="small">查看询价单</van-button>
+      </div>
+    </van-dialog> -->
+
     <!-- <footerNav /> -->
     <!-- <van-button v-if="type==2" color="#F8D57E" class="gobtn" @click="handleGoshop">去询价/下单</van-button> -->
   </div>
@@ -341,6 +357,7 @@
 <script>
 import { util } from "@/utils";
 import { mapGetters } from "vuex";
+import * as urlApi from "@/api/customer/urlApi";
 import * as Api from "@/api/customer/shoppingCart";
 import footerNav from "@/components/customer/footerNav/index.vue";
 import { Dialog } from "vant";
@@ -351,14 +368,10 @@ export default {
   },
   data() {
     return {
-      form: {
-        pageSize: 10,
-        pageNum: 1,
-      },
       checkedAll: false,
-      // showPicker: false,
-      // showPicker1: false,
-      // showPicker2: false,
+      dialogShow: false,
+      refreshing: false,
+
       columns: ["货到后", "票到后"],
       columns1: [
         { text: "30", disabled: false },
@@ -372,6 +385,11 @@ export default {
         orderList: [],
         inquiryList: [],
       },
+      // form: {
+      //   pageSize: 10,
+      //   pageNum: 1,
+      // },
+
       // 临时数据
       details1: {
         address: {
@@ -579,7 +597,6 @@ export default {
           },
         ],
       },
-      refreshing: false,
     };
   },
 
@@ -963,6 +980,28 @@ export default {
           util.hideLoading();
           let { code, msg, data, total } = res;
           if (code == 200) {
+            this.dialogShow = true;
+            this.$dialog.alert({
+              title: "您的订货商品提交成功！",
+              confirmButtonText: "查看订单",
+              showCancelButton: true,
+              cancelButtonText: "查看询价单",
+              cancelButtonColor: "#1989fa",
+              message: "",
+              beforeClose: (action, done) => {
+                console.log(action, done);
+                // 查看订单
+                if (action == "confirm") {
+                  urlApi.goOrderList()
+                }
+                // 查看询价单
+                if (action == "cancel") {
+                  urlApi.goInquiryList()
+                }
+                done();
+              },
+            });
+            return;
             this.checkedAll = false;
             util.success(msg);
             // 刷新列表

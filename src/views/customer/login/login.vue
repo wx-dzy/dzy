@@ -61,6 +61,7 @@
 <script>
 import * as Api from '@/api/customer/login'
 import * as Api_1 from '@/api/customer/personal'
+import * as urlApi from "@/api/customer/urlApi";
 import { util } from '@/utils'
 import {
     Field,
@@ -131,8 +132,9 @@ export default {
             // var local = 'http://192.168.31.221:9000/'
 
             if (code == null || code == '') {
-                window.location.href =
-                    'https://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_userinfo&state=123&redirect_uri=https://www.dzy315.com/&response_type=code'
+                urlApi.goLogin()
+                // window.location.href =
+                //     'https://www.dzy315.com/get-weixin-code.html?appid=wxc7ed228b39eec84c&scope=snsapi_userinfo&state=123&redirect_uri=https://www.dzy315.com/&response_type=code'
             } else {
                 _this.code = code
                 console.log('code', _this.code)

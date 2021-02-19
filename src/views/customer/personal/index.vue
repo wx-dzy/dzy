@@ -168,6 +168,8 @@ import { mapGetters } from "vuex";
 import { Dialog } from "vant";
 import * as Api from "@/api/customer/personal";
 import * as _Api from "@/api/customer/OneOnOneVideo";
+import * as urlApi from "@/api/customer/urlApi";
+
 
 import footerNav from "@/components/customer/footerNav/index.vue";
 import visitingCard from "@/components/customer/visitingCard.vue";
@@ -480,8 +482,9 @@ export default {
       }
 
       if (type == 2) {
-        window.location.href =
-          "https://www.dzy315.com/dzy-order/uploadInquiry/order/tobeQuoted.html"
+        urlApi.goInquiryList()
+        // window.location.href =
+          // "https://www.dzy315.com/dzy-order/uploadInquiry/order/tobeQuoted.html"
         // util.success("跳转我的询价路由");
       }
     },

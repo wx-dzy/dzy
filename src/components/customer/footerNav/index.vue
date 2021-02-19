@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import * as urlApi from "@/api/customer/urlApi";
+
 export default {
   props: ["active"],
 
@@ -85,8 +87,7 @@ export default {
   methods: {
     handleClick(url) {
       if (!url) {
-        return (window.location.href =
-          "https://www.dzy315.com/dzy-order/userManager.html?username=huangzb&telephone=17601001098");
+        return urlApi.goUserManager()
       }
       this.$router.push({
         name: url

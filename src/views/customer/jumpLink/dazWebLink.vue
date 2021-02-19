@@ -26,13 +26,14 @@
 
 <script>
 import { util } from "@/utils";
+import * as urlApi from "@/api/customer/urlApi";
 
 export default {
   name: "dazWebLink",
   components: {},
   data() {
     return {
-      srcUrl: "http://platform.dzy315.com",
+      // srcUrl: "http://platform.dzy315.com",
       isWeiXin: false,
     };
   },
@@ -55,7 +56,8 @@ export default {
     },
     handleClickStart() {
       // window.open(this.srcUrl);
-      window.location.href = this.srcUrl;
+      // window.location.href = this.srcUrl;
+      urlApi.goDazWebLink()
     },
   },
 

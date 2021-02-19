@@ -59,14 +59,17 @@
                     :key="`orderListItem${_index}`"
                     class="border"
                   >
+                    <!-- :price="Math.floor(obj.price * 100) / 100" -->
                     <van-card
                       tag="订货"
-                      :price="Math.floor(obj.price * 100) / 100"
                       :desc="`订货号：${obj.orderNo}`"
                       :title="obj.goodsName"
                       :thumb="obj.goodsMainImage"
                       :thumb-link="`products_details?goodsId${obj.goodsId}`"
                     >
+                      <template #price>
+                        <span class="priceClass">{{ obj.price ? `¥${obj.price}` : '' }}</span>
+                      </template>
                       <template #tags>
                         <van-checkbox
                           :name="obj.id"
@@ -222,10 +225,9 @@
                       </van-popup>
                     </van-col>
                     <van-col span="12">
-
-                      {{ item.vendor.estimateAccountPeriod}}
-                      {{ item.vendor.accountPeriodType}}
-                      {{ item.vendor.paymentType}}
+                      {{ item.vendor.estimateAccountPeriod }}
+                      {{ item.vendor.accountPeriodType }}
+                      {{ item.vendor.paymentType }}
                       <!-- :rules="[{ required: true, message: '请选择' }]" -->
                       <van-field
                         v-model="item.vendor.estimateAccountPeriod"
@@ -796,7 +798,6 @@ export default {
               element.isCheck = false;
             });
             // debugger
-
           }
           if (type == 2) {
             delete ele.vendor.showPicker;
@@ -1101,6 +1102,10 @@ export default {
   background: #f2f2f2;
   .mBot10 {
     margin-bottom: 0.1rem;
+  }
+  .priceClass {
+    font-weight: 800;
+    font-size: 0.28rem;
   }
 
   .border {
